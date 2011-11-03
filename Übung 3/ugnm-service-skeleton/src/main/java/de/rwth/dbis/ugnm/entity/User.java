@@ -17,48 +17,82 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class User {
 	
-	@Id
-	@Column(name = "ID", nullable = false)
-	private int id;
-	
-	@Column(name = "LOGIN")
-	private String login;
-	
-	@Column(name = "PASS")
+	@Column(name = "Passwort", nullable = false)
 	private String pass;
 	
-	@Column(name = "NAME")
-	private String name;
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getLogin() {
-		return login;
-	}
+	@Column(name = "Benutzername", nullable = false)
+	private String benutzername;
 	
-	public void setPass(String pass) {
+	@Column(name = "Ep", nullable = false)
+	private int ep;
+	
+	@Column(name = "Vorname", nullable = false)
+	private String vorname;
+
+	@Column(name = "Nachname", nullable = false)
+	private String nachname;
+
+	@Column(name = "E-Mail", nullable = false)
+	private String mail;
+
+
+	@Column(name = "Achievements", nullable = false)
+	private String achievements;
+
+
+	public void setPasswort(String pass) {
 		this.pass = pass;
 	}
 
-	public String getPass() {
+	public String getPasswort() {
 		return pass;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setBenutzername(String benutzername) {
+		this.benutzername = benutzername;
 	}
 
-	public String getName() {
-		return name;
+	public String getBenutzername() {
+		return benutzername;
+	}
+	
+	public void setEP(String ep) {
+		this.ep = ep;
+	}
+
+	public String getEP() {
+		return ep;
+	}
+
+	public void setVorname(String vorname) {
+		this.ep = vorname;
+	}
+
+	public String getVorname() {
+		return vorname;
+	}
+
+	public void setNachname(String nachname) {
+		this.nachname = nachname;
+	}
+
+	public String getNachname() {
+		return nachname;
+  }
+
+	public void setEMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getEMail() {
+		return mail;
+	}
+
+	public void setAchievements(String achievement) {
+		this.achievement = achievement;
+	}
+
+	public String getAchievements() {
+		return achievement;
 	}
 }
