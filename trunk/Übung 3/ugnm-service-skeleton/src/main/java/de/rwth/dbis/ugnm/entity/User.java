@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "USER")
 @NamedQueries({ 
 	@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-	@NamedQuery(name = "User.findUser", query = "SELECT u FROM User u where u.login=:login")
+	@NamedQuery(name = "User.findUser", query = "SELECT u FROM User u where u.benutzername=:benutzername")
 })
 @XmlRootElement
 public class User {
