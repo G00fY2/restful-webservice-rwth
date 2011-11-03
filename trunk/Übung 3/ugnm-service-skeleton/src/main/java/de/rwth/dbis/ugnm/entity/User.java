@@ -56,7 +56,7 @@ public class User {
 		return benutzername;
 	}
 	
-	public void setEP(String ep) {
+	public void setEP(int ep) {
 		this.ep = ep;
 	}
 
@@ -65,7 +65,7 @@ public class User {
 	}
 
 	public void setVorname(String vorname) {
-		this.ep = vorname;
+		this.vorname = vorname;
 	}
 
 	public String getVorname() {
