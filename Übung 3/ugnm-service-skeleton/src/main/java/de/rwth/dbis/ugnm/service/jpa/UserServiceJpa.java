@@ -28,14 +28,9 @@ public class UserServiceJpa implements UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public User getById(int id) {
-		return entityManager.find(User.class, id);
-	}
-	
-	@Transactional(readOnly = true)
-	public User getByLogin(String login){
+	public User getByBenutzername(String benutzername){
 		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
-		queryFindUser.setParameter("login", login);
+		queryFindUser.setParameter("Benutzername", benutzername);
 
 		List<User> users = queryFindUser.getResultList();
 		User result = null;
@@ -44,6 +39,34 @@ public class UserServiceJpa implements UserService {
 		}
 		return result;
 	}
+	
+	
+	@Transactional(readOnly = true)
+	public User getByVorname(String vorname){
+		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
+		queryFindUser.setParameter("Vorname", vorname);
+
+		List<User> users = queryFindUser.getResultList();
+		User result = null;
+		if(users.size() > 0) {
+			result = users.get(0);
+		}
+		return result;
+	}
+
+	@Transactional(readOnly = true)
+	public User getByNachname(String nachname){
+		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
+		queryFindUser.setParameter("Nachname", nachname);
+
+		List<User> users = queryFindUser.getResultList();
+		User result = null;
+		if(users.size() > 0) {
+			result = users.get(0);
+		}
+		return result;
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
@@ -70,7 +93,7 @@ public class UserServiceJpa implements UserService {
 	}
 	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
 	public boolean delete(User user) {
-		user = entityManager.getReference(User.class, user.getId());
+		user = entityManager.getReference(User.class, user.getBenutzername());
 		if (user == null)
 			return false;
 		entityManager.remove(user);
@@ -83,7 +106,7 @@ public class UserServiceJpa implements UserService {
 	public User findUser(User user) {
 		User result = null;
 		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
-		queryFindUser.setParameter("login", user.getLogin());
+		queryFindUser.setParameter("Benutzername", user.getbenutzername());
 
 		List<User> users = queryFindUser.getResultList();
 		if(users.size() > 0) {
