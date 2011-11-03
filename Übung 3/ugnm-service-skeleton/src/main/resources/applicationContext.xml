@@ -19,8 +19,8 @@
 	-->
    <bean id="dataSource"
 	class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-	p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://eiche.informatik.rwth-aachen.de:3306/ugnm1112gX"
-	p:username="ugnm1112gX" p:password="XXXXX" />
+	p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://eiche.informatik.rwth-aachen.de:3306/ugnm1112g4"
+	p:username="ugnm1112g4" p:password="4xcv5564" />
 		
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
