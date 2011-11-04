@@ -1,10 +1,10 @@
 INSERT INTO User
   VALUES 
-    ('1234abc','AbCd12',NULL,'Max','Mustermann','max.mustermann@rwth-aachen.de'),
+    ('1234abc','AbCd12', DEFAULT, DEFAULT,'Max','Mustermann','max.mustermann@rwth-aachen.de'),
 
-    ('5678def','DeFg34','300','Petra','Mustermann','petra.mustermann@rwth-aachen.de'),
+    ('5678def','DeFg34', '300', DEFAULT,'Petra','Mustermann','petra.mustermann@rwth-aachen.de'),
 
-    ('9123ghi','HiJk56','300','Hans','Peter','hans.peter@rwth-aachen.de'
+    ('9123ghi','HiJk56', '300','2','Hans','Peter','hans.peter@rwth-aachen.de'
 );
 
 
@@ -47,23 +47,23 @@ INSERT INTO Achievement
 
 INSERT INTO rates
   VALUES 
-    ('1234','21:23:12','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg','max.mustermann@rwth-aachen.de'),
+    (NULL,'2011-10-30 16:17:12','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg','max.mustermann@rwth-aachen.de'),
 
-    ('2345','11:22:12','0','http//:www.rwth-aachen.de/FakeDetect/Pics/BildB.jpeg','petra.mustermann@rwth-aachen.de'),
+    (NULL,'2011-10-30 16:18:09','0','http//:www.rwth-aachen.de/FakeDetect/Pics/BildB.jpeg','petra.mustermann@rwth-aachen.de'),
 
-    ('3456','10:15:12','0','http//:www.rwth-aachen.de/FakeDetect/Pics/BildC.jpeg','hans.peter@rwth-aachen.de'),
+    (NULL,'2011-10-30 16:22:56','0','http//:www.rwth-aachen.de/FakeDetect/Pics/BildC.jpeg','hans.peter@rwth-aachen.de'),
     
-    ('4567','05:56:12','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg','petra.mustermann@rwth-aachen.de'),
+    (NULL,'2011-10-30 16:25:32','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg','petra.mustermann@rwth-aachen.de'),
     
-    ('5678','19:15:12','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildC.jpeg','petra.mustermann@rwth-aachen.de'),
+    (NULL,'2011-10-30 16:27:33','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildC.jpeg','petra.mustermann@rwth-aachen.de'),
 
-    ('6789','13:45:10','0','http//:www.rwth-aachen.de/FakeDetect/Pics/BildB.jpeg','max.mustermann@rwth-aachen.de'),
+    (NULL,'2011-10-30 16:38:12','0','http//:www.rwth-aachen.de/FakeDetect/Pics/BildB.jpeg','max.mustermann@rwth-aachen.de'),
    
-    ('7891','00:45:10','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildC.jpeg','max.mustermann@rwth-aachen.de'),
+    (NULL,'2011-10-30 16:39:45','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildC.jpeg','max.mustermann@rwth-aachen.de'),
 
-    ('8912','17:34:12','0','http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg','hans.peter@rwth-aachen.de'),
+    (NULL,'2011-10-30 16:43:54','0','http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg','hans.peter@rwth-aachen.de'),
 
-    ('9123','12:34:12','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildB.jpeg','hans.peter@rwth-aachen.de'
+    (NULL,'2011-10-30 16:54:11','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildB.jpeg','hans.peter@rwth-aachen.de'
 );
 
 
@@ -72,11 +72,11 @@ INSERT INTO rates
 
 INSERT INTO collect
   VALUES 
-    ('1234','1','max.mustermann@rwth-aachen.de','1234'),
+    ('max.mustermann@rwth-aachen.de','1234'),
 
-    ('2345','2','hans.peter@rwth-aachen.de','5678'),
+    ('hans.peter@rwth-aachen.de','5678'),
 
-    ('3456','3','petra.mustermann@rwth-aachen.de','9123'
+    ('petra.mustermann@rwth-aachen.de','1234'
 );
 
 
