@@ -1,7 +1,7 @@
 SELECT u.EMail, r.FKURL, r.Zeit
 FROM rates r, user u
-WHERE r.FKEMail = u.EMail
-ORDER BY r.Zeit DESC, r.FKURL DESC;
+WHERE r.FKEMail = u.EMail AND EMail='hans.peter@rwth-aachen.de'
+ORDER BY r.FKURL ASC, r.Zeit DESC;
 
 
 SELECT p.URL, AVG(r.rate) avg_rates, sum(r.rate=1),sum(r.rate=0)
