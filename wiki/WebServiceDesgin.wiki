@@ -1,5 +1,6 @@
 #summary Design Dokumentation des RESTful Web Service für UserRessource und UsersRessource.
 #labels RESTful,Thomas,Sven
+----
 
 = Introduction =
 
@@ -7,11 +8,11 @@ In der folgenden Dokumentation sind die Desgins zur Verarbeitung der Ressourcen 
 
 = Ressourcen und benötigte Operationen =
 
-= 1. UserResource =
+== 1. UserResource ==
  * Auslesen eines bestimmten Users
  * Änderung eines Users 
  * Löschen eines Users
 
-= 2. UsersResource =
+== 2. UsersResource ==
  * Erstellen eines Users 
  * Liste aller User
