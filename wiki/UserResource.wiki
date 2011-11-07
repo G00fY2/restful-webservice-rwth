@@ -1,0 +1,1 @@
+Bei UserResource, handelt es sich um eine Ressource für bestimmte User (Elemente).
