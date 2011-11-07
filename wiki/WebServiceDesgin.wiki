@@ -5,13 +5,13 @@
 
 Im folgenden sind die Desgins zur Verarbeitung der Ressourcen UserResource (Element) und UsersResource (Collection) näher dokumentiert.
 
-= Die Ressourcen und gewünschte Operationen =
+= Ressourcen und benötigte Operationen =
 
 = 1. UserResource =
- * Auslesen eines bestimmten Users (UserResource) 
- * Änderung eines Users (UserResource) 
- * Löschen eines Users (UserResource) 
+ * Auslesen eines bestimmten Users
+ * Änderung eines Users 
+ * Löschen eines Users
 
 = 2. UsersResource =
- * Erstellen eines Users (UsersResource) 
- * Liste aller User (UsersResource) 
+ * Erstellen eines Users 
+ * Liste aller User
