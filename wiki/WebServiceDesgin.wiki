@@ -7,7 +7,7 @@ Im folgenden sind die Desgins zur Verarbeitung der Ressourcen UserResource (Elem
 
 = Details =
 
-= 1. UserRessource =
+= 1. UserResource =
  * Auslesen eines bestimmten Users (UserResource) 
  * Änderung eines Users (UserResource) 
  * Löschen eines Users (UserResource) 
