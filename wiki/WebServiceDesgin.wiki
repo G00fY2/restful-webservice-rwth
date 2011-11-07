@@ -1,12 +1,11 @@
 #summary Design Dokumentation des RESTful Web Service für UserRessource und UsersRessource.
 #labels RESTful,Thomas,Sven
-----
 
-= Introduction =
+= I. Introduction =
 
 In der folgenden Dokumentation sind die Desgins zur Verarbeitung der Ressourcen UserResource und UsersResource näher definiert.
 
-= Ressourcen und benötigte Operationen =
+= II. Ressourcen und benötigte Operationen =
 
 == 1. UserResource ==
  * Auslesen eines bestimmten Users
