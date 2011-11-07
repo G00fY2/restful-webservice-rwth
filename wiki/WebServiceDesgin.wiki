@@ -3,4 +3,8 @@
 
 = Introduction =
 
-in Arbeit
+Im folgenden sind die Desgins zur Verarbeitung der Ressourcen UserResource (Element) und UsersResource (Collection) näher dokumentiert.
+
+= Details =
+
+= 1. UserRessource =
