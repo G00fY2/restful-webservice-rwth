@@ -3,7 +3,7 @@
 
 = Details =
 
-
+----
 
 ==Auslesen eines bestimmten Users (UserResource):==
 ----
@@ -11,21 +11,26 @@
  * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
 ===MIME Typ:=== 
  * "application/json"
+_JSON MIME Typ_
 ===Menge Operationen:===
  * GET
 _Es wird die Operation GET benötigt um einen User auslesen zu können_
 ===Struktur zwischen Ressourcen:=== 
+ * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
 ===Zugriffskontrolle auf Operationen:=== 
- * GET
+ * GET (login)
 _Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
 ===HTTP Status Codes (Fehlerfall):===
            
 
- * 404: Not Found, Nicht gefunden; Dokument entfernt, verschoben oder umbenannt
-_Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc._
+ * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)_
 
- * 401: Unauthorized, Nicht autorisiert, Zugriff verweigert; meist passwortgeschützt, Login
-_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
+ * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
+
+ * 405: Method Not Allowed
+_Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
 
 
 ----
@@ -36,18 +41,26 @@ _Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und
  * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
 ===MIME Typ:=== 
  * "application/json"
+_JSON MIME Typ_
 ===Menge Operationen:===
  * GET
- * POST
+ * PUT
+_Es wird die Operation GET benötigt um einen User auslesen zu können_
 ===Struktur zwischen Ressourcen:=== 
- * 
-===Zugriffskontrolle auf Operationen:===
- * GET, POST
+ * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+===Zugriffskontrolle auf Operationen:=== 
+ * GET (login)
+_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
+ * PUT (login, authorization)
+_Der Nutzer muss sich bei Änderungen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren_
 ===HTTP Status Codes (Fehlerfall):===
            
 
- * 404: Not Found, Nicht gefunden; Dokument entfernt, verschoben oder umbenannt
-_Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc._
+ * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)_
 
- * 401: Unauthorized, Nicht autorisiert, Zugriff verweigert; meist passwortgeschützt, Login
-_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
+ * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
+
+ * 405: Method Not Allowed
+_Die Anfrage darf nur mit anderen HTTP-Methoden gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
