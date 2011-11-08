@@ -21,7 +21,7 @@ import com.sun.jersey.core.util.Base64;
 import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.UserService;
 
-@Path("/users/{login}")
+@Path("/users/{email}")
 @Component
 @Scope("request")
 public class UserResource {
@@ -31,22 +31,22 @@ public class UserResource {
 
 	@GET
 	@Produces("application/json")
-	public User getUser(@PathParam("login") String login) {
+	public User getUser(@PathParam("email") String email) {
 		// TODO: implement logic
-		User u = userService.getByLogin(login);
-		System.out.println(u.getName());
+		User u = userService.getByEMail(email);
+		System.out.println(u.getBenutzername());
 		throw new WebApplicationException(405);
 	}
 	
 	@PUT
     @Consumes("application/json")
-    public Response updateUser(@HeaderParam("authorization") String auth, @PathParam("login") String login, JSONObject o) throws JSONException {
+    public Response updateUser(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException {
 		// TODO: implement logic
 		throw new WebApplicationException(405);
     }
 	
 	@DELETE
-	public Response deleteUser(@HeaderParam("authorization") String auth, @PathParam("login") String login){
+	public Response deleteUser(@HeaderParam("authorization") String auth, @PathParam("email") String email){
 		// TODO: implement logic
 		throw new WebApplicationException(404);
 	}
@@ -61,7 +61,7 @@ public class UserResource {
 			String authkey = authHeader.split(" ")[1];
 			if(Base64.isBase64(authkey)){
 				dauth = (new String(Base64.decode(authkey))).split(":");
-				if(dauth[0].equals(u.getLogin()) && dauth[1].equals(u.getPass())){
+				if(dauth[0].equals(u.getEMail()) && dauth[1].equals(u.getPasswort())){
 					return true;
 				}
 			}

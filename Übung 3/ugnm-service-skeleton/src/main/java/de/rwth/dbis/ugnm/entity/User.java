@@ -12,42 +12,42 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "USER")
 @NamedQueries({ 
 	@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-	@NamedQuery(name = "User.findUser", query = "SELECT u FROM User u where u.benutzername=:benutzername")
+	@NamedQuery(name = "User.findUser", query = "SELECT u FROM User u where u.Benutzername=:Benutzername")
 })
 @XmlRootElement
 public class User {
 	
 	@Column(name = "Passwort", nullable = false)
-	private String pass;
+	private String passwort;
 	
 	@Column(name = "Benutzername", nullable = false)
 	private String benutzername;
 	
-	@Column(name = "Ep", nullable = false)
+	@Column(name = "EP", nullable = false)
 	private int ep;
+	
+	@Column(name = "Achievements", nullable = false)
+	private int achievements;
 	
 	@Column(name = "Vorname", nullable = false)
 	private String vorname;
-
+	
 	@Column(name = "Nachname", nullable = false)
 	private String nachname;
+	
+	@Column(name = "EMail", nullable = false)
+	private String email;
+		
+	
 
-	@Column(name = "E-Mail", nullable = false)
-	private String mail;
-
-
-	@Column(name = "Achievements", nullable = false)
-	private String achievements;
-
-
-	public void setPasswort(String pass) {
-		this.pass = pass;
+	public void setPasswort(String passwort) {
+		this.passwort = passwort;
 	}
 
 	public String getPasswort() {
-		return pass;
+		return passwort;
 	}
-	
+
 	public void setBenutzername(String benutzername) {
 		this.benutzername = benutzername;
 	}
@@ -60,10 +60,18 @@ public class User {
 		this.ep = ep;
 	}
 
-	public String getEP() {
+	public int getEP() {
 		return ep;
 	}
+	
+	public void setAchievements(int achievements) {
+		this.achievements = achievements;
+	}
 
+	public int getAchievements() {
+		return achievements;
+	}
+	
 	public void setVorname(String vorname) {
 		this.vorname = vorname;
 	}
@@ -71,28 +79,20 @@ public class User {
 	public String getVorname() {
 		return vorname;
 	}
-
+	
 	public void setNachname(String nachname) {
 		this.nachname = nachname;
 	}
 
 	public String getNachname() {
 		return nachname;
-  }
-
-	public void setEMail(String mail) {
-		this.mail = mail;
+	}
+	
+	public void setEMail(String email) {
+		this.email = email;
 	}
 
 	public String getEMail() {
-		return mail;
-	}
-
-	public void setAchievements(String achievement) {
-		this.achievement = achievement;
-	}
-
-	public String getAchievements() {
-		return achievement;
+		return email;
 	}
 }
