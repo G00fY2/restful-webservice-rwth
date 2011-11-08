@@ -55,6 +55,8 @@ _Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und
 _Der Nutzer muss sich bei Änderungen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren_
 ===HTTP Status Codes (Fehlerfall):===
            
+ * 400: Bad Request
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der Nutzer hat versucht  fehlerhafte bzw nicht kompatible Daten zu übermitteln_
 
  * 404: Not Found
 _Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)_
