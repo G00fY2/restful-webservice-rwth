@@ -1,9 +1,11 @@
 #summary Design Dokumentation des RESTful Web Service für UserRessource und UsersRessource.
 #labels RESTful,Thomas,Sven
-<wiki:toc max_depth="1" />
+
+
 = I. Introduction =
 
 In der folgenden Dokumentation sind die Desgins zur Verarbeitung der Ressourcen UserResource und UsersResource näher definiert.
+
 
 = II. Ressourcen und benötigte Operationen =
 
