@@ -7,11 +7,11 @@ In der folgenden Dokumentation sind die Desgins zur Verarbeitung der Ressourcen 
 
 = II. Ressourcen und benötigte Operationen =
 
-== 1. UserResource ==
+== 1. UsersResource ==
+ * Erstellen eines Users (=> ErsellenUser)
+ * Liste aller User (=> ListeUser)
+
+== 2. UserResource ==
  * Auslesen eines bestimmten Users (=> AuslesenUser)
  * Änderung eines Users (=> AendernUser)
  * Löschen eines Users (=> LoescheUser)
-
-== 2. UsersResource ==
- * Erstellen eines Users 
- * Liste aller User
