@@ -1,9 +1,0 @@
-#summary Erstellen eines Users
-
-= Details =
-
- * *URL Template:* "http://localhost:8080/ugnm-service/resources/users"
- * *MIME Typ:* application/json
- * *Menge Operationen:* 1x (POST)
- * *Struktur zwischen Ressourcen:* %
- * *Zugriffskontrolle auf Operationen:* %
