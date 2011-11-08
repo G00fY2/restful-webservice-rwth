@@ -18,6 +18,6 @@ In der folgenden Dokumentation sind die Desgins zur Verarbeitung der Ressourcen 
 
 = III. Details =
 
-== UserResource ==
+== 1. UserResource ==
 
- * === Auslesen eines bestimmten Users: ===
+ * *Auslesen eines bestimmten Users:*
