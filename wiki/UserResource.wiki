@@ -45,8 +45,9 @@ _Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) ge
 _JSON MIME Typ_
 ===Menge Operationen:===
  * GET
- * PUT
 _Es wird die Operation GET benötigt um einen User auslesen zu können_
+ * PUT
+_Es wird die Operation PUT benötigt um einen User ändern zu können_
 ===Struktur zwischen Ressourcen:=== 
  * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
 ===Zugriffskontrolle auf Operationen:=== 
@@ -76,18 +77,19 @@ _Die Anfrage darf nur mit anderen HTTP-Methoden gestellt werden. Gültige Method
  * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
 ===MIME Typ:=== 
  * ---
-_JSON MIME Typ_
+
 ===Menge Operationen:===
  * GET
- * DELETE
 _Es wird die Operation GET benötigt um einen User auslesen zu können_
+ * DELETE
+_Es wird die Operation DELETE benötigt um einen User löschen zu können_
 ===Struktur zwischen Ressourcen:=== 
  * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
 ===Zugriffskontrolle auf Operationen:=== 
  * GET (login)
 _Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
  * DELETE (login, authorization)
-_Der Nutzer muss zum Löschen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren_
+_Der Nutzer muss zum löschen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren_
 ===HTTP Status Codes (Fehlerfall):===
 
  * 404: Not Found
