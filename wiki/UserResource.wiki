@@ -1,1 +1,53 @@
 #summary Bei UserResource, handelt es sich um eine Ressource für bestimmte User (Elemente).
+#labels UserResource
+
+= Details =
+
+
+
+==Auslesen eines bestimmten Users (UserResource):==
+----
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+===MIME Typ:=== 
+ * "application/json"
+===Menge Operationen:===
+ * GET
+_Es wird die Operation GET benötigt um einen User auslesen zu können_
+===Struktur zwischen Ressourcen:=== 
+===Zugriffskontrolle auf Operationen:=== 
+ * GET
+_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
+===HTTP Status Codes (Fehlerfall):===
+           
+
+ * 404: Not Found, Nicht gefunden; Dokument entfernt, verschoben oder umbenannt
+_Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc._
+
+ * 401: Unauthorized, Nicht autorisiert, Zugriff verweigert; meist passwortgeschützt, Login
+_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
+
+
+----
+
+==Änderung eines Users (UserResource):==
+----
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+===MIME Typ:=== 
+ * "application/json"
+===Menge Operationen:===
+ * GET
+ * POST
+===Struktur zwischen Ressourcen:=== 
+ * 
+===Zugriffskontrolle auf Operationen:===
+ * GET, POST
+===HTTP Status Codes (Fehlerfall):===
+           
+
+ * 404: Not Found, Nicht gefunden; Dokument entfernt, verschoben oder umbenannt
+_Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc._
+
+ * 401: Unauthorized, Nicht autorisiert, Zugriff verweigert; meist passwortgeschützt, Login
+_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
