@@ -64,3 +64,4 @@ _Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wi
 
  * 405: Method Not Allowed
 _Die Anfrage darf nur mit anderen HTTP-Methoden gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
+ 
