@@ -1,1 +1,57 @@
 #summary Bei UsersResource, handelt es sich um eine Ressource für eine Kollektion an Usern (Collection).
+#labels UsersRecource
+
+= Details =
+
+----
+
+==Erstellen eines Users (UsersResource):==
+----
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/users/{new user}"
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
+===Menge Operationen:===
+ * PUT
+_Ein neuer Benutzer wird angelegt_
+===Struktur zwischen Ressourcen:=== 
+ * --
+===Zugriffskontrolle auf Operationen:=== 
+ * --
+===HTTP Status Codes (Fehlerfall):===
+           
+ * 400: Bad Request
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der Nutzer hat versucht  fehlerhafte bzw nicht kompatible Daten zu übermitteln_
+
+ * 405: Method Not Allowed
+_Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
+
+
+----
+
+== Liste aller User (UsersResource):==
+----
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/users/{all}"
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
+===Menge Operationen:===
+ * GET
+_Es wird die Operation GET benötigt um eine Liste aller User auslesen zu können_
+===Struktur zwischen Ressourcen:=== 
+ * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+_Ausgehend von der Liste aller Nutzer, ist es möglich auf den einzelnen Nutzer zuzugreifen_
+===Zugriffskontrolle auf Operationen:=== 
+ * GET (login)
+_Der Nutzer muss sich bei Anfragen zu den Benutzern des Service registriert sein und sich anmelden_
+===HTTP Status Codes (Fehlerfall):===
+           
+
+ * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss sich bei Anfragen zu den Benutzern des Service registriert sein und sich anmelden_
+
+ * 405: Method Not Allowed
+_Die Anfrage darf nur mit anderen HTTP-Methoden gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
+ 
