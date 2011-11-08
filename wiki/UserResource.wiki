@@ -16,7 +16,7 @@ _JSON MIME Typ_
  * GET
 _Es wird die Operation GET benötigt um einen User auslesen zu können_
 ===Struktur zwischen Ressourcen:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+ * ---
 ===Zugriffskontrolle auf Operationen:=== 
  * GET (login)
 _Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
