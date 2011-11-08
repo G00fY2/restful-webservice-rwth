@@ -1,13 +1,7 @@
 #summary Löschen eines Users
 
-= Introduction =
-
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ * *URL Template:* "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+ * *MIME Typ:* application/json
+ * *Menge Operationen:* 1x (DELETE)
+ * *Struktur zwischen Ressourcen:* %
+ * *Zugriffskontrolle auf Operationen:* %
