@@ -15,3 +15,9 @@ In der folgenden Dokumentation sind die Desgins zur Verarbeitung der Ressourcen 
 == 2. UsersResource ==
  * Erstellen eines Users 
  * Liste aller User
+
+= III. Details =
+
+== UserResource ==
+
+ * === Auslesen eines bestimmten Users: ===
