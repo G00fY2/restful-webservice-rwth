@@ -2,7 +2,7 @@
 
 = Details =
 
- * *URL Template:* "http://localhost:8080/ugnm-service/resources/user/{benutzername}
+ * *URL Template:* "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
  * *MIME Typ:* application/json
  * *Menge Operationen:* 1x (GET)
  * *Struktur zwischen Ressourcen:* %
