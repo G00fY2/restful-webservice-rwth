@@ -1,7 +1,0 @@
-#summary Löschen eines Users
-
- * *URL Template:* "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
- * *MIME Typ:* application/json
- * *Menge Operationen:* 1x (DELETE)
- * *Struktur zwischen Ressourcen:* %
- * *Zugriffskontrolle auf Operationen:* %
