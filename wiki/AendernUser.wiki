@@ -1,8 +1,0 @@
-#summary Änderung eines Users
-= Details =
-
- * *URL Template:* "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
- * *MIME Typ:* application/json
- * *Menge Operationen:* 2x (GET, PUT)
- * *Struktur zwischen Ressourcen:* %
- * *Zugriffskontrolle auf Operationen:* %
