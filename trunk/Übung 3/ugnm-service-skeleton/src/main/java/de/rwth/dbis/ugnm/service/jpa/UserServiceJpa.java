@@ -28,23 +28,14 @@ public class UserServiceJpa implements UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public User getByBenutzername(String benutzername){
-		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
-		queryFindUser.setParameter("Benutzername", benutzername);
-
-		List<User> users = queryFindUser.getResultList();
-		User result = null;
-		if(users.size() > 0) {
-			result = users.get(0);
-		}
-		return result;
+	public User getByBenutzername(String benutzername) {
+		return entityManager.find(User.class, benutzername);
 	}
-	
 	
 	@Transactional(readOnly = true)
-	public User getByVorname(String vorname){
+	public User getByEMail(String email){
 		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
-		queryFindUser.setParameter("Vorname", vorname);
+		queryFindUser.setParameter("email", email);
 
 		List<User> users = queryFindUser.getResultList();
 		User result = null;
@@ -53,20 +44,6 @@ public class UserServiceJpa implements UserService {
 		}
 		return result;
 	}
-
-	@Transactional(readOnly = true)
-	public User getByNachname(String nachname){
-		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
-		queryFindUser.setParameter("Nachname", nachname);
-
-		List<User> users = queryFindUser.getResultList();
-		User result = null;
-		if(users.size() > 0) {
-			result = users.get(0);
-		}
-		return result;
-	}
-	
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
@@ -106,7 +83,7 @@ public class UserServiceJpa implements UserService {
 	public User findUser(User user) {
 		User result = null;
 		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
-		queryFindUser.setParameter("Benutzername", user.getbenutzername());
+		queryFindUser.setParameter("email", user.getEMail());
 
 		List<User> users = queryFindUser.getResultList();
 		if(users.size() > 0) {
