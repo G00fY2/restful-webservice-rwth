@@ -8,7 +8,7 @@ In der folgenden Dokumentation sind die Desgins zur Verarbeitung der Ressourcen 
 = II. Ressourcen und benötigte Operationen =
 
 == 1. UserResource ==
- * Auslesen eines bestimmten Users
+ * Auslesen eines bestimmten Users (=> AuslesenUser)
  * Änderung eines Users 
  * Löschen eines Users
 
