@@ -9,8 +9,8 @@ In der folgenden Dokumentation sind die Desgins zur Verarbeitung der Ressourcen 
 
 == 1. UserResource ==
  * Auslesen eines bestimmten Users (=> AuslesenUser)
- * Änderung eines Users 
- * Löschen eines Users
+ * Änderung eines Users (=> AendernUser)
+ * Löschen eines Users (=> LoescheUser)
 
 == 2. UsersResource ==
  * Erstellen eines Users 
