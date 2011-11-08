@@ -67,3 +67,34 @@ _Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wi
  * 405: Method Not Allowed
 _Die Anfrage darf nur mit anderen HTTP-Methoden gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
  
+----
+
+==Löschen eines Users (UserResource):==
+----
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+===MIME Typ:=== 
+ * ---
+_JSON MIME Typ_
+===Menge Operationen:===
+ * GET
+ * DELETE
+_Es wird die Operation GET benötigt um einen User auslesen zu können_
+===Struktur zwischen Ressourcen:=== 
+ * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+===Zugriffskontrolle auf Operationen:=== 
+ * GET (login)
+_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
+ * DELETE (login, authorization)
+_Der Nutzer muss zum Löschen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren_
+===HTTP Status Codes (Fehlerfall):===
+
+ * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)_
+
+ * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss zum Löschen seines eigenen Profils registriert sein und sich anmelden_
+
+ * 405: Method Not Allowed
+_Die Anfrage darf nur mit anderen HTTP-Methoden gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
+ 
