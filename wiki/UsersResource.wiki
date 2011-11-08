@@ -1,1 +1,1 @@
-Bei UsersResource, handelt es sich um eine Ressource für eine Kollektion an Usern (Collection). 
+#summary Bei UsersResource, handelt es sich um eine Ressource für eine Kollektion an Usern (Collection).
