@@ -27,9 +27,16 @@ import com.sun.jersey.core.util.Base64;
 import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.UserService;
 
+
+//Alle benötigten Resourcen wurden importiert..
+
+
 @Path("/users/{email}")
 @Component
 @Scope("request")
+
+
+
 public class UserResource {
 
 	@Autowired
@@ -37,11 +44,15 @@ public class UserResource {
 
 	@Context UriInfo uriInfo;
 	
+   
+//Methode gibt den gesuchten User aus   
+   
 	@GET
 	@Produces("application/json")
 	public User getUser(@PathParam("email") String email) {
-	
+ //User wird über GET gesucht
 		User u = userService.getByEMail(email);
+//Wenn gefunden, dann wird der Benutzername des Users ausgegeben      
 		if (u!=null){
              u.setPasswort("passwort");
              System.out.println(u.getBenutzername());
@@ -52,11 +63,15 @@ public class UserResource {
 		return u;
 }
 
+
+//Methode ermöglicht es einen User zu ändern
 	
 	@PUT
     @Consumes("application/json")
     public Response updateUser(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException {
+ //User wird über GET gesucht
 		User u = userService.getByEMail(email);
+//Wenn gefunden wird überprüft ob der User der die Anfrage gestellt hat dazu autorisiert ist
         if(u != null){
                 if(authenticated(auth,u)){
                         User user = JsonParseU(o, email);
@@ -74,10 +89,13 @@ public class UserResource {
         }
 }
 
+//Methode ermöglicht es einem autorisertem Nutzer einen User zu löschen
 	
 	@DELETE
 	public Response deleteUser(@HeaderParam("authorization") String auth, @PathParam("email") String email){
+ //User wird über GET gesucht
 		User u = userService.getByEMail(email);
+//Wenn gefunden wird überprüft ob der User der die Anfrage gestellt hat dazu autorisiert ist
         if(u!=null){
         	if(authenticated(auth,u)){
                 userService.delete(u);
@@ -94,7 +112,9 @@ public class UserResource {
         }
 	}
 
+//Methode parst die übergebenen Daten in JSON für die userUpdate Methode
     private User JsonParseU(JSONObject o, String mail){
+//Methode versucht, mit allen notwendigen Parametern ein neues JASONObject anzulegen
    	 try {
             String passwort = o.getString("Passwort");
             String benutzername = o.getString("Benutzername");
