@@ -27,32 +27,44 @@ import org.codehaus.jettison.json.JSONObject;
 import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.UserService;
 
+
+
 @Path("/users")
 @Component
 @Scope("request")
+
+
 public class UsersResource {
 
 	@Autowired
 	UserService userService;
 
-	@Context UriInfo uriInfo;
+	@Context 
+  UriInfo uriInfo;
 	
-	//Liste aller User ausgeben
+   
+   
+	//Methode gibt eine Liste aller User aus (In Arrayform)
+   
 	@GET
 	@Produces("application/json")
+   
 	public List<User> getUsers(@Context UriInfo ui) {
-	
+   
+     //Liste wird erstellt    
 		List<User> userlist = userService.getAll();
-		
+     //Liste wird ausgegeben
 		return userlist;
 	}
 	
 	
-	//Einen neuen User erstellen
-	@PUT
+//Methode erstellt einen neuen User und wirft exception
+   
+   
+    @PUT
     @Consumes("application/json")
     public Response createUser(JSONObject o) throws JSONException {
-
+//Neuer User wird erstellt
 		User u = JsonParse(o);
 		
 		return addIfDoesNotExist(u);
@@ -72,31 +84,32 @@ public class UsersResource {
 		}
 	
 	}
+   
+   
 	 //JSON Datei parsen
-    private User JsonParse(JSONObject o){
-
-            try {
-                    String passwort = o.getString("Passwort");
-                    String benutzername = o.getString("Benutzername");
-                    int ep = o.getInt("EP");
-                    String vorname = o.getString("Vorname");
-                    String nachname = o.getString("Nachname");
-                    String email = o.getString("EMail");
-                    int achievements =o.getInt("Achievements")
-                    User u = new User();
-                    u.setPasswort(passwort);
-                    u.setBenutername(benutzername);
-                    u.setEP(ep);
-                    u.setVorname(vorname);
-                    u.setNachname(nachname);
-                    u.setEMail(email);
-                    u.setAchievements(achievements);
-                    return u;
-            } catch (JSONException j) {
-                    throw new WebApplicationException(400);
-            }
+  private User JsonParse(JSONObject o){
+    try {
+        String passwort = o.getString("Passwort");
+        String benutzername = o.getString("Benutzername");
+        int ep = o.getInt("EP");
+        String vorname = o.getString("Vorname");
+        String nachname = o.getString("Nachname");
+        String email = o.getString("EMail");
+        int achievements =o.getInt("Achievements")
+        User u = new User();
+        u.setPasswort(passwort);
+        u.setBenutername(benutzername);
+        u.setEP(ep);
+        u.setVorname(vorname);
+        u.setNachname(nachname);
+        u.setEMail(email);
+        u.setAchievements(achievements);
+        return u;
+      } catch (JSONException j) {
+       throw new WebApplicationException(400);
+      }
                         
-    }
-
+  }
 }
+
 
