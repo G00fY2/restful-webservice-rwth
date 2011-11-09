@@ -28,7 +28,7 @@ import org.codehaus.jettison.json.JSONObject;
 import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.UserService;
 
-
+//Alle benötigten Resourcen wurden importiert..
 
 @Path("/users")
 @Component
@@ -44,16 +44,16 @@ public class UsersResource {
 	
    
    
-	//Methode gibt eine Liste aller User aus (In Arrayform)
+//Methode gibt eine Liste aller User aus (In Arrayform)
    
 	@GET
 	@Produces("application/json")
    
 	public List<User> getUsers(@Context UriInfo ui) {
    
-     //Liste wird erstellt    
+//Liste wird erstellt    
 		List<User> userlist = userService.getAll();
-     //Liste wird ausgegeben
+//Liste wird ausgegeben
 		return userlist;
 	}
 	
@@ -66,12 +66,16 @@ public class UsersResource {
     public Response createUser(JSONObject o) throws JSONException {
 //Neuer User wird erstellt
 		User u = JsonParse(o);
-		
+//Neuer User wird ausgegeben über Methode: addIfDoesNotExists 
 		return addIfDoesNotExist(u);
 
     }
-	
+    
+    
+    
+//Methode überprüft ob der angegebene User bereits existiert	
 	private Response addIfDoesNotExist(User user) {
+//Wenn der User der der Methode übergeben wurde noch nicht existiert wird eine neue URI angelegt und der User gespeichert   
 		if(userService.findUser(user) == null) {
 			userService.save(user);
 			UriBuilder urib = uriInfo.getAbsolutePathBuilder();
@@ -86,8 +90,9 @@ public class UsersResource {
 	}
    
    
-	 //JSON Datei parsen
+//Methode parst die übergebenen Daten in JSON
   private User JsonParse(JSONObject o){
+//Methode versucht, mit allen notwendigen Parametern ein neues JASONObject anzulegen  
     try {
         String passwort = o.getString("Passwort");
         String benutzername = o.getString("Benutzername");
@@ -105,6 +110,9 @@ public class UsersResource {
         u.setEMail(email);
         u.setAchievements(achievements);
         return u;
+        
+//Bei Fehlerfall wirft die Methode die Exception 400
+
       } catch (JSONException j) {
        throw new WebApplicationException(400);
       }
