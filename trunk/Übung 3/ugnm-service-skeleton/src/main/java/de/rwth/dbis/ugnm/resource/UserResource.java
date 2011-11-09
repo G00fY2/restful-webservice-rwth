@@ -29,27 +29,66 @@ public class UserResource {
 	@Autowired
 	UserService userService;
 
+	@Context UriInfo uriInfo;
+	
 	@GET
 	@Produces("application/json")
 	public User getUser(@PathParam("email") String email) {
-		// TODO: implement logic
+	
 		User u = userService.getByEMail(email);
-		System.out.println(u.getBenutzername());
-		throw new WebApplicationException(405);
-	}
+		if (u!=null){
+             u.setPass("passwort");
+             System.out.println(u.getBenutzername());
+		}
+		else{
+             throw new WebApplicationException(404);
+		}
+		return u;
+}
+
 	
 	@PUT
     @Consumes("application/json")
     public Response updateUser(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException {
-		// TODO: implement logic
-		throw new WebApplicationException(405);
-    }
+		User u = userService.getByEMail(email);
+        if(u != null){
+                if(authenticated(auth,user)){
+                        User user = JsonParseU(o, email);
+                        userService.update(user);
+                        UriBuilder urib = uriInfo.getAbsolutePathBuilder();
+                        URI userUri = urib.path(user.getEMail()).build();
+                        return Response.created(userUri).build();
+                }
+                else{
+                        throw new WebApplicationException(401);
+                }
+        }
+        else{
+                throw new WebApplicationException(404);
+        }
+}
+
 	
 	@DELETE
 	public Response deleteUser(@HeaderParam("authorization") String auth, @PathParam("email") String email){
-		// TODO: implement logic
-		throw new WebApplicationException(404);
+		User u = userService.getByEMail(Email);
+        if(u!=null){
+        	if(authenticated(auth,user)){
+                userService.delete(user);
+                UriBuilder urib = uriInfo.getAbsolutePathBuilder();
+                URI userUri = urib.path(user.getEMail()).build();
+                return Response.created(userUri).build();
+        	}
+        	else{
+                throw new WebApplicationException(401);
+        	}
+        }
+        else{
+        	throw new WebApplicationException(404);
+        }
 	}
+
+        
 	
 	// Little gift from your tutors...
 	// A simple authentication mechanism;
@@ -68,5 +107,31 @@ public class UserResource {
 		}
 		return false;
 	}
+	
+    private User JsonParseU(JSONObject o, String email){
+    	 try {
+             String passwort = o.getString("Passwort");
+             String benutzername = o.getString("Benutzername");
+             int ep = o.getInt("EP");
+             String vorname = o.getString("Vorname");
+             String nachname = o.getString("Nachname");
+             String email = o.getString("EMail");
+             int achievements =o.getInt("Achievements")
+             User u = new User();
+             u.setPasswort(passwort);
+             u.setBenutername(benutzername);
+             u.setEP(ep);
+             u.setVorname(vorname);
+             u.setNachname(nachname);
+             u.setEMail(email);
+             u.setAchievements(achievements);
+             return u;
+     } catch (JSONException j) {
+             throw new WebApplicationException(400);
+     }
+                 
+}
+}
+
 
 }
