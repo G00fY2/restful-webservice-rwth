@@ -27,13 +27,6 @@ _Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und
  * 404: Not Found
 _Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)_
 
- * 401: Unauthorized
-_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
-
- * 405: Method Not Allowed
-_Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
-
-
 ----
 
 ==Änderung eines Users (UserResource):==
@@ -66,9 +59,6 @@ _Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann n
  * 401: Unauthorized
 _Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
 
- * 405: Method Not Allowed
-_Die Anfrage darf nur mit anderen HTTP-Methoden gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
- 
 ----
 
 ==Löschen eines Users (UserResource):==
@@ -97,7 +87,4 @@ _Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann n
 
  * 401: Unauthorized
 _Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss zum Löschen seines eigenen Profils registriert sein und sich anmelden_
-
- * 405: Method Not Allowed
-_Die Anfrage darf nur mit anderen HTTP-Methoden gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
  
