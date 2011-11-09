@@ -1,5 +1,7 @@
 package de.rwth.dbis.ugnm.resource;
 
+import java.net.URI;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -9,7 +11,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -37,7 +43,7 @@ public class UserResource {
 	
 		User u = userService.getByEMail(email);
 		if (u!=null){
-             u.setPass("passwort");
+             u.setPasswort("passwort");
              System.out.println(u.getBenutzername());
 		}
 		else{
@@ -52,11 +58,11 @@ public class UserResource {
     public Response updateUser(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException {
 		User u = userService.getByEMail(email);
         if(u != null){
-                if(authenticated(auth,user)){
+                if(authenticated(auth,u)){
                         User user = JsonParseU(o, email);
-                        userService.update(user);
+                        userService.update(u);
                         UriBuilder urib = uriInfo.getAbsolutePathBuilder();
-                        URI userUri = urib.path(user.getEMail()).build();
+                        URI userUri = urib.path(u.getEMail()).build();
                         return Response.created(userUri).build();
                 }
                 else{
@@ -71,12 +77,12 @@ public class UserResource {
 	
 	@DELETE
 	public Response deleteUser(@HeaderParam("authorization") String auth, @PathParam("email") String email){
-		User u = userService.getByEMail(Email);
+		User u = userService.getByEMail(email);
         if(u!=null){
-        	if(authenticated(auth,user)){
-                userService.delete(user);
+        	if(authenticated(auth,u)){
+                userService.delete(u);
                 UriBuilder urib = uriInfo.getAbsolutePathBuilder();
-                URI userUri = urib.path(user.getEMail()).build();
+                URI userUri = urib.path(u.getEMail()).build();
                 return Response.created(userUri).build();
         	}
         	else{
@@ -88,7 +94,29 @@ public class UserResource {
         }
 	}
 
-        
+    private User JsonParseU(JSONObject o, String mail){
+   	 try {
+            String passwort = o.getString("Passwort");
+            String benutzername = o.getString("Benutzername");
+            int ep = o.getInt("EP");
+            String vorname = o.getString("Vorname");
+            String nachname = o.getString("Nachname");
+            String email = o.getString("EMail");
+            int achievements =o.getInt("Achievements");
+            User u = new User();
+            u.setPasswort(passwort);
+            u.setBenutzername(benutzername);
+            u.setEP(ep);
+            u.setVorname(vorname);
+            u.setNachname(nachname);
+            u.setEMail(email);
+            u.setAchievements(achievements);
+            return u;
+    } catch (JSONException j) {
+            throw new WebApplicationException(400);
+    }
+                
+}   
 	
 	// Little gift from your tutors...
 	// A simple authentication mechanism;
@@ -107,31 +135,4 @@ public class UserResource {
 		}
 		return false;
 	}
-	
-    private User JsonParseU(JSONObject o, String email){
-    	 try {
-             String passwort = o.getString("Passwort");
-             String benutzername = o.getString("Benutzername");
-             int ep = o.getInt("EP");
-             String vorname = o.getString("Vorname");
-             String nachname = o.getString("Nachname");
-             String email = o.getString("EMail");
-             int achievements =o.getInt("Achievements")
-             User u = new User();
-             u.setPasswort(passwort);
-             u.setBenutername(benutzername);
-             u.setEP(ep);
-             u.setVorname(vorname);
-             u.setNachname(nachname);
-             u.setEMail(email);
-             u.setAchievements(achievements);
-             return u;
-     } catch (JSONException j) {
-             throw new WebApplicationException(400);
-     }
-                 
-}
-}
-
-
 }
