@@ -49,9 +49,4 @@ _Der Nutzer muss sich bei Anfragen zu den Benutzern des Service registriert sein
 ===HTTP Status Codes (Fehlerfall):===
            
 
- * 401: Unauthorized
-_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss sich bei Anfragen zu den Benutzern des Service registriert sein und sich anmelden_
-
- * 405: Method Not Allowed
-_Die Anfrage darf nur mit anderen HTTP-Methoden gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
- 
+ * ---
