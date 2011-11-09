@@ -24,7 +24,7 @@ _Ein neuer Benutzer wird angelegt_
  * 400: Bad Request
 _Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der Nutzer hat versucht  fehlerhafte bzw nicht kompatible Daten zu übermitteln_
 
- * 403: Method Not Allowed
+ * 403: Forbidden
 _Der User existiert bereits, der Server kann die anfrage nicht bearbeiten_
 
 
