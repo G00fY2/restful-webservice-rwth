@@ -24,8 +24,8 @@ _Ein neuer Benutzer wird angelegt_
  * 400: Bad Request
 _Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der Nutzer hat versucht  fehlerhafte bzw nicht kompatible Daten zu übermitteln_
 
- * 405: Method Not Allowed
-_Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt._
+ * 403: Method Not Allowed
+_Der User existiert bereits, der Server kann die anfrage nicht bearbeiten_
 
 
 ----
