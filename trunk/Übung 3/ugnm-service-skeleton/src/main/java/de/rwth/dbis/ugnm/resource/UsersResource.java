@@ -14,6 +14,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.WebApplicationException;
 
@@ -39,8 +40,7 @@ public class UsersResource {
 	@Autowired
 	UserService userService;
 
-	@Context 
-  UriInfo uriInfo;
+	@Context UriInfo uriInfo;
 	
    
    
@@ -71,7 +71,7 @@ public class UsersResource {
 
     }
 	
-	private void addIfDoesNotExist(User user) {
+	private Response addIfDoesNotExist(User user) {
 		if(userService.findUser(user) == null) {
 			userService.save(user);
 			UriBuilder urib = uriInfo.getAbsolutePathBuilder();
@@ -95,10 +95,10 @@ public class UsersResource {
         String vorname = o.getString("Vorname");
         String nachname = o.getString("Nachname");
         String email = o.getString("EMail");
-        int achievements =o.getInt("Achievements")
+        int achievements =o.getInt("Achievements");
         User u = new User();
         u.setPasswort(passwort);
-        u.setBenutername(benutzername);
+        u.setBenutzername(benutzername);
         u.setEP(ep);
         u.setVorname(vorname);
         u.setNachname(nachname);
