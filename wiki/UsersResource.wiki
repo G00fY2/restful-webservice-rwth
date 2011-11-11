@@ -1,52 +1,88 @@
-#summary Bei UsersResource, handelt es sich um eine Ressource für eine Kollektion an Usern (Collection).
+#summary Entität: UsersResource
 #labels UsersRecource
 
-= Details =
+----
+=Allgemeines=
+----
 
+
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/users/"
+
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
+
+
+
+----
+== Details ==
 ----
 
 ==Erstellen eines Users (UsersResource):==
 ----
-===URL Template:=== 
- * "http://localhost:8080/ugnm-service/resources/users/{new user}"
-===MIME Typ:=== 
- * "application/json"
-_JSON MIME Typ_
-===Menge Operationen:===
+
+
+===Operation  :===
  * PUT
 _Ein neuer Benutzer wird angelegt_
+
+===Ein-/Ausgabeform:=== 
+
+Eingabe:
+{{{
+		E-Mail: <EMAIL>, (required)
+		Passwort: <PASSWORt>, (required)
+		Benutername: <BENUTZERNAME>, (required)
+                Vorname: <VORNAME>, (not required)
+                Nachname: <NACHNAME>, (not required)
+	}}}
+
+
 ===Struktur zwischen Ressourcen:=== 
- * --
+ * ---
+
 ===Zugriffskontrolle auf Operationen:=== 
- * --
+ * ---
+
 ===HTTP Status Codes (Fehlerfall):===
            
  * 400: Bad Request
-_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der Nutzer hat versucht  fehlerhafte bzw nicht kompatible Daten zu übermitteln_
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der Nutzer hat versucht  fehlerhafte, unvollständige bzw nicht kompatible Daten zu übermitteln._
 
- * 403: Forbidden
-_Der User existiert bereits, der Server kann die anfrage nicht bearbeiten_
+ * 409: Conflict
+_Der User existiert bereits, der Server kann die anfrage nicht bearbeiten._
 
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 201: Created
+_Der User wurde erstellt._
 
 ----
 
 == Liste aller User (UsersResource):==
 ----
-===URL Template:=== 
- * "http://localhost:8080/ugnm-service/resources/users/{all}"
-===MIME Typ:=== 
- * "application/json"
-_JSON MIME Typ_
-===Menge Operationen:===
+
+===Operation:===
  * GET
-_Es wird die Operation GET benötigt um eine Liste aller User auslesen zu können_
+
+===Ein-/Ausgabeform:=== 
+
+{{{
+{users: [<USR_RES_1>,<USR_RES_2,...,<USR_RES_n>]}
+}}}
+
 ===Struktur zwischen Ressourcen:=== 
  * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
 _Ausgehend von der Liste aller Nutzer, ist es möglich auf den einzelnen Nutzer zuzugreifen_
-===Zugriffskontrolle auf Operationen:=== 
- * GET (login)
-_Der Nutzer muss sich bei Anfragen zu den Benutzern des Service registriert sein und sich anmelden_
-===HTTP Status Codes (Fehlerfall):===
-           
 
+===Zugriffskontrolle auf Operationen:=== 
  * ---
+
+===HTTP Status Codes (Fehlerfall):===          
+ * ---
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Die Anfage konnte bearbeitet werden._
