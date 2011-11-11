@@ -1,90 +1,115 @@
-#summary Bei UserResource, handelt es sich um eine Ressource für bestimmte User (Elemente).
-#labels UserResource
+#summary Entität: UserRecource
+#labels UserResource,Thomas,Sven,Entität,UGNM4
 
-= Details =
+----
+=Allgemeines=
+----
 
+
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/user/{E-Mail}"
+
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
+
+
+----
+== Details ==
 ----
 
 ==Auslesen eines bestimmten Users (UserResource):==
 ----
-===URL Template:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
-===MIME Typ:=== 
- * "application/json"
-_JSON MIME Typ_
-===Menge Operationen:===
- * GET
-_Es wird die Operation GET benötigt um einen User auslesen zu können_
-===Struktur zwischen Ressourcen:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
-_Ausgehend vom ausgelesenen Benutzer wird auf die möglichkeit diesen ändern zu können verwiesen_
-===Zugriffskontrolle auf Operationen:=== 
- * GET (login)
-_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
-===HTTP Status Codes (Fehlerfall):===
-           
 
+===Operation:===
+ * GET
+_Gibt einen User mit allen Details aus._
+
+
+===Ein-/Ausgabeform:=== 
+
+Ausgabe:
+{{{
+		Benutername: <BENUTZERNAME>
+                Vorname: <VORNAME>
+                EP: <EP>
+                Achievements: <ACHIEVEMENTS>
+	}}}
+
+
+
+===Zugriffskontrolle auf Operationen:=== 
+ * ---
+
+===HTTP Status Codes (Fehlerfall):===
+  
  * 404: Not Found
-_Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)_
+_Die angeforderte Ressource wurde nicht gefunden. Der User kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Der gesuchte User wurde gefunden und wird ausgegeben._
+
+
+
+
+
+
 
 ----
-
 ==Änderung eines Users (UserResource):==
 ----
-===URL Template:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
-===MIME Typ:=== 
- * "application/json"
-_JSON MIME Typ_
-===Menge Operationen:===
- * GET
-_Es wird die Operation GET benötigt um einen User auslesen zu können_
+===Operation:===
  * PUT
 _Es wird die Operation PUT benötigt um einen User ändern zu können_
 ===Struktur zwischen Ressourcen:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+ * ---
 ===Zugriffskontrolle auf Operationen:=== 
- * GET (login)
-_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
  * PUT (login, authorization)
-_Der Nutzer muss sich bei Änderungen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren_
+_Der User muss sich bei Änderungen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren._
+
 ===HTTP Status Codes (Fehlerfall):===
            
  * 400: Bad Request
-_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der Nutzer hat versucht  fehlerhafte bzw nicht kompatible Daten zu übermitteln_
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der User hat versucht  fehlerhafte bzw nicht kompatible Daten zu übermitteln._
 
  * 404: Not Found
-_Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)_
+_Die angeforderte Ressource wurde nicht gefunden. Der User kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
 
  * 401: Unauthorized
-_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der User muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Der User wurde erfolgreich geändert._
+
+
+
+
+
 
 ----
 
 ==Löschen eines Users (UserResource):==
 ----
-===URL Template:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
-===MIME Typ:=== 
- * ---
-
-===Menge Operationen:===
- * GET
-_Es wird die Operation GET benötigt um einen User auslesen zu können_
+===Operation:===
  * DELETE
-_Es wird die Operation DELETE benötigt um einen User löschen zu können_
 ===Struktur zwischen Ressourcen:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+ * ---
 ===Zugriffskontrolle auf Operationen:=== 
- * GET (login)
-_Der Nutzer muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden_
  * DELETE (login, authorization)
-_Der Nutzer muss zum löschen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren_
+_Der User muss zum löschen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren._
 ===HTTP Status Codes (Fehlerfall):===
 
  * 404: Not Found
-_Die angeforderte Ressource wurde nicht gefunden. Der Angegebene Benutzer kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)_
+_Die angeforderte Ressource wurde nicht gefunden. Der User kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
 
  * 401: Unauthorized
-_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der Nutzer muss zum Löschen seines eigenen Profils registriert sein und sich anmelden_
- 
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der User muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Der User wurde erfolgreich gelöscht._
