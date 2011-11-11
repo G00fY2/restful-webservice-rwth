@@ -1,5 +1,5 @@
 #summary Entität: UsersResource
-#labels UsersRecource
+#labels Entität,Thomas,Sven,UGNM4
 
 ----
 =Allgemeines=
@@ -25,7 +25,6 @@ _JSON MIME Typ_
 
 ===Operation  :===
  * PUT
-_Ein neuer Benutzer wird angelegt_
 
 ===Ein-/Ausgabeform:=== 
 
@@ -48,7 +47,7 @@ Eingabe:
 ===HTTP Status Codes (Fehlerfall):===
            
  * 400: Bad Request
-_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der Nutzer hat versucht  fehlerhafte, unvollständige bzw nicht kompatible Daten zu übermitteln._
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der User hat versucht  fehlerhafte, unvollständige bzw nicht kompatible Daten zu übermitteln._
 
  * 409: Conflict
 _Der User existiert bereits, der Server kann die anfrage nicht bearbeiten._
@@ -74,7 +73,7 @@ _Der User wurde erstellt._
 
 ===Struktur zwischen Ressourcen:=== 
  * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
-_Ausgehend von der Liste aller Nutzer, ist es möglich auf den einzelnen Nutzer zuzugreifen_
+_Ausgehend von der Liste aller User, ist es möglich auf den einzelnen User zuzugreifen._
 
 ===Zugriffskontrolle auf Operationen:=== 
  * ---
