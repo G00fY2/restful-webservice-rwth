@@ -35,6 +35,7 @@ public class User {
 	@Column(name = "Nachname", nullable = false)
 	private String nachname;
 	
+	@Id
 	@Column(name = "EMail", nullable = false)
 	private String email;
 		

@@ -9,7 +9,6 @@ FROM picture p, rates r
 WHERE r.FKURL= p.URL AND URL='http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg';
 
 
-SELECT u.EMail, u.EP, u.Achievments
-FROM user u, collect c
-WHERE u.EMail = c.FKMail
-ORDER BY u.Achievments DESC, u.EP DESC LIMIT 0,10;
+SELECT u.EMail, u.EP
+FROM user u
+ORDER BY u.EP DESC LIMIT 0,10;
