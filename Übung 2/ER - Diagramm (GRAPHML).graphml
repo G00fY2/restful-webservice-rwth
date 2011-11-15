@@ -321,19 +321,6 @@
     <node id="n24">
       <data key="d6">
         <y:GenericNode configuration="EntityRelationship_Attribute">
-          <y:Geometry height="40.0" width="80.0" x="137.5" y="-19.0"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="79.369140625" x="0.3154296875" y="10.6494140625">Achievements</y:NodeLabel>
-          <y:StyleProperties>
-            <y:Property class="java.lang.Boolean" name="shadow" value="true"/>
-          </y:StyleProperties>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n25">
-      <data key="d6">
-        <y:GenericNode configuration="EntityRelationship_Attribute">
           <y:Geometry height="40.0" width="80.0" x="380.0" y="-36.5"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
@@ -534,17 +521,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e19" source="n24" target="n0">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="none"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e20" source="n25" target="n2">
+    <edge id="e19" source="n24" target="n2">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

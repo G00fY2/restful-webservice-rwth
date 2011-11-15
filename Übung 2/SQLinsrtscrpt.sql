@@ -1,10 +1,10 @@
 INSERT INTO User
   VALUES 
-    ('1234abc','AbCd12', DEFAULT, DEFAULT,'Max','Mustermann','max.mustermann@rwth-aachen.de'),
+    ('1234abc','AbCd12', DEFAULT,'Max','Mustermann','max.mustermann@rwth-aachen.de'),
 
-    ('5678def','DeFg34', '300', DEFAULT,'Petra','Mustermann','petra.mustermann@rwth-aachen.de'),
+    ('5678def','DeFg34', '300','Petra','Mustermann','petra.mustermann@rwth-aachen.de'),
 
-    ('9123ghi','HiJk56', '300','2','Hans','Peter','hans.peter@rwth-aachen.de'
+    ('9123ghi','HiJk56', '300','Hans','Peter','hans.peter@rwth-aachen.de'
 );
 
 
@@ -74,7 +74,7 @@ INSERT INTO collect
   VALUES 
     ('max.mustermann@rwth-aachen.de','1234'),
 
-    ('hans.peter@rwth-aachen.de','5678'),
+    ('max.mustermann@rwth-aachen.de','5678'),
 
     ('petra.mustermann@rwth-aachen.de','1234'
 );

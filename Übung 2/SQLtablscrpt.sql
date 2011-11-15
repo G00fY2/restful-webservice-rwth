@@ -2,7 +2,6 @@ CREATE TABLE User(
   Passwort varchar(10) NOT NULL, 
   Benutzername varchar(30) NOT NULL, 
   EP int(11) NOT NULL DEFAULT '0',
-  Achievments int(11) NOT NULL DEFAULT '0',
   Vorname varchar(30) NOT NULL,
   Nachname varchar(30) NOT NULL,
   EMail varchar(50) NOT NULL,
