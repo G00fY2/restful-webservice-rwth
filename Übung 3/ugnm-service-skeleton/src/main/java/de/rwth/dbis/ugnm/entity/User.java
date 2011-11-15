@@ -26,9 +26,6 @@ public class User {
 	@Column(name = "EP", nullable = false)
 	private int ep;
 	
-	@Column(name = "Achievements", nullable = false)
-	private int achievements;
-	
 	@Column(name = "Vorname", nullable = false)
 	private String vorname;
 	
@@ -63,14 +60,6 @@ public class User {
 
 	public int getEP() {
 		return ep;
-	}
-	
-	public void setAchievements(int achievements) {
-		this.achievements = achievements;
-	}
-
-	public int getAchievements() {
-		return achievements;
 	}
 	
 	public void setVorname(String vorname) {
