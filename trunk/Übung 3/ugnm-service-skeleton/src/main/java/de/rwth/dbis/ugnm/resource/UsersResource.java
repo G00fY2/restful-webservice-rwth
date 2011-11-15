@@ -84,7 +84,7 @@ public class UsersResource {
 
 		}
 		else{
-			throw new WebApplicationException(403);	
+			throw new WebApplicationException(409);	
 		}
 	
 	}
@@ -100,7 +100,6 @@ public class UsersResource {
         String vorname = o.getString("Vorname");
         String nachname = o.getString("Nachname");
         String email = o.getString("EMail");
-        int achievements =o.getInt("Achievements");
         User u = new User();
         u.setPasswort(passwort);
         u.setBenutzername(benutzername);
@@ -108,7 +107,6 @@ public class UsersResource {
         u.setVorname(vorname);
         u.setNachname(nachname);
         u.setEMail(email);
-        u.setAchievements(achievements);
         return u;
         
 //Bei Fehlerfall wirft die Methode die Exception 400

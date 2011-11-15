@@ -122,7 +122,6 @@ public class UserResource {
             String vorname = o.getString("Vorname");
             String nachname = o.getString("Nachname");
             String email = o.getString("EMail");
-            int achievements =o.getInt("Achievements");
             User u = new User();
             u.setPasswort(passwort);
             u.setBenutzername(benutzername);
@@ -130,7 +129,6 @@ public class UserResource {
             u.setVorname(vorname);
             u.setNachname(nachname);
             u.setEMail(email);
-            u.setAchievements(achievements);
             return u;
     } catch (JSONException j) {
             throw new WebApplicationException(400);
