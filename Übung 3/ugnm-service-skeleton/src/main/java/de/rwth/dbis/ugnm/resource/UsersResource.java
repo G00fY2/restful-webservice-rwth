@@ -49,73 +49,59 @@ public class UsersResource {
 	@GET
 	@Produces("application/json")
    
-	public List<User> getUsers(@Context UriInfo ui) {
+	public JSONObject getUsers() {
    
 //Liste wird erstellt    
 		List<User> userlist = userService.getAll();
+//Iterator wird erstellt
+    Iterator<User> usit = users.iterator();
+//String-Array wird erstellt
+    Vector<String> vUsers = new Vector<String>();
+		while(usit.hasNext()){
+			User u = usit.next();
+			String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + u.getEMail();
+			vUsers.add(uUri);
+		}
 //Liste wird ausgegeben
-		return userlist;
+		try {
+			JSONObject j = new JSONObject();
+			j.append("users",vUsers);
+			return j;
+		} catch (JSONException e) {
+			throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 	
-	
-//Methode erstellt einen neuen User und wirft exception
-   
-   
-    @PUT
-    @Consumes("application/json")
-    public Response createUser(JSONObject o) throws JSONException {
-//Neuer User wird erstellt
-		User u = JsonParse(o);
-//Neuer User wird ausgegeben über Methode: addIfDoesNotExists 
-		return addIfDoesNotExist(u);
-
-    }
-    
-    
-    
-//Methode überprüft ob der angegebene User bereits existiert	
-	private Response addIfDoesNotExist(User user) {
-//Wenn der User der der Methode übergeben wurde noch nicht existiert wird eine neue URI angelegt und der User gespeichert   
-		if(userService.findUser(user) == null) {
-			userService.save(user);
-			UriBuilder urib = uriInfo.getAbsolutePathBuilder();
-            URI userUri = urib.path(user.getEMail()).build();
-            return Response.created(userUri).build();
-
+	  @POST
+    @Consumes("application/json")  
+public Response putUser(JSONObject o) throws JSONException {
+        
+		if(o == null || !(o.has("EMail") && o.has("Benutzername") && o.has("Passwort"))){
+			throw new WebApplicationException(Status.BAD_REQUEST);
 		}
 		else{
-			throw new WebApplicationException(409);	
-		}
+        	User nu = new User();
+        	nu.setEMail((String) o.get("EMail"));
+        	nu.setPasswort((String) o.get("Passwort"));
+        	nu.setBenutzername((String) o.get("Benutzername"));
+			    nu.setEp(0);
+        	
+        	if(userService.findUser(nu) == null) {
+        		userService.save(nu);
+        		URI location;
+				try {
+					location = new URI(uriInfo.getAbsolutePath().toASCIIString() + "/" + o.get("EMail"));
+					return Response.created(location).build();
+				} catch (URISyntaxException e) {
+					throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
+				}
+        	}
+        	else{
+        		throw new WebApplicationException(Status.CONFLICT);
+        	}
+        }
+    }
 	
-	}
-   
-   
-//Methode parst die übergebenen Daten in JSON
-  private User JsonParse(JSONObject o){
-//Methode versucht, mit allen notwendigen Parametern ein neues JASONObject anzulegen  
-    try {
-        String passwort = o.getString("Passwort");
-        String benutzername = o.getString("Benutzername");
-        int ep = o.getInt("EP");
-        String vorname = o.getString("Vorname");
-        String nachname = o.getString("Nachname");
-        String email = o.getString("EMail");
-        User u = new User();
-        u.setPasswort(passwort);
-        u.setBenutzername(benutzername);
-        u.setEP(ep);
-        u.setVorname(vorname);
-        u.setNachname(nachname);
-        u.setEMail(email);
-        return u;
-        
-//Bei Fehlerfall wirft die Methode die Exception 400
-
-      } catch (JSONException j) {
-       throw new WebApplicationException(400);
-      }
-                        
-  }
 }
-
 
