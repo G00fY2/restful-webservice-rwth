@@ -77,15 +77,17 @@ public class UsersResource {
     @Consumes("application/json")  
 public Response putUser(JSONObject o) throws JSONException {
         
-		if(o == null || !(o.has("EMail") && o.has("Benutzername") && o.has("Passwort"))){
+		if(o == null || !(o.has("email") && o.has("benutzername") && o.has("passwort"))){
 			throw new WebApplicationException(Status.BAD_REQUEST);
 		}
 		else{
         	User nu = new User();
-        	nu.setEMail((String) o.get("EMail"));
-        	nu.setPasswort((String) o.get("Passwort"));
-        	nu.setBenutzername((String) o.get("Benutzername"));
-			    nu.setEP(0);
+        	nu.setEMail((String) o.get("email"));
+        	nu.setPasswort((String) o.get("passwort"));
+        	nu.setBenutzername((String) o.get("benutzername"));
+			nu.setEP(0);
+			nu.setVorname((String) o.get("vorname"));
+			nu.setNachname((String) o.get("nachname"));
         	
         	if(userService.findUser(nu) == null) {
         		userService.save(nu);
