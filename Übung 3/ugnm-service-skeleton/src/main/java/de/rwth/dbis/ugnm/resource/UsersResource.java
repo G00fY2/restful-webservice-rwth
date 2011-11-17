@@ -52,7 +52,7 @@ public class UsersResource {
 	public JSONObject getUsers() {
    
 //Liste wird erstellt    
-		List<User> userlist = userService.getAll();
+		List<User> users = userService.getAll();
 //Iterator wird erstellt
     Iterator<User> usit = users.iterator();
 //String-Array wird erstellt
@@ -85,7 +85,7 @@ public Response putUser(JSONObject o) throws JSONException {
         	nu.setEMail((String) o.get("EMail"));
         	nu.setPasswort((String) o.get("Passwort"));
         	nu.setBenutzername((String) o.get("Benutzername"));
-			    nu.setEp(0);
+			    nu.setEP(0);
         	
         	if(userService.findUser(nu) == null) {
         		userService.save(nu);

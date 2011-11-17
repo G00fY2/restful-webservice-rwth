@@ -52,10 +52,9 @@ public class UserResource {
 	public User getUser(@PathParam("email") String email) {
  //User wird Ã¼ber GET gesucht
 		User u = userService.getByEMail(email);
-//Wenn gefunden, dann wird der Benutzername des Users ausgegeben      
+//Wenn gefunden, dann wird das Passwort "gelöscht" und der Benutzername des Users ausgegeben      
 		if (u!=null){
-             u.setPasswort("passwort");
-             System.out.println(u.getBenutzername());
+             u.setPasswort(null);
 		}
 		else{
              throw new WebApplicationException(404);
@@ -64,78 +63,69 @@ public class UserResource {
 }
 
 
-//Methode ermÃ¶glicht es einen User zu Ã¤ndern
+//Methode ermÃ¶glicht es einen User zu Ã¤ndern (man muss allerdings autorisiert sein)
 	
 	@PUT
     @Consumes("application/json")
     public Response updateUser(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException {
- //User wird Ã¼ber GET gesucht
+        //Es wird überprüft, ob das JSON Objekt korrekt angefragt wurde
+		if(o == null){
+			throw new WebApplicationException(400);
+		}
+		
+		if(o.length() == 0){
+			 return Response.notModified().build();
+		}
+		 //User wird Ã¼ber GET gesucht
 		User u = userService.getByEMail(email);
-//Wenn gefunden wird Ã¼berprÃ¼ft ob der User der die Anfrage gestellt hat dazu autorisiert ist
-        if(u != null){
-                if(authenticated(auth,u)){
-                        User user = JsonParseU(o, email);
-                        userService.update(u);
-                        UriBuilder urib = uriInfo.getAbsolutePathBuilder();
-                        URI userUri = urib.path(u.getEMail()).build();
-                        return Response.created(userUri).build();
-                }
-                else{
-                        throw new WebApplicationException(401);
-                }
-        }
-        else{
-                throw new WebApplicationException(404);
-        }
-}
+		// Überprüft ob User gefunden wurde
+		if(u == null){
+			throw new WebApplicationException(404);
+		}
+		
+		if(!authenticated(auth, u)){
+			throw new WebApplicationException(401);
+		}
+		//User wird geändert und mittels Bolean wird übermittelt, ob das Ändern erfolgreich war
+		boolean changed = false;
+		
+        if (o.has("benutzername") && !o.getString("benutzername").equals(u.getBenutzername())){
+        	u.setBenutzername(o.getString("benutzername"));
+			changed = true;
+		}
+        if (o.has("passwort") && !o.getString("passwort").equals(u.getPasswort())){
+        	u.setPasswort(o.getString("passwort"));
+			changed = true;
+		}
+        
+		if(changed){
+			userService.update(u);
+			return Response.ok().build();
+		} else {
+			return Response.notModified().build();
+		}
+    }
 
 //Methode ermÃ¶glicht es einem autorisertem Nutzer einen User zu lÃ¶schen
 	
 	@DELETE
 	public Response deleteUser(@HeaderParam("authorization") String auth, @PathParam("email") String email){
- //User wird Ã¼ber GET gesucht
+		//User wird über GET gesucht
 		User u = userService.getByEMail(email);
-//Wenn gefunden wird Ã¼berprÃ¼ft ob der User der die Anfrage gestellt hat dazu autorisiert ist
-        if(u!=null){
-        	if(authenticated(auth,u)){
-                userService.delete(u);
-                UriBuilder urib = uriInfo.getAbsolutePathBuilder();
-                URI userUri = urib.path(u.getEMail()).build();
-                return Response.created(userUri).build();
-        	}
-        	else{
-                throw new WebApplicationException(401);
-        	}
-        }
-        else{
-        	throw new WebApplicationException(404);
-        }
+		//Es wird überprüft, ob der User gefunden wurde
+		if(u == null){
+			throw new WebApplicationException(404);
+		}
+		//Es wird überprüft ob die Anfrage autorisiert ist
+		if(!authenticated(auth, u)){
+			throw new WebApplicationException(401);
+		}
+		//User wird gelöscht
+		userService.delete(u);
+		
+		return Response.ok().build();
 	}
 
-//Methode parst die Ã¼bergebenen Daten in JSON fÃ¼r die userUpdate Methode
-    private User JsonParseU(JSONObject o, String mail){
-//Methode versucht, mit allen notwendigen Parametern ein neues JASONObject anzulegen
-   	 try {
-            String passwort = o.getString("Passwort");
-            String benutzername = o.getString("Benutzername");
-            int ep = o.getInt("EP");
-            String vorname = o.getString("Vorname");
-            String nachname = o.getString("Nachname");
-            String email = o.getString("EMail");
-            User u = new User();
-            u.setPasswort(passwort);
-            u.setBenutzername(benutzername);
-            u.setEP(ep);
-            u.setVorname(vorname);
-            u.setNachname(nachname);
-            u.setEMail(email);
-            return u;
-    } catch (JSONException j) {
-            throw new WebApplicationException(400);
-    }
-                
-}   
-	
 	// Little gift from your tutors...
 	// A simple authentication mechanism;
 	// For use in one of the defined operations by referring 
