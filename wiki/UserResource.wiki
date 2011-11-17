@@ -33,7 +33,6 @@ Ausgabe:
 		Benutername: <BENUTZERNAME>
                 Vorname: <VORNAME>
                 EP: <EP>
-                Achievements: <ACHIEVEMENTS>
 	}}}
 
 
