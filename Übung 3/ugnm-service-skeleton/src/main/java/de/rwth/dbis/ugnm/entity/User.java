@@ -9,10 +9,10 @@ import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "User")
 @NamedQueries({ 
 	@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-	@NamedQuery(name = "User.findUser", query = "SELECT u FROM User u where u.Benutzername=:Benutzername")
+	@NamedQuery(name = "User.findUser", query = "SELECT u FROM User u where u.email=:email")
 })
 @XmlRootElement
 public class User {

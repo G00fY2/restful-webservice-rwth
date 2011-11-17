@@ -7,7 +7,6 @@ import de.rwth.dbis.ugnm.entity.User;
 public interface UserService {
 	public boolean save(User user);
 	public List<User> getAll();
-	public User getByBenutzername(String Benutzername);
 	public User getByEMail(String EMail);
 	public boolean delete(User user);
 	public boolean update(User user);

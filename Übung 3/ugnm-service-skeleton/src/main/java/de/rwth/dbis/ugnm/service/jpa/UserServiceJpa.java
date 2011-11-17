@@ -28,11 +28,6 @@ public class UserServiceJpa implements UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public User getByBenutzername(String benutzername) {
-		return entityManager.find(User.class, benutzername);
-	}
-	
-	@Transactional(readOnly = true)
 	public User getByEMail(String email){
 		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
 		queryFindUser.setParameter("email", email);
@@ -70,7 +65,7 @@ public class UserServiceJpa implements UserService {
 	}
 	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
 	public boolean delete(User user) {
-		user = entityManager.getReference(User.class, user.getBenutzername());
+		user = entityManager.getReference(User.class, user.getEMail());
 		if (user == null)
 			return false;
 		entityManager.remove(user);
