@@ -1,14 +1,15 @@
 SELECT u.EMail, r.FKURL, r.Zeit
-FROM rates r, user u
+FROM rates r, User u
 WHERE r.FKEMail = u.EMail AND EMail='hans.peter@rwth-aachen.de'
 ORDER BY r.FKURL ASC, r.Zeit DESC;
 
 
-SELECT p.URL, AVG(r.rate) avg_rates, sum(r.rate=1),sum(r.rate=0)
-FROM picture p, rates r
-WHERE r.FKURL= p.URL AND URL='http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg';
+SELECT URL, AVG(rate) durchschnitt, sum(rate=1) summe1, sum(rate=0) summe0
+FROM Picture, rates
+WHERE FKURL= URL AND URL='http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg'
+GROUP BY URL;
 
 
 SELECT u.EMail, u.EP
-FROM user u
+FROM User u
 ORDER BY u.EP DESC LIMIT 0,10;
