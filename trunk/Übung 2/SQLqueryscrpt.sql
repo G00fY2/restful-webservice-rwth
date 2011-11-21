@@ -5,7 +5,7 @@ ORDER BY r.FKURL ASC, r.Zeit DESC;
 
 
 SELECT URL, AVG(rate) durchschnitt, sum(rate=1) summe1, sum(rate=0) summe0
-FROM Picture, rates
+FROM Medium, rates
 WHERE FKURL= URL AND URL='http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg'
 GROUP BY URL;
 

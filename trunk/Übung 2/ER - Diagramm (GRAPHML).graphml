@@ -33,7 +33,7 @@
           <y:Geometry height="40.0" width="80.0" x="671.0" y="93.0"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="41.34765625" x="19.326171875" y="10.6494140625">Picture</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="46.6796875" x="16.66015625" y="10.6494140625">Medium</y:NodeLabel>
           <y:StyleProperties>
             <y:Property class="java.lang.Boolean" name="shadow" value="true"/>
           </y:StyleProperties>

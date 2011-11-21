@@ -13,7 +13,7 @@ INSERT INTO User
 
 
 
-INSERT INTO Picture 
+INSERT INTO Medium 
   VALUES 
     ('Bild A schön','1','http//:www.rwth-aachen.de/FakeDetect/Pics/BildA.jpeg'),
 
