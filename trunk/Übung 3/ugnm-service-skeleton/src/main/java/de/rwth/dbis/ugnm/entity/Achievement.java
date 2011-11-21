@@ -25,11 +25,11 @@ public class Achievement{
         private String beschreibung;
         
         @Column(name = "Name", nullable = false)
-        private Sting name;
+        private String name;
         
 	@Id
         @Column(name = "Identifier", nullable = false)
-        private int vorname;
+        private int identifier;
         
 
         public void setBild(String bild) {
