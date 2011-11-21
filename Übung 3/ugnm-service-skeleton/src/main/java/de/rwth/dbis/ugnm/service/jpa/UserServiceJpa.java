@@ -32,6 +32,7 @@ public class UserServiceJpa implements UserService {
 		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
 		queryFindUser.setParameter("email", email);
 
+		@SuppressWarnings("unchecked")
 		List<User> users = queryFindUser.getResultList();
 		User result = null;
 		if(users.size() > 0) {
