@@ -8,12 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name = "rates")
 @NamedQueries({ 
         @NamedQuery(name = "Rates.findAll", query = "SELECT r FROM Rates r"),
-        @NamedQuery(name = "Rates.findRate", query = "SELECT r FROM Rates r where r.RatesID=:RatesID")
+        @NamedQuery(name = "Rates.findRate", query = "SELECT r FROM Rates r where r.RatesID=:RatesID"),
+        @NamedQuery(name = "Rates.findRatesUser", query = "SELECT r FROM Rates r where r.fkEmail=:fkEmail")
+
 })
 
 @XmlRootElement
@@ -30,11 +34,11 @@ public class Rates {
         @Column(name = "Rate", nullable = false)
         private int rate;
         
-        @Column(name = "MediumURL", nullable = false)
-        private String mediumUrl;
+        @Column(name = "FKURL", nullable = false)
+        private String fkUrl;
         
-        @Column(name = "UserEMail", nullable = false)
-        private String userEmail;
+        @Column(name = "FKEMail", nullable = false)
+        private String fkEmail;
 
 
         public void setRatesID(int ratesId) {
@@ -61,19 +65,34 @@ public class Rates {
                 return rate;
         }
         
-        public void setMediumURL(String mediumUrl) {
-                this.mediumUrl = mediumUrl;
+        public void setFKURL(String fkUrl) {
+                this.fkUrl = fkUrl;
         }
 
-        public String getMediumURL() {
-                return mediumUrl;
+        public String getFKURL() {
+                return fkUrl;
         }
         
-        public void setUserEMail(String userEmail) {
-                this.userEmail = userEmail;
+        public void setFKEMail(String fkEmail) {
+                this.fkEmail = fkEmail;
         }
 
-        public String getUserEMail() {
-                return userEmail;
+        public String getFKEMail() {
+                return fkEmail;
+        }
+        
+        @ManyToOne
+        @JoinColumn(name="USER_MAIL", referencedColumnName="MAIL", insertable = false, updatable = false)
+        private User userInstance;
+        
+        @ManyToOne
+        @JoinColumn(name="MEDIUM_URL", referencedColumnName="URL", insertable = false, updatable = false)
+        private Medium mediumInstance;
+        
+        public User getUserInstance() {
+                return userInstance;
+        }
+        public Medium getMediumInstance() {
+                return mediumInstance;
         }
 }

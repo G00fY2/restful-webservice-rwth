@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Medium")
 @NamedQueries({ 
         @NamedQuery(name = "Medium.findAll", query = "SELECT m FROM Medium m"),
-        @NamedQuery(name = "Medium.findMedium", query = "SELECT m FROM Medium m where m.URL=:URL")
+        @NamedQuery(name = "Medium.findMedium", query = "SELECT m FROM Medium m where m.url=:url")
 })
 
 @XmlRootElement

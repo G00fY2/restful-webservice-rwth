@@ -8,7 +8,8 @@ import de.rwth.dbis.ugnm.entity.Rates;
 
 public interface RatesService {
         public boolean save(Rates rating);
-        public List<Rates> getAll();
+        public List<Rates> getAllRatesUser(String EMail);
+        public List<Rates> getAllRatesMedium(String URL);
         public Rates get(String userEmail, String mediumUrl, Timestamp zeit);
         public boolean delete(Rates rating);
         public boolean update(Rates rating);
