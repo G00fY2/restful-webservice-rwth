@@ -1,5 +1,5 @@
-#summary Entität: UserRecource
-#labels Entität,Thomas,Sven,UGNM4
+#summary Resource: UserRecource
+#labels Resource,Thomas,Sven,UGNM4
 
 ----
 =Allgemeines=
