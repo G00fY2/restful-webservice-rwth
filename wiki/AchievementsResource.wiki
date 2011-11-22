@@ -20,7 +20,7 @@ _JSON MIME Typ_
 ----
 
 
-== Liste aller User (UsersResource):==
+== Liste aller Achievements (AchievementsResource):==
 ----
 
 ===Operation:===
@@ -40,7 +40,9 @@ _Ausgehend von der Liste aller Achievements, ist es möglich auf das einzelne Ac
  * ---
 
 ===HTTP Status Codes (Fehlerfall):===          
- * ---
+ * 500: INERNAL_SERVER_ERROR
+_Der Webserver stieß auf eine unerwartete Bedingung, die ihn davon abhielt, die Anforderung zum Zugriff auf die angeforderte URL durch den Client zu erfüllen._
+
 
 ===HTTP Status Codes (Erfolgsfall):===
 
