@@ -7,7 +7,7 @@
 
 
 ===URL Template:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{E-Mail}"
+ * "http://localhost:8080/ugnm-service/resources/user/{email}"
 
 ===MIME Typ:=== 
  * "application/json"
@@ -32,6 +32,8 @@ Ausgabe:
 {{{
 		Benutername: <BENUTZERNAME>
                 Vorname: <VORNAME>
+                Nachname: <NACHNAME>
+                EMail: <EMAIL>
                 EP: <EP>
 	}}}
 
