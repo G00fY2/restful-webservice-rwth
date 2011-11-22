@@ -25,7 +25,7 @@ import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Rates;
 import de.rwth.dbis.ugnm.entity.User;
-import de.rwth.dbis.ugnm.service.Rates;
+import de.rwth.dbis.ugnm.service.RatesService;
 
 
 
@@ -46,7 +46,7 @@ public class RatesResource {
         @Produces("application/json")
         public JSONObject getAllRates(@PathParam("EMail") String email) {
 
-                List<Rates> rateList = ratesService.getAllRatesOfUser(email);
+                List<Rates> rateList = ratesService.getAllRatesUser(email);
                 Iterator<Rates> rit = rateList.iterator();
                 
                 Vector<String> vRates = new Vector<String>(); 
@@ -77,7 +77,7 @@ public class RatesResource {
                 //check if authenticated
                 if(rate.getMediumInstance()!= null && rate.getUserInstance() !=null){
                         if(authenticated(auth, rate.getUserInstance())){
-                                ratesAssociationService.save(rate);
+                                ratesService.save(rate);
                         }
                         else{
                                 throw new WebApplicationException(401);
@@ -93,14 +93,14 @@ public class RatesResource {
         private Rates parseJson(JSONObject o, String email){
 
                 try {
-                        String mediumURL = o.getString("URL");
-                        int rate = o.getInt("Rate");
+                        String fkURL = o.getString("url");
+                        int rating = o.getInt("Rate");
                         Rates rate = new Rates();
-                        rate.setMediumURL(mediumURL);
-                        rate.setUserEMail(email);
-                        rate.setRate(rate);
+                        rate.setFKURL(fkUrl);
+                        rate.setFKEMail(fkEmail);
+                        rate.setRate(rating);
 
-                        return rateAssociation;
+                        return rate;
                 } catch (JSONException e) {
                         throw new WebApplicationException(406);
                 }
@@ -118,7 +118,7 @@ public class RatesResource {
                         String authkey = authHeader.split(" ")[1];
                         if(Base64.isBase64(authkey)){
                                 dauth = (new String(Base64.decode(authkey))).split(":");
-                                if(dauth[0].equals(u.getMail()) && dauth[1].equals(u.getPass())){
+                                if(dauth[0].equals(u.getEMail()) && dauth[1].equals(u.getPasswort())){
                                         return true;
                                 }
                         }
