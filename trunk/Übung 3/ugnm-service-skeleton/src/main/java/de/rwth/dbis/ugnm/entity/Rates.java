@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 @Table(name = "rates")
 @NamedQueries({ 
         @NamedQuery(name = "Rates.findAll", query = "SELECT r FROM Rates r"),
-        @NamedQuery(name = "Rates.findRate", query = "SELECT r FROM Rates r where r.RatesID=:RatesID"),
+        @NamedQuery(name = "Rates.findRate", query = "SELECT r FROM Rates r where r.fkUrl=:fkUrl"),
         @NamedQuery(name = "Rates.findRatesUser", query = "SELECT r FROM Rates r where r.fkEmail=:fkEmail")
 
 })
@@ -82,11 +82,11 @@ public class Rates {
         }
         
         @ManyToOne
-        @JoinColumn(name="USER_MAIL", referencedColumnName="MAIL", insertable = false, updatable = false)
+        @JoinColumn(name="FKEmail", referencedColumnName="EMail", insertable = false, updatable = false)
         private User userInstance;
         
         @ManyToOne
-        @JoinColumn(name="MEDIUM_URL", referencedColumnName="URL", insertable = false, updatable = false)
+        @JoinColumn(name="FKURL", referencedColumnName="URL", insertable = false, updatable = false)
         private Medium mediumInstance;
         
         public User getUserInstance() {
