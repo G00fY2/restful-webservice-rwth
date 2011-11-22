@@ -72,14 +72,15 @@ _Der User wurde erstellt._
 }}}
 
 ===Struktur zwischen Ressourcen:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{EMail}"
+ * "http://localhost:8080/ugnm-service/resources/user/{email}"
 _Ausgehend von der Liste aller User, ist es möglich auf den einzelnen User zuzugreifen._
 
 ===Zugriffskontrolle auf Operationen:=== 
  * ---
 
 ===HTTP Status Codes (Fehlerfall):===          
- * ---
+ * 500: INERNAL_SERVER_ERROR
+_Der Webserver stieß auf eine unerwartete Bedingung, die ihn davon abhielt, die Anforderung zum Zugriff auf die angeforderte URL durch den Client zu erfüllen._
 
 ===HTTP Status Codes (Erfolgsfall):===
 
