@@ -1,14 +1,48 @@
-#summary One-sentence summary of this page.
+#summary Entität: AchievementsResource
 #labels Entität,Thomas,Sven,UGNM4
 
-= Introduction =
-AchievementResource
-Add your content here.
+----
+=Allgemeines=
+----
 
 
-= Details =
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/achievements/"
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
+
+
+
+----
+== Details ==
+----
+
+
+== Liste aller User (UsersResource):==
+----
+
+===Operation:===
+ * GET
+
+===Ein-/Ausgabeform:=== 
+
+{{{
+{Achievements: [<ACH_RES_1>,<ACH_RES_2,...,<ACH_RES_n>]}
+}}}
+
+===Struktur zwischen Ressourcen:=== 
+ * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+_Ausgehend von der Liste aller Achievements, ist es möglich auf das einzelne Achievement zuzugreifen._
+
+===Zugriffskontrolle auf Operationen:=== 
+ * ---
+
+===HTTP Status Codes (Fehlerfall):===          
+ * ---
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Die Anfage konnte bearbeitet werden._
