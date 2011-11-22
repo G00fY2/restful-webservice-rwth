@@ -1,14 +1,51 @@
-#summary One-sentence summary of this page.
+#summary Entität: MediumRecource
 #labels Entität,Thomas,Sven,UGNM4
 
-= Introduction =
+----
+=Allgemeines=
+----
 
-Add your content here.
+
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/media/{URL}"
+
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
 
 
-= Details =
+----
+== Details ==
+----
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+==Auslesen eines bestimmten Mediums(MediumResource):==
+----
+
+===Operation:===
+ * GET
+_Gibt ein Medium mit allen Details aus._
+
+
+===Ein-/Ausgabeform:=== 
+
+Ausgabe:
+{{{
+		Beschreibung: <BESCHREIBUNG>
+                Value: <VALUE>
+                URL: <MEDIUM-URL>
+	}}}
+
+
+
+===Zugriffskontrolle auf Operation:=== 
+ * ---
+
+===HTTP Status Codes (Fehlerfall):===
+  
+ * 404: Not Found
+_Das angeforderte Medium wurde nicht gefunden. Das Medium kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Das gesuchte Medium wurde gefunden und wird ausgegeben._
