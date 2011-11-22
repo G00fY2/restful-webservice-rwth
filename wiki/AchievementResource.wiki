@@ -1,14 +1,52 @@
-#summary One-sentence summary of this page.
+#summary Entität: AchievementRecource
 #labels Entität,Thomas,Sven,UGNM4
 
-= Introduction =
+----
+=Allgemeines=
+----
 
-Add your content here.
+
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources//achievements/{identifier}"
+
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
 
 
-= Details =
+----
+== Details ==
+----
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+==Auslesen eines bestimmten Achievements(AchievementResource):==
+----
+
+===Operation:===
+ * GET
+_Gibt ein Achievement mit allen Details aus._
+
+
+===Ein-/Ausgabeform:=== 
+
+Ausgabe:
+{{{
+		Identifier: <IDENTIFIER>
+                Name: <NAME>
+                Beschreibung: <BESCHREIBUNG>
+                Bild: <BILD-URL>
+	}}}
+
+
+
+===Zugriffskontrolle auf Operation:=== 
+ * ---
+
+===HTTP Status Codes (Fehlerfall):===
+  
+ * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Das Achievment kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Das gesuchte Achievement wurde gefunden und wird ausgegeben._
