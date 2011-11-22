@@ -72,7 +72,7 @@ _Der User wurde erstellt._
 }}}
 
 ===Struktur zwischen Ressourcen:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+ * "http://localhost:8080/ugnm-service/resources/user/{EMail}"
 _Ausgehend von der Liste aller User, ist es möglich auf den einzelnen User zuzugreifen._
 
 ===Zugriffskontrolle auf Operationen:=== 
