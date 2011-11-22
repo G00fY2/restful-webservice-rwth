@@ -1,5 +1,5 @@
-#summary Entität: MediaResource
-#labels Entität,Thomas,Sven,UGNM4
+#summary Resource: MediaResource
+#labels Resource,Thomas,Sven,UGNM4
 
 ----
 =Allgemeines=
