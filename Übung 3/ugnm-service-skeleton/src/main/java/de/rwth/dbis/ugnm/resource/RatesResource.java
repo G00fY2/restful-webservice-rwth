@@ -93,11 +93,11 @@ public class RatesResource {
         private Rates parseJson(JSONObject o, String email){
 
                 try {
-                        String fkURL = o.getString("url");
+                        String fkUrl = o.getString("url");
                         int rating = o.getInt("Rate");
                         Rates rate = new Rates();
                         rate.setFKURL(fkUrl);
-                        rate.setFKEMail(fkEmail);
+                        rate.setFKEMail(email);
                         rate.setRate(rating);
 
                         return rate;
