@@ -1,14 +1,49 @@
-#summary One-sentence summary of this page.
+#summary Entität: MediaResource
 #labels Entität,Thomas,Sven,UGNM4
 
-= Introduction =
+----
+=Allgemeines=
+----
 
-Add your content here.
+
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/media/"
+
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
 
 
-= Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+----
+== Details ==
+----
+
+
+== Liste aller Medien (MediaResource):==
+----
+
+===Operation:===
+ * GET
+
+===Ein-/Ausgabeform:=== 
+
+{{{
+{Medien: [<MED_RES_1>,<MED_RES_2,...,<MED_RES_n>]}
+}}}
+
+===Struktur zwischen Ressourcen:=== 
+ * "http://localhost:8080/ugnm-service/resources/media/{URL}"
+_Ausgehend von der Liste aller Medien, ist es möglich auf das einzelne Medien zuzugreifen._
+
+===Zugriffskontrolle auf Operationen:=== 
+ * ---
+
+===HTTP Status Codes (Fehlerfall):===          
+ * 500: INERNAL_SERVER_ERROR
+_Der Webserver stieß auf eine unerwartete Bedingung, die ihn davon abhielt, die Anforderung zum Zugriff auf die angeforderte URL durch den Client zu erfüllen._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Die Anfage konnte bearbeitet werden._
