@@ -33,7 +33,7 @@ _JSON MIME Typ_
 }}}
 
 ===Struktur zwischen Ressourcen:=== 
- * "http://localhost:8080/ugnm-service/resources/user/{benutzername}"
+ * "http://localhost:8080/ugnm-service/resources/achievements/{identifier}"
 _Ausgehend von der Liste aller Achievements, ist es möglich auf das einzelne Achievement zuzugreifen._
 
 ===Zugriffskontrolle auf Operationen:=== 
