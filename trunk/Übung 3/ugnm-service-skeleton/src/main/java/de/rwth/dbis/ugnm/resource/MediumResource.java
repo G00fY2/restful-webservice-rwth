@@ -25,13 +25,24 @@ public class MediumResource {
         
         @Context UriInfo uriInfo;
         
+//Medium wird über GET ausgegeben       
+        
         @GET
         @Produces("application/json")
         public Medium getMedium(@PathParam("URL") String url){
+        
+//Sucht ein Medium mit der übergebenen URL
+
                 Medium m = mediumService.getByURL(url);
+                
+//Überprüft ob Medium existiert                
+          
                 if (m==null){
                         throw new WebApplicationException(404);
                 }
                 return m;
         }       
 }
+
+//Keine anderen Methoden da ein Medium weder gelöschen/geändert/erstellen werden darf.
+//Medien sind vordefiniert
