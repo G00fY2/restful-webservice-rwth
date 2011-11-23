@@ -34,7 +34,7 @@ public class RateResource {
 
 //Sucht ein Rating mit der übergebenen ID
 
-                Rates r = ratesService.getByRatesID(id);
+                Rates r = ratesService.findRating(id);
                 
 //Überprüft ob das Rating existiert
                           

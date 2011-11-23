@@ -65,9 +65,9 @@ public class Rates {
         public int getRatesID() {
                 return ratesId;
         }
-
-        public void setZeit(Timestamp zeit) {
-                this.zeit = zeit;
+        
+        public void setZeit(Timestamp zeit){
+        this.zeit = zeit;	
         }
 
         public Timestamp getZeit() {

@@ -1,6 +1,5 @@
 package de.rwth.dbis.ugnm.service.jpa;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import de.rwth.dbis.ugnm.entity.Rates;
@@ -15,7 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Service("RatesService")
+@Service("ratesService")
 public class RatesServiceJpa implements RatesService{
         
         private EntityManager entityManager;
@@ -49,24 +48,9 @@ public class RatesServiceJpa implements RatesService{
                 return ratings;
         }
 
-        @SuppressWarnings("unchecked")
-        @Transactional(readOnly = true)
-        public Rates get(String FKEMail, String FKURL){  
-                Query queryFindRating = entityManager.createNamedQuery("Rates.findRate");
-                queryFindRating.setParameter("FKEMail", fkEmail);
-                queryFindRating.setParameter("FKURL", fkUrl);
-                queryFindRating.setParameter("Zeit", zeit);
-                List<Rates> ratings = queryFindRating.getResultList();
-                Rates result = null;
-                if(ratings.size() > 0) {
-                        result = ratings.get(0);
-                }
-                return result;
-        }
-
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean delete(Rates rating) {
-                rating = entityManager.getReference(Rates.class, rating.RatesID());
+                rating = entityManager.getReference(Rates.class, rating.getRatesID());
                 if (rating == null)
                         return false;
                 entityManager.remove(rating);
@@ -77,10 +61,10 @@ public class RatesServiceJpa implements RatesService{
 
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
-        public Rates findRating(Rates rating) {
+        public Rates findRating(int ratesId) {
                 Rates result = null;
                 Query queryFindMedia = entityManager.createNamedQuery("Rates.findRating");
-                queryFindMedia.setParameter("ratesId", rating.getRatesID());
+                queryFindMedia.setParameter("ratesId", ratesId);
                 List<Rates> ratings = queryFindMedia.getResultList();
                 if(ratings.size() > 0) {
                         result = ratings.get(0);
