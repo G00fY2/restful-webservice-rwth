@@ -1,4 +1,4 @@
-﻿package de.rwth.dbis.ugnm.resource;
+package de.rwth.dbis.ugnm.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

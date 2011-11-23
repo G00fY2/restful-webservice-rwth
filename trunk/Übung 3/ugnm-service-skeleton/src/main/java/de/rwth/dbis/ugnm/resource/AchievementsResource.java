@@ -1,7 +1,3 @@
-﻿
-
-
-
 package de.rwth.dbis.ugnm.resource;
 
 import java.util.Iterator;
