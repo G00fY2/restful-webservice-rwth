@@ -1,13 +1,53 @@
-#summary One-sentence summary of this page.
+#summary Resource: RateRecource
+#labels Resource,Thomas,Sven,UGNM4
 
-= Introduction =
+----
+=Allgemeines=
+----
 
-Add your content here.
+
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/rates/{rateId}"
+
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
 
 
-= Details =
+----
+== Details ==
+----
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+==Auslesen eines bestimmten Ratings (RateResource):==
+----
+
+===Operation:===
+ * GET
+_Gibt ein Rating mit allen Details aus._
+
+
+===Ein-/Ausgabeform:=== 
+
+Ausgabe:
+{{{
+		RatesID: <RATESID>
+                Zeit: <ZEIT 00:00:00>
+                Rate: <RATE>
+                FKURL: <FKURL>
+                FKMail: <FKMAIL>
+	}}}
+
+
+
+===Zugriffskontrolle auf Operation:=== 
+ * ---
+
+===HTTP Status Codes (Fehlerfall):===
+  
+ * 404: Not Found
+_Das angeforderte Rating wurde nicht gefunden. Das Rating kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Das gesuchte Rating wurde gefunden und wird ausgegeben._
