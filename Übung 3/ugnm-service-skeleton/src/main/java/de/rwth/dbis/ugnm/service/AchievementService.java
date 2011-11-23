@@ -8,8 +8,6 @@ public interface AchievementService{
         public boolean save(Achievement achievement);
         public List<Achievement> getAll();
         public Achievement getByIdentifier(int identifier);
-        public boolean delete(Achievement achievement);
-        public boolean update(Achievement achievement);
         public Achievement findAchievement(Achievement achievement);
 }
 
