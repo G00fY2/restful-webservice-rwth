@@ -15,6 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "Medium.findMedium", query = "SELECT m FROM Medium m where m.url=:url")
 })
 
+//Alle Eigenschaften des Mediums werden Definiert
+
 @XmlRootElement
 public class Medium {
         
@@ -24,11 +26,14 @@ public class Medium {
         @Column(name = "Value", nullable = false)
         private int value;
         
+//URL ist PRIMARY         
+        
         @Id
         @Column(name = "URL", nullable = false)
         private String url;
                 
-        
+                
+//Getter+Setter Methoden        
 
         public void setBeschreibung(String beschreibung) {
                 this.beschreibung = beschreibung;
