@@ -1,13 +1,84 @@
-#summary One-sentence summary of this page.
+#summary Resource: RatesResource
+#labels Resource,Thomas,Sven,UGNM4
 
-= Introduction =
+----
+=Allgemeines=
+----
 
-Add your content here.
+
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/rates/"
+
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
 
 
-= Details =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+----
+== Details ==
+----
+
+==Erstellen eines Ratings (RatesResource):==
+----
+
+
+===Operation  :===
+ * PUT
+
+===Ein-/Ausgabeform:=== 
+
+Eingabe:
+{{{
+                Rate: <RATE>
+	}}}
+
+
+===Struktur zwischen Ressourcen:=== 
+ * ---
+
+===Zugriffskontrolle auf Operationen:=== 
+ * PUT (login, authorization)
+_Der User muss sich zum erstellen eines Ratings registriert sein und sich als solcher identifizieren_
+
+===HTTP Status Codes (Fehlerfall):===
+           
+ * 400: Bad Request
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der User hat versucht  fehlerhafte, unvollständige bzw nicht kompatible Daten zu übermitteln._
+
+ * 409: Conflict
+_Das Rating wurde bereits zu einem früheren Zeitpunkt abgegeben, der Server kann die anfrage nicht bearbeiten._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 201: Created
+_Das Rating wurde erstellt._
+
+----
+
+== Liste aller Ratings eines bestimmten Users (RatesResource):==
+----
+
+===Operation:===
+ * GET
+
+===Ein-/Ausgabeform:=== 
+
+{{{
+{ratings: [<RAT_RES_1>,<RAT_RES_2,...,<RAT_RES_n>]}
+}}}
+
+===Struktur zwischen Ressourcen:=== 
+ * ---
+
+===Zugriffskontrolle auf Operationen:=== 
+ * ---
+
+===HTTP Status Codes (Fehlerfall):===          
+ * 500: INERNAL_SERVER_ERROR
+_Der Webserver stieß auf eine unerwartete Bedingung, die ihn davon abhielt, die Anforderung zum Zugriff auf die angeforderte URL durch den Client zu erfüllen._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Die Anfage konnte bearbeitet werden._
