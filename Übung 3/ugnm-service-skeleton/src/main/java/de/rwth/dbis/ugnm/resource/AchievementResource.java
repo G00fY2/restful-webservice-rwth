@@ -25,14 +25,27 @@ public class AchievementResource {
         
         @Context UriInfo uriInfo;
         
+//Achievement wird über GET ausgegeben
+
         @GET
         @Produces("application/json")
         public Achievement getAchievement(@PathParam("identifier") int identifier) {
+        
+//Sucht ein Achievement mit dem übergebenen Identifier
+
                 Achievement a = achievementService.getByIdentifier(identifier);
+ 
+//Überprüft ob Achievement existiert
+ 
                 if (a==null){
                         throw new WebApplicationException(404);
                 }
                 return a;
         }
 }
+
+
+
+//Keine anderen Methoden da kein User ein Achievement löschen/ändern/erstellen darf.
+//Achiements sind vordefiniert
 
