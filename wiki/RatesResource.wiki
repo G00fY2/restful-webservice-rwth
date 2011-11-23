@@ -46,8 +46,8 @@ _Der User muss sich zum erstellen eines Ratings registriert sein und sich als so
  * 400: Bad Request
 _Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der User hat versucht  fehlerhafte, unvollständige bzw nicht kompatible Daten zu übermitteln._
 
- * 409: Conflict
-_Das Rating wurde bereits zu einem früheren Zeitpunkt abgegeben, der Server kann die anfrage nicht bearbeiten._
+ * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der User muss sich zum Erstellen eines Ratings am Service registriert sein und sich anmelden._
 
 ===HTTP Status Codes (Erfolgsfall):===
 
