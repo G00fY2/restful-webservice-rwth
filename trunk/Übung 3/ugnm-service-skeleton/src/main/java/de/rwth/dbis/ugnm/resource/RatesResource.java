@@ -94,7 +94,7 @@ public class RatesResource {
                         return Response.ok().build();
                 }
                 else{
-                        throw new WebApplicationException(409); 
+                        throw new WebApplicationException(400); 
                 }
     }
         
