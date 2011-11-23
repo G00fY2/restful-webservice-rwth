@@ -14,6 +14,10 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
         @NamedQuery(name = "User.findUser", query = "SELECT u FROM User u where u.email=:email")
 })
+
+
+//Alle Eigenschaften eines Users werden Definiert
+
 @XmlRootElement
 public class User {
         
@@ -31,12 +35,15 @@ public class User {
         
         @Column(name = "Nachname", nullable = false)
         private String nachname;
-        
+
+//EMail ist PRIMARY
+
         @Id
         @Column(name = "EMail", nullable = false)
         private String email;
                 
-        
+//Getter+Setter Methoden
+
 
         public void setPasswort(String passwort) {
                 this.passwort = passwort;
