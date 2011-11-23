@@ -3,7 +3,7 @@ package de.rwth.dbis.ugnm.service.jpa;
 import java.util.List;
 
 import de.rwth.dbis.ugnm.entity.Medium;
-import de.rwth.dbis.ugnm.service.MediaService;
+import de.rwth.dbis.ugnm.service.MediumService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Service("mediaService")
-public class MediaServiceJpa implements MediaService{
+@Service("mediumService")
+public class MediumServiceJpa implements MediumService{
         
         private EntityManager entityManager;
 
