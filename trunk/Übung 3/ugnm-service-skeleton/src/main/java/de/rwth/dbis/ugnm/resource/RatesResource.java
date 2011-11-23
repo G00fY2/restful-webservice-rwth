@@ -41,16 +41,21 @@ public class RatesResource {
         @Context UriInfo uriInfo;
 
         
-        //Get all Ratings of the User
+//Gibt eine Liste aller Ratings zu einem bestimmten User aus
+
         @GET
         @Produces("application/json")
         public JSONObject getAllRates(@PathParam("EMail") String email) {
 
+//Liste wird erstellt, Iterator wird erstellt, Vektor wird erstellt
+
                 List<Rates> rateList = ratesService.getAllRatesUser(email);
                 Iterator<Rates> rit = rateList.iterator();
-                
                 Vector<String> vRates = new Vector<String>(); 
-                
+
+//Schleife fügt an jedes Rating die ratesID des einzelnen Ratings an
+//Dies macht eine referenz von der Liste auf das einzelne Rating möglich
+
                 while(rit.hasNext()){
                         Rates r = rit.next();
                         String rUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + r.getRatesID();
@@ -67,14 +72,18 @@ public class RatesResource {
         }
         
         
-        
-        //This creates a new Rating
+//Erstellt über PUT ein neues Rating        
+
         @PUT
     @Consumes("application/json")
     public Response createRating(@HeaderParam("authorization") String auth, @PathParam("EMail") String email, JSONObject o) throws JSONException{
-                //Create a new rating..
+
+//Ein neues Rating wird erstellt
+
                 Rates rate = parseJson(o, email);
-                //check if authenticated
+
+//Es wird überprüft ob der User authentifiziert ist
+
                 if(rate.getMediumInstance()!= null && rate.getUserInstance() !=null){
                         if(authenticated(auth, rate.getUserInstance())){
                                 ratesService.save(rate);
@@ -85,11 +94,14 @@ public class RatesResource {
                         return Response.ok().build();
                 }
                 else{
-                        throw new WebApplicationException(404); //Not the right exception!!
+                        throw new WebApplicationException(409); 
                 }
     }
         
-        //parse the JSON File for the attributes
+
+
+//Das Json-Object wird geparst 
+
         private Rates parseJson(JSONObject o, String email){
 
                 try {
