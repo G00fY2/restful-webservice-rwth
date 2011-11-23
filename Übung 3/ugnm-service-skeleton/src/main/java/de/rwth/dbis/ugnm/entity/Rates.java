@@ -20,9 +20,13 @@ import javax.persistence.ManyToOne;
 
 })
 
+//Alle Eigenschaften eines Rates werden Definiert
+
 @XmlRootElement
 public class Rates {
-       
+
+
+//RatesID ist PRIMARY
  
         @Id
         @Column(name = "RatesID", nullable = false)
@@ -39,6 +43,19 @@ public class Rates {
         
         @Column(name = "FKEMail", nullable = false)
         private String fkEmail;
+        
+//Stellt Einzelbezug auf FKEmail und FKURL zwischen Rates und User her       
+        
+        @ManyToOne
+        @JoinColumn(name="FKEmail", referencedColumnName="EMail", insertable = false, updatable = false)
+        private User userInstance;
+        
+        @ManyToOne
+        @JoinColumn(name="FKURL", referencedColumnName="URL", insertable = false, updatable = false)
+        private Medium mediumInstance;
+
+
+//Getter+Setter Methoden        
 
 
         public void setRatesID(int ratesId) {
@@ -80,14 +97,6 @@ public class Rates {
         public String getFKEMail() {
                 return fkEmail;
         }
-        
-        @ManyToOne
-        @JoinColumn(name="FKEmail", referencedColumnName="EMail", insertable = false, updatable = false)
-        private User userInstance;
-        
-        @ManyToOne
-        @JoinColumn(name="FKURL", referencedColumnName="URL", insertable = false, updatable = false)
-        private Medium mediumInstance;
         
         public User getUserInstance() {
                 return userInstance;
