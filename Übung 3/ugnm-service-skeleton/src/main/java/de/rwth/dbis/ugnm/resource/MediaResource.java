@@ -34,16 +34,24 @@ public class MediaResource {
 
         @Context UriInfo uriInfo;
 
-        //Gives out the Path to every Medium Object
+
+//Gibt eine Liste aller Medien aus
+
+
         @GET
         @Produces("application/json")
         public JSONObject getAllMedium() {
 
+
+//Liste wird erstellt, Iterator wird erstellt, Vektor wird erstellt
+                
                 
                 List<Medium> media = mediumService.getAll();
                 Iterator<Medium> mit = media.iterator();
-                
                 Vector<String> vMedia = new Vector<String>();   
+                
+//Schleife fügt an jedes Medium die URL des einzelnen Mediums an
+//Dies macht eine referenz von der Liste auf das einzelne Medium möglich               
                 
                 while(mit.hasNext()){
                         Medium m = mit.next();
@@ -62,3 +70,5 @@ public class MediaResource {
 
 }
 
+//Keine anderen Methoden da ein Medium weder gelöschen/geändert/erstellen werden darf.
+//Medien sind vordefiniert
