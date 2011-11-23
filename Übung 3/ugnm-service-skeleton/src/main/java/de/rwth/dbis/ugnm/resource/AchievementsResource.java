@@ -35,16 +35,22 @@ public class AchievementsResource {
         @Context UriInfo uriInfo;
 
         
-        //Get all Achievements
+//Gibt eine Liste aller Achievements aus
+
+
         @GET
         @Produces("application/json")
         public JSONObject getAchievements() {
 
+//Liste wird erstellt, Iterator wird erstellt, Vektor wird erstellt
+
                 List<Achievement> achievements = achievementService.getAll();
-                Iterator<Achievement> ait = achievements.iterator();
-                
+                Iterator<Achievement> ait = achievements.iterator();               
                 Vector<String> vAchievements = new Vector<String>();    
-                
+
+//Schleife fügt an jedes Achievement den Identifier des einzelnen Achievment an
+//Dies macht eine referenz von der Liste auf das einzelne Achievement möglich
+
                 while(ait.hasNext()){
                         Achievement a = ait.next();
                         String aUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + a.getIdentifier();
@@ -53,10 +59,14 @@ public class AchievementsResource {
 
                 try {
                         JSONObject j = new JSONObject();
-                        j.append("achievements",vAchievements);
+                        j.append("Achievements",vAchievements);
                         return j;
                 } catch (JSONException e) {
                         throw new WebApplicationException(500);
                 }
         }
 }
+
+
+//Keine anderen Methoden da ein Achievement weder gelöschen/geändert/erstellen werden darf.
+//Achiements sind vordefiniert
