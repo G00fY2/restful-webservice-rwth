@@ -15,6 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "Achievement.findUser", query = "SELECT a FROM Achievement a where a.identifier=:identifier")
 })
 
+//Alle Eigenschaften des Achievements werden Definiert
+
 @XmlRootElement
 public class Achievement{
         
@@ -26,11 +28,17 @@ public class Achievement{
         
         @Column(name = "Name", nullable = false)
         private String name;
-        
-	@Id
+
+
+//Identifier ist PRIMARY 
+
+
+        @Id
         @Column(name = "Identifier", nullable = false)
         private int identifier;
         
+
+//Getter+Setter Methoden
 
         public void setBild(String bild) {
                 this.bild = bild;
