@@ -24,14 +24,26 @@ public class RateResource {
         RatesService ratesService;
         
         @Context UriInfo uriInfo;
-        
+     
+   
+//Ein Rating wird über GET ausgegeben  
+  
         @GET
         @Produces("application/json")
         public Rates getRates(@PathParam("RatesID") int id){
+
+//Sucht ein Rating mit der übergebenen ID
+
                 Rates r = ratesService.getByRatesID(id);
+                
+//Überprüft ob das Rating existiert
+                          
                 if (r==null){
                         throw new WebApplicationException(404);
                 }
                 return r;
         }       
 }
+
+//Keine anderen Methoden da ein Rating weder gelöschen oder geändert werden darf.
+//Rates stehen nach der erstellung fest.
