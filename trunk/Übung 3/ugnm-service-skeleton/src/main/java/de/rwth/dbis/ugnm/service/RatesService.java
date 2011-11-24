@@ -6,7 +6,7 @@ import de.rwth.dbis.ugnm.entity.Rates;
 
 public interface RatesService {
         public boolean save(Rates rating);
-        public List<Rates> getAllRatesUser(String FKEMail);
+        public List<Rates> getAllRatesUser(String EMail);
         public boolean delete(Rates rating);
         public Rates findRating(int ratesId);
 }
