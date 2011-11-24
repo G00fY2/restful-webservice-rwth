@@ -56,7 +56,7 @@ public class RatesResource {
 
         @GET
         @Produces("application/json")
-        public JSONObject getAllRates(@PathParam("EMail") String email) {
+        public JSONObject getAllRates(@PathParam("email") String email) {
 
 //Liste wird erstellt, Iterator wird erstellt, Vektor wird erstellt
 
