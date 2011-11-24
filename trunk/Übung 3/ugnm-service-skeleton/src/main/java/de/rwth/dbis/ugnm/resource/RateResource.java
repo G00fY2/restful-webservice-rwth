@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import de.rwth.dbis.ugnm.entity.Rates;
 import de.rwth.dbis.ugnm.service.RatesService;
 
-@Path("/rates/{ratesId}")
+@Path("/users/{email}/rates{ratesId}")
 @Component
 @Scope("request")
 public class RateResource {
@@ -30,11 +30,11 @@ public class RateResource {
   
         @GET
         @Produces("application/json")
-        public Rates getRates(@PathParam("RatesID") int id){
+        public Rates getRates(@PathParam("email") String email,@PathParam("ratesId") int ratesId){
 
 //Sucht ein Rating mit der übergebenen ID
 
-                Rates r = ratesService.findRating(id);
+                Rates r = ratesService.findRating(ratesId);
                 
 //Überprüft ob das Rating existiert
                           
