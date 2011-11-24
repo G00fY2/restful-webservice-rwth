@@ -87,7 +87,7 @@ public class RatesResource {
 
         @PUT
     @Consumes("application/json")
-    public Response createRating(@HeaderParam("authorization") String auth, @PathParam("EMail") String email, JSONObject o) throws JSONException{
+    public Response createRating(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException{
 
 //Ein neues Rating wird erstellt
 
