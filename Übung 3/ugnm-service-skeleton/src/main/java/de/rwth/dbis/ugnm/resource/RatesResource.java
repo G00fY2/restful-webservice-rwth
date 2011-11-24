@@ -26,12 +26,14 @@ import com.sun.jersey.core.util.Base64;
 import de.rwth.dbis.ugnm.entity.Rates;
 import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.RatesService;
+import de.rwth.dbis.ugnm.service.UserService;
+import de.rwth.dbis.ugnm.service.AchievementService;
 import java.sql.Timestamp;
 
 
 
 
-@Path("/users/{EMail}/ratings")
+@Path("/users/{EMail}/rates")
 @Component
 @Scope("request")
 public class RatesResource {
@@ -39,6 +41,13 @@ public class RatesResource {
 
         @Autowired
         RatesService ratesService;
+        
+        @Autowired
+        AchievementService achievementService;
+        
+        @Autowired
+        UserService userService;
+
 
         @Context UriInfo uriInfo;
 
@@ -66,7 +75,7 @@ public class RatesResource {
 
                 try {
                         JSONObject j = new JSONObject();
-                        j.append("Rate",vRates);
+                        j.append("rates",vRates);
                         return j;
                 } catch (JSONException e) {
                         throw new WebApplicationException(500);
@@ -108,16 +117,16 @@ public class RatesResource {
 
                 try {
                         String fkUrl = o.getString("url");
-                        int rating = o.getInt("Rate");
-                        Rates rate = new Rates();
-                        rate.setFKURL(fkUrl);
-                        rate.setFKEMail(email);
-                        rate.setRate(rating);
+                        int rate = o.getInt("rate");
+                        Rates rates = new Rates();
+                        rates.setFKURL(fkUrl);
+                        rates.setFKEMail(email);
+                        rates.setRate(rate);
                         Timestamp time = new Timestamp(System.currentTimeMillis()); 
-                        rate.setZeit(time);
+                        rates.setZeit(time);
 
 
-                        return rate;
+                        return rates;
                 } catch (JSONException e) {
                         throw new WebApplicationException(406);
                 }
