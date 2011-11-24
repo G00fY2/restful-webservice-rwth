@@ -26,6 +26,8 @@ import com.sun.jersey.core.util.Base64;
 import de.rwth.dbis.ugnm.entity.Rates;
 import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.RatesService;
+import java.sql.Timestamp;
+
 
 
 
@@ -111,6 +113,9 @@ public class RatesResource {
                         rate.setFKURL(fkUrl);
                         rate.setFKEMail(email);
                         rate.setRate(rating);
+                        Timestamp time = new Timestamp(System.currentTimeMillis()); 
+                        rate.setZeit(time);
+
 
                         return rate;
                 } catch (JSONException e) {
