@@ -43,9 +43,9 @@ public class RatesServiceJpa implements RatesService{
         public List<Rates> getAllRatesUser(String fkEmail) {
                 Query query = entityManager.createNamedQuery("Rates.findRatesUser");
                 query.setParameter("FKEmail", fkEmail);
-                List<Rates> ratings = null;
-                ratings = query.getResultList();
-                return ratings;
+                List<Rates> rates = null;
+                rates = query.getResultList();
+                return rates;
         }
 
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
@@ -65,9 +65,9 @@ public class RatesServiceJpa implements RatesService{
                 Rates result = null;
                 Query queryFindMedia = entityManager.createNamedQuery("Rates.findRating");
                 queryFindMedia.setParameter("ratesId", ratesId);
-                List<Rates> ratings = queryFindMedia.getResultList();
-                if(ratings.size() > 0) {
-                        result = ratings.get(0);
+                List<Rates> rates = queryFindMedia.getResultList();
+                if(rates.size() > 0) {
+                        result = rates.get(0);
                 }
                 return result;
         }
