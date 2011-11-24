@@ -33,7 +33,7 @@ import java.sql.Timestamp;
 
 
 
-@Path("/users/{EMail}/rates")
+@Path("/users/{email}/rates")
 @Component
 @Scope("request")
 public class RatesResource {
