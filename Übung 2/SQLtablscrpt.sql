@@ -39,7 +39,7 @@ CREATE TABLE Achievement(
 
 CREATE TABLE rates( 
   RatesID int(11) AUTO_INCREMENT,
-  Zeit timestamp NOT NULL,
+  Zeit timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   Rate int(1) NOT NULL, 
   FKURL varchar(100) NOT NULL, 
   FKEMail varchar(50) NOT NULL,
