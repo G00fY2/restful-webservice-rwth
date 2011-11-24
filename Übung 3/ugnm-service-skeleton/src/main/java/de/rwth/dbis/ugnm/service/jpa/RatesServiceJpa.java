@@ -31,8 +31,8 @@ public class RatesServiceJpa implements RatesService{
         
         
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
-        public boolean save(Rates rating) {
-                entityManager.persist(rating);
+        public boolean save(Rates rate) {
+                entityManager.persist(rate);
                 entityManager.flush();
                 
                 return true;
