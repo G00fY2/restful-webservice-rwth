@@ -14,9 +14,9 @@ import javax.persistence.ManyToOne;
 @Entity
 @Table(name = "rates")
 @NamedQueries({ 
-        @NamedQuery(name = "rates.findAll", query = "SELECT r FROM Rates r"),
-        @NamedQuery(name = "rates.findRate", query = "SELECT r FROM Rates r where r.fkUrl=:fkUrl and r.fkEMail=:fkEMail"),
-        @NamedQuery(name = "rates.findRatesUser", query = "SELECT r FROM Rates r where r.fkEmail=:fkEmail")
+        @NamedQuery(name = "Rates.findAll", query = "SELECT r FROM Rates r"),
+        @NamedQuery(name = "Rates.findRate", query = "SELECT r FROM Rates r where r.fkUrl=:fkUrl"),
+        @NamedQuery(name = "Rates.findRatesUser", query = "SELECT r FROM Rates r where r.fkEmail=:fkEmail")
 
 })
 
