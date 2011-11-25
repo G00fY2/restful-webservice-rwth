@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import de.rwth.dbis.ugnm.entity.Medium;
 import de.rwth.dbis.ugnm.service.MediumService;
 
-@Path("/media/{URL}")
+@Path("/media/{url}")
 @Component
 @Scope("request")
 public class MediumResource {
@@ -29,7 +29,7 @@ public class MediumResource {
         
         @GET
         @Produces("application/json")
-        public Medium getMedium(@PathParam("URL") String url){
+        public Medium getMedium(@PathParam("url") String url){
         
 //Sucht ein Medium mit der übergebenen URL
 

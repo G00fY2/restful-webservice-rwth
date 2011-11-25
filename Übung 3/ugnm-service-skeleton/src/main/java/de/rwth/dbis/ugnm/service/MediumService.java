@@ -7,6 +7,6 @@ import de.rwth.dbis.ugnm.entity.Medium;
 public interface MediumService{
         public boolean save(Medium medium);
         public List<Medium> getAll();
-        public Medium getByURL(String url);
+        public Medium getByURL(String URL);
         public Medium findMedium(Medium medium);
 }
