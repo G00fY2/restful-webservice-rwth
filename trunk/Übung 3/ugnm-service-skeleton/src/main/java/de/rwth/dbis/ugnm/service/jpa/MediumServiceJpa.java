@@ -42,7 +42,7 @@ public class MediumServiceJpa implements MediumService{
         @Transactional(readOnly = true)
         public List<Medium> getAll() {
                 Query query = entityManager.createNamedQuery("Medium.findAll");
-                List<Medium> medium = null;   //hier users durch medium ersetzt
+                List<Medium> medium = null;
                 medium = query.getResultList();
                 return medium;
         }

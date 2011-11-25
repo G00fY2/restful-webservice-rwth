@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Achievement")
 @NamedQueries({ 
         @NamedQuery(name = "Achievement.findAll", query = "SELECT a FROM Achievement a"),
-        @NamedQuery(name = "Achievement.findUser", query = "SELECT a FROM Achievement a where a.identifier=:identifier")
+        @NamedQuery(name = "Achievement.findAchievement", query = "SELECT a FROM Achievement a where a.identifier=:identifier")
 })
 
 //Alle Eigenschaften des Achievements werden Definiert
