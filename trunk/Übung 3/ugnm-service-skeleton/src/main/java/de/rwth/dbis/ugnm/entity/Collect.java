@@ -18,10 +18,13 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "Collect.findCollectOfUser", query = "SELECT c FROM Collect c where a.userEmail=:userEmail")
 })
 
+//Alle Eigenschaften von Collect werden definiert
 
 @XmlRootElement
 public class Collect {
-         
+ 
+//Id ist Primary	
+	
         @Id
         @Column(name = "id", nullable = false)
         private int id;
@@ -40,7 +43,7 @@ public class Collect {
         @JoinColumn(name="achievementId", referencedColumnName="id", insertable = false, updatable = false)
         private Achievement achievementInstance;
         
-        //Get-Set-Methoden:
+//Getter-Setter Methoden
         
         public void setId(int id) {
                 this.id = id;
