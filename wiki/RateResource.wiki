@@ -1,6 +1,5 @@
-#summary Resource: RateRecource
+#summary Resource: RateResource
 #labels Resource,Thomas,Sven,UGNM4
-
 ----
 =Allgemeines=
 ----
