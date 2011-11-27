@@ -1,34 +1,149 @@
 package de.rwth.dbis.ugnm.resource;
 
+import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Rates;
+import de.rwth.dbis.ugnm.entity.User;
+import de.rwth.dbis.ugnm.service.AchievementService;
+import de.rwth.dbis.ugnm.service.MediumService;
 import de.rwth.dbis.ugnm.service.RatesService;
+import de.rwth.dbis.ugnm.service.UserService;
 
-@Path("/users/{email}/rates/{id}")
+
+
+
+@Path("/users/{email}/rates")
 @Component
 @Scope("request")
 public class RatesResource {
 
+
         @Autowired
-        RatesService rateService;
-        
+        RatesService ratesService;
+       
+        @Autowired
+        AchievementService achievementService;
+       
+        @Autowired
+        MediumService mediumService;
+       
+        @Autowired
+        UserService userService;
+       
+        @Context UriInfo uriInfo;
+
+       
+        //Get all Ratings of the User
         @GET
         @Produces("application/json")
-        public Rates getRate(@PathParam("email") String userEmail, @PathParam("id") int id){
-                Rates r = rateService.findRate(id);
-                if (r==null || r.getUserEmail()!=userEmail){
-                        throw new WebApplicationException(404);
+        public JSONObject getAllRates(@PathParam("email") String email) {
+
+                List<Rates> rateList = ratesService.getAllRatesOfUser(email);
+                Iterator<Rates> rit = rateList.iterator();
+               
+                Vector<String> vRates = new Vector<String>();
+               
+                while(rit.hasNext()){
+                        Rates r = rit.next();
+                        String rUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + r.getId();
+                        vRates.add(rUri);
                 }
-                return r;
+
+                try {
+                        JSONObject j = new JSONObject();
+                        j.append("rates",vRates);
+                        return j;
+                } catch (JSONException e) {
+                        throw new WebApplicationException(500);
+                }
         }
-        
+       
+       
+       
+        //This creates a new Rating
+        @PUT
+    @Consumes("application/json")
+    public Response createRate(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException{
+                //Create a new rating..
+                Rates rate = parseRateJsonFile(o, email);
+                //check if the Medium does exist
+                if(mediumService.getByUrl(rate.getMediumUrl())!= null){
+                        if(authenticated(auth, userService.getByEmail(email))){
+                                ratesService.save(rate);
+                                rate = ratesService.get(rate.getUserEmail(), rate.getMediumUrl(), rate.getTime());
+                                return Response.ok().build();
+                        }
+                        else{
+                                throw new WebApplicationException(401);
+                        }
+                       
+                }
+                else{
+                        throw new WebApplicationException(406);
+                }
+    }
+       
+
+        //parse the JSON File for the attributes
+        private Rates parseRateJsonFile(JSONObject o, String email){
+
+                try {
+                        String mediumUrl = o.getString("url");
+                        int rate = o.getInt("rate");
+                        Rates rating = new Rates();      
+                        rating.setMediumUrl(mediumUrl);
+                        rating.setUserEmail(email);
+                        rating.setRate(rate);
+                        //Set the time of the rating
+                        Timestamp tstamp = new Timestamp(System.currentTimeMillis());
+                        rating.setTime(tstamp);
+                       
+                        return rating;
+                } catch (JSONException e) {
+                        throw new WebApplicationException(406);
+                }
+               
+        }
+       
+       
+        // Little gift from your tutors...
+        // A simple authentication mechanism;
+        // For use in one of the defined operations by referring
+        // to @HeaderParam("authorization") for authHeader.
+        private boolean authenticated(String authHeader,User u){
+                if(authHeader != null){
+                        String[] dauth = null;
+                        String authkey = authHeader.split(" ")[1];
+                        if(Base64.isBase64(authkey)){
+                                dauth = (new String(Base64.decode(authkey))).split(":");
+                                if(dauth[0].equals(u.getEmail()) && dauth[1].equals(u.getPassword())){
+                                        return true;
+                                }
+                        }
+                }
+                return false;
+        }
+       
 }
