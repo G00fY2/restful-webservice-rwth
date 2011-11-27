@@ -34,6 +34,9 @@ public class AchievementResource {
         
         @Context UriInfo uriInfo;
         
+//Gibt ueber GET ein einzelnes Achievement aus
+//GET Achievement ueber Primary id
+        
         @GET
         @Produces("application/json")
         public Achievement getAchievement(@PathParam("id") int id) {
@@ -44,14 +47,19 @@ public class AchievementResource {
                 return a;
         }
         
+//Ermöglicht ueber PUT das aendern eines einzelnen Achievements          
+        
         @PUT
     @Consumes("application/json")
     public Response updateAchievement(@PathParam("id") int id, JSONObject o) throws JSONException {
-                //Get the User By Mail, if null then throw not found exception
+        	
+//GET Achievement über Primary Id   
+        	
                 Achievement a = achievementService.getById(id);
+                
+//Wenn Achievement nicht "null" ist wird das Achievement geupdated und ein created-Response abgesetzt                
+                
                 if(a != null){
-                        //build the uri for response and parse the JSON File
-                        // if successfull update the achievement, else throw errors
                         Achievement achievement = parseJsonUpdateFile(o, id);
                         if(a!=achievement){
                                 achievementService.update(achievement);
@@ -64,26 +72,41 @@ public class AchievementResource {
                                 return Response.notModified().build();
                         }
                 }
+                
+//Andernfalls wird eine 404 WebApplicationException geschmissen                 
+                
                 else{
                         throw new WebApplicationException(404);
                 }
     }
         
+//Ermöglicht ueber DELETE das loeschen eines einzelnen Achievements 
+        
         @DELETE
         public Response deleteAchievement(@PathParam("id") int id){
-                //Get the Achievement By Id, if null then throw not found exception
+
+//GET Achievement über Primary Id        	
+
                 Achievement achievement = achievementService.getById(id);
+                
+//Wenn Achievement nicht "null" ist wird das Achievement gelöscht und ein ok-Response abgesetzt
+                
                 if(achievement!=null){
-                        //if successfully deleted the medium give OK-Response, else throw execptions
                         achievementService.delete(achievement);
                         return Response.ok().build();
                 }
+                
+//Andernfalls wird eine 404 WebApplicationException geschmissen                
+                
                 else{
                         throw new WebApplicationException(404);
                 }
         }
         
-        //parse the JSON File for the attributes, throw exception if not correcly formated
+        
+ //Parst die fuer Achievement nötigen Attribute in Json       
+        
+        
                 private Achievement parseJsonUpdateFile(JSONObject o, int id){
                         try {
                                 String description = o.getString("description");

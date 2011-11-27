@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class User {
 	
-//EMail ist PRIMARY
+//E-Mail ist PRIMARY
 
 		@Id
 		@Column(name = "email", nullable = false)

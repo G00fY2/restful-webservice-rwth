@@ -33,6 +33,9 @@ public class MediumResource {
         MediumService mediumService;
         
         @Context UriInfo uriInfo;
+ 
+//Gibt ueber GET ein einzelnes Medium aus
+//GET Medium ueber Primary url
         
         @GET
         @Produces("application/json")
