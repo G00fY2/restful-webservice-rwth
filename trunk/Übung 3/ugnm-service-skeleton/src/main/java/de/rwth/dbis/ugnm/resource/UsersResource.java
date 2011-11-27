@@ -73,6 +73,7 @@ public class UsersResource {
                 
         }
         
+//Erstellt einen User und fügt diesen mittels POST hinzu
           @POST
     @Consumes("application/json")  
 public Response putUser(JSONObject o) throws JSONException {
@@ -83,8 +84,8 @@ public Response putUser(JSONObject o) throws JSONException {
                 else{
                 User nu = new User();
                 nu.setEmail((String) o.get("email"));
-                nu.setPassword((String) o.get("username"));
                 nu.setUsername((String) o.get("password"));
+                nu.setPassword((String) o.get("username"));
                 nu.setName((String) o.get("name"));
                 nu.setEp(0);
                    
