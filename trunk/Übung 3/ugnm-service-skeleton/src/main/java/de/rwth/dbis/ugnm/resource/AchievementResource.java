@@ -91,8 +91,8 @@ public class AchievementResource {
                                 String url = o.getString("url");
                                 Achievement achievement = new Achievement();
                                 achievement.setId(id);
-                                achievement.setName(name);
                                 achievement.setDescription(description);
+                                achievement.setName(name);
                                 achievement.setUrl(url);
                                 return achievement;
                         } catch (JSONException e) {
