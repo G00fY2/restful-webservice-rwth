@@ -46,42 +46,62 @@ public class MediumResource {
                 }
                 return m;
         }
+      
         
-        //This updates a existing medium
+//Ermöglicht ueber PUT das aendern eines einzelnen Mediums 
+        
+        
         @PUT
     @Consumes("application/json")
     public Response updateMedium(@PathParam("url") String url, JSONObject o) throws JSONException {
-                //Get the Medium by URL, if null then throw not found exception
+
+//GET Medium ueber Primary url
+        	
                 Medium m = mediumService.getByUrl(url);
+
+//Wenn Achievement nicht "null" ist wird das Medium geupdated und ein created-Response abgesetzt                 
+                
                 if(m != null){
-                        //build the uri for response and parse the JSON File
-                        // if successfull update the medium, else throw errors
+
                                 Medium medium = parseJsonUpdateFile(o, url);
                                 mediumService.update(medium);
                                 UriBuilder ub = uriInfo.getAbsolutePathBuilder();
                                 URI mediumUri = ub.path(medium.getUrl()).build();
                                 return Response.created(mediumUri).build();
                 }
+
+//Andernfalls wird eine 404 WebApplicationException geschmissen
+                
                 else{
                         throw new WebApplicationException(404);
                 }
     }
         
+//Ermöglicht ueber DELETE das loeschen eines einzelnen Mediums 
+        
         @DELETE
         public Response deleteMedium(@PathParam("url") String url){
-                //Get the Medium by URL, if null then throw not found exception
+        	
+//GET Medium ueber Primary url        	
+        	
                 Medium medium = mediumService.getByUrl(url);
                 if(medium!=null){
-                        //if successfully deleted the medium give OK-Response, else throw execptions
+                	
+//Wenn Medium nicht "null" ist wird das Medium gelöscht und ein ok-Response abgesetzt
+                	
                         mediumService.delete(medium);
                         return Response.ok().build();
                 }
+                
+//Andernfalls wird eine 404 WebApplicationException geschmissen             
+                
                 else{
                         throw new WebApplicationException(404);
                 }
         }
         
-        //parse the JSON File for the attributes, throw exception if not correcly formated
+//Parst die fuer Achievement nötigen Attribute in Json   
+        
                 private Medium parseJsonUpdateFile(JSONObject o, String url){
                         try {
                                 int value = o.getInt("value");
