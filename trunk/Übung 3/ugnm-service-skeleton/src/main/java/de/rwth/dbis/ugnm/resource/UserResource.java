@@ -25,8 +25,6 @@ import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.UserService;
 
 
-//Alle benötigten Resourcen wurden importiert..
-
 
 @Path("/users/{email}")
 @Component
@@ -41,15 +39,20 @@ public class UserResource {
 
         @Context UriInfo uriInfo;
         
-   
-//Methode gibt den gesuchten User aus   
+//Gibt ueber GET einen einzelnen User aus
+//GET User ueber Primary email 
    
         @GET
         @Produces("application/json")
         public User getUser(@PathParam("email") String email) {
- //User wird über GET gesucht
+        	
+//User-Objekt wird mit uebergebenen Parametern erzeugt
+        	
                 User u = userService.getByEmail(email);
-//Wenn gefunden, dann wird das Passwort "gel�scht" und der Benutzername des Users ausgegeben      
+                
+//Wenn User-Object nicht = "null" wird das password auf null gesetzt und dieses Object ausgegeben               
+//Andernfalls wird eine 404 WebApplicationException geschmissen
+                
                 if (u!=null){
              u.setPassword(null);
                 }
@@ -60,7 +63,7 @@ public class UserResource {
 }
 
 
-//Methode ermöglicht es einen User zu ändern (man muss allerdings autorisiert sein)
+//Erm�glicht ueber PUT das aendern eines einzelnen Users 
         
         @PUT
     @Consumes("application/json")

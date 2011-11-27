@@ -40,7 +40,15 @@ public class AchievementResource {
         @GET
         @Produces("application/json")
         public Achievement getAchievement(@PathParam("id") int id) {
+   
+//Achievement-Objekt wird mit uebergebenen Parametern erzeugt 
+        	
                 Achievement a = achievementService.getById(id);
+                
+//Wenn Achievement-Object nicht = "null" wird dieses ausgegeben
+//Andernfalls wird eine 404 WebApplicationException geschmissen               
+                
+                
                 if (a==null){
                         throw new WebApplicationException(404);
                 }
@@ -53,7 +61,7 @@ public class AchievementResource {
     @Consumes("application/json")
     public Response updateAchievement(@PathParam("id") int id, JSONObject o) throws JSONException {
         	
-//GET Achievement über Primary Id   
+//GET Achievement ueber Primary id   
         	
                 Achievement a = achievementService.getById(id);
                 

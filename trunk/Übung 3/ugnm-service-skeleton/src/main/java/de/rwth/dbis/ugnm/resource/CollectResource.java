@@ -27,7 +27,14 @@ public class CollectResource {
         @GET
         @Produces("application/json")
         public Collect getCollect(@PathParam("email") String userEmail, @PathParam("achievementId") int achievementId){
+        	
+//Collect-Objekt wird mit uebergebenen Parametern erzeugt 
+        	
                 Collect c = collectService.findCollect(userEmail, achievementId);
+                
+//Wenn Collect-Object nicht = "null" und die mail im object aequivalent zur uebergebenen usermail ist, wird dieses Object ausgegeben               
+//Andernfalls wird eine 404 WebApplicationException geschmissen               
+                
                 if (c==null || c.getUserEmail()!=userEmail){
                         throw new WebApplicationException(404);
                 }

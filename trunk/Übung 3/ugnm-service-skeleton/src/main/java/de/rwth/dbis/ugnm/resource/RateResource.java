@@ -20,11 +20,21 @@ public class RateResource {
 
         @Autowired
         RatesService rateService;
+ 
+//Gibt ueber GET ein einzelnes Rate aus           
+//GET Collect ueber Foreginkey userEmail, Primary id         
         
         @GET
         @Produces("application/json")
         public Rates getRate(@PathParam("email") String userEmail, @PathParam("id") int id){
+        	
+//Rates-Objekt wird mit uebergebenen Parametern erzeugt        	
+        
                 Rates r = rateService.findRate(id);
+                
+//Wenn Rate-Object nicht = "null" und die mail im object aequivalent zur uebergebenen usermail ist, wird dieses Object ausgegeben               
+//Andernfalls wird eine 404 WebApplicationException geschmissen                  
+                
                 if (r==null || r.getUserEmail()!=userEmail){
                         throw new WebApplicationException(404);
                 }
