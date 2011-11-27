@@ -32,7 +32,7 @@ import de.rwth.dbis.ugnm.service.UserService;
 
 
 
-@Path("/users/{mail}/achieved")
+@Path("/users/{email}/collected")
 @Component
 @Scope("request")
 public class CollectsResource {
@@ -53,10 +53,10 @@ public class CollectsResource {
         //Get all Achievements of the User
         @GET
         @Produces("application/json")
-        public JSONObject getAllCollects(@PathParam("mail") String email) {
+        public JSONObject getAllCollects(@PathParam("email") String email) {
 
-                List<Collect> ratingList = collectService.getAllAchievementsOfUser(email);
-                Iterator<Collect> cit = ratingList.iterator();
+                List<Collect> rateList = collectService.getAllAchievementsOfUser(email);
+                Iterator<Collect> cit = rateList.iterator();
                 
                 Vector<String> vc = new Vector<String>();      
                 
