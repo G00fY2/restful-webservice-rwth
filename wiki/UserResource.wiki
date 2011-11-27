@@ -1,4 +1,4 @@
-#summary Resource: UserRecource
+#summary Resource: UserResource
 #labels Resource,Thomas,Sven,UGNM4
 
 ----
