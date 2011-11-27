@@ -44,9 +44,9 @@ public class CollectServiceJpa implements CollectService{
         public List<Collect> getAllAchievementsOfUser(String userEmail) {
                 Query query = entityManager.createNamedQuery("Collect.findCollectOfUser");
                 query.setParameter("userEmail", userEmail);
-                List<Collect> ratings = null;
-                ratings = query.getResultList();
-                return ratings;
+                List<Collect> rates = null;
+                rates = query.getResultList();
+                return rates;
         }
 
         // find a achievement of one user
