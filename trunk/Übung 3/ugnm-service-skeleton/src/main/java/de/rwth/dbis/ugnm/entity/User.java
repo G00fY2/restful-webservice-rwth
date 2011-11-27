@@ -16,80 +16,69 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 
 
-//Alle Eigenschaften eines Users werden Definiert
+//Alle Eigenschaften eines Users werden definiert
 
 @XmlRootElement
 public class User {
+	
+	//EMail ist PRIMARY
+
+		@Id
+		@Column(name = "email", nullable = false)
+		private String email;
+		        
+        @Column(name = "username", nullable = false)
+        private String username;
         
-        @Column(name = "Passwort", nullable = false)
-        private String passwort;
+        @Column(name = "password", nullable = false)
+        private String password;
         
-        @Column(name = "Benutzername", nullable = false)
-        private String benutzername;
+        @Column(name = "name", nullable = false)
+        private String name;
         
-        @Column(name = "EP", nullable = false)
+        @Column(name = "ep", nullable = false)
         private int ep;
+           
         
-        @Column(name = "Vorname", nullable = false)
-        private String vorname;
-        
-        @Column(name = "Nachname", nullable = false)
-        private String nachname;
-
-//EMail ist PRIMARY
-
-        @Id
-        @Column(name = "EMail", nullable = false)
-        private String email;
-                
 //Getter+Setter Methoden
 
-
-        public void setPasswort(String passwort) {
-                this.passwort = passwort;
+        public void setEmail(String email) {
+            this.email = email;
         }
 
-        public String getPasswort() {
-                return passwort;
+        public String getEmail() {
+            return email;
+        }
+    
+        public void setUsername(String username) {
+        	this.username = username;
         }
 
-        public void setBenutzername(String benutzername) {
-                this.benutzername = benutzername;
-        }
-
-        public String getBenutzername() {
-                return benutzername;
+        public String getUsername() {
+        	return username;
         }
         
-        public void setEP(int ep) {
+        public void setPassword(String password) {
+                this.password = password;
+        }
+
+        public String getPassword() {
+                return password;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+        
+        public void setEp(int ep) {
                 this.ep = ep;
         }
 
-        public int getEP() {
+        public int getEp() {
                 return ep;
-        }
-        
-        public void setVorname(String vorname) {
-                this.vorname = vorname;
-        }
-
-        public String getVorname() {
-                return vorname;
-        }
-        
-        public void setNachname(String nachname) {
-                this.nachname = nachname;
-        }
-
-        public String getNachname() {
-                return nachname;
-        }
-        
-        public void setEMail(String email) {
-                this.email = email;
-        }
-
-        public String getEMail() {
-                return email;
         }
 }

@@ -28,7 +28,7 @@ public class UserServiceJpa implements UserService {
 	}
 	
 	@Transactional(readOnly = true)
-	public User getByEMail(String email){
+	public User getByEmail(String email){
 		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
 		queryFindUser.setParameter("email", email);
 
@@ -66,7 +66,7 @@ public class UserServiceJpa implements UserService {
 	}
 	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
 	public boolean delete(User user) {
-		user = entityManager.getReference(User.class, user.getEMail());
+		user = entityManager.getReference(User.class, user.getEmail());
 		if (user == null)
 			return false;
 		entityManager.remove(user);
@@ -79,7 +79,7 @@ public class UserServiceJpa implements UserService {
 	public User findUser(User user) {
 		User result = null;
 		Query queryFindUser = entityManager.createNamedQuery("User.findUser");
-		queryFindUser.setParameter("email", user.getEMail());
+		queryFindUser.setParameter("email", user.getEmail());
 
 		List<User> users = queryFindUser.getResultList();
 		if(users.size() > 0) {
