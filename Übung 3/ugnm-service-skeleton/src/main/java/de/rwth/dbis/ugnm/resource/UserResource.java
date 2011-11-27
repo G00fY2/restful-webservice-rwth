@@ -51,7 +51,7 @@ public class UserResource {
                 User u = userService.getByEmail(email);
 //Wenn gefunden, dann wird das Passwort "gelöscht" und der Benutzername des Users ausgegeben      
                 if (u!=null){
-             u.setPasswort(null);
+             u.setPassword(null);
                 }
                 else{
              throw new WebApplicationException(404);
@@ -87,11 +87,11 @@ public class UserResource {
                 boolean changed = false;
                 
         if (o.has("email") && !o.getString("email").equals(u.getEmail())){
-                u.setBenutzername(o.getString("email"));
+                u.setUsername(o.getString("email"));
                         changed = true;
                 }
         if (o.has("password") && !o.getString("password").equals(u.getPassword())){
-                u.setPasswort(o.getString("password"));
+                u.setPassword(o.getString("password"));
                         changed = true;
                 }
         
