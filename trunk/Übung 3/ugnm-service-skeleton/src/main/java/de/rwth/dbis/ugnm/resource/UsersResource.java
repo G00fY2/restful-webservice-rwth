@@ -59,7 +59,7 @@ public class UsersResource {
     Vector<String> vUsers = new Vector<String>();
                 while(usit.hasNext()){
                         User u = usit.next();
-                        String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + u.getEMail();
+                        String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + u.getEmail();
                         vUsers.add(uUri);
                 }
 //Liste wird ausgegeben
@@ -77,23 +77,24 @@ public class UsersResource {
     @Consumes("application/json")  
 public Response putUser(JSONObject o) throws JSONException {
         
-                if(o == null || !(o.has("email") && o.has("benutzername") && o.has("passwort"))){
+                if(o == null || !(o.has("email") && o.has("username") && o.has("password"))){
                         throw new WebApplicationException(Status.BAD_REQUEST);
                 }
                 else{
                 User nu = new User();
-                nu.setEMail((String) o.get("email"));
-                nu.setPasswort((String) o.get("passwort"));
-                nu.setBenutzername((String) o.get("benutzername"));
-                        nu.setEP(0);
-                        nu.setVorname((String) o.get("vorname"));
-                        nu.setNachname((String) o.get("nachname"));
+                nu.setEmail((String) o.get("email"));
+                nu.setPasswort((String) o.get("username"));
+                nu.setBenutzername((String) o.get("password"));
+                nu.setName((String) o.get("name"));
+                nu.setEP(0);
+                   
+                     
                 
                 if(userService.findUser(nu) == null) {
                         userService.save(nu);
                         URI location;
                                 try {
-                                        location = new URI(uriInfo.getAbsolutePath().toASCIIString() + "/" + o.get("EMail"));
+                                        location = new URI(uriInfo.getAbsolutePath().toASCIIString() + "/" + o.get("email"));
                                         return Response.created(location).build();
                                 } catch (URISyntaxException e) {
                                         throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
