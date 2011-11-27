@@ -1,4 +1,4 @@
-#summary Resource: MediumRecource
+#summary Resource: MediumResource
 #labels Resource,Thomas,Sven,UGNM4
 
 ----
