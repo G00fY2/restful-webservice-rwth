@@ -20,6 +20,9 @@ public class CollectResource {
 
         @Autowired
         CollectService collectService;
+
+//Gibt ueber GET ein einzelnes Collect aus           
+//GET Collect ueber Foreginkeys userEmail, achievementId     
         
         @GET
         @Produces("application/json")
