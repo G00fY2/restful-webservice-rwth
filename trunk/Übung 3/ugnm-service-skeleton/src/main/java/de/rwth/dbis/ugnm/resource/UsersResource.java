@@ -84,8 +84,8 @@ public Response putUser(JSONObject o) throws JSONException {
                 else{
                 User nu = new User();
                 nu.setEmail((String) o.get("email"));
-                nu.setUsername((String) o.get("password"));
-                nu.setPassword((String) o.get("username"));
+                nu.setUsername((String) o.get("username"));
+                nu.setPassword((String) o.get("password"));
                 nu.setName((String) o.get("name"));
                 nu.setEp(0);
                    
