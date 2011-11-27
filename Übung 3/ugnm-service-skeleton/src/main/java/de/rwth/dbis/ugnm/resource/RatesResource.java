@@ -67,7 +67,7 @@ public class RatesResource {
                
                 while(rit.hasNext()){
                         Rates r = rit.next();
-                        String rUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + r.getId();
+                        String rUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + r.getId() + "/" + r.getMediumUrl() + "/" + r.getRate();
                         vRates.add(rUri);
                 }
 
