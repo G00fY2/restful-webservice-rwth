@@ -92,13 +92,5 @@ public class RatesServiceJpa implements RatesService{
                 }
                 return result;
         }
-        
-        
-        //Not implemented, but might make sense!
-        @Override
-        public List<Rates> getAllRatesOfMedium(String URL) {
-                // TODO Auto-generated method stub
-                return null;
-        }
 
 }
