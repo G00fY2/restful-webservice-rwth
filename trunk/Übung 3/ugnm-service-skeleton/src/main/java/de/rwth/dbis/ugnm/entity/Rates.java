@@ -82,16 +82,16 @@ public class Rates {
             this.rate = rate;
         }
         
-        public void setMediumUrl(String mediumUrl) {
-            this.mediumUrl = mediumUrl;
+        public void setMediumUrl(String url) {
+            this.mediumUrl = url;
         }
     
         public String getMediumUrl(){
             return mediumUrl;
     	}
 
-        public void setUserEmail(String userEmail) {
-                this.userEmail = userEmail;
+        public void setUserEmail(String email) {
+                this.userEmail = email;
         }
 
         public String getUserEmail() {
