@@ -48,7 +48,7 @@ public class UserResource {
         @Produces("application/json")
         public User getUser(@PathParam("email") String email) {
  //User wird Ã¼ber GET gesucht
-                User u = userService.getByEMail(email);
+                User u = userService.getByEmail(email);
 //Wenn gefunden, dann wird das Passwort "gelöscht" und der Benutzername des Users ausgegeben      
                 if (u!=null){
              u.setPasswort(null);
@@ -74,7 +74,7 @@ public class UserResource {
                          return Response.notModified().build();
                 }
                  //User wird Ã¼ber GET gesucht
-                User u = userService.getByEMail(email);
+                User u = userService.getByEmail(email);
                 // Überprüft ob User gefunden wurde
                 if(u == null){
                         throw new WebApplicationException(404);
@@ -86,12 +86,12 @@ public class UserResource {
                 //User wird geändert und mittels Bolean wird übermittelt, ob das Ändern erfolgreich war
                 boolean changed = false;
                 
-        if (o.has("benutzername") && !o.getString("benutzername").equals(u.getBenutzername())){
-                u.setBenutzername(o.getString("benutzername"));
+        if (o.has("email") && !o.getString("email").equals(u.getEmail())){
+                u.setBenutzername(o.getString("email"));
                         changed = true;
                 }
-        if (o.has("passwort") && !o.getString("passwort").equals(u.getPasswort())){
-                u.setPasswort(o.getString("passwort"));
+        if (o.has("password") && !o.getString("password").equals(u.getPassword())){
+                u.setPasswort(o.getString("password"));
                         changed = true;
                 }
         
@@ -108,7 +108,7 @@ public class UserResource {
         @DELETE
         public Response deleteUser(@HeaderParam("authorization") String auth, @PathParam("email") String email){
                 //User wird über GET gesucht
-                User u = userService.getByEMail(email);
+                User u = userService.getByEmail(email);
                 //Es wird überprüft, ob der User gefunden wurde
                 if(u == null){
                         throw new WebApplicationException(404);
@@ -133,7 +133,7 @@ public class UserResource {
                         String authkey = authHeader.split(" ")[1];
                         if(Base64.isBase64(authkey)){
                                 dauth = (new String(Base64.decode(authkey))).split(":");
-                                if(dauth[0].equals(u.getEMail()) && dauth[1].equals(u.getPasswort())){
+                                if(dauth[0].equals(u.getEmail()) && dauth[1].equals(u.getPassword())){
                                         return true;
                                 }
                         }
