@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Medium {
          
-	//Id ist PRIMARY
+//Url ist PRIMARY
 	
         @Id
         @Column(name = "url", nullable = false)
@@ -34,7 +34,7 @@ public class Medium {
         private String description;
 
 
-        //Getter+Setter Methoden:
+//Getter+Setter Methoden
        
         public void setUrl(String url) {
                 this.url = url;

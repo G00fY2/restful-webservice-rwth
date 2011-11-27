@@ -15,9 +15,13 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "Achievement.findAchievement", query = "SELECT a FROM Achievement a where a.id=:id")
 })
 
+//Alle Eigenschaften eines Achievements werden definiert
+
 @XmlRootElement
 public class Achievement {
-         
+ 
+//Id ist Primary	
+	
         @Id
         @Column(name = "id", nullable = false)
         private int id;
@@ -32,7 +36,7 @@ public class Achievement {
         private String url;
         
         
-        //Get-Set-Methoden:
+//Getter-Setter Methoden
         
         public void setId(int id) {
                 this.id = id;

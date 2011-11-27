@@ -20,6 +20,7 @@ import java.sql.Timestamp;
         @NamedQuery(name = "Rates.findRatesOfUser", query = "SELECT r FROM Rates r where r.userEmail=:userEmail")
 })
 
+//Alle Eigenschaften eines Mediums werden definiert
 
 @XmlRootElement
 public class Rates {
@@ -49,7 +50,9 @@ public class Rates {
         @JoinColumn(name="mediumUrl", referencedColumnName="url", insertable = false, updatable = false)
         private Medium mediumInstance;
         
-        //Getter+Setter Methoden:
+
+        
+ //Getter+Setter Methoden:
         
         public User getUserInstance() {
                 return userInstance;
