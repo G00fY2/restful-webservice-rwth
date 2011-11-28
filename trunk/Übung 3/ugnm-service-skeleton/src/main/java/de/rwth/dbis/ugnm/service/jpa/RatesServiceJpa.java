@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("ratesService")
 public class RatesServiceJpa implements RatesService{
         
-        // the EntityManager:
         private EntityManager entityManager;
 
         @PersistenceContext
@@ -30,8 +29,8 @@ public class RatesServiceJpa implements RatesService{
                 return entityManager;
         }
         
-        
-        // save a rating association
+//SAVE Rating       
+
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean save(Rates rate) {
                 entityManager.persist(rate);
@@ -40,7 +39,8 @@ public class RatesServiceJpa implements RatesService{
                 return true;
         }
 
-        // get all rates of one user
+//GET Liste aller Ratings zu einem User aus
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public List<Rates> getAllRatesOfUser(String email) {
@@ -51,7 +51,8 @@ public class RatesServiceJpa implements RatesService{
                 return rates;
         }
 
-        // get a rating association of one medium and user
+// Gibt ein Rating zu einem User aus
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public Rates get(String userEmail, String mediumUrl, Timestamp time){  
@@ -66,8 +67,10 @@ public class RatesServiceJpa implements RatesService{
                 }
                 return result;
         }
-
-        // delete a rating association
+        
+       
+//Löscht über DELETE ein rating
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean delete(Rates rate) {
                 rate = entityManager.getReference(Rates.class, rate.getId());
@@ -79,7 +82,8 @@ public class RatesServiceJpa implements RatesService{
         }
 
 
-        // find a rating association by the id
+//Gibt ein Rating über id aus
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public Rates findRate(int id) {
