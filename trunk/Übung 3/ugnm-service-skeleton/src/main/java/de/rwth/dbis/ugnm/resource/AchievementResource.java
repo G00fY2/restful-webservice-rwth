@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 import de.rwth.dbis.ugnm.entity.Achievement;
 import de.rwth.dbis.ugnm.service.AchievementService;
+import de.rwth.dbis.ugnm.service.UserService;
 
 @Path("/achievements/{id}")
 @Component
@@ -31,6 +32,9 @@ public class AchievementResource {
 
         @Autowired
         AchievementService achievementService;
+        
+        @Autowired
+        UserService userService;
         
         @Context UriInfo uriInfo;
         
@@ -91,7 +95,7 @@ public class AchievementResource {
 //Ermöglicht ueber DELETE das loeschen eines einzelnen Achievements 
         
         @DELETE
-        public Response deleteAchievement(@PathParam("id") int id){
+        public Response deleteAchievement(@PathParam("email") String userEmail, @PathParam("id") int id){
 
 //GET Achievement ueber Primary Id        	
 
@@ -99,7 +103,7 @@ public class AchievementResource {
                 
 //Wenn Achievement nicht "null" ist wird das Achievement gelöscht und ein ok-Response abgesetzt
                 
-                if(achievement!=null){
+                if((achievement!=null)&&(userEmail.equals("hausburg.sven@googlemail.com"))){
                         achievementService.delete(achievement);
                         return Response.ok().build();
                 }
