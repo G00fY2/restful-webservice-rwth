@@ -95,7 +95,7 @@ public class AchievementResource {
 //Ermöglicht ueber DELETE das loeschen eines einzelnen Achievements 
         
         @DELETE
-        public Response deleteAchievement(@PathParam("email") String userEmail, @PathParam("id") int id){
+        public Response deleteAchievement(@PathParam("id") int id){
 
 //GET Achievement ueber Primary Id        	
 
@@ -103,7 +103,7 @@ public class AchievementResource {
                 
 //Wenn Achievement nicht "null" ist wird das Achievement gelöscht und ein ok-Response abgesetzt
                 
-                if((achievement!=null)&&(userEmail.equals("hausburg.sven@googlemail.com"))){
+                if(achievement!=null){
                         achievementService.delete(achievement);
                         return Response.ok().build();
                 }
