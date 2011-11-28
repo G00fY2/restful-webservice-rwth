@@ -68,26 +68,38 @@ public class UserResource {
         @PUT
     @Consumes("application/json")
     public Response updateUser(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException {
-        //Es wird überprüft, ob das JSON Objekt korrekt angefragt wurde
+
+//Wenn übergebener Nutzer (als Json-Object) = null -> 404 WebApplicationException
+        	
                 if(o == null){
                         throw new WebApplicationException(400);
                 }
+
+//Wenn länge=0 wurde keine änderung vorgenommen -> notModified Response                 
                 
                 if(o.length() == 0){
                          return Response.notModified().build();
                 }
-                 //User wird Ã¼ber GET gesucht
+
+//GET User ueber Primary email            
+                
                 User u = userService.getByEmail(email);
-                // Überprüft ob User gefunden wurde
+                
+//Wenn User-Object nicht = "null" wird dieses ausgegeben
+//Andernfalls wird eine 404 WebApplicationException geschmissen                  
+                
                 if(u == null){
                         throw new WebApplicationException(404);
                 }
                 
+//Wenn User-Object nicht authenticated wird eine 401 WebApplicationException geschmissen                 
+                
                 if(!authenticated(auth, u)){
                         throw new WebApplicationException(401);
-                }
-                //User wird geändert und mittels Bolean wird übermittelt, ob das Ändern erfolgreich war
+                }               
                 boolean changed = false;
+               
+//Wenn User authenticated über email und password wird der User geändert                
                 
         if (o.has("email") && !o.getString("email").equals(u.getEmail())){
                 u.setUsername(o.getString("email"));
@@ -106,21 +118,23 @@ public class UserResource {
                 }
     }
 
-//Methode ermÃ¶glicht es einem autorisertem Nutzer einen User zu lÃ¶schen
+//Ermöglicht ueber DELETE das loeschen eines einzelnen Users 
         
         @DELETE
         public Response deleteUser(@HeaderParam("authorization") String auth, @PathParam("email") String email){
-                //User wird über GET gesucht
+
+//GET User ueber Primary email        	
+        	
                 User u = userService.getByEmail(email);
-                //Es wird überprüft, ob der User gefunden wurde
+                
+//Wenn Achievement nicht "null" und user authenticated ist wird das Achievement gelöscht und ein ok-Response abgesetzt                
+                
                 if(u == null){
                         throw new WebApplicationException(404);
                 }
-                //Es wird überprüft ob die Anfrage autorisiert ist
                 if(!authenticated(auth, u)){
                         throw new WebApplicationException(401);
                 }
-                //User wird gelöscht
                 userService.delete(u);
                 
                 return Response.ok().build();

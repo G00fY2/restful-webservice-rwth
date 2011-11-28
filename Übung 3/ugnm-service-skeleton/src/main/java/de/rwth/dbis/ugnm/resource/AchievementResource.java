@@ -93,7 +93,7 @@ public class AchievementResource {
         @DELETE
         public Response deleteAchievement(@PathParam("id") int id){
 
-//GET Achievement über Primary Id        	
+//GET Achievement ueber Primary Id        	
 
                 Achievement achievement = achievementService.getById(id);
                 
