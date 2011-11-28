@@ -41,7 +41,8 @@ public class AchievementsResource {
         @Context UriInfo uriInfo;
 
         
-        //Get all Achievements
+//Gibt ueber GET ein Liste aller Achievement aus
+             
         @GET
         @Produces("application/json")
         public JSONObject getAchievements() {
@@ -67,13 +68,19 @@ public class AchievementsResource {
         }
         
         
-        //This creates a new Achievement
+//Ermöglicht ueber PUT das erstellen eines einzelnen Achievements  
+        
+        
         @PUT
     @Consumes("application/json")
     public Response createAchievement(JSONObject o) throws JSONException {
-                //Create a new achievement..
+        	
+//Achievement-Objekt wird mit uebergebenen Parametern erzeugt 
+        	
                 Achievement achievement = parseAchievementJsonFile(o);
-                //call this method to make sure no double entries are inserted
+                
+//Methode überprüft ob Achievement existiert
+                
                 return addIfDoesNotExist(achievement);
     }
         
@@ -81,7 +88,7 @@ public class AchievementsResource {
                 if(achievementService.findAchievement(achievement) == null) {
                         achievementService.save(achievement);
                         UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-                        String relativePath = ""+achievement.getId(); //Not very nice but it works
+                        String relativePath = ""+achievement.getId();
                         URI achievementUri = ub.path(relativePath).build();
                         return Response.created(achievementUri).build();
                 }
@@ -90,7 +97,9 @@ public class AchievementsResource {
                 }
         }
         
-        //parse the JSON File for the attributes
+
+//Parst die fuer Achievements nötigen Attribute in Json           
+        
         private Achievement parseAchievementJsonFile(JSONObject o){
             try {
             	    int id = o.getInt("id");
