@@ -28,7 +28,6 @@ import org.codehaus.jettison.json.JSONObject;
 import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.UserService;
 
-//Alle benötigten Resourcen wurden importiert..
 
 @Path("/users")
 @Component
@@ -44,7 +43,7 @@ public class UsersResource {
         
    
    
-//Methode gibt eine Liste aller User aus (In Arrayform)
+//Methode gibt eine Liste aller User aus
    
         @GET
         @Produces("application/json")
@@ -52,16 +51,22 @@ public class UsersResource {
         public JSONObject getUsers() {
    
 //Liste wird erstellt    
+        	
                 List<User> users = userService.getAll();
+                
 //Iterator wird erstellt
+                
     Iterator<User> usit = users.iterator();
+    
 //String-Array wird erstellt
+    
     Vector<String> vUsers = new Vector<String>();
                 while(usit.hasNext()){
                         User u = usit.next();
                         String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + u.getEmail();
                         vUsers.add(uUri);
                 }
+                
 //Liste wird ausgegeben
                 try {
                         JSONObject j = new JSONObject();
@@ -74,6 +79,7 @@ public class UsersResource {
         }
         
 //Erstellt einen User und fügt diesen mittels POST hinzu
+        
           @POST
     @Consumes("application/json")  
 public Response putUser(JSONObject o) throws JSONException {

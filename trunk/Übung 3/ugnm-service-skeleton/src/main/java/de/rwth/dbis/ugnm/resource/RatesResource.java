@@ -55,7 +55,8 @@ public class RatesResource {
         @Context UriInfo uriInfo;
 
        
-        //Get all Ratings of the User
+//Gibt ueber GET ein Liste aller Rates zu einem User aus
+        
         @GET
         @Produces("application/json")
         public JSONObject getAllRates(@PathParam("email") String email) {
@@ -82,7 +83,8 @@ public class RatesResource {
        
        
        
-        //This creates a new Rating
+//Ermöglicht ueber PUT das erstellen eines einzelnen Ratings 
+        
         @PUT
     @Consumes("application/json")
     public Response createRate(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException{
@@ -106,7 +108,8 @@ public class RatesResource {
     }
        
 
-        //parse the JSON File for the attributes
+//Parst die fuer Rates nötigen Attribute in Json          
+        
         private Rates parseRateJsonFile(JSONObject o, String email){
 
                 try {
@@ -116,7 +119,6 @@ public class RatesResource {
                         rating.setMediumUrl(mediumUrl);
                         rating.setUserEmail(email);
                         rating.setRate(rate);
-                        //Set the time of the rating
                         Timestamp tstamp = new Timestamp(System.currentTimeMillis());
                         rating.setTime(tstamp);
                        
