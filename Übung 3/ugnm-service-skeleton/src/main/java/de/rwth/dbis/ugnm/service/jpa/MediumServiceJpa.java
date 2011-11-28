@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("mediumService")
 public class MediumServiceJpa implements MediumService{
         
-        // the EntityManager:
         private EntityManager entityManager;
 
         @PersistenceContext
@@ -30,7 +29,8 @@ public class MediumServiceJpa implements MediumService{
         }
         
         
-        //save a given medium
+//SAVE Medium
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean save(Medium medium) {
                 entityManager.persist(medium);
@@ -39,7 +39,9 @@ public class MediumServiceJpa implements MediumService{
                 return true;
         }
 
-        //returns all existing media back
+        
+//GET Liste aller Medien aus
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public List<Medium> getAll() {
@@ -49,7 +51,8 @@ public class MediumServiceJpa implements MediumService{
                 return medium;
         }
 
-        //returns the medium back through his url
+//Gibt über die url ein einzelnes medium aus 
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public Medium getByUrl(String url) {
@@ -63,7 +66,9 @@ public class MediumServiceJpa implements MediumService{
                 return result;
         }
 
-        //delete a given medium
+        
+//Löscht über DELETE ein Medium
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean delete(Medium medium) {
                 medium = entityManager.getReference(Medium.class, medium.getUrl());
@@ -74,7 +79,8 @@ public class MediumServiceJpa implements MediumService{
                 return true;
         }
 
-        // update a medium
+//Ändert über UPDATE ein Medium
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean update(Medium medium) {
                 entityManager.merge(medium);
@@ -82,7 +88,7 @@ public class MediumServiceJpa implements MediumService{
                 return true;
         }
 
-        // find a medium
+
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public Medium findMedium(Medium medium) {

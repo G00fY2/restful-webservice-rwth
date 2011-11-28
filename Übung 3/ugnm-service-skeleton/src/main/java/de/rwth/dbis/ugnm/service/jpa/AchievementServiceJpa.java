@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("achievementService")
 public class AchievementServiceJpa implements AchievementService{
         
-        // the EntityManager:
         private EntityManager entityManager;
 
         @PersistenceContext
@@ -30,7 +29,8 @@ public class AchievementServiceJpa implements AchievementService{
         }
         
         
-        //save a given achievement
+//SAVE Achievement
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean save(Achievement achievement) {
                 entityManager.persist(achievement);
@@ -39,7 +39,8 @@ public class AchievementServiceJpa implements AchievementService{
                 return true;
         }
 
-        //returns all existing achievements back
+//GET Liste aller Achievements
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public List<Achievement> getAll() {
@@ -49,7 +50,9 @@ public class AchievementServiceJpa implements AchievementService{
                 return achievements;
         }
 
-        //returns the achievement back through his id
+        
+//Gibt über getById ein einzelnes Achievements aus
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public Achievement getById(int id) {
@@ -63,7 +66,9 @@ public class AchievementServiceJpa implements AchievementService{
                 return result;
         }
 
-        //delete a given achievement
+        
+//Löscht über DELETE ein Achievement 
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean delete(Achievement achievement) {
                 achievement = entityManager.getReference(Achievement.class, achievement.getId());
@@ -74,7 +79,8 @@ public class AchievementServiceJpa implements AchievementService{
                 return true;
         }
 
-        // update a achievement
+//Ändert über UPDATE ein Achievement
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean update(Achievement achievement) {
                 entityManager.merge(achievement);
@@ -82,7 +88,8 @@ public class AchievementServiceJpa implements AchievementService{
                 return true;
         }
 
-        //find a achievement
+//Gibt über findAchievement ein einzelnes Achievements 
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public Achievement findAchievement(Achievement achievement) {

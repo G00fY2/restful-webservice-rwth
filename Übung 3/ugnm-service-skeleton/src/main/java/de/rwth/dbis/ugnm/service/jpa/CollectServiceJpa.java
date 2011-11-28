@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("CollectService")
 public class CollectServiceJpa implements CollectService{
-        
-        // the EntityManager:
+
         private EntityManager entityManager;
 
         @PersistenceContext
@@ -29,7 +28,8 @@ public class CollectServiceJpa implements CollectService{
         }
         
         
-        // save a achievement association
+//SAVE Achievement
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean save(Collect collect) {
                 entityManager.persist(collect);
@@ -38,7 +38,9 @@ public class CollectServiceJpa implements CollectService{
                 return true;
         }
 
-        // get all achievements of one user
+        
+//GET Liste aller Achievements eines Users
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public List<Collect> getAllAchievementsOfUser(String userEmail) {
@@ -49,7 +51,9 @@ public class CollectServiceJpa implements CollectService{
                 return rates;
         }
 
-        // find a achievement of one user
+        
+//Gibt über findCollect ein einzelnes collect zu einem User aus 
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public Collect findCollect(String userEmail, int achievementId) {
@@ -64,7 +68,9 @@ public class CollectServiceJpa implements CollectService{
                 return result;
         }
 
-        // delete a achievement association
+        
+//Löscht über DELETE ein collect
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean delete(Collect collect) {
                 collect = entityManager.getReference(Collect.class, collect.getId());
@@ -75,7 +81,9 @@ public class CollectServiceJpa implements CollectService{
                 return true;
         }
 
-        // update a achievement association
+        
+//Ändert über UPDATE ein collect
+        
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean update(Collect collect) {
                 entityManager.merge(collect);
@@ -83,6 +91,8 @@ public class CollectServiceJpa implements CollectService{
                 return true;
         }
 
+        
+        
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public Collect findCollect(Collect collect) {
