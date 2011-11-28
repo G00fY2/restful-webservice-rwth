@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({ 
         @NamedQuery(name = "Collect.findAll", query = "SELECT c FROM Collect c"),
         @NamedQuery(name = "Collect.findCollect", query = "SELECT c FROM Collect c where c.userEmail=:userEmail and c.achievementId=:achievementId"),
-        @NamedQuery(name = "Collect.findCollectOfUser", query = "SELECT c FROM Collect c where a.userEmail=:userEmail")
+        @NamedQuery(name = "Collect.findCollectOfUser", query = "SELECT c FROM Collect c where c.userEmail=:userEmail")
 })
 
 //Alle Eigenschaften von Collect werden definiert
