@@ -63,8 +63,10 @@ public class AchievementResource {
        
         @PUT
     @Consumes("application/json")
-    public Response updateAchievement(@PathParam("id") int id, JSONObject o) throws JSONException {
-               
+    public Response updateAchievement(@HeaderParam("authorization") String auth, @PathParam("id") int id, JSONObject o) throws JSONException {
+        	 	if(admin_authenticated(auth)==false){
+        	 		throw new WebApplicationException(401);
+        	 	}
 //GET Achievement ueber Primary id  
                
                 Achievement a = achievementService.getById(id);

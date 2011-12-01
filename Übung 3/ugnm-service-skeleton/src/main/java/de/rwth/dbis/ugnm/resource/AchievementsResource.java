@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Component;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Achievement;
 import de.rwth.dbis.ugnm.service.AchievementService;
@@ -73,8 +76,10 @@ public class AchievementsResource {
         
         @PUT
     @Consumes("application/json")
-    public Response createAchievement(JSONObject o) throws JSONException {
-        	
+    public Response createAchievement(@HeaderParam("authorization") String auth, JSONObject o) throws JSONException {
+        	if(admin_authenticated(auth)==false){
+                throw new WebApplicationException(401);
+        	}
 //Achievement-Objekt wird mit uebergebenen Parametern erzeugt 
         	
                 Achievement achievement = parseAchievementJsonFile(o);
@@ -116,5 +121,21 @@ public class AchievementsResource {
                     throw new WebApplicationException(409);
             }
                 
+        }
+        
+        public static boolean admin_authenticated(String authHeader){
+            String adminEmail = "sven.hausburg@rwth-aachen.de";
+            String adminPw = "abc123";
+        if(authHeader != null){
+                String[] dauth = null;
+                String authkey = authHeader.split(" ")[1];
+                if(Base64.isBase64(authkey)){
+                        dauth = (new String(Base64.decode(authkey))).split(":");
+                        if((dauth[0].toLowerCase().equals(adminEmail)) && dauth[1].equals(adminPw)){
+                                return true;
+                        }
+                }
+        }
+        return false;
         }
 }

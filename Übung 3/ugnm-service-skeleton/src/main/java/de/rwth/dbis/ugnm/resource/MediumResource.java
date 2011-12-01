@@ -5,6 +5,7 @@ import java.net.URI;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -20,6 +21,8 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Medium;
 import de.rwth.dbis.ugnm.service.MediumService;
@@ -53,8 +56,10 @@ public class MediumResource {
         
         @PUT
     @Consumes("application/json")
-    public Response updateMedium(@PathParam("url") String url, JSONObject o) throws JSONException {
-
+    public Response updateMedium(@HeaderParam("authorization") String auth, @PathParam("url") String url, JSONObject o) throws JSONException {
+        		if(admin_authenticated(auth)==false){
+        			throw new WebApplicationException(401);
+        		}
 //GET Medium ueber Primary url
         	
                 Medium m = mediumService.getByUrl(url);
@@ -80,8 +85,10 @@ public class MediumResource {
 //Ermöglicht ueber DELETE das loeschen eines einzelnen Mediums 
         
         @DELETE
-        public Response deleteMedium(@PathParam("url") String url){
-        	
+        public Response deleteMedium(@HeaderParam("authorization") String auth, @PathParam("url") String url){
+        		if(admin_authenticated(auth)==false){
+        			throw new WebApplicationException(401);
+        		}
 //GET Medium ueber Primary url        	
         	
                 Medium medium = mediumService.getByUrl(url);
@@ -116,4 +123,19 @@ public class MediumResource {
                         }
                 }
                 
+                public static boolean admin_authenticated(String authHeader){
+                    String adminEmail = "sven.hausburg@rwth-aachen.de";
+                    String adminPw = "abc123";
+                if(authHeader != null){
+                        String[] dauth = null;
+                        String authkey = authHeader.split(" ")[1];
+                        if(Base64.isBase64(authkey)){
+                                dauth = (new String(Base64.decode(authkey))).split(":");
+                                if((dauth[0].toLowerCase().equals(adminEmail)) && dauth[1].equals(adminPw)){
+                                        return true;
+                                }
+                        }
+                }
+                return false;
+                }
 }

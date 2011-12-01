@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Component;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import com.sun.jersey.core.util.Base64;
+
 import de.rwth.dbis.ugnm.entity.Medium;
 import de.rwth.dbis.ugnm.service.MediumService;
 
@@ -40,7 +43,6 @@ public class MediaResource {
 
         @Context UriInfo uriInfo;
 
-        //Gives out the Path to every Medium Object
         @GET
         @Produces("application/json")
         public JSONObject getAllMedia() {
@@ -67,14 +69,15 @@ public class MediaResource {
         }
         
         
-        //This creates a new Medium
+
         @PUT
     @Consumes("application/json")
-    public Response createMedium(JSONObject o) throws JSONException {
-                //Create a new Medium..
-                Medium medium = parseMediumJsonFile(o);
-                //call this method to make sure no double entries are inserted
-                return addIfDoesNotExist(medium);
+    public Response createMedium(@HeaderParam("authorization") String auth, JSONObject o) throws JSONException {
+        	if(admin_authenticated(auth)==false){
+                throw new WebApplicationException(401);
+        	}
+            Medium medium = parseMediumJsonFile(o);
+            return addIfDoesNotExist(medium);
     }
         
         private Response addIfDoesNotExist(Medium medium) {
@@ -89,7 +92,6 @@ public class MediaResource {
                 }
         }
         
-        //parse the JSON File for the attributes
         private Medium parseMediumJsonFile(JSONObject o){
 
                 try {
@@ -103,9 +105,23 @@ public class MediaResource {
                         return medium;
                 } catch (JSONException e) {
                         throw new WebApplicationException(406);
+                }  
+        }
+        
+        
+        public static boolean admin_authenticated(String authHeader){
+            String adminEmail = "sven.hausburg@rwth-aachen.de";
+            String adminPw = "abc123";
+        if(authHeader != null){
+                String[] dauth = null;
+                String authkey = authHeader.split(" ")[1];
+                if(Base64.isBase64(authkey)){
+                        dauth = (new String(Base64.decode(authkey))).split(":");
+                        if((dauth[0].toLowerCase().equals(adminEmail)) && dauth[1].equals(adminPw)){
+                                return true;
+                        }
                 }
-                
-
-                
+        }
+        return false;
         }
 }
