@@ -96,9 +96,7 @@ public class AchievementResource {
         
         @DELETE
         public Response deleteAchievement(@HeaderParam("authorization") String auth, @PathParam("id") int id){
-        		if(admin_authenticated(auth)==false){
-        			throw new WebApplicationException(401);
-        		}
+        		
 //GET Achievement ueber Primary Id        	
 
                 Achievement achievement = achievementService.getById(id);
@@ -106,6 +104,9 @@ public class AchievementResource {
 //Wenn Achievement nicht "null" ist wird das Achievement gelöscht und ein ok-Response abgesetzt
                 
                 if(achievement!=null){
+                	if(admin_authenticated(auth)==false){
+            			throw new WebApplicationException(401);
+            		}
                         achievementService.delete(achievement);
                         return Response.ok().build();
                 }
