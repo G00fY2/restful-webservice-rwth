@@ -5,6 +5,7 @@ import java.net.URI;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,15 +16,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Achievement;
 import de.rwth.dbis.ugnm.service.AchievementService;
-import de.rwth.dbis.ugnm.service.UserService;
 
 @Path("/achievements/{id}")
 @Component
@@ -33,8 +35,6 @@ public class AchievementResource {
         @Autowired
         AchievementService achievementService;
         
-        @Autowired
-        UserService userService;
         
         @Context UriInfo uriInfo;
         
@@ -95,8 +95,10 @@ public class AchievementResource {
 //Ermöglicht ueber DELETE das loeschen eines einzelnen Achievements 
         
         @DELETE
-        public Response deleteAchievement(@PathParam("id") int id){
-
+        public Response deleteAchievement(@HeaderParam("authorization") String auth, @PathParam("id") int id){
+        		if(admin_authenticated(auth)==false){
+        			throw new WebApplicationException(401);
+        		}
 //GET Achievement ueber Primary Id        	
 
                 Achievement achievement = achievementService.getById(id);
@@ -134,4 +136,21 @@ public class AchievementResource {
                                 throw new WebApplicationException(409);
                         }
                 }
+                
+                
+                public static boolean admin_authenticated(String authHeader){
+                	String adminEmail = "hausburg.sven@googlemail.com";
+                	String adminPw = "abc123";
+                    if(authHeader != null){
+                            String[] dauth = null;
+                            String authkey = authHeader.split(" ")[1];
+                            if(Base64.isBase64(authkey)){
+                                    dauth = (new String(Base64.decode(authkey))).split(":");
+                                    if((dauth[0].toLowerCase().equals(adminEmail)) && dauth[1].equals(adminPw)){
+                                            return true;
+                                    }
+                            }
+                    }
+                    return false;
+            }
 }
