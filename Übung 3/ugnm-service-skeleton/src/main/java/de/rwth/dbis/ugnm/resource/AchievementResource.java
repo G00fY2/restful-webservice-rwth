@@ -34,43 +34,43 @@ public class AchievementResource {
 
         @Autowired
         AchievementService achievementService;
-        
-        
+       
+       
         @Context UriInfo uriInfo;
-        
+       
 //Gibt ueber GET ein einzelnes Achievement aus
 //GET Achievement ueber Primary id
-        
+       
         @GET
         @Produces("application/json")
         public Achievement getAchievement(@PathParam("id") int id) {
    
-//Achievement-Objekt wird mit uebergebenen Parametern erzeugt 
-        	
+//Achievement-Objekt wird mit uebergebenen Parametern erzeugt
+               
                 Achievement a = achievementService.getById(id);
-                
+               
 //Wenn Achievement-Object nicht = "null" wird dieses ausgegeben
-//Andernfalls wird eine 404 WebApplicationException geschmissen               
-                
-                
+//Andernfalls wird eine 404 WebApplicationException geschmissen              
+               
+               
                 if (a==null){
                         throw new WebApplicationException(404);
                 }
                 return a;
         }
-        
+       
 //Ermöglicht ueber PUT das aendern eines einzelnen Achievements          
-        
+       
         @PUT
     @Consumes("application/json")
     public Response updateAchievement(@PathParam("id") int id, JSONObject o) throws JSONException {
-        	
-//GET Achievement ueber Primary id   
-        	
+               
+//GET Achievement ueber Primary id  
+               
                 Achievement a = achievementService.getById(id);
-                
+               
 //Wenn Achievement nicht "null" ist wird das Achievement geupdated und ein created-Response abgesetzt                
-                
+               
                 if(a != null){
                         Achievement achievement = parseJsonUpdateFile(o, id);
                         if(a!=achievement){
@@ -84,44 +84,43 @@ public class AchievementResource {
                                 return Response.notModified().build();
                         }
                 }
-                
-//Andernfalls wird eine 404 WebApplicationException geschmissen                 
-                
+               
+//Andernfalls wird eine 404 WebApplicationException geschmissen                
+               
                 else{
                         throw new WebApplicationException(404);
                 }
     }
-        
-//Ermöglicht ueber DELETE das loeschen eines einzelnen Achievements 
-        
+       
+//Ermöglicht ueber DELETE das loeschen eines einzelnen Achievements
+       
         @DELETE
         public Response deleteAchievement(@HeaderParam("authorization") String auth, @PathParam("id") int id){
-        		
-//GET Achievement ueber Primary Id        	
+                        if(admin_authenticated(auth)==false){
+                                throw new WebApplicationException(401);
+                        }
+//GET Achievement ueber Primary Id              
 
                 Achievement achievement = achievementService.getById(id);
-                
+               
 //Wenn Achievement nicht "null" ist wird das Achievement gelöscht und ein ok-Response abgesetzt
-                
+               
                 if(achievement!=null){
-                	if(admin_authenticated(auth)==false){
-            			throw new WebApplicationException(401);
-            		}
                         achievementService.delete(achievement);
                         return Response.ok().build();
                 }
-                
+               
 //Andernfalls wird eine 404 WebApplicationException geschmissen                
-                
+               
                 else{
                         throw new WebApplicationException(404);
                 }
         }
-        
-        
- //Parst die fuer Achievement nötigen Attribute in Json       
-        
-        
+       
+       
+ //Parst die fuer Achievement nötigen Attribute in Json      
+       
+       
                 private Achievement parseJsonUpdateFile(JSONObject o, int id){
                         try {
                                 String description = o.getString("description");
@@ -137,11 +136,11 @@ public class AchievementResource {
                                 throw new WebApplicationException(409);
                         }
                 }
-                
-                
+               
+               
                 public static boolean admin_authenticated(String authHeader){
-                	String adminEmail = "hausburg.sven@googlemail.com";
-                	String adminPw = "abc123";
+                        String adminEmail = "sven.hausburg@rwth-aachen.de";
+                        String adminPw = "abc123";
                     if(authHeader != null){
                             String[] dauth = null;
                             String authkey = authHeader.split(" ")[1];
@@ -155,3 +154,4 @@ public class AchievementResource {
                     return false;
             }
 }
+
