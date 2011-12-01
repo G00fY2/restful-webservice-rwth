@@ -29,7 +29,7 @@ REM update data of user "Hansi" without data.
 curl http://localhost:8080/ugnm-service/resources/users/hansi.hausburg@rwth-aachen.de -v -X PUT -H "Content-Type: application/json" -d "{}" --user hansi.hausburg@rwth-aachen.de:pazzword
 
 REM update data of user "Hansi"
-curl http://localhost:8080/ugnm-service/resources/users/hansi.hausburg@rwth-aachen.de -v -X PUT -H "Content-Type: application/json" -d "{'username':'Hammel'}" --user hansi.ausburg@rwth-aachen.de:pazzword
+curl http://localhost:8080/ugnm-service/resources/users/hansi.hausburg@rwth-aachen.de -v -X PUT -H "Content-Type: application/json" -d "{'username':'Hammel'}" --user hansi.hausburg@rwth-aachen.de:pazzword
 
 REM get updated data of user "Hansi"
 curl http://localhost:8080/ugnm-service/resources/users/hansi.hausburg@rwth-aachen.de -v -X GET
