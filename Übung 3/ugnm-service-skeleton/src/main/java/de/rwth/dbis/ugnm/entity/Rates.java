@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @Table(name = "Rates")
 @NamedQueries({ 
         @NamedQuery(name = "Rates.findAll", query = "SELECT r FROM Rates r"),
-        @NamedQuery(name = "Rates.findRate", query = "SELECT r FROM Rates r where r.id=:id"),
+        @NamedQuery(name = "Rates.findRate", query = "SELECT r FROM Rates r where r.id=:id and r.userEmail=:userEmail"),
         @NamedQuery(name = "Rates.findRatesOfUser", query = "SELECT r FROM Rates r where r.userEmail=:userEmail")
 })
 
