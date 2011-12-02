@@ -30,7 +30,7 @@ _JSON MIME Typ_
 
 Eingabe:
 {{{
-{'email':'<EMAIL>','username':'<USERNAME>','password':'<PASSWORD>','name':'<NAME>'}
+{'email':<EMAIL>,'username':<USERNAME>,'password':<PASSWORD>,'name':<NAME>}
 	}}}
 
 
