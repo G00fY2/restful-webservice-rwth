@@ -1,6 +1,5 @@
 package de.rwth.dbis.ugnm.service.jpa;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import de.rwth.dbis.ugnm.entity.Rates;
@@ -51,44 +50,14 @@ public class RatesServiceJpa implements RatesService{
                 return rates;
         }
 
-// Gibt ein Rating zu einem User aus
-        
-        @SuppressWarnings("unchecked")
-        @Transactional(readOnly = true)
-        public Rates get(String userEmail, String mediumUrl, Timestamp time){  
-                Query queryFindRate = entityManager.createNamedQuery("Rates.findRate");
-                queryFindRate.setParameter("userEmail", userEmail);
-                queryFindRate.setParameter("mediumUrl", mediumUrl);
-                queryFindRate.setParameter("time", time);
-                List<Rates> rates = queryFindRate.getResultList();
-                Rates result = null;
-                if(rates.size() > 0) {
-                        result = rates.get(0);
-                }
-                return result;
-        }
-        
-       
-//Löscht über DELETE ein rating
-        
-        @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
-        public boolean delete(Rates rate) {
-                rate = entityManager.getReference(Rates.class, rate.getId());
-                if (rate == null)
-                        return false;
-                entityManager.remove(rate);
-                entityManager.flush();
-                return true;
-        }
-
 
 //Gibt ein Rating über id aus
         
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
-        public Rates findRate(int id) {
+        public Rates getRateById(int id) {
                 Rates result = null;
-                Query queryFindMedia = entityManager.createNamedQuery("Rates.findRate");
+                Query queryFindMedia = entityManager.createNamedQuery("Rates.findRateById");
                 queryFindMedia.setParameter("id", id);
                 List<Rates> rates = queryFindMedia.getResultList();
                 if(rates.size() > 0) {

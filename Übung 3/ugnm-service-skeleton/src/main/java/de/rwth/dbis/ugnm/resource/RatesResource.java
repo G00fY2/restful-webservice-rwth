@@ -94,7 +94,6 @@ public class RatesResource {
                 if(mediumService.getByUrl(rate.getMediumUrl())!= null){
                         if(authenticated(auth, userService.getByEmail(email))){
                                 ratesService.save(rate);
-                                rate = ratesService.get(rate.getUserEmail(), rate.getMediumUrl(), rate.getTime());
                                 return Response.ok().build();
                         }
                         else{
