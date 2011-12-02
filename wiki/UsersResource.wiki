@@ -30,7 +30,7 @@ _JSON MIME Typ_
 
 Eingabe:
 {{{
-{'email':'max.mustermann@rwth-aachen.de','username':'Maxx','password':'1234','name':'Max Mustermann'}
+{'email':'<EMAIL>','username':'<USERNAME>','password':'<PASSWORD>','name':'<NAME>'}
 	}}}
 
 
