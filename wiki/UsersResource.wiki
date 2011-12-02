@@ -30,11 +30,7 @@ _JSON MIME Typ_
 
 Eingabe:
 {{{
-		E-Mail: <EMAIL>, (required)
-		Passwort: <PASSWORt>, (required)
-		Benutername: <BENUTZERNAME>, (required)
-                Vorname: <VORNAME>, (not required)
-                Nachname: <NACHNAME>, (not required)
+{'email':'max.mustermann@rwth-aachen.de','username':'Maxx','password':'1234','name':'Max Mustermann'}
 	}}}
 
 
