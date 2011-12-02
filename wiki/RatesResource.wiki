@@ -30,7 +30,7 @@ _JSON MIME Typ_
 
 Eingabe:
 {{{
-                Rate: <RATE>
+                Rate: {'url':'www.beispielUrl.de','rate':0}
 	}}}
 
 
