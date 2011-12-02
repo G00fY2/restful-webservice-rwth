@@ -30,12 +30,12 @@ public class RateResource {
         	
 //Rates-Objekt wird mit uebergebenen Parametern erzeugt        	
         
-                Rates r = rateService.findRate(id);
+                Rates r = rateService.getRateById(id);
                 
 //Wenn Rate-Object nicht = "null" und die mail im object aequivalent zur uebergebenen usermail ist, wird dieses Object ausgegeben               
 //Andernfalls wird eine 404 WebApplicationException geschmissen                  
                 
-                if (r==null || r.getUserEmail()!=userEmail){
+                if (r==null){
                         throw new WebApplicationException(404);
                 }
                 return r;
