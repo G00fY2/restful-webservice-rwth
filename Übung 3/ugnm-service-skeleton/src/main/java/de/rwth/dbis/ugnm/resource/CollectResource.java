@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import de.rwth.dbis.ugnm.entity.Collect;
 import de.rwth.dbis.ugnm.service.CollectService;
 
-@Path("/users/{email}/collected/{achievementId}")
+@Path("/users/{email}/collect/{achievementId}")
 @Component
 @Scope("request")
 public class CollectResource {
@@ -32,10 +32,10 @@ public class CollectResource {
         	
                 Collect c = collectService.findCollect(userEmail, achievementId);
                 
-//Wenn Collect-Object nicht = "null" und die mail im object aequivalent zur uebergebenen usermail ist, wird dieses Object ausgegeben               
+//Wenn Collect-Object nicht = "null" wird dieses Object ausgegeben               
 //Andernfalls wird eine 404 WebApplicationException geschmissen               
                 
-                if (c==null || c.getUserEmail()!=userEmail){
+                if (c==null){
                         throw new WebApplicationException(404);
                 }
                 return c;

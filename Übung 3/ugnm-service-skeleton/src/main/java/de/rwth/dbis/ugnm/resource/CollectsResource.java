@@ -32,7 +32,7 @@ import de.rwth.dbis.ugnm.service.UserService;
 
 
 
-@Path("/users/{email}/collected")
+@Path("/users/{email}/collect")
 @Component
 @Scope("request")
 public class CollectsResource {
@@ -49,26 +49,26 @@ public class CollectsResource {
         
         @Context UriInfo uriInfo;
 
-//Gibt ueber GET ein Liste aller Achievement aus
+//Gibt ueber GET ein Liste aller Achievements aus
         
         @GET
         @Produces("application/json")
         public JSONObject getAllCollects(@PathParam("email") String email) {
 
-                List<Collect> rateList = collectService.getAllAchievementsOfUser(email);
-                Iterator<Collect> cit = rateList.iterator();
+                List<Collect> collectList = collectService.getAllAchievementsOfUser(email);
+                Iterator<Collect> cit = collectList.iterator();
                 
-                Vector<String> vc = new Vector<String>();      
+                Vector<String> vCollect = new Vector<String>();      
                 
                 while(cit.hasNext()){
                         Collect c = cit.next();
                         String rUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + c.getId();
-                        vc.add(rUri);
+                        vCollect.add(rUri);
                 }
 
                 try {
                         JSONObject j = new JSONObject();
-                        j.append("AchievementsOfUser",vc);
+                        j.append("collect",vCollect);
                         return j;
                 } catch (JSONException e) {
                         throw new WebApplicationException(500);
@@ -77,7 +77,7 @@ public class CollectsResource {
         
         
         
-//Ermöglicht ueber PUT das erstellen eines einzelnen Achievements 
+//Ermoeglicht ueber PUT das Erstellen eines einzelnen Achievements 
         
         @PUT
     @Consumes("application/json")
@@ -87,7 +87,7 @@ public class CollectsResource {
         	
                 Collect collect = parseCollectJsonFile(o, email);
                                 
-//Methode überprüft ob Achievement existiert
+//Methode ueberprueft ob Achievement existiert
                 
                 if(achievementService.getById(collect.getAchievementId()) != null){
                         if(authenticated(auth, userService.getByEmail(email))){
@@ -104,17 +104,15 @@ public class CollectsResource {
                 }
     }
         
-//Parst die fuer Collect nötigen Attribute in Json   
+//Parst die fuer Collect noetigen Attribute in Json   
 
         private Collect parseCollectJsonFile(JSONObject o, String email){
 
                 try {
-                	    int id = o.getInt("id");
                         int achievementId = o.getInt("achievementId");
                         Collect collect = new Collect();   
                         collect.setAchievementId(achievementId);
                         collect.setUserEmail(email);
-                        collect.setId(id);
                         
                         return collect;
                 } catch (JSONException e) {

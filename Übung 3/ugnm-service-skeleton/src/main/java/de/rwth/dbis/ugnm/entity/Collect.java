@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "Collect")
 @NamedQueries({ 
-        @NamedQuery(name = "Collect.findAll", query = "SELECT c FROM Collect c"),
         @NamedQuery(name = "Collect.findCollect", query = "SELECT c FROM Collect c where c.userEmail=:userEmail and c.achievementId=:achievementId"),
         @NamedQuery(name = "Collect.findCollectOfUser", query = "SELECT c FROM Collect c where c.userEmail=:userEmail")
 })
@@ -45,9 +44,6 @@ public class Collect {
         
 //Getter-Setter Methoden
         
-        public void setId(int id) {
-                this.id = id;
-        }
 
         public int getId() {
                 return id;
