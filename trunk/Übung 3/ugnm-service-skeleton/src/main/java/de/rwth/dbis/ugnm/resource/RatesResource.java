@@ -94,7 +94,6 @@ public class RatesResource {
                 Rates rate = parseRateJsonFile(o, email);
                 Medium m = mediumService.getByUrl(o.getString("url"));
                 User u = userService.getByEmail(email);
-                Collect c = CollectsResource.createCollect(auth, email);
                 //check if the Medium does exist
                 if(mediumService.getByUrl(rate.getMediumUrl())!= null){
                         if(authenticated(auth, userService.getByEmail(email))){
@@ -102,9 +101,6 @@ public class RatesResource {
                         	    int ep = u.getEp()+100;
                         	    u.setEp(ep);
                         	    userService.update(u);
-                        	    if (reached(ep)==true){
-                        	    	collectService.save(c);
-                        	    }
                         	    return Response.ok().build();
                         	}else{    
                                 return Response.ok().build();
