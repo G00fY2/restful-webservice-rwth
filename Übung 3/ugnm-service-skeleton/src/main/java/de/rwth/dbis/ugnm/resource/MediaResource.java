@@ -19,7 +19,6 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.WebApplicationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.codehaus.jettison.json.JSONException;
@@ -32,7 +31,7 @@ import de.rwth.dbis.ugnm.service.MediumService;
 
 @Path("/media")
 @Component
-@Scope("request")
+//@Scope("request")
 public class MediaResource {
         
         
