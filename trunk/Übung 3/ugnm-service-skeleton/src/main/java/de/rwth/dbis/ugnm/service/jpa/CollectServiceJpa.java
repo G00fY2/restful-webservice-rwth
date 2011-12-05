@@ -43,12 +43,12 @@ public class CollectServiceJpa implements CollectService{
         
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
-        public List<Collect> getAllAchievementsOfUser(String userEmail) {
+        public List<Collect> getAllAchievementsOfUser(String email) {
                 Query query = entityManager.createNamedQuery("Collect.findCollectOfUser");
-                query.setParameter("userEmail", userEmail);
-                List<Collect> rates = null;
-                rates = query.getResultList();
-                return rates;
+                query.setParameter("userEmail", email);
+                List<Collect> collects = null;
+                collects = query.getResultList();
+                return collects;
         }
 
         
@@ -67,30 +67,6 @@ public class CollectServiceJpa implements CollectService{
                 }
                 return result;
         }
-
-        
-//Löscht über DELETE ein collect
-        
-        @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
-        public boolean delete(Collect collect) {
-                collect = entityManager.getReference(Collect.class, collect.getId());
-                if (collect == null)
-                        return false;
-                entityManager.remove(collect);
-                entityManager.flush();
-                return true;
-        }
-
-        
-//Ändert über UPDATE ein collect
-        
-        @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
-        public boolean update(Collect collect) {
-                entityManager.merge(collect);
-                entityManager.flush();
-                return true;
-        }
-
         
         
         @SuppressWarnings("unchecked")
