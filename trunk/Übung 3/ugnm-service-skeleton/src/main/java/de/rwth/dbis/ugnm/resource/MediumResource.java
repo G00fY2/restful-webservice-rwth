@@ -19,7 +19,6 @@ import javax.ws.rs.core.UriInfo;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.sun.jersey.core.util.Base64;
@@ -29,7 +28,7 @@ import de.rwth.dbis.ugnm.service.MediumService;
 
 @Path("/media/{url}")
 @Component
-@Scope("request")
+//@Scope("request")
 public class MediumResource {
 
         @Autowired

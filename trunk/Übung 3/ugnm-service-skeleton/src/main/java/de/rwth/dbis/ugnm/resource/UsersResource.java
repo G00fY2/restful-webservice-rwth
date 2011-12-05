@@ -19,7 +19,6 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.WebApplicationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import org.codehaus.jettison.json.JSONException;
@@ -28,10 +27,9 @@ import org.codehaus.jettison.json.JSONObject;
 import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.UserService;
 
-
 @Path("/users")
 @Component
-@Scope("request")
+//@Scope("request")
 
 
 public class UsersResource {

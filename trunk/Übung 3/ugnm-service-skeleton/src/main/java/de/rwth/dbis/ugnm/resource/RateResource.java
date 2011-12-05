@@ -7,7 +7,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import de.rwth.dbis.ugnm.entity.Rates;
@@ -15,7 +14,7 @@ import de.rwth.dbis.ugnm.service.RatesService;
 
 @Path("/users/{email}/rates/{id}")
 @Component
-@Scope("request")
+//@Scope("request")
 public class RateResource {
 
         @Autowired

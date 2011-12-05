@@ -20,7 +20,6 @@ import javax.ws.rs.core.UriInfo;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import com.sun.jersey.core.util.Base64;
 
@@ -29,7 +28,7 @@ import de.rwth.dbis.ugnm.service.AchievementService;
 
 @Path("/achievements/{id}")
 @Component
-@Scope("request")
+//@Scope("request")
 public class AchievementResource {
 
         @Autowired
