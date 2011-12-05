@@ -93,13 +93,14 @@ public class RatesResource {
                 //Create a new rating..
                 Rates rate = parseRateJsonFile(o, email);
                 Medium m = mediumService.getByUrl(o.getString("url"));
-                User u = userService.getByEmail(email);
+                User u = userService.getByEmail(email); 
                 //check if the Medium does exist
                 if(mediumService.getByUrl(rate.getMediumUrl())!= null){
                         if(authenticated(auth, userService.getByEmail(email))){
                         	if(m.getValue()==rate.getRate()){
                         	    int ep = u.getEp()+100;
                         	    u.setEp(ep);
+                        	    collectService.save(reached(ep, email));
                         	    userService.update(u);
                         	    return Response.ok().build();
                         	}else{    
@@ -158,11 +159,15 @@ public class RatesResource {
         }
        
         
-        private boolean reached(int ep){
+        private Collect reached(int ep, String email){
+        	
+            Collect c = new Collect();
+            c.setUserEmail(email);
+            
         	if(ep>=1000){
-        		return true;
-        	}else{
-        		return false;
+        		int achievementId = 001;
+                c.setAchievementId(achievementId);
         	}
+        	return c;
         }
 }
