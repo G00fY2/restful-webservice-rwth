@@ -21,7 +21,7 @@ public class RateResource {
         RatesService rateService;
  
 //Gibt ueber GET ein einzelnes Rate aus           
-//GET Collect ueber Foreginkey userEmail, Primary id         
+//GET Rate ueber Foreginkey userEmail, Primary id         
         
         @GET
         @Produces("application/json")
