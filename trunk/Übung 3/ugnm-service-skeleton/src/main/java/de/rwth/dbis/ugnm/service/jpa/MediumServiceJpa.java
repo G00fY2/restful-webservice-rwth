@@ -102,5 +102,4 @@ public class MediumServiceJpa implements MediumService{
                 }
                 return result;
         }
-
 }

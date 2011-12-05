@@ -25,6 +25,7 @@ import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Rates;
 import de.rwth.dbis.ugnm.entity.User;
+import de.rwth.dbis.ugnm.entity.Medium;
 import de.rwth.dbis.ugnm.service.AchievementService;
 import de.rwth.dbis.ugnm.service.MediumService;
 import de.rwth.dbis.ugnm.service.RatesService;
@@ -83,14 +84,21 @@ public class RatesResource {
         
         @PUT
     @Consumes("application/json")
-    public Response createRate(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException{
+    public Response createRate(@HeaderParam("authorization") String auth,@PathParam("email") String email, JSONObject o) throws JSONException{
                 //Create a new rating..
                 Rates rate = parseRateJsonFile(o, email);
+                Medium m = mediumService.getByUrl(o.getString("url"));
+                User u = userService.getByEmail(email);
                 //check if the Medium does exist
                 if(mediumService.getByUrl(rate.getMediumUrl())!= null){
                         if(authenticated(auth, userService.getByEmail(email))){
-                                ratesService.save(rate);
+                        	if(m.getValue()==rate.getRate()){
+                        	    int ep = u.getEp()+100;
+                        	    u.setEp(ep);
+                        	    return Response.ok().build();
+                        	}else{    
                                 return Response.ok().build();
+                        	}
                         }
                         else{
                                 throw new WebApplicationException(401);
