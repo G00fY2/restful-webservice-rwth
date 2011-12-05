@@ -26,16 +26,21 @@ import com.sun.jersey.core.util.Base64;
 import de.rwth.dbis.ugnm.entity.Rates;
 import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.entity.Medium;
+import de.rwth.dbis.ugnm.entity.Collect;
 import de.rwth.dbis.ugnm.service.AchievementService;
 import de.rwth.dbis.ugnm.service.MediumService;
 import de.rwth.dbis.ugnm.service.RatesService;
 import de.rwth.dbis.ugnm.service.UserService;
+import de.rwth.dbis.ugnm.service.CollectService;
+import de.rwth.dbis.ugnm.resource.CollectsResource;
 
 @Path("/users/{email}/rates")
 @Component
 //@Scope("request")
 public class RatesResource {
 
+    	@Autowired
+    	CollectService collectService;
 
         @Autowired
         RatesService ratesService;
@@ -89,6 +94,7 @@ public class RatesResource {
                 Rates rate = parseRateJsonFile(o, email);
                 Medium m = mediumService.getByUrl(o.getString("url"));
                 User u = userService.getByEmail(email);
+                Collect c = CollectsResource.createCollect(auth, email);
                 //check if the Medium does exist
                 if(mediumService.getByUrl(rate.getMediumUrl())!= null){
                         if(authenticated(auth, userService.getByEmail(email))){
@@ -96,6 +102,9 @@ public class RatesResource {
                         	    int ep = u.getEp()+100;
                         	    u.setEp(ep);
                         	    userService.update(u);
+                        	    if (reached(ep)==true){
+                        	    	collectService.save(c);
+                        	    }
                         	    return Response.ok().build();
                         	}else{    
                                 return Response.ok().build();
@@ -152,4 +161,12 @@ public class RatesResource {
                 return false;
         }
        
+        
+        private boolean reached(int ep){
+        	if(ep>=1000){
+        		return true;
+        	}else{
+        		return false;
+        	}
+        }
 }
