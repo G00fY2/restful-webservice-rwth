@@ -95,6 +95,7 @@ public class RatesResource {
                         	if(m.getValue()==rate.getRate()){
                         	    int ep = u.getEp()+100;
                         	    u.setEp(ep);
+                        	    userService.update(u);
                         	    return Response.ok().build();
                         	}else{    
                                 return Response.ok().build();
