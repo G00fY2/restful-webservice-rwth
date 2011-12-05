@@ -67,21 +67,6 @@ public class CollectServiceJpa implements CollectService{
                 }
                 return result;
         }
-        
-        
-        @SuppressWarnings("unchecked")
-        @Transactional(readOnly = true)
-        public Collect findCollect(Collect collect) {
-                Collect result = null;
-                Query queryFindCollect= entityManager.createNamedQuery("Collect.findCollect");
-                queryFindCollect.setParameter("id", collect.getId());
-
-                List<Collect> collects = queryFindCollect.getResultList();
-                if(collects.size() > 0) {
-                        result = collects.get(0);
-                }
-                return result;
-        }
 
 }
 
