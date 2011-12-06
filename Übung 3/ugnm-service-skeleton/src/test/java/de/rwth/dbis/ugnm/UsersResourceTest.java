@@ -26,6 +26,8 @@ public class UsersResourceTest extends JerseyTest{
 	/*
 	 * Testkonstruktor; sollte für alle von Euch geschriebenen Testklassen gleich sein.
 	 **/
+	
+	
     public UsersResourceTest() throws Exception {
 		super(new WebAppDescriptor.Builder("de.rwth.dbis.ugnm")
         .contextPath("")
@@ -34,6 +36,7 @@ public class UsersResourceTest extends JerseyTest{
         .contextListenerClass(ContextLoaderListener.class)
         .build());
     }
+    
     
     // ------------------- Test Methoden -------------------
     
@@ -59,12 +62,15 @@ public class UsersResourceTest extends JerseyTest{
 	 * 
 	 *   - /users			GET		200	(Liste aller User erfolgreich geholt)
 	 **/
+    
+    
+    
 	public void testGetSuccess() {
 		// sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
 		ClientResponse response = resource().path("users").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		
 		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
-        assertEquals(response.getType().toString(),MediaType.APPLICATION_JSON);
+        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
         
         // verarbeite die zurückgelieferten Daten als JSON Objekt.
         JSONObject o = response.getEntity(JSONObject.class);
@@ -87,6 +93,8 @@ public class UsersResourceTest extends JerseyTest{
 	 *   - /users/			POST	201 (neuer User wurde erfolgreich angelegt)
 	 *   - /users/{login}	DELETE	200 (bestehender User erfolgreich entfernt)	
 	 **/
+	
+	
 	public void testDeletePostDelete() {
 		
 		// ---------- Delete auf nicht existierenden User ------------
