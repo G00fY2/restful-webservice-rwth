@@ -101,10 +101,10 @@ public class UsersResourceTest extends JerseyTest{
 		WebResource r = resource(); 
 		
 		// auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
-        r.addFilter(new HTTPBasicAuthFilter("mia", "aaaaa")); 
+        r.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
 		
         // sende DELETE Request an nicht existierende Ressource /users/mia (sollte vor dem Test nicht existieren)
-		ClientResponse response = r.path("users/mia").delete(ClientResponse.class);
+		ClientResponse response = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
 		
 		// teste, ob der spezifizierte HTTP Status 404 (Not Found) zurückgeliefert wurde. 
         assertEquals(response.getStatus(), Status.NOT_FOUND.getStatusCode());
@@ -112,7 +112,7 @@ public class UsersResourceTest extends JerseyTest{
         // ----------- Erfolgreiches Anlegen eines Users ---------------
         
 		// gebe JSON Content als String an.
-		String content = "{'name':'Mia','login':'mia','pass':'aaaaa'}";
+		String content = "{'email':'thomas.tomatenkop@gmx.de','username':'popo','password':'1234','name':'thomas tomatenkop'}";
 		
 		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /users.
 		ClientResponse response2 = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
@@ -122,9 +122,9 @@ public class UsersResourceTest extends JerseyTest{
 		
 		WebResource r2 = resource(); 
 
-        r2.addFilter(new HTTPBasicAuthFilter("mia", "aaaaa")); 
+        r2.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
 		
-		ClientResponse response3 = r.path("users/mia").delete(ClientResponse.class);
+		ClientResponse response3 = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	}
 }
