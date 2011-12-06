@@ -32,10 +32,10 @@ import de.rwth.dbis.ugnm.service.MediumService;
 import de.rwth.dbis.ugnm.service.RatesService;
 import de.rwth.dbis.ugnm.service.UserService;
 import de.rwth.dbis.ugnm.service.CollectService;
-import de.rwth.dbis.ugnm.resource.CollectsResource;
 
 @Path("/users/{email}/rates")
 @Component
+//@Scope("request")
 public class RatesResource {
 
     	@Autowired
@@ -99,9 +99,9 @@ public class RatesResource {
                         	if(m.getValue()==rate.getRate()){
                         	    int ep = u.getEp()+100;
                         	    u.setEp(ep);
-                        	    collectService.save(reached(ep, email));
                         	    userService.update(u);
-                        	    return Response.ok().build();
+                        	    reached(ep, email);
+                          	    return Response.ok().build();
                         	}else{    
                                 return Response.ok().build();
                         	}
@@ -159,14 +159,22 @@ public class RatesResource {
        
         
         private Collect reached(int ep, String email){
-        	
-            Collect c = new Collect();
-            c.setUserEmail(email);
-            
-        	if(ep>=200){
-        		int achievementId = 1;
-                c.setAchievementId(achievementId);
+            Collect collect = new Collect();
+        	if(ep==1000){
+        		collect.setAchievementId(1);
+               collect.setUserEmail(email);
+               collectService.save(collect);
         	}
-        	return c;
+        	else if(ep==2000){
+                collect.setAchievementId(2);
+                collect.setUserEmail(email);
+                collectService.save(collect);
+         	}
+        	else if(ep==3000){
+                collect.setAchievementId(3);
+                collect.setUserEmail(email);
+                collectService.save(collect);
+        	}         
+            return collect;
         }
 }
