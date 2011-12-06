@@ -31,7 +31,6 @@ import de.rwth.dbis.ugnm.service.MediumService;
 
 @Path("/media")
 @Component
-//@Scope("request")
 public class MediaResource {
         
         

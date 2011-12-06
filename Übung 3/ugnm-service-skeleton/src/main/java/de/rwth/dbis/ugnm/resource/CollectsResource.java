@@ -30,7 +30,6 @@ import de.rwth.dbis.ugnm.service.UserService;
 
 @Path("/users/{email}/collect")
 @Component
-//@Scope("request")
 public class CollectsResource {
 
 

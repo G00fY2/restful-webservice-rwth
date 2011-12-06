@@ -14,7 +14,6 @@ import de.rwth.dbis.ugnm.service.RatesService;
 
 @Path("/users/{email}/rates/{id}")
 @Component
-//@Scope("request")
 public class RateResource {
 
         @Autowired
