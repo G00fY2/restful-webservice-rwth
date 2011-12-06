@@ -18,7 +18,7 @@ import com.sun.jersey.spi.spring.container.servlet.SpringServlet;
 import com.sun.jersey.test.framework.JerseyTest;
 import com.sun.jersey.test.framework.WebAppDescriptor;
 
-public class MediaResourceTest extends JerseyTest{
+public class AchievementsResourceTest extends JerseyTest{
     
 	@Autowired
 	ApplicationContext context;
@@ -28,7 +28,7 @@ public class MediaResourceTest extends JerseyTest{
 	 **/
 	
 	
-    public MediaResourceTest() throws Exception {
+    public AchievementsResourceTest() throws Exception {
 		super(new WebAppDescriptor.Builder("de.rwth.dbis.ugnm")
         .contextPath("")
         .contextParam("contextConfigLocation", "classpath:applicationContext.xml")
@@ -42,7 +42,7 @@ public class MediaResourceTest extends JerseyTest{
     
     @Test
 	/*
-	 * sendet einen GET Request an die Ressource /media. 
+	 * sendet einen GET Request an die Ressource /achievements. 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
@@ -53,7 +53,7 @@ public class MediaResourceTest extends JerseyTest{
     
 	public void testGetSuccess() {
 		// sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
-		ClientResponse response = resource().path("media").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		ClientResponse response = resource().path("achievements").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		
 		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
         assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
@@ -62,7 +62,7 @@ public class MediaResourceTest extends JerseyTest{
         JSONObject o = response.getEntity(JSONObject.class);
         
         // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
-        assertTrue(o.has("media"));
+        assertTrue(o.has("achievements"));
         
 	}
     
@@ -89,8 +89,8 @@ public class MediaResourceTest extends JerseyTest{
 		// auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
         r.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
 		
-        // sende DELETE Request an nicht existierende Ressource /media/www.medium4.de (sollte vor dem Test nicht existieren)
-		ClientResponse response = r.path("media/www.medium4.de").delete(ClientResponse.class);
+        // sende DELETE Request an nicht existierende Ressource achievements/4 (sollte vor dem Test nicht existieren)
+		ClientResponse response = r.path("achievements/4").delete(ClientResponse.class);
 		
 		// teste, ob der spezifizierte HTTP Status 404 (Not Found) zurückgeliefert wurde. 
         assertEquals(response.getStatus(), Status.NOT_FOUND.getStatusCode());
@@ -98,10 +98,10 @@ public class MediaResourceTest extends JerseyTest{
         // ----------- Erfolgreiches Anlegen eines Mediums ---------------
         
 		// gebe JSON Content als String an.
-		String content = "{'url':'www.medium4.de','value':0,'description':'Neues Test Medium 4'}";
+		String content = "{'id':4,'description':'Neues Test-Achievement','name':'Achievement4','url':'/achievements/4'}";
 		
 		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-		ClientResponse response2 = resource().path("media").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
+		ClientResponse response2 = resource().path("achievements").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
@@ -110,7 +110,7 @@ public class MediaResourceTest extends JerseyTest{
 
         r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
 		
-		ClientResponse response3 = r.path("media/www.medium4.de").delete(ClientResponse.class);
+		ClientResponse response3 = r.path("achievements/4").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	}
 }
