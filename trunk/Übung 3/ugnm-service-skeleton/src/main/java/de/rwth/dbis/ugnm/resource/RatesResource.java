@@ -89,9 +89,9 @@ public class RatesResource {
         
         @PUT
     @Consumes("application/json")
-    public Response createRate(@HeaderParam("authorization") String auth,@PathParam("email") String email, JSONObject o) throws JSONException{
+    public Response createRate(@HeaderParam("authorization") String auth,@PathParam("email") String email, @PathParam("id") int id, JSONObject o) throws JSONException{
                 //Create a new rating..
-                Rates rate = parseRateJsonFile(o, email);
+                Rates rate = parseRateJsonFile(o, email, id);
                 Medium m = mediumService.getByUrl(o.getString("url"));
                 User u = userService.getByEmail(email); 
                 //check if the Medium does exist
@@ -120,13 +120,14 @@ public class RatesResource {
 
 //Parst die fuer Rates nötigen Attribute in Json          
         
-        private Rates parseRateJsonFile(JSONObject o, String email){
+        private Rates parseRateJsonFile(JSONObject o, String email, int id){
 
                 try {
                         String mediumUrl = o.getString("url");
                         int rate = o.getInt("rate");
                         Rates rating = new Rates();      
                         rating.setMediumUrl(mediumUrl);
+                        rating.setId(id); 
                         rating.setUserEmail(email);
                         rating.setRate(rate);
                         Timestamp tstamp = new Timestamp(System.currentTimeMillis());
