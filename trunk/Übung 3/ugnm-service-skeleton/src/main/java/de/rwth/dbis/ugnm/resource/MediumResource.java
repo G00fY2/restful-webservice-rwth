@@ -28,7 +28,6 @@ import de.rwth.dbis.ugnm.service.MediumService;
 
 @Path("/media/{url}")
 @Component
-//@Scope("request")
 public class MediumResource {
 
         @Autowired

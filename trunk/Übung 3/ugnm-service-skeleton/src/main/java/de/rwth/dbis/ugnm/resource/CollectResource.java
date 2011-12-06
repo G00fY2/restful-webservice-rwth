@@ -14,7 +14,6 @@ import de.rwth.dbis.ugnm.service.CollectService;
 
 @Path("/users/{email}/collect/{achievementId}")
 @Component
-//@Scope("request")
 public class CollectResource {
 
         @Autowired

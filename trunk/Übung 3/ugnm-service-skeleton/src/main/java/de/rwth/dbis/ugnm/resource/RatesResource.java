@@ -36,7 +36,6 @@ import de.rwth.dbis.ugnm.resource.CollectsResource;
 
 @Path("/users/{email}/rates")
 @Component
-//@Scope("request")
 public class RatesResource {
 
     	@Autowired

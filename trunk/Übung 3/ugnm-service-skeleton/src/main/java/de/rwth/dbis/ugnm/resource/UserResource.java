@@ -25,10 +25,6 @@ import de.rwth.dbis.ugnm.service.UserService;
 
 @Path("/users/{email}")
 @Component
-//@Scope("request")
-
-
-
 public class UserResource {
 
         @Autowired

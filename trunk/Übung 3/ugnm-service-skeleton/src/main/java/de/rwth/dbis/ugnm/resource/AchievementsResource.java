@@ -31,7 +31,6 @@ import de.rwth.dbis.ugnm.service.AchievementService;
 
 @Path("/achievements")
 @Component
-//@Scope("request")
 public class AchievementsResource {
         
         

@@ -28,7 +28,6 @@ import de.rwth.dbis.ugnm.service.AchievementService;
 
 @Path("/achievements/{id}")
 @Component
-//@Scope("request")
 public class AchievementResource {
 
         @Autowired
