@@ -164,8 +164,8 @@ public class RatesResource {
             Collect c = new Collect();
             c.setUserEmail(email);
             
-        	if(ep>=1000){
-        		int achievementId = 001;
+        	if(ep>=200){
+        		int achievementId = 1;
                 c.setAchievementId(achievementId);
         	}
         	return c;
