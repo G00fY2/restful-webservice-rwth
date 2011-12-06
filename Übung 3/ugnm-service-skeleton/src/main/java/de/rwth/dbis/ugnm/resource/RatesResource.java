@@ -33,9 +33,10 @@ import de.rwth.dbis.ugnm.service.RatesService;
 import de.rwth.dbis.ugnm.service.UserService;
 import de.rwth.dbis.ugnm.service.CollectService;
 
+
 @Path("/users/{email}/rates")
 @Component
-//@Scope("request")
+
 public class RatesResource {
 
     	@Autowired
@@ -160,17 +161,17 @@ public class RatesResource {
         
         private Collect reached(int ep, String email){
             Collect collect = new Collect();
-        	if(ep==1000){
+        	if(ep==100){
         		collect.setAchievementId(1);
-               collect.setUserEmail(email);
-               collectService.save(collect);
+        		collect.setUserEmail(email);
+        		collectService.save(collect);
         	}
-        	else if(ep==2000){
-                collect.setAchievementId(2);
+        	else if(ep==200){
+        		collect.setAchievementId(2);
                 collect.setUserEmail(email);
                 collectService.save(collect);
          	}
-        	else if(ep==3000){
+        	else if(ep==500){
                 collect.setAchievementId(3);
                 collect.setUserEmail(email);
                 collectService.save(collect);
