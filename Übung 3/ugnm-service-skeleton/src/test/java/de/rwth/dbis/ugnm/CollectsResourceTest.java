@@ -79,7 +79,7 @@ public class CollectsResourceTest extends JerseyTest{
         JSONObject o = response.getEntity(JSONObject.class);
         
         // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
-        assertTrue(o.has("collect123"));  
+        assertFalse(o.has("collect123"));  
 	}
     
 
@@ -128,5 +128,31 @@ public class CollectsResourceTest extends JerseyTest{
 		
 		ClientResponse response3 = r.path("/users/{sven.hausburg@rwth-aachen.de}/collect/4").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+	}
+	
+	
+public void testDeleteFailtureAuthDeleteSuccess() {
+		
+	
+        // ----------- Erfolgreiches Anlegen eines Mediums ---------------
+        
+		// gebe JSON Content als String an.
+		String content = "{'achievementId':4}";
+		
+		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
+		ClientResponse response2 = resource().path("/users/{sven.hausburg@rwth-aachen.de}/collect/4").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
+		
+		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
+		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
+		
+		WebResource r2 = resource(); 
+
+        r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
+		
+		ClientResponse response3 = r2.path("/users/{sven.hausburg@rwth-aachen.de}/collect/4").delete(ClientResponse.class);
+        assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+        
+        ClientResponse response4 = r2.path("/users/{sven.hausburg@rwth-aachen.de}/collect/4").delete(ClientResponse.class);
+        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
 	}
 }

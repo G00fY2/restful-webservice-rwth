@@ -79,7 +79,7 @@ public class AchievementsResourceTest extends JerseyTest{
         JSONObject o = response.getEntity(JSONObject.class);
         
         // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
-        assertTrue(o.has("achievements123"));  
+        assertFalse(o.has("achievements123"));  
 	}
     
 	@Test
@@ -130,5 +130,32 @@ public class AchievementsResourceTest extends JerseyTest{
 		
 		ClientResponse response3 = r.path("achievements/4").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+	}
+	
+	
+public void testDeleteFailtureAuthDeleteSuccess() {
+        // ----------- Erfolgreiches Anlegen eines Achievements ---------------
+        WebResource r2 = resource(); 
+        
+        // auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
+        r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
+		// gebe JSON Content als String an.
+		String content = "{'id':4,'description':'Neues Test-Achievement','name':'Achievement4','url':'/achievements/4'}";
+		
+		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
+		ClientResponse response2 = r2.path("achievements").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
+		
+		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
+		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
+		
+		WebResource r3 = resource(); 
+
+        r3.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
+		
+		ClientResponse response3 = r3.path("achievements/4").delete(ClientResponse.class);
+        assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+        
+		ClientResponse response4 = r3.path("achievements/4").delete(ClientResponse.class);
+        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
 	}
 }
