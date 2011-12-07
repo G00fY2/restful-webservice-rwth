@@ -97,14 +97,15 @@ public class RatesResource {
                 //check if the Medium does exist
                 if(mediumService.getByUrl(rate.getMediumUrl())!= null){
                         if(authenticated(auth, userService.getByEmail(email))){
+                        	ratesService.save(rate);
                         	if(m.getValue()==rate.getRate()){
                         	    int ep = u.getEp()+100;
                         	    u.setEp(ep);
                         	    userService.update(u);
                         	    reached(ep, email);
-                        	    ratesService.save(rate);
                           	    return Response.ok().build();
-                        	}else{    
+                        	}
+                        	else{    
                                 return Response.ok().build();
                         	}
                         }
