@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.sun.jersey.core.util.Base64;
 
-import de.rwth.dbis.ugnm.entity.Achievement;
+
 import de.rwth.dbis.ugnm.entity.Collect;
 import de.rwth.dbis.ugnm.service.CollectService;
 
