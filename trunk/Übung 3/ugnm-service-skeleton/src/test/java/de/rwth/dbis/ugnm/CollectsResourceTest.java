@@ -66,6 +66,22 @@ public class CollectsResourceTest extends JerseyTest{
         
 	}
     
+    
+    @Test
+    public void testGetFailtureField() {
+		// sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
+		ClientResponse response = resource().path("users").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		
+		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
+        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
+        
+        // verarbeite die zurückgelieferten Daten als JSON Objekt.
+        JSONObject o = response.getEntity(JSONObject.class);
+        
+        // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
+        assertTrue(o.has("collect123"));  
+	}
+    
 	/*/
 	@Test
 	/*
