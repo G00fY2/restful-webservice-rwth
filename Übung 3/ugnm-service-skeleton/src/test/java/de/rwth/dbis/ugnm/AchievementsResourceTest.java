@@ -83,7 +83,7 @@ public class AchievementsResourceTest extends JerseyTest{
 	
 	public void testDeletePostDelete() {
 		
-		// ---------- Delete auf nicht existierendes Medium ------------
+		// ---------- Delete auf nicht existierendes Achievement ------------
 		WebResource r = resource(); 
 		
 		// auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
@@ -95,20 +95,23 @@ public class AchievementsResourceTest extends JerseyTest{
 		// teste, ob der spezifizierte HTTP Status 404 (Not Found) zurückgeliefert wurde. 
         assertEquals(response.getStatus(), Status.NOT_FOUND.getStatusCode());
 	
-        // ----------- Erfolgreiches Anlegen eines Mediums ---------------
+        // ----------- Erfolgreiches Anlegen eines Achievements ---------------
+        WebResource r2 = resource(); 
         
+        // auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
+        r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
 		// gebe JSON Content als String an.
 		String content = "{'id':4,'description':'Neues Test-Achievement','name':'Achievement4','url':'/achievements/4'}";
 		
 		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-		ClientResponse response2 = resource().path("achievements").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
+		ClientResponse response2 = r2.path("achievements").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
 		
-		WebResource r2 = resource(); 
+		WebResource r3 = resource(); 
 
-        r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
+        r3.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
 		
 		ClientResponse response3 = r.path("achievements/4").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
