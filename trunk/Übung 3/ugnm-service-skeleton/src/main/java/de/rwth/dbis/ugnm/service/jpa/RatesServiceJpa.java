@@ -65,5 +65,15 @@ public class RatesServiceJpa implements RatesService{
                 }
                 return result;
         }
+        
+        @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
+        public boolean delete(Rates rate) {
+                rate = entityManager.getReference(Rates.class, rate.getId());
+                if (rate == null)
+                        return false;
+                entityManager.remove(rate);
+                entityManager.flush();
+                return true;
+        }
 
 }

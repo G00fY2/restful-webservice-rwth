@@ -9,4 +9,5 @@ public interface RatesService {
         public boolean save(Rates rate);
         public List<Rates> getAllRatesOfUser(String email);
         public Rates getRateById(int id);
+        public boolean delete(Rates rate);
 }
