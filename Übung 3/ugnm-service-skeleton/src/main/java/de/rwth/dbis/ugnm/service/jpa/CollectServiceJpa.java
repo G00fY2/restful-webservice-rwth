@@ -2,7 +2,6 @@ package de.rwth.dbis.ugnm.service.jpa;
 
 import java.util.List;
 
-import de.rwth.dbis.ugnm.entity.Achievement;
 import de.rwth.dbis.ugnm.entity.Collect;
 import de.rwth.dbis.ugnm.service.CollectService;
 import javax.persistence.EntityManager;
