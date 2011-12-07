@@ -90,7 +90,7 @@ public class RatesResourceTest extends JerseyTest{
         r.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
 		
         // sende DELETE Request an nicht existierende Ressource /media/www.medium4.de (sollte vor dem Test nicht existieren)
-		ClientResponse response = r.path("/users/sven.hausburg@rwth-aachen.de/rates/IDIDID").delete(ClientResponse.class);
+		ClientResponse response = r.path("/users/sven.hausburg@rwth-aachen.de/rates/2").delete(ClientResponse.class);
 		
 		// teste, ob der spezifizierte HTTP Status 404 (Not Found) zurückgeliefert wurde. 
         assertEquals(response.getStatus(), Status.NOT_FOUND.getStatusCode());
@@ -98,7 +98,7 @@ public class RatesResourceTest extends JerseyTest{
         // ----------- Erfolgreiches Anlegen eines Mediums ---------------
         
 		// gebe JSON Content als String an.
-		String content = "{'url':'www.medium2.de','rate':1}";
+		String content = "{'url':'www.medium2.de','rate':1,'id':2}";
 		
 		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
 		ClientResponse response2 = resource().path("/users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
@@ -110,7 +110,7 @@ public class RatesResourceTest extends JerseyTest{
 
         r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
 		
-		ClientResponse response3 = r.path("/users/sven.hausburg@rwth-aachen.de/rates/IDIDID").delete(ClientResponse.class);
+		ClientResponse response3 = r.path("/users/sven.hausburg@rwth-aachen.de/rates/2").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	}
 	//*/
