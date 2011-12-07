@@ -70,18 +70,18 @@ public class AchievementsResourceTest extends JerseyTest{
 	@Test
 	/*
 	 * führt zuerst für einen nicht existierendes Medium ein DELETE aus. Dies sollte mit 404 fehlschlagen. 
-	 * Danach wird dieses Medium mit Post und unter Angabe aller nötigen Parameter auf die Collection Ressource angelegt. 
+	 * Danach wird dieses Medium mit Put und unter Angabe aller nötigen Parameter auf die Collection Ressource angelegt. 
 	 * Dies sollte erfolgreich sein. Danach wird das selbe Medium wieder gelöscht.
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
 	 *   - /media/{url}	DELETE	404	(zu entfernendes Medium existiert nicht)
-	 *   - /media/			POST	201 (neues Medium wurde erfolgreich angelegt)
+	 *   - /media/			PUT	201 (neues Medium wurde erfolgreich angelegt)
 	 *   - /media/{url}	DELETE	200 (bestehendes Medium erfolgreich entfernt)	
 	 **/
 	
 	
-	public void testDeletePostDelete() {
+	public void testDeletePutDelete() {
 		
 		// ---------- Delete auf nicht existierendes Achievement ------------
 		WebResource r = resource(); 
@@ -103,8 +103,8 @@ public class AchievementsResourceTest extends JerseyTest{
 		// gebe JSON Content als String an.
 		String content = "{'id':4,'description':'Neues Test-Achievement','name':'Achievement4','url':'/achievements/4'}";
 		
-		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-		ClientResponse response2 = r2.path("achievements").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
+		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
+		ClientResponse response2 = r2.path("achievements").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
