@@ -2,6 +2,7 @@ package de.rwth.dbis.ugnm.service.jpa;
 
 import java.util.List;
 
+import de.rwth.dbis.ugnm.entity.Achievement;
 import de.rwth.dbis.ugnm.entity.Collect;
 import de.rwth.dbis.ugnm.service.CollectService;
 import javax.persistence.EntityManager;
@@ -66,6 +67,18 @@ public class CollectServiceJpa implements CollectService{
                         result = collects.get(0);
                 }
                 return result;
+        }
+        
+//Löscht über DELETE ein Achievement 
+        
+        @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
+        public boolean delete(Collect collect) {
+                collect = entityManager.getReference(Collect.class, collect.getId());
+                if (collect == null)
+                        return false;
+                entityManager.remove(collect);
+                entityManager.flush();
+                return true;
         }
 
 }
