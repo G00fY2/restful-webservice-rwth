@@ -94,7 +94,7 @@ public class UsersResourceTest extends JerseyTest{
         JSONObject o = response.getEntity(JSONObject.class);
         
         // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
-        assertTrue(o.has("users123"));  
+        assertFalse(o.has("users123"));  
 	}   
     
     
