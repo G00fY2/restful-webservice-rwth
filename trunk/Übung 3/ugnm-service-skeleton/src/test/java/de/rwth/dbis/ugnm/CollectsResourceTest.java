@@ -82,7 +82,7 @@ public class CollectsResourceTest extends JerseyTest{
         assertTrue(o.has("collect123"));  
 	}
     
-	/*/
+
 	@Test
 	/*
 	 * führt zuerst für einen nicht existierendes Medium ein DELETE aus. Dies sollte mit 404 fehlschlagen. 
@@ -129,5 +129,4 @@ public class CollectsResourceTest extends JerseyTest{
 		ClientResponse response3 = r.path("/users/{sven.hausburg@rwth-aachen.de}/collect/4").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	}
-	//*/
 }
