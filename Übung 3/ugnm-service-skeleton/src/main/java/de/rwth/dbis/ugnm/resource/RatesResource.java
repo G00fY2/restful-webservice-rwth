@@ -102,6 +102,7 @@ public class RatesResource {
                         	    u.setEp(ep);
                         	    userService.update(u);
                         	    reached(ep, email);
+                        	    ratesService.save(rate);
                           	    return Response.ok().build();
                         	}else{    
                                 return Response.ok().build();
