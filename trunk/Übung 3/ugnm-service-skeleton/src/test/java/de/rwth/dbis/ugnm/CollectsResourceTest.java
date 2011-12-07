@@ -117,7 +117,7 @@ public class CollectsResourceTest extends JerseyTest{
 		String content = "{'achievementId':4}";
 		
 		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-		ClientResponse response2 = resource().path("/users/{sven.hausburg@rwth-aachen.de}/collect/4").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
+		ClientResponse response2 = r.path("/users/{sven.hausburg@rwth-aachen.de}/collect/4").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());

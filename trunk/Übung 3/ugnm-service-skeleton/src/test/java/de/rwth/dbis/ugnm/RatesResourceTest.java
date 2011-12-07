@@ -117,7 +117,7 @@ public class RatesResourceTest extends JerseyTest{
 		String content = "{'url':'www.medium2.de','rate':1,'id':2}";
 		
 		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-		ClientResponse response2 = resource().path("/users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
+		ClientResponse response2 = r.path("/users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
@@ -132,11 +132,15 @@ public class RatesResourceTest extends JerseyTest{
 	
 	public void testDeleteFailtureAuthDeleteSuccess() {
 		
+		WebResource r0 = resource(); 
+
+        r0.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123"));
+        
 		// gebe JSON Content als String an.
 				String content = "{'url':'www.medium2.de','rate':1,'id':2}";
 				
 				// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-				ClientResponse response2 = resource().path("/users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
+				ClientResponse response2 = r0.path("/users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 				
 				// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 				assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
