@@ -144,4 +144,28 @@ public class UsersResourceTest extends JerseyTest{
 		ClientResponse response3 = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	}
+	
+	
+public void testDeleteFailtureAuthDeleteSuccess() {
+	
+        // ----------- Erfolgreiches Anlegen eines Users ---------------
+		// gebe JSON Content als String an.
+		String content = "{'email':'thomas.tomatenkop@gmx.de','username':'popo','password':'1234','name':'thomas tomatenkop'}";
+		
+		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /users.
+		ClientResponse response2 = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
+		
+		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
+		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
+		
+		WebResource r2 = resource(); 
+
+        r2.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
+		
+		ClientResponse response3 = r2.path("users/thomas.tomatenkop1234@gmx.de").delete(ClientResponse.class);
+        assertEquals(response3.getStatus(), Status.UNAUTHORIZED.getStatusCode());
+        
+		ClientResponse response4 = r2.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
+        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
+	}
 }
