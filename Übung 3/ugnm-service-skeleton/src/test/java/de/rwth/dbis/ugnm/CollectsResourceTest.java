@@ -150,7 +150,7 @@ public void testDeleteFailtureAuthDeleteSuccess() {
         r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
 		
 		ClientResponse response3 = r2.path("/users/{sven.hausburg@rwth-aachen.de}/collect/4").delete(ClientResponse.class);
-        assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+        assertEquals(response3.getStatus(), Status.UNAUTHORIZED.getStatusCode());
         
         ClientResponse response4 = r2.path("/users/{sven.hausburg@rwth-aachen.de}/collect/4").delete(ClientResponse.class);
         assertEquals(response4.getStatus(), Status.OK.getStatusCode());
