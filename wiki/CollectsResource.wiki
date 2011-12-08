@@ -1,0 +1,82 @@
+#summary Resource: CollectsResource
+#labels Resource,Thomas,Sven,UGNM4
+
+----
+=Allgemeines=
+----
+
+===MIME Typ:=== 
+ * "application/json"
+_JSON MIME Typ_
+
+----
+== Details ==
+----
+
+== Liste aller Collects (MediaResource):==
+----
+
+===Operation:===
+ * GET
+
+===Ein-/Ausgabeform:=== 
+
+{{{
+{Medien: [<COL_RES_1>,<COL_RES_2,...,<COL_RES_n>]}
+}}}
+
+===Struktur zwischen Ressourcen:=== 
+ * "http://localhost:8080/ugnm-service/resources//users/{email}/collect/{achievementId}"
+_Ausgehend von der Liste aller Collects, ist es möglich auf das einzelne Collect zuzugreifen._
+
+===Zugriffskontrolle auf Operationen:=== 
+ * ---
+
+===HTTP Status Codes (Fehlerfall):===          
+ * 500: INERNAL_SERVER_ERROR
+_Der Webserver stieß auf eine unerwartete Bedingung, die ihn davon abhielt, die Anforderung zum Zugriff auf die angeforderte URL durch den Client zu erfüllen._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Die Anfage konnte bearbeitet werden._
+
+----
+==Erstellen eines Collects(CollectsResource):==
+----
+
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/users/{email}/collect/"
+
+===Operation  :===
+ * PUT
+
+===Ein-/Ausgabeform:=== 
+
+Eingabe:
+{{{
+                Rate: {'achievementId':<ACHIEVEMENTID>,'userEmail':<USEREMAIL>}
+	}}}
+
+
+===Struktur zwischen Ressourcen:=== 
+ * ---
+
+===Zugriffskontrolle auf Operationen:=== 
+ * PUT (login, authorization)
+_Der User muss sich zum erstellen eines Collects registriert sein und sich als solcher identifizieren._
+
+===HTTP Status Codes (Fehlerfall):===
+           
+ * 400: Bad Request
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der User hat versucht  fehlerhafte, unvollständige bzw nicht kompatible Daten zu übermitteln._
+
+ * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der User muss sich zum Erstellen eines Ratings am Service registriert sein und sich anmelden._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 201: Created
+_Das Rating wurde erstellt._
+
+----
