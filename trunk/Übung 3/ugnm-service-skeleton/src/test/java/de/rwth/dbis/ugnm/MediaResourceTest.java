@@ -40,6 +40,7 @@ public class MediaResourceTest extends JerseyTest{
     
 	
     
+    @Test
 	/*
 	 * sendet einen GET Request an die Ressource /media. 
 	 * 
@@ -48,8 +49,7 @@ public class MediaResourceTest extends JerseyTest{
 	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
 	 **/
     
-    
-    @Test
+
 	public void testGetSuccess() {
 		// sende GET Request an Ressource /media und erhalte Antwort als Instanz der Klasse ClientResponse
 		ClientResponse response = resource().path("media").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
@@ -64,6 +64,36 @@ public class MediaResourceTest extends JerseyTest{
         assertTrue(o.has("media"));
         
 	}
+    
+    @Test
+    public void testGetMedium1() {
+    	// sende GET Request an Ressource /media und erhalte Antwort als Instanz der Klasse ClientResponse
+    			ClientResponse response = resource().path("media/www.medium1.de").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+    			
+    			// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
+    	        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
+    	        
+    	        // verarbeite die zurückgelieferten Daten als JSON Objekt.
+    	        JSONObject o = response.getEntity(JSONObject.class);
+    	        
+    	        // teste, ob das gelieferte JSON Object ein Feld "media" besitzt.
+    	        assertTrue(o.has("media"));
+    }
+    
+    @Test
+    public void testGetNonExisting() {
+    	// sende GET Request an Ressource /media und erhalte Antwort als Instanz der Klasse ClientResponse
+    			ClientResponse response = resource().path("media").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+    			
+    			// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
+    	        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
+    	        
+    	        // verarbeite die zurückgelieferten Daten als JSON Objekt.
+    	        JSONObject o = response.getEntity(JSONObject.class);
+    	        
+    	        // teste, ob das gelieferte JSON Object ein Feld "media" besitzt.
+    	        assertTrue(o.has("media"));
+    }
     
     
     @Test
@@ -81,7 +111,7 @@ public class MediaResourceTest extends JerseyTest{
         assertFalse(o.has("media123"));  
 	}
     
-    
+	@Test
 	/*
 	 * führt zuerst für einen nicht existierendes Medium ein DELETE aus. Dies sollte mit 404 fehlschlagen. 
 	 * Danach wird dieses Medium mit Put und unter Angabe aller nötigen Parameter auf die Collection Ressource angelegt. 
@@ -100,7 +130,6 @@ public class MediaResourceTest extends JerseyTest{
 	 *   - /media/{url}		PUT	201 (update Medium erfolgreich)
 	 **/
 	
-	@Test
 	public void testPutWithoutData() {
 		// ----------- Anlegen eines Mediums missing data---------------
         WebResource r = resource(); 
