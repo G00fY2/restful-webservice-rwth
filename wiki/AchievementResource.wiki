@@ -7,7 +7,7 @@
 
 
 ===URL Template:=== 
- * "http://localhost:8080/ugnm-service/resources/achievements/{identifier}"
+ * "http://localhost:8080/ugnm-service/resources/achievements/{id}"
 
 ===MIME Typ:=== 
  * "application/json"
@@ -27,13 +27,19 @@ _Gibt ein Achievement mit allen Details aus._
 
 
 ===Ein-/Ausgabeform:=== 
+Eingabe:
 
-Ausgabe:
 {{{
-		Identifier: <IDENTIFIER>
+                Id:<ID>
+
+}}}
+Ausgabe:
+
+{{{
+		Id: <ID>
                 Name: <NAME>
-                Beschreibung: <BESCHREIBUNG>
-                Bild: <BILD-URL>
+                Description: <DESCRIPTIONG>
+                Url: <URL>
 	}}}
 
 
@@ -50,3 +56,63 @@ _Die angeforderte Ressource wurde nicht gefunden. Das Achievment kann nicht gefu
 
  * 200: OK
 _Das gesuchte Achievement wurde gefunden und wird ausgegeben._
+
+
+
+
+
+
+----
+==Änderung eines Achievements(AchievementResource):==
+----
+===Operation:===
+ * PUT
+_Es wird die Operation PUT benötigt um ein Achievement ändern zu können_
+
+===Struktur zwischen Ressourcen:=== 
+ * ---
+===Zugriffskontrolle auf Operationen:=== 
+ * PUT (Admin)
+_Nur einem Admin ist es möglich ein Achievement zu ändern._
+
+===HTTP Status Codes (Fehlerfall):===
+
+ * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Das Achievement kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+ * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Das Achievement wurde erfolgreich geändert._
+
+
+
+
+
+
+----
+
+==Löschen eines Achievements(AchievementResource):==
+----
+===Operation:===
+ * DELETE
+===Struktur zwischen Ressourcen:=== 
+ * ---
+===Zugriffskontrolle auf Operationen:=== 
+ * DELETE (Admin)
+_Nur einem Admin ist es möglich ein Achievement zu löschen._
+===HTTP Status Codes (Fehlerfall):===
+
+ * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Das Achievement kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+ * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt._
+
+===HTTP Status Codes (Erfolgsfall):===
+
+ * 200: OK
+_Das Achievement wurde erfolgreich gelöscht._
