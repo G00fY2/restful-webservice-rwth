@@ -149,7 +149,7 @@ public class MediaResourceTest extends JerseyTest{
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	}
 	
-	
+@Test
 public void testDeletePutDeleteFailureDeleteAuth() {
 
 	// ---------- Delete auf nicht existierendes Medium ------------
@@ -199,7 +199,7 @@ WebResource r3 = resource();
     assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	
 	}
-
+@Test
 public void testPutUpdateFailureUpdateDelete() {
 	// ----------- Erfolgreiches Anlegen eines Mediums ---------------
     WebResource r = resource(); 
