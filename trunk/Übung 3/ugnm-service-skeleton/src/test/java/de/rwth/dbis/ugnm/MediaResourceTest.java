@@ -40,7 +40,6 @@ public class MediaResourceTest extends JerseyTest{
     
 	
     
-    @Test
 	/*
 	 * sendet einen GET Request an die Ressource /media. 
 	 * 
@@ -50,7 +49,7 @@ public class MediaResourceTest extends JerseyTest{
 	 **/
     
     
-    
+    @Test
 	public void testGetSuccess() {
 		// sende GET Request an Ressource /media und erhalte Antwort als Instanz der Klasse ClientResponse
 		ClientResponse response = resource().path("media").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
@@ -83,7 +82,6 @@ public class MediaResourceTest extends JerseyTest{
 	}
     
     
-	@Test
 	/*
 	 * führt zuerst für einen nicht existierendes Medium ein DELETE aus. Dies sollte mit 404 fehlschlagen. 
 	 * Danach wird dieses Medium mit Put und unter Angabe aller nötigen Parameter auf die Collection Ressource angelegt. 
@@ -93,11 +91,35 @@ public class MediaResourceTest extends JerseyTest{
 	 * 
 	 *   - /media/{url}	DELETE	404	(zu entfernendes Medium existiert nicht)
 	 *   - /media/			PUT	201 (neues Medium wurde erfolgreich angelegt)
-	 *   - /media/{url}	DELETE	200 (bestehendes Medium erfolgreich entfernt)	
+	 *   - /media/			PUT	409 (neues Medium schon vorhanden)
+	 *   - /media/			PUT	406 (neues Medium mit fehlendem Parameter anlegen)
+	 *   - /media/			PUT	401 (neues Medium ohne Authorisierung)
+	 *   - /media/{url}	DELETE	200 (bestehendes Medium erfolgreich entfernt)
+	 *   - /media/{url}	DELETE	401 (bestehendes Medium entfernen ohne Authorisierung)	
+	 *   - /media/{url}		PUT	406 (update Medium mit fehlendem Parameter)
+	 *   - /media/{url}		PUT	201 (update Medium erfolgreich)
 	 **/
 	
+	@Test
+	public void testPutWithoutData() {
+		// ----------- Anlegen eines Mediums missing data---------------
+        WebResource r = resource(); 
+        
+        // auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
+        r.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
+        
+		// gebe JSON Content als String an.
+		String content = "{'value':0,'description':'Neues Test Medium 4'}";
+		
+		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
+		ClientResponse response1 = r.path("media").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
+		
+		// teste, ob der spezifizierte HTTP Status 406 (Not Acceptable) zurückgeliefert wurde.
+		assertEquals(response1.getStatus(), Status.NOT_ACCEPTABLE.getStatusCode());		
+	}
 	
-	public void testDeletePutPutDelete() {
+	@Test
+	public void testDeletePutPutAgainDelete() {
 		
 		// ---------- Delete auf nicht existierendes Medium ------------
 		WebResource r = resource(); 
@@ -149,8 +171,8 @@ public class MediaResourceTest extends JerseyTest{
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	}
 	
-@Test
-public void testDeletePutDeleteFailureDeleteAuth() {
+	@Test
+	public void testDeletePutDeleteFailureDeleteAuth() {
 
 	// ---------- Delete auf nicht existierendes Medium ------------
 	WebResource r = resource(); 
@@ -180,7 +202,7 @@ public void testDeletePutDeleteFailureDeleteAuth() {
 	assertEquals(response1.getStatus(), Status.CREATED.getStatusCode());
 	
 	// ----------- Delete ohne Authorisierung ---------------
-WebResource r3 = resource(); 
+	WebResource r3 = resource(); 
 	
 	// auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
     r3.addFilter(new HTTPBasicAuthFilter("nicht.authorisiert@rwth-aachen.de", "abc123")); 
@@ -199,8 +221,9 @@ WebResource r3 = resource();
     assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	
 	}
-@Test
-public void testPutUpdateFailureUpdateDelete() {
+	
+	@Test
+	public void testPutUpdateFailureUpdateSuccessDelete() {
 	// ----------- Erfolgreiches Anlegen eines Mediums ---------------
     WebResource r = resource(); 
     
@@ -216,7 +239,7 @@ public void testPutUpdateFailureUpdateDelete() {
 	// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 	assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
 	
-WebResource r2 = resource(); 
+	WebResource r2 = resource(); 
     
     // auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
     r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
