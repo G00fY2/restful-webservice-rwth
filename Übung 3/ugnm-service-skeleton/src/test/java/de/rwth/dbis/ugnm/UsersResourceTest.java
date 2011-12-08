@@ -55,6 +55,8 @@ public class UsersResourceTest extends JerseyTest{
     // erzeugt, und in einem weiteren Testfall wieder entfernt.
 	
     
+    
+    
     @Test
 	/*
 	 * sendet einen GET Request an die Ressource /users. 
@@ -64,9 +66,7 @@ public class UsersResourceTest extends JerseyTest{
 	 *   - /users			GET		200	(Liste aller User erfolgreich geholt)
 	 **/
     
-    
-    
-	public void testGetSuccess() {
+	public void testGetUsersSuccess() {
 		// sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
 		ClientResponse response = resource().path("users").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		
@@ -82,20 +82,67 @@ public class UsersResourceTest extends JerseyTest{
     
     
     
+    
     @Test
-    public void testGetFailtureField() {
-		// sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
-		ClientResponse response = resource().path("users").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-		
-		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
-        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
+	/*
+	 * sendet einen Request an die Ressource /users. 
+	 * 
+	 * deckt folgende spezifizierte Fälle ab:
+	 * 
+	 *  
+	 **/
+    
+    public void testPutGetDeleteGet() {             
+
+        WebResource r = resource();     
+
+        // ----------- Erfolgreiches Anlegen eines Users ---------------
+       
+        // gebe JSON Content als String an.
+        String content = "{'email':'thomas.tomatenkop@gmx.de','username':'popo','password':'1234','name':'thomas tomatenkop'}";
+        
+        // sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /users.
+        ClientResponse response = r.path("users").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
+        
+        // teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
+        assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
+        
+        // ----------- Erfolgreiches Auslesen des Users ---------------
+        
+        // sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
+        ClientResponse response2 = r.path("users/thomas.tomatenkop@gmx.de").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        
+        // teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
+        assertEquals(response2.getType().toString(),MediaType.APPLICATION_JSON);
         
         // verarbeite die zurückgelieferten Daten als JSON Objekt.
-        JSONObject o = response.getEntity(JSONObject.class);
+        JSONObject o = response2.getEntity(JSONObject.class);
         
-        // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
-        assertFalse(o.has("users123"));  
-	}   
+        // testet ob das Objekt eine Email sowie einen Usernamen hat
+        assertTrue(o.has("email"));   
+        assertTrue(o.has("username"));  
+
+        // ----------- Erfolgreiches Löschen des Users ---------------         
+        r.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
+        
+        ClientResponse response4 = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
+        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
+        
+     // sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
+        ClientResponse response5 = r.path("users/thomas.tomatenkop@gmx.de").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+        
+        // teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
+        assertEquals(response5.getType().toString(),MediaType.APPLICATION_JSON);
+        
+        // verarbeite die zurückgelieferten Daten als JSON Objekt.
+        JSONObject o2 = response5.getEntity(JSONObject.class);
+        
+        // testet ob das Objekt eine Email sowie einen Usernamen hat
+        assertTrue(o2.has("email"));   
+        assertTrue(o2.has("username"));  
+    }
+    
+    
     
     
 	@Test
@@ -109,8 +156,8 @@ public class UsersResourceTest extends JerseyTest{
 	 *   - /users/{login}	DELETE	404	(zu entfernender User existiert nicht)
 	 *   - /users/			POST	201 (neuer User wurde erfolgreich angelegt)
 	 *   - /users/{login}	DELETE	200 (bestehender User erfolgreich entfernt)	
+	 *   - /users/{login}	DELETE	404 (User nicht verhanden)	
 	 **/
-	
 	
 	public void testDeletePostDelete() {
 		
@@ -143,10 +190,24 @@ public class UsersResourceTest extends JerseyTest{
 		
 		ClientResponse response3 = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+        
+        ClientResponse response4 = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
+        assertEquals(response4.getStatus(), Status.NOT_FOUND.getStatusCode());
 	}
 	
 	
-public void testDeleteFailtureAuthDeleteSuccess() {
+	
+	
+	@Test
+	/*
+	 * sendet einen Request an die Ressource /users. 
+	 * 
+	 * deckt folgende spezifizierte Fälle ab:
+	 * 
+	 *  
+	 **/
+	
+	public void testPostDeleteNoAuthDeleteSuccess() {
 	
         // ----------- Erfolgreiches Anlegen eines Users ---------------
 		// gebe JSON Content als String an.
@@ -160,12 +221,124 @@ public void testDeleteFailtureAuthDeleteSuccess() {
 		
 		WebResource r2 = resource(); 
 
-        r2.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
+        r2.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "falsch")); 
 		
-		ClientResponse response3 = r2.path("users/thomas.tomatenkop1234@gmx.de").delete(ClientResponse.class);
+		ClientResponse response3 = r2.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
         assertEquals(response3.getStatus(), Status.UNAUTHORIZED.getStatusCode());
         
-		ClientResponse response4 = r2.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
+        WebResource r3 = resource(); 
+
+        r3.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
+		
+        ClientResponse response4 = r3.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
         assertEquals(response4.getStatus(), Status.OK.getStatusCode());
 	}
+	
+	
+	
+	@Test
+	/*
+	 * sendet einen Request an die Ressource /users. 
+	 * 
+	 * deckt folgende spezifizierte Fälle ab:
+	 * 
+	 *  
+	 **/
+	
+	public void testPostPostAgainDelete(){
+		// ----------- Erfolgreiches Anlegen eines Users ---------------
+		// gebe JSON Content als String an.
+		String content = "{'email':'thomas.tomatenkop@gmx.de','username':'popo','password':'1234','name':'thomas tomatenkop'}";
+				
+		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /users.
+		ClientResponse response = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
+				
+		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
+		assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
+		// ----------- Erneutes Anlegen des Users ---------------
+				
+		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /users.
+		ClientResponse response2 = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
+				
+		// teste, ob der spezifizierte HTTP Status 409 (Conflict) zurückgeliefert wurde.
+		assertEquals(response2.getStatus(), Status.CONFLICT.getStatusCode());
+		
+		WebResource r = resource(); 
+
+        r.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
+		
+        ClientResponse response4 = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
+        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
+	}
+	
+	
+	
+	
+	
+	@Test
+	/*
+	 * sendet einen Request an die Ressource /users. 
+	 * 
+	 * deckt folgende spezifizierte Fälle ab:
+	 * 
+	 *  
+	 **/
+	
+	public void testPostMissing(){
+	// ----------- Anlegen eines Users mit fehlenden Parametern---------------
+			// gebe JSON Content als String an.
+			String content = "{'email':'thomas.tomatenkop@gmx.de','name':'thomas tomatenkop'}";
+					
+			// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /users.
+			ClientResponse response = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
+					
+			// teste, ob der spezifizierte HTTP Status 406 (Not Acceptable) zurückgeliefert wurde.
+			assertEquals(response.getStatus(), Status.NOT_ACCEPTABLE.getStatusCode());
+	}
+	
+	@Test
+	/*
+	 * sendet einen Request an die Ressource /users. 
+	 * 
+	 * deckt folgende spezifizierte Fälle ab:
+	 * 
+	 *  
+	 **/
+	
+	public void testPostUpdateUpdateGetDelete(){
+		// ----------- Erfolgreiches Anlegen eines Users ---------------
+		// gebe JSON Content als String an.
+		String content = "{'email':'thomas.tomatenkop@gmx.de','username':'popo','password':'1234','name':'thomas tomatenkop'}";
+						
+		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /users.
+		ClientResponse response = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
+						
+		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
+		assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
+		
+		// ----------- Updaten ohne Authorisierung ---------------
+
+		String content2 = "{'password':'neuesPW','name':'sven gurkenkop'}";
+	
+        ClientResponse response2 = resource().path("users/thomas.tomatenkop@gmx.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
+        
+        assertEquals(response2.getStatus(), Status.UNAUTHORIZED.getStatusCode());
+        
+        WebResource r2 = resource(); 
+
+        r2.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
+		
+        ClientResponse response3 = r2.path("users/thomas.tomatenkop@gmx.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
+        
+        assertEquals(response3.getStatus(), Status.CREATED.getStatusCode());
+        
+        ClientResponse response4 = r2.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
+        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
+        
+        ClientResponse response5 = r2.path("users/thomas.tomatenkop@gmx.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
+        
+        assertEquals(response5.getStatus(), Status.NOT_FOUND.getStatusCode());
+
+	}
+
 }
