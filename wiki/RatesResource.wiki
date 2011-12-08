@@ -5,10 +5,6 @@
 =Allgemeines=
 ----
 
-
-===URL Template:=== 
- * "http://localhost:8080/ugnm-service/resources/rates/"
-
 ===MIME Typ:=== 
  * "application/json"
 _JSON MIME Typ_
@@ -22,6 +18,8 @@ _JSON MIME Typ_
 ==Erstellen eines Ratings (RatesResource):==
 ----
 
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/users/{email}/rates"
 
 ===Operation  :===
  * PUT
@@ -30,7 +28,7 @@ _JSON MIME Typ_
 
 Eingabe:
 {{{
-                Rate: {'url':<URL>,'rate':<RATE>}
+                Rate: {'url':'url','rate':'rate'}
 	}}}
 
 
@@ -39,7 +37,7 @@ Eingabe:
 
 ===Zugriffskontrolle auf Operationen:=== 
  * PUT (login, authorization)
-_Der User muss sich zum erstellen eines Ratings registriert sein und sich als solcher identifizieren_
+_Der User muss sich zum erstellen eines Ratings registriert sein und sich als solcher identifizieren, sowie beim Erfolgsfall EP und Achievements zu bekommen._
 
 ===HTTP Status Codes (Fehlerfall):===
            
@@ -58,6 +56,9 @@ _Das Rating wurde erstellt._
 
 == Liste aller Ratings eines bestimmten Users (RatesResource):==
 ----
+
+===URL Template:=== 
+ * "http://localhost:8080/ugnm-service/resources/rates/"
 
 ===Operation:===
  * GET
