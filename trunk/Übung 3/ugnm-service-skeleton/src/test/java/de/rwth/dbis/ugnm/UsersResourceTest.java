@@ -106,13 +106,17 @@ public class UsersResourceTest extends JerseyTest{
         
         // teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
         assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
-
+        
+        // sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
         ClientResponse response2 = r.path("users/thomas.tomatenkop@gmx.de").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         
+        // teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
         assertEquals(response2.getType().toString(),MediaType.APPLICATION_JSON);
         
+        // verarbeite die zurückgelieferten Daten als JSON Objekt.
         JSONObject o = response2.getEntity(JSONObject.class);
         
+     // prüfe ob Objekt folgende Einträge aufweist
         assertTrue(o.has("email"));   
         assertTrue(o.has("username")); 
         
