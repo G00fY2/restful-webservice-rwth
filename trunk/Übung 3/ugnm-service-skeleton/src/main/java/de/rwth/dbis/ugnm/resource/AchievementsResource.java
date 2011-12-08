@@ -116,7 +116,7 @@ public class AchievementsResource {
                     achievement.setUrl(url);
                     return achievement;
             } catch (JSONException e) {
-                    throw new WebApplicationException(409);
+                    throw new WebApplicationException(406);
             }
                 
         }
