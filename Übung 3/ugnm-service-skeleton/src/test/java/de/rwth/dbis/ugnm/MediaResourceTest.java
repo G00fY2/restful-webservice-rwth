@@ -237,51 +237,36 @@ public class MediaResourceTest extends JerseyTest{
 	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
 	 **/
     
-	public void testDeletePutDeleteUnauthorizedDelete() {
-
-	// ---------- Delete auf nicht existierendes Medium ------------
-	WebResource r = resource(); 
-	
-	// auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
-    r.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
-	
-    // sende DELETE Request an nicht existierende Ressource /media/www.medium4.de (sollte vor dem Test nicht existieren)
-	ClientResponse response = r.path("media/www.medium4.de").delete(ClientResponse.class);
-	
-	// teste, ob der spezifizierte HTTP Status 404 (Not Found) zurückgeliefert wurde. 
-    assertEquals(response.getStatus(), Status.NOT_FOUND.getStatusCode());
+	public void testPutDeleteUnauthorizedDelete() {
 
     // ----------- Erfolgreiches Anlegen eines Mediums ---------------
-    WebResource r2 = resource(); 
+    WebResource r = resource(); 
     
     // auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
-    r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
+    r.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
     
 	// gebe JSON Content als String an.
 	String content = "{'url':'www.medium4.de','value':0,'description':'Neues Test Medium 4'}";
 	
 	// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-	ClientResponse response1 = r2.path("media").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
+	ClientResponse response1 = r.path("media").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 	
 	// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 	assertEquals(response1.getStatus(), Status.CREATED.getStatusCode());
 	
 	// ----------- Delete ohne Authorisierung ---------------
-	WebResource r3 = resource(); 
+	WebResource r2 = resource(); 
 	
 	// auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
-    r3.addFilter(new HTTPBasicAuthFilter("nicht.authorisiert@rwth-aachen.de", "abc123")); 
+    r2.addFilter(new HTTPBasicAuthFilter("nicht.authorisiert@rwth-aachen.de", "abc123")); 
 	
     // sende DELETE Request an Ressource /media/www.medium4.de
-	ClientResponse response2 = r3.path("media/www.medium4.de").delete(ClientResponse.class);
+	ClientResponse response2 = r2.path("media/www.medium4.de").delete(ClientResponse.class);
 	
 	// teste, ob der spezifizierte HTTP Status 401 (Unauthorized) zurückgeliefert wurde. 
     assertEquals(response2.getStatus(), Status.UNAUTHORIZED.getStatusCode());
-    
-	WebResource r4 = resource(); 
 
-    r4.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
-	
+    
 	ClientResponse response3 = r.path("media/www.medium4.de").delete(ClientResponse.class);
     assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	
@@ -314,39 +299,25 @@ public class MediaResourceTest extends JerseyTest{
 	
 	// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 	assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
-	
-	WebResource r2 = resource(); 
-    
-    // auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
-    r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
     
 	// gebe JSON Content als String an.
 	String content2 = "{}";
 	
 	// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-	ClientResponse response1 = r2.path("media/www.medium4.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
+	ClientResponse response1 = r.path("media/www.medium4.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
 	
 	// teste, ob der spezifizierte HTTP Status 406 (Not Acceptable) zurückgeliefert wurde.
 	assertEquals(response1.getStatus(), Status.NOT_ACCEPTABLE.getStatusCode());
-
-	WebResource r3 = resource(); 
-    
-    // auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
-    r3.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
     
 	// gebe JSON Content als String an.
-	String content3 = "{'url':'www.medium4.de','value':1,'description':'Medium 4 Update'}";
+	String content3 = "{'value':1,'description':'Medium 4 Update'}";
 	
 	// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-	ClientResponse response2 = r3.path("media/www.medium4.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content3);
+	ClientResponse response2 = r.path("media/www.medium4.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content3);
 	
 	// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 	assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
-	
-	WebResource r4 = resource(); 
 
-    r4.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
-	
 	ClientResponse response3 = r.path("media/www.medium4.de").delete(ClientResponse.class);
     assertEquals(response3.getStatus(), Status.OK.getStatusCode());
 	
