@@ -23,24 +23,11 @@ _JSON MIME Typ_
 
 ===Operation:===
  * GET
-_Gibt ein Achievement mit allen Details aus._
+Gibt ein Achievement mit allen Details aus._
 
 
 ===Ein-/Ausgabeform:=== 
-Eingabe:
-
-{{{
-                Id:<ID>
-
-}}}
-Ausgabe:
-
-{{{
-		Id: <ID>
-                Name: <NAME>
-                Description: <DESCRIPTIONG>
-                Url: <URL>
-	}}}
+_Ausgabe: {{{Id: <ID>, name: <NAME>, description: <DESCRIPTION>, url: <URL>}}}
 
 
 
@@ -50,7 +37,7 @@ Ausgabe:
 ===HTTP Status Codes (Fehlerfall):===
   
  * 404: Not Found
-_Die angeforderte Ressource wurde nicht gefunden. Das Achievment kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+Die angeforderte Ressource wurde nicht gefunden. Das Achievment kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
 
 ===HTTP Status Codes (Erfolgsfall):===
 
@@ -68,6 +55,9 @@ _Das gesuchte Achievement wurde gefunden und wird ausgegeben._
 ===Operation:===
  * PUT
 _Es wird die Operation PUT benötigt um ein Achievement ändern zu können_
+
+===Ein-/Ausgabeform:=== 
+Eingabe: {{{name: <NAME>, description: <DESCRIPTION>, url: <URL>}}}
 
 ===Struktur zwischen Ressourcen:=== 
  * ---
