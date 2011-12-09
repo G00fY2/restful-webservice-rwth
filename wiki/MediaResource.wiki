@@ -63,7 +63,7 @@ Eingabe:
 
 
 {{{
-{'url':'url','value':vlaue,'description':'description'}
+{'url':<URL>,'value':<VALUE>,'description':<DESCRIPTION>}
 	}}}
 
 
