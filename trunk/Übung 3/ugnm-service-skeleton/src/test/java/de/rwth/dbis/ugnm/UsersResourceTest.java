@@ -307,11 +307,11 @@ public class UsersResourceTest extends JerseyTest{
 	 * deckt folgende spezifizierte Fälle ab:
 	 *
 	 *   - /users/			POST	201 (Erstellt einen User)	
-	 *   - /users/{email}	UPDATE	401 (versucht User unathorisiert zu updaten)
-	 *   - /users/{email}	UPDATE	200 (Updatet den User erfolgreich)
+	 *   - /users/{email}	PUT		401 (versucht User unathorisiert zu updaten)
+	 *   - /users/{email}	PUT		200 (Updatet den User erfolgreich)
 	 *   - /users/{email}	GET		200 (Gibt den User aus)
 	 *   - /users/{email}	DELETE	200	(löscht den User)
-	 *   - /users/{emial}	UPDATE	404	(versucht nicht existierenden User zu updaten)
+	 *   - /users/{emial}	PUT		404	(versucht nicht existierenden User zu updaten)
 	 *  
 	 **/
 	

@@ -46,7 +46,7 @@ public class MediaResourceTest extends JerseyTest{
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /media			GET		200	(Liste aller Medien erfolgreich geholt)
 	 **/
     
 
@@ -71,21 +71,14 @@ public class MediaResourceTest extends JerseyTest{
     
 	@Test
 	/*
-	 * führt zuerst für einen nicht existierendes Medium ein DELETE aus. Dies sollte mit 404 fehlschlagen. 
-	 * Danach wird dieses Medium mit Put und unter Angabe aller nötigen Parameter auf die Collection Ressource angelegt. 
-	 * Dies sollte erfolgreich sein. Danach wird das selbe Medium wieder gelöscht.
+	 * Versucht ein Medium zuerst mit fehlenden Parametern zu erstellen -> 406
+	 * Versucht danach ein Medium ohne Authorisierung zu erstellen -> 401
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media/{url}	DELETE	404	(zu entfernendes Medium existiert nicht)
-	 *   - /media/			PUT	201 (neues Medium wurde erfolgreich angelegt)
-	 *   - /media/			PUT	409 (neues Medium schon vorhanden)
 	 *   - /media/			PUT	406 (neues Medium mit fehlendem Parameter anlegen)
 	 *   - /media/			PUT	401 (neues Medium ohne Authorisierung)
-	 *   - /media/{url}	DELETE	200 (bestehendes Medium erfolgreich entfernt)
-	 *   - /media/{url}	DELETE	401 (bestehendes Medium entfernen ohne Authorisierung)	
-	 *   - /media/{url}		PUT	406 (update Medium mit fehlendem Parameter)
-	 *   - /media/{url}		PUT	201 (update Medium erfolgreich)
+	 *   
 	 **/
 	
 	public void testPutWithoutDataPutUnauthorized() {
@@ -121,11 +114,16 @@ public class MediaResourceTest extends JerseyTest{
 	
 	@Test
 	/*
-	 * sendet einen GET Request an die Ressource /media. 
+	 * Erstellt per Put erfolgreich ein neues Medium. Versucht dieses unathorisiert zu updaten -> 401
+	 * Liest dann per Get das Medium aus. Löscht es danach erfolgreich. 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /media/			PUT	201 (neues Medium wurde erfolgreich angelegt)
+	 *   - /media/{url}		PUT	401 (Medium unathorisiert versucht zu updaten)
+	 *   - /media/{url}		GET	200 (neues Medium wurde ausgegeben)
+	 *   - /media/{url}	DELETE	200 (Medium erfolgreich entfernt)
+	 *   
 	 **/
     
 	public void testPutUpdateUnauthorizedGetDelete() {
@@ -144,6 +142,8 @@ public class MediaResourceTest extends JerseyTest{
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 		assertEquals(response1.getStatus(), Status.CREATED.getStatusCode());
 	    
+		//---------------Update Unathorized------------------
+		
 		// gebe JSON Content als String an.
 		String content2 = "{'url':'www.medium4.de','value':1,'description':'Medium 4 Update'}";
 		
@@ -153,6 +153,8 @@ public class MediaResourceTest extends JerseyTest{
 		// teste, ob der spezifizierte HTTP Status 401 (Unauthorized) zurückgeliefert wurde.
 		assertEquals(response2.getStatus(), Status.UNAUTHORIZED.getStatusCode());
 		
+		
+		// Get-Medium
 		// sende GET Request an Ressource /medium/... und erhalte Antwort als Instanz der Klasse ClientResponse
 		ClientResponse response3 = resource().path("media/www.medium4.de").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         
@@ -178,11 +180,16 @@ public class MediaResourceTest extends JerseyTest{
 	
     @Test
 	/*
-	 * sendet einen GET Request an die Ressource /media. 
+	 * Löscht ein nicht existierendes Medium -> 404
+	 * Erstellt mittels Put ein neues Medium. Versucht dieses erneut zu erstellen -> 409 Confilct
+	 * Löscht das Medium anschließend 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /media/{url}			DELETE		404	(versucht nicht existierendes Medium zu löschen)
+	 *   - /media/				PUT 		201 (erstellt ein neues Medium)
+	 *   - /media/				PUT			409 (versucht das Medium erneut zu erstellen)
+	 *   - /media/{url}			DELETE		200	(löscht das Medium)
 	 **/
     
 	public void testDeletePutPutAgainDelete() {
@@ -230,11 +237,14 @@ public class MediaResourceTest extends JerseyTest{
     
     @Test
 	/*
-	 * sendet einen GET Request an die Ressource /media. 
+	 * Erstellt ein Medium, versucht anschließened es es unathorisiert zu löschen -> 401
+	 * Löscht das Medium 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /media			PUT		201	(erstellt ein neues Medium)
+	 *   - /media/{url}		DELETE	401 (versucht das Medium unathorisiert zu löschen)
+	 *   - /media/{url}   	DELETE	200	(löscht das Medium)
 	 **/
     
 	public void testPutDeleteUnauthorizedDelete() {
@@ -277,11 +287,16 @@ public class MediaResourceTest extends JerseyTest{
     
     @Test
 	/*
-	 * sendet einen GET Request an die Ressource /media. 
+	 * Erstellt ein Medium. Versucht es ohne Daten zu updaten -> 406
+	 * Updatet das Medium erfolgreich.
+	 * Löscht das Medium. 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /media			PUT		201	(erstellt ein neues Medium)
+	 *   - /media/{url}		PUT		406 (versucht Medium ohne Daten zu updaten)
+	 * 	 - /media/{url}		PUT		201 (Updatet das Medium)
+	 *   - /media/{url}		DELETE	200	(Löscht das Medium) 
 	 **/
     
 	public void testPutUpdateMissingParaUpdateDelete() {

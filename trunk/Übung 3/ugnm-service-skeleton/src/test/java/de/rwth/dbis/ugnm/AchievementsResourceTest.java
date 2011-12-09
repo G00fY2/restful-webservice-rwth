@@ -46,7 +46,7 @@ public class AchievementsResourceTest extends JerseyTest{
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /achievements			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /achievements			GET		200	(Liste aller Achievements erfolgreich geholt)
 	 **/
     
 
@@ -69,23 +69,16 @@ public class AchievementsResourceTest extends JerseyTest{
     
     
     
-	@Test
+    @Test
 	/*
-	 * führt zuerst für einen nicht existierendes Achievement ein DELETE aus. Dies sollte mit 404 fehlschlagen. 
-	 * Danach wird dieses Achievement mit Put und unter Angabe aller nötigen Parameter auf die Collection Ressource angelegt. 
-	 * Dies sollte erfolgreich sein. Danach wird das selbe Achievement wieder gelöscht.
+	 * Versucht ein Achievement zuerst mit fehlenden Parametern zu erstellen -> 406
+	 * Versucht danach ein Achievement ohne Authorisierung zu erstellen -> 401
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /achievements/{url}	DELETE	404	(zu entfernendes Achievement existiert nicht)
-	 *   - /achievements/			PUT	201 (neues Achievement wurde erfolgreich angelegt)
-	 *   - /achievements/			PUT	409 (neues Achievement schon vorhanden)
 	 *   - /achievements/			PUT	406 (neues Achievement mit fehlendem Parameter anlegen)
 	 *   - /achievements/			PUT	401 (neues Achievement ohne Authorisierung)
-	 *   - /achievements/{url}	DELETE	200 (bestehendes Achievement erfolgreich entfernt)
-	 *   - /achievements/{url}	DELETE	401 (bestehendes Achievement entfernen ohne Authorisierung)	
-	 *   - /achievements/{url}		PUT	406 (update Achievement mit fehlendem Parameter)
-	 *   - /achievements/{url}		PUT	201 (update Achievement erfolgreich)
+	 *   
 	 **/
 	
 	public void testPutWithoutDataPutUnauthorized() {
@@ -121,13 +114,18 @@ public class AchievementsResourceTest extends JerseyTest{
 	
 	@Test
 	/*
-	 * sendet einen GET Request an die Ressource /achievements. 
+	 * Erstellt per Put erfolgreich ein neues Achievement. Versucht dieses unathorisiert zu updaten -> 401
+	 * Liest dann per Get das Achievement aus. Löscht es danach erfolgreich. 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /achievements			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /achievements/			PUT	201 (neues Achievement wurde erfolgreich angelegt)
+	 *   - /achievements/{id}		PUT	401 (Achievement unathorisiert versucht zu updaten)
+	 *   - /achievements/{id}		GET	200 (neues Achievement wurde ausgegeben)
+	 *   - /achievements/{id}	DELETE	200 (Achievement erfolgreich entfernt)
+	 *   
 	 **/
-    
+	
 	public void testPutUpdateUnauthorizedGetDelete() {
 		 // ----------- Erfolgreiches Anlegen eines Achievements ---------------
         WebResource r = resource(); 
@@ -179,11 +177,16 @@ public class AchievementsResourceTest extends JerseyTest{
 	
     @Test
 	/*
-	 * sendet einen GET Request an die Ressource /achievements. 
+	 * Löscht ein nicht existierendes Achievement -> 404
+	 * Erstellt mittels Put ein neues Achievement. Versucht dieses erneut zu erstellen -> 409 Confilct
+	 * Löscht das Achievement anschließend 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /achievements			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /achievements/{id}			DELETE		404	(versucht nicht existierendes Achievement zu löschen)
+	 *   - /achievements/				PUT 		201 (erstellt ein neues Achievement)
+	 *   - /achievements/				PUT			409 (versucht das Achievement erneut zu erstellen)
+	 *   - /achievements/{id}			DELETE		200	(löscht das Achievement)
 	 **/
     
 	public void testDeletePutPutAgainDelete() {
@@ -194,7 +197,7 @@ public class AchievementsResourceTest extends JerseyTest{
 		// auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
         r.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
 		
-        // sende DELETE Request an nicht existierende Ressource /achievements/9.medium4.de (sollte vor dem Test nicht existieren)
+        // sende DELETE Request an nicht existierende Ressource /achievements/9 (sollte vor dem Test nicht existieren)
 		ClientResponse response = r.path("achievements/9").delete(ClientResponse.class);
 		
 		// teste, ob der spezifizierte HTTP Status 404 (Not Found) zurückgeliefert wurde. 
@@ -231,11 +234,14 @@ public class AchievementsResourceTest extends JerseyTest{
     
     @Test
 	/*
-	 * sendet einen GET Request an die Ressource /achievements. 
+	 * Erstellt ein Achievement, versucht anschließened es es unathorisiert zu löschen -> 401
+	 * Löscht das Achievement 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /achievements			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /achievements			PUT		201	(erstellt ein neues Achievement)
+	 *   - /achievements/{id}		DELETE	401 (versucht das Achievement unathorisiert zu löschen)
+	 *   - /achievements/{id}   	DELETE	200	(löscht das Achievement)
 	 **/
     
 	public void testPutDeleteUnauthorizedDelete() {
@@ -276,13 +282,18 @@ public class AchievementsResourceTest extends JerseyTest{
     
     
     @Test
-	/*
-	 * sendet einen GET Request an die Ressource /achievements. 
-	 * 
-	 * deckt folgende spezifizierte Fälle ab:
-	 * 
-	 *   - /achievements			GET		200	(Liste aller User erfolgreich geholt)
-	 **/
+   	/*
+   	 * Erstellt ein Achievement. Versucht es ohne Daten zu updaten -> 406
+   	 * Updatet das Achievement erfolgreich.
+   	 * Löscht das Achievement. 
+   	 * 
+   	 * deckt folgende spezifizierte Fälle ab:
+   	 * 
+   	 *   - /achievements			PUT		201	(erstellt ein neues Achievement)
+   	 *   - /achievements/{id}		PUT		406 (versucht Achievement ohne Daten zu updaten)
+   	 * 	 - /achievements/{id}		PUT		201 (Updatet das Achievement)
+   	 *   - /achievements/{id}		DELETE	200	(Löscht das Achievement) 
+   	 **/
     
 	public void testPutUpdateMissingParaUpdateDelete() {
 	// ----------- Erfolgreiches Anlegen eines Achievements ---------------
