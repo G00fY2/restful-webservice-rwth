@@ -58,7 +58,7 @@ _Das Rating wurde erstellt._
 ----
 
 ===URL Template:=== 
- * "http://localhost:8080/ugnm-service/resources/rates/"
+ * "http://localhost:8080/ugnm-service/resources/users/{email}/rates"
 
 ===Operation:===
  * GET
