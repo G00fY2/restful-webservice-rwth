@@ -38,51 +38,48 @@ public class RatesResourceTest extends JerseyTest{
     }
     
     
-	
     
+    
+    
+   
     @Test
-	/*
-	 * sendet einen GET Request an die Ressource /media. 
-	 * 
-	 * deckt folgende spezifizierte Fälle ab:
-	 * 
-	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
-	 **/
-    
-    
-    
-	public void testGetSuccess() {
-		// sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
-		ClientResponse response = resource().path("/users/sven.hausburg@rwth-aachen.de/rates").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+    public void testPutUnauthorizedPutMissingParaPutNonExist() {
+    	WebResource r = resource(); 
+        
+        // auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
+        r.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
+        
+		// gebe JSON Content als String an.
+		String content = "{'url':'www.medium2.de','rate':1}";
 		
-		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
-        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
-        
-        // verarbeite die zurückgelieferten Daten als JSON Objekt.
-        JSONObject o = response.getEntity(JSONObject.class);
-        
-        // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
-        assertFalse(o.has("rates"));
-        
-	}
-    
-    
-    @Test
-    public void testGetFailtureField() {
-		// sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
-		ClientResponse response = resource().path("users").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /achievements.
+		ClientResponse response = resource().path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
-		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
-        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
-        
-        // verarbeite die zurückgelieferten Daten als JSON Objekt.
-        JSONObject o = response.getEntity(JSONObject.class);
-        
-        // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
-        assertTrue(o.has("rates123"));  
+		// teste, ob der spezifizierte HTTP Status 401 (Unauthorized) zurückgeliefert wurde.
+		assertEquals(response.getStatus(), Status.UNAUTHORIZED.getStatusCode());
+		
+		String content2 = "{}";
+		
+		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /achievements.
+		ClientResponse response2 = r.path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
+		
+		// teste, ob der spezifizierte HTTP Status 406 (Not Acceptable) zurückgeliefert wurde.
+		assertEquals(response2.getStatus(), Status.NOT_ACCEPTABLE.getStatusCode());
+		
+		// gebe JSON Content als String an.
+		String content3 = "{'url':'www.medium99.de','rate':1}";
+		
+		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /achievements.
+		ClientResponse response3 = r.path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content3);
+		
+		// teste, ob der spezifizierte HTTP Status 406 (Not Acceptable) zurückgeliefert wurde.
+		assertEquals(response3.getStatus(), Status.NOT_ACCEPTABLE.getStatusCode());		
 	}
     
 
+    
+    
+    
 	@Test
 	/*
 	 * führt zuerst für einen nicht existierendes Medium ein DELETE aus. Dies sollte mit 404 fehlschlagen. 
@@ -97,62 +94,58 @@ public class RatesResourceTest extends JerseyTest{
 	 **/
 	
 	
-	public void testDeletePostDelete() {
-		
-		// ---------- Delete auf nicht existierendes Medium ------------
+	public void testPutPut() {
 		WebResource r = resource(); 
-		
-		// auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
+        
+        // auf diese Art und Weise kann man eine HTTP Basic Authentifizierung durchführen.
         r.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
-		
-        // sende DELETE Request an nicht existierende Ressource /media/www.medium4.de (sollte vor dem Test nicht existieren)
-		ClientResponse response = r.path("/users/sven.hausburg@rwth-aachen.de/rates/2").delete(ClientResponse.class);
-		
-		// teste, ob der spezifizierte HTTP Status 404 (Not Found) zurückgeliefert wurde. 
-        assertEquals(response.getStatus(), Status.NOT_FOUND.getStatusCode());
-	
-        // ----------- Erfolgreiches Anlegen eines Mediums ---------------
         
 		// gebe JSON Content als String an.
-		String content = "{'url':'www.medium2.de','rate':1,'id':2}";
+		String content = "{'url':'www.medium2.de','rate':1}";
 		
-		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-		ClientResponse response2 = r.path("/users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
+		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /achievements.
+		ClientResponse response = r.path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
+		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
+		assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
+		
+		// gebe JSON Content als String an.
+		String content2 = "{'url':'www.medium2.de','rate':1}";
+						
+		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /achievements.
+		ClientResponse response2 = r.path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
+				
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
 		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
 		
-		WebResource r2 = resource(); 
-
-        r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
-		
-		ClientResponse response3 = r.path("/users/sven.hausburg@rwth-aachen.de/rates/2").delete(ClientResponse.class);
-        assertEquals(response3.getStatus(), Status.OK.getStatusCode());
-	}
+		}
 	
-	public void testDeleteFailtureAuthDeleteSuccess() {
+	
+	
+	
+	@Test
+	/*
+	 * sendet einen GET Request an die Ressource /media. 
+	 * 
+	 * deckt folgende spezifizierte Fälle ab:
+	 * 
+	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
+	 **/
+    
+    
+    
+	public void testGetSuccess() {
+		// sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
+		ClientResponse response = resource().path("users/sven.hausburg@rwth-aachen.de/rates").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		
-		WebResource r0 = resource(); 
-
-        r0.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123"));
+		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
+        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
         
-		// gebe JSON Content als String an.
-				String content = "{'url':'www.medium2.de','rate':1,'id':2}";
-				
-				// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /media.
-				ClientResponse response2 = r0.path("/users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
-				
-				// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-				assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
-				
-				WebResource r2 = resource(); 
-
-		        r2.addFilter(new HTTPBasicAuthFilter("sven.hausburg@rwth-aachen.de", "abc123")); 
-				
-				ClientResponse response3 = r2.path("/users/sven.hausburg@rwth-aachen.de1234/rates/2").delete(ClientResponse.class);
-		        assertEquals(response3.getStatus(), Status.UNAUTHORIZED.getStatusCode());
-		        
-		        ClientResponse response4 = r2.path("/users/sven.hausburg@rwth-aachen.de/rates/2").delete(ClientResponse.class);
-		        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
-			}
+        // verarbeite die zurückgelieferten Daten als JSON Objekt.
+        JSONObject o = response.getEntity(JSONObject.class);
+        
+        // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
+        assertFalse(o.has("rates"));
+        
+	}
 }
