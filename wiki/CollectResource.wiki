@@ -26,7 +26,9 @@ _Gibt ein Collect mit allen Details aus._
 ===Ein-/Ausgabeform:=== 
 
 Ausgabe:
-{{{ 'achievementId': <ACHIEVEMENTID>, 'userEmail': <USEREMAIL>}}}
+{{{ 
+{'achievementId': <ACHIEVEMENTID>, 'userEmail': <USEREMAIL>}
+}}}
 
 
 
