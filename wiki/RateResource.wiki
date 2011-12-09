@@ -27,7 +27,7 @@ _Gibt ein Rating mit allen Details aus._
 
 Ausgabe:
 {{{
-		{'url': <URL>, (( time: <ZEIT 00:00:00> )) ?, 'rate': <RATE>, 'mediumURL': <MEDIUMURL>, 'userEmail': <USEREMAIL>}
+{'url': <URL>, (( time: <ZEIT 00:00:00> )) ?, 'rate': <RATE>, 'mediumURL': <MEDIUMURL>, 'userEmail': <USEREMAIL>}
 	}}}
 
 
