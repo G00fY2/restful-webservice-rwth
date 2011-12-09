@@ -41,6 +41,9 @@ public class MediaResource {
 
         @Context UriInfo uriInfo;
 
+        
+//Gibt ueber GET ein Liste aller Medien aus        
+        
         @GET
         @Produces("application/json")
         public JSONObject getAllMedia() {
@@ -66,7 +69,7 @@ public class MediaResource {
                 }
         }
         
-        
+//Ermoeglicht ueber PUT das Erstellen eines einzelnen Mediums       
 
         @PUT
     @Consumes("application/json")
@@ -74,9 +77,14 @@ public class MediaResource {
         	if(admin_authenticated(auth)==false){
                 throw new WebApplicationException(401);
         	}
+   
+//Medium-Objekt wird mit uebergebenen Parametern erzeugt
+        	
             Medium medium = parseMediumJsonFile(o);
             return addIfDoesNotExist(medium);
     }
+
+//Methode ueberprueft das Medium bereits existiert 
         
         private Response addIfDoesNotExist(Medium medium) {
                 if(mediumService.findMedium(medium) == null) {
@@ -89,6 +97,9 @@ public class MediaResource {
                         throw new WebApplicationException(409);
                 }
         }
+
+//Parst die fuer Medium noetigen Attribute in Json          
+        
         
         private Medium parseMediumJsonFile(JSONObject o){
 
