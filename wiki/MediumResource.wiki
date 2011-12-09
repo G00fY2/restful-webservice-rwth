@@ -30,9 +30,7 @@ _Gibt ein Medium mit allen Details aus._
 
 Ausgabe:
 {{{
-		Description: <BESCHREIBUNG>
-                Value: <VALUE>/<0 = false, 1 = true>
-                URL: <MEDIUM-URL>
+{'description': <DESCRIPTION>, 'value': <VALUE>/<0 = false, 1 = true>, 'url': <MEDIUMURL>}
 	}}}
 
 
