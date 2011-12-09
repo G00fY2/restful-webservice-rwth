@@ -104,8 +104,8 @@ public class CollectsResourceTest extends JerseyTest{
 		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /achievements.
 		ClientResponse response = r.path("users/sven.hausburg@rwth-aachen.de/collect").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
-		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-		assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
+		// teste, ob der spezifizierte HTTP Status 200 (Ok) zurückgeliefert wurde.
+		assertEquals(response.getStatus(), Status.OK.getStatusCode());
 		
 		// gebe JSON Content als String an.
 		String content2 = "{'achievementId':2}";
@@ -113,8 +113,8 @@ public class CollectsResourceTest extends JerseyTest{
 		// sende PUT Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /achievements.
 		ClientResponse response2 = r.path("users/sven.hausburg@rwth-aachen.de/collect").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
 				
-		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
+		// teste, ob der spezifizierte HTTP Status 200 (Ok) zurückgeliefert wurde.
+		assertEquals(response2.getStatus(), Status.OK.getStatusCode());
 		
 		}
 	
@@ -143,7 +143,7 @@ public class CollectsResourceTest extends JerseyTest{
         JSONObject o = response.getEntity(JSONObject.class);
         
         // teste, ob das gelieferte JSON Object ein Feld "users" besitzt.
-        assertFalse(o.has("collect"));
+        assertTrue(o.has("collect"));
         
 	}
 	
