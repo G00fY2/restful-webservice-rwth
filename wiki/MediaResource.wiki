@@ -33,7 +33,7 @@ _JSON MIME Typ_
 }}}
 
 ===Struktur zwischen Ressourcen:=== 
- * "http://localhost:8080/ugnm-service/resources/media/{URL}"
+ * "http://localhost:8080/ugnm-service/resources/media/{url}"
 _Ausgehend von der Liste aller Medien, ist es möglich auf das einzelne Medien zuzugreifen._
 
 ===Zugriffskontrolle auf Operationen:=== 
