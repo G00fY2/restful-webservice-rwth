@@ -28,7 +28,7 @@ _JSON MIME Typ_
 
 Eingabe:
 {{{
-                Rate: {'url':'url','rate':'rate'}
+{Rate: {'url':<URL>,'rate':<RATE>}}
 	}}}
 
 
