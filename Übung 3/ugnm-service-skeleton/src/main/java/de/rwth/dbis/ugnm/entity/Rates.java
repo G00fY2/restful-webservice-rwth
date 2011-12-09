@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "Rates")
@@ -32,7 +32,7 @@ public class Rates {
         private int id;
         
         @Column(name = "time")
-        private Timestamp time;
+        private Date time;
         
         @Column(name = "rate", nullable = false)
         private int rate;
@@ -70,11 +70,11 @@ public class Rates {
                 return id;
         }
        
-        public Timestamp getTime(){
+        public Date getTime(){
             return time;
         }
     
-        public void setTime(Timestamp time){
+        public void setTime(Date time){
             this.time = time;
         }
        
