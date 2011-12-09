@@ -30,11 +30,7 @@ _Gibt einen User mit allen Details aus._
 
 Ausgabe:
 {{{
-		Benutername: <BENUTZERNAME>
-                Vorname: <VORNAME>
-                Nachname: <NACHNAME>
-                EMail: <EMAIL>
-                EP: <EP>
+{'username': <BENUTZERNAME>, 'name': <VORNAME>, 'email': <EMAIL>,'ep': <EP>}
 	}}}
 
 
