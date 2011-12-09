@@ -60,7 +60,11 @@ _Das gesuchte Achievement wurde gefunden und wird ausgegeben._
 _Es wird die Operation PUT benötigt um ein Achievement ändern zu können_
 
 ===Ein-/Ausgabeform:=== 
-Eingabe: {{{name: <NAME>, description: <DESCRIPTION>, url: <URL>}}}
+Eingabe:
+
+{{{
+{'description':<DESCRIPTION>,'name':<NAME>,'url':<URL>}
+	}}}
 
 ===Struktur zwischen Ressourcen:=== 
  * ---
