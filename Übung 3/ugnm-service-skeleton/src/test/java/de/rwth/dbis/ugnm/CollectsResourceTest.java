@@ -41,6 +41,17 @@ public class CollectsResourceTest extends JerseyTest{
 	
     
     @Test
+    /*
+	 * Versucht ohne Authorisierung ein neues Collect zu erstellen -> 401
+	 * Versucht ein Collect mit fehlendem Parameter zu erstellen ->406
+	 * 
+	 * deckt folgende spezifizierte Fälle ab:
+	 * 
+	 *   - /users/{email}/collect	PUT	401	(versucht unauthorisiert ein Collect zu erstellen)
+	 *   - /users/{email}/collect	PUT	406	(versucht mit fehlendem Paramter Collect zu erstellen)
+	 *   	
+	 **/
+    
     public void testPutUnauthorizedPutMissingParaPutNonExist() {
     	WebResource r = resource(); 
         
@@ -79,16 +90,15 @@ public class CollectsResourceTest extends JerseyTest{
     
     
 	@Test
-	/*
-	 * führt zuerst für einen nicht existierendes Medium ein DELETE aus. Dies sollte mit 404 fehlschlagen. 
-	 * Danach wird dieses Medium mit Post und unter Angabe aller nötigen Parameter auf die Collection Ressource angelegt. 
-	 * Dies sollte erfolgreich sein. Danach wird das selbe Medium wieder gelöscht.
+    /*
+	 * Erstellt erfolgreich ein Collect.
+	 * Erstellt erfolgreich ein zweites Collect.
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media/{url}	DELETE	404	(zu entfernendes Medium existiert nicht)
-	 *   - /media/			POST	201 (neues Medium wurde erfolgreich angelegt)
-	 *   - /media/{url}	DELETE	200 (bestehendes Medium erfolgreich entfernt)	
+	 *   - /users/{email}/collect	PUT	201	(erstellt ein Collect)
+	 *   - /users/{email}/collect	PUT	201	(erstellt ein Collect)
+	 *   	
 	 **/
 	
 	
@@ -123,11 +133,12 @@ public class CollectsResourceTest extends JerseyTest{
 	
 	@Test
 	/*
-	 * sendet einen GET Request an die Ressource /media. 
+	 * sendet einen GET Request an die Ressource /users/{email}/collect. 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /users/{email}/collect		GET		200	(Liste aller Collects eines Users erfolgreich geholt)
+	 *   
 	 **/
     
     
@@ -153,11 +164,13 @@ public class CollectsResourceTest extends JerseyTest{
 	
 	@Test
 	/*
-	 * sendet einen GET Request an die Ressource /media. 
+	 * Löscht nacheinander die oeben erstellen Collects-. 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /users/{email}/collect/{id}		DELETE		200	(löscht erflgreich das Collect)
+	 *   - /users/{email}/collect/{id}		DELETE		200	(löscht erflgreich das Collect)
+	 *   
 	 **/
     
     

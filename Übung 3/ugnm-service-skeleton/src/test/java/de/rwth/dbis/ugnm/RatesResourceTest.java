@@ -43,6 +43,17 @@ public class RatesResourceTest extends JerseyTest{
     
    
     @Test
+    /*
+   	 * Versucht ohne Authorisierung ein neues Rate zu erstellen -> 401
+   	 * Versucht ein Rate mit fehlendem Parameter zu erstellen -> 406
+   	 * 
+   	 * deckt folgende spezifizierte Fälle ab:
+   	 * 
+   	 *   - /users/{email}/rates		PUT	401	(versucht unauthorisiert ein Rate zu erstellen)
+   	 *   - /users/{email}/rates		PUT	406	(versucht mit fehlendem Paramter Rate zu erstellen)
+   	 *   	
+   	 **/
+    
     public void testPutUnauthorizedPutMissingParaPutNonExist() {
     	WebResource r = resource(); 
         
@@ -81,17 +92,16 @@ public class RatesResourceTest extends JerseyTest{
     
     
 	@Test
-	/*
-	 * führt zuerst für einen nicht existierendes Medium ein DELETE aus. Dies sollte mit 404 fehlschlagen. 
-	 * Danach wird dieses Medium mit Post und unter Angabe aller nötigen Parameter auf die Collection Ressource angelegt. 
-	 * Dies sollte erfolgreich sein. Danach wird das selbe Medium wieder gelöscht.
-	 * 
-	 * deckt folgende spezifizierte Fälle ab:
-	 * 
-	 *   - /media/{url}	DELETE	404	(zu entfernendes Medium existiert nicht)
-	 *   - /media/			POST	201 (neues Medium wurde erfolgreich angelegt)
-	 *   - /media/{url}	DELETE	200 (bestehendes Medium erfolgreich entfernt)	
-	 **/
+	 /*
+		 * Erstellt erfolgreich ein Rating.
+		 * Erstellt erfolgreich ein zweites Rating.
+		 * 
+		 * deckt folgende spezifizierte Fälle ab:
+		 * 
+		 *   - /users/{email}/rates		PUT	201	(erstellt ein Rate)
+	   	 *   - /users/{email}/rates		PUT	201	(erstellt ein Rate)
+		 *   	
+		 **/
 	
 	
 	public void testPutPut() {
@@ -125,11 +135,11 @@ public class RatesResourceTest extends JerseyTest{
 	
 	@Test
 	/*
-	 * sendet einen GET Request an die Ressource /media. 
+	 * sendet einen GET Request an die Ressource /users/{email}/rates. 
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /media			GET		200	(Liste aller User erfolgreich geholt)
+	 *   - /users/{email}/rates			GET		200	(Liste aller Rates erfolgreich geholt)
 	 **/
     
     
