@@ -50,7 +50,7 @@ _Das gesuchte Medium wurde gefunden und wird ausgegeben._
 
 
 ----
-==Änderung eines Mdeiums(MediumResource):==
+==Änderung eines Mediums(MediumResource):==
 ----
 ===Operation:===
  * PUT
