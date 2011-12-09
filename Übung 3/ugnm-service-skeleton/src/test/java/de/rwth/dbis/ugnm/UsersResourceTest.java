@@ -85,9 +85,15 @@ public class UsersResourceTest extends JerseyTest{
     
     @Test
 	/*
-	 * ... 
+	 * Erstelle erfolgreich einen User, liest diesen aus und löscht ihn anschließend. 
+	 * Danach wird versucht den gelöschten User erneut auszugeben. -> 404
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
+	 * 
+	 *   - /users/			PUT	201 (neuer User wurde erfolgreich angelegt)
+	 *   - /users/{email}	GET	200 (neuer User wurd ausgegeben)
+	 *   - /users/{email}	DELETE	200 (User wurd erfolgreich gelöscht)
+	 *   - /users/{email}	GET	404 (auszugebender User existiert nicht)
 	 * 
 	 *  
 	 **/
@@ -140,10 +146,10 @@ public class UsersResourceTest extends JerseyTest{
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
-	 *   - /users/{login}	DELETE	404	(zu entfernender User existiert nicht)
+	 *   - /users/{email}	DELETE	404	(zu entfernender User existiert nicht)
 	 *   - /users/			POST	201 (neuer User wurde erfolgreich angelegt)
-	 *   - /users/{login}	DELETE	200 (bestehender User erfolgreich entfernt)	
-	 *   - /users/{login}	DELETE	404 (User nicht verhanden)	
+	 *   - /users/{email}	DELETE	200 (bestehender User erfolgreich entfernt)	
+	 *   - /users/{email}	DELETE	404 (User nicht verhanden)	
 	 **/
 	
 	public void testDeletePostDelete() {
@@ -187,10 +193,14 @@ public class UsersResourceTest extends JerseyTest{
 	
 	@Test
 	/*
-	 * sendet einen Request an die Ressource /users. 
+	 * Erstellt einen User, versucht danach diesen unauthorisiert zu löschen, führt zu einem 404. 
+	 * Danach wird der User erfolgreich gelöscht.
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
+	 *   - /users/			POST	201 (neuer User wurde erfolgreich angelegt)
+	 *   - /users/{email}	DELETE	406 (kann nicht gelöscht werden da Authorisierung fehlt)	
+	 *   - /users/{email}	DELETE	200 (User erflogreih gelöscht)
 	 *  
 	 **/
 	
@@ -225,10 +235,14 @@ public class UsersResourceTest extends JerseyTest{
 	
 	@Test
 	/*
-	 * sendet einen Request an die Ressource /users. 
+	 * Erstellt erfolgreich einen User. Versucht den User ein zweites mal zu erstellen -> 409 Confilct.
+	 * Danach wird der User wieder gelöscht.
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
+	 *   - /users/			POST	201 (neuer User wurde erfolgreich angelegt)
+	 *   - /users/			POST	409 (Benutzer wird versucht erneut anzulegen)	
+	 *   - /users/{email}	DELETE	200 (User erflogreih gelöscht)
 	 *  
 	 **/
 	
@@ -264,10 +278,11 @@ public class UsersResourceTest extends JerseyTest{
 	
 	@Test
 	/*
-	 * sendet einen Request an die Ressource /users. 
+	 * Versucht einen User mit fehlenden Parametern anzulegen -> Bad Request
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
 	 * 
+	 *   - /users/			POST	400 (neuer User kann nicht erstellt werden da Parameter fehlen)
 	 *  
 	 **/
 	
@@ -285,14 +300,22 @@ public class UsersResourceTest extends JerseyTest{
 	
 	@Test
 	/*
-	 * sendet einen Request an die Ressource /users. 
+	 * Erstellt erfolgreich einen User. Versucht einen User ohne Authorisierung up-zu-daten.
+	 * Führt zu einem Unathorized. Updatet den User erfolgreich. Gibt den User aus.
+	 * Löscht den User erfolgreich. Versucht den nicht mehr existierenden User zu updaten.
 	 * 
 	 * deckt folgende spezifizierte Fälle ab:
-	 * 
+	 *
+	 *   - /users/			POST	201 (Erstellt einen User)	
+	 *   - /users/{email}	UPDATE	401 (versucht User unathorisiert zu updaten)
+	 *   - /users/{email}	UPDATE	200 (Updatet den User erfolgreich)
+	 *   - /users/{email}	GET		200 (Gibt den User aus)
+	 *   - /users/{email}	DELETE	200	(löscht den User)
+	 *   - /users/{emial}	UPDATE	404	(versucht nicht existierenden User zu updaten)
 	 *  
 	 **/
 	
-	public void testPostUpdateUpdateGetDeleteUpdate(){
+	public void testPostUpdateUnauthorizedUpdateGetDeleteUpdate(){
 		// ----------- Erfolgreiches Anlegen eines Users ---------------
 		// gebe JSON Content als String an.
 		String content = "{'email':'thomas.tomatenkop@gmx.de','username':'popo','password':'1234','name':'thomas tomatenkop'}";

@@ -118,7 +118,7 @@ public class AchievementResource {
         }
        
        
- //Parst die fuer Achievement nötigen Attribute in Json      
+ //Parst die fuer Achievement noetigen Attribute in Json      
        
        
                 private Achievement parseJsonUpdateFile(JSONObject o, int id){

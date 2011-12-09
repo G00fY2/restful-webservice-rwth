@@ -24,6 +24,8 @@ import java.sql.Timestamp;
 
 @XmlRootElement
 public class Rates {
+	
+	//Id ist PRIMARY
          
         @Id
         @Column(name = "id", nullable = false)
@@ -41,7 +43,6 @@ public class Rates {
         @Column(name = "userEmail", nullable = false)
                 private String userEmail;
 
-        
         @ManyToOne
         @JoinColumn(name="userEmail", referencedColumnName="email", insertable = false, updatable = false)
         private User userInstance;

@@ -69,7 +69,7 @@ public class AchievementsResource {
         }
         
         
-//Ermöglicht ueber PUT das erstellen eines einzelnen Achievements  
+//Ermöglicht ueber PUT das Erstellen eines einzelnen Achievements  
         
         
         @PUT
@@ -101,7 +101,7 @@ public class AchievementsResource {
         }
         
 
-//Parst die fuer Achievements nötigen Attribute in Json           
+        //Parst die fuer Achievements nötigen Attribute in Json           
         
         private Achievement parseAchievementJsonFile(JSONObject o){
             try {
@@ -121,6 +121,7 @@ public class AchievementsResource {
                 
         }
         
+        // Admin Authentifizierung-Methode
         public static boolean admin_authenticated(String authHeader){
             String adminEmail = "sven.hausburg@rwth-aachen.de";
             String adminPw = "abc123";
