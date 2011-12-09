@@ -27,9 +27,10 @@ Gibt ein Achievement mit allen Details aus._
 
 
 ===Ein-/Ausgabeform:=== 
-_Ausgabe: {{{
-{Id: <ID>, name: <NAME>, description: <DESCRIPTION>, url: <URL>}
-}}}
+_Ausgabe: 
+{{{
+{'id':<ID>,'description':<DESCRIPTION>,'name':<NAME>,'url':<URL>}
+	}}}
 
 
 
