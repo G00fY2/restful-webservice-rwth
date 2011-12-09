@@ -44,7 +44,7 @@ public class CollectsResource {
         
         @Context UriInfo uriInfo;
 
-//Gibt ueber GET ein Liste aller Achievements aus
+//Gibt ueber GET ein Liste aller Collects aus
         
         @GET
         @Produces("application/json")
@@ -72,17 +72,17 @@ public class CollectsResource {
         
         
         
-//Ermoeglicht ueber PUT das Erstellen eines einzelnen Achievements 
+//Ermoeglicht ueber PUT das Erstellen eines einzelnen Collects 
         
         @PUT
     @Consumes("application/json")
     public Response createCollect(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException{
         	
-//Achievement-Objekt wird mit uebergebenen Parametern erzeugt 
+//Collect-Objekt wird mit uebergebenen Parametern erzeugt 
         	
                 Collect collect = parseCollectJsonFile(o, email);
                                 
-//Methode ueberprueft ob Achievement existiert
+//Methode ueberprueft ob Collect existiert
                 
                 if(achievementService.getById(collect.getAchievementId()) != null){
                         if(authenticated(auth, userService.getByEmail(email))){
