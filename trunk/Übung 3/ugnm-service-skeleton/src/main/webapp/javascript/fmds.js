@@ -11,10 +11,10 @@
 function FmdClient(endpointUrl){
 	
 	// store a couple of central resource URIs for later usage
-	this._serviceEndpoint = endpointUrl;
-	this._usersResource = this._serviceEndpoint + "users";
-	this._mediaResource = this._serviceEndpoint + "media";
-	this._achievementsResource = this._serviceEndpoint + "achievements";
+	this._ServiceEndpoint = endpointUrl;
+	this._UsersResource = this._serviceEndpoint + "Users";
+	this._MediaResource = this._serviceEndpoint + "Media";
+	this._AchievementsResource = this._serviceEndpoint + "Achievements";
 	
 	// since RESTful Web Services are stateless by design, credentials will have to be sent
 	// with every HTTP request requiring authentication. However, users should only provide
@@ -36,12 +36,12 @@ function FmdClient(endpointUrl){
  * The result parameter in the callback function exhibits a value true, if a user 
  * with the given login is already registered, false else.
  * 
- * @param (String) login
+ * @param (String) email
  * @param (function(result)) callback
  */
-FmdClient.prototype.isRegistered = function(login, callback){
+FmdClient.prototype.isRegistered = function(email, callback){
 	$.ajax({
-		url: this._usersResource + "/" + login,
+		url: this._usersResource + "/" + email,
 		type: "GET",
 		success: function(da,s){
 			callback(true);
@@ -76,20 +76,20 @@ FmdClient.prototype.isLoggedIn = function(){
  * A side effect of a successful authentication is that credentials are stored in local storage for
  * all later method calls.
  * 
- * @param login (String)
+ * @param email (String)
  * @param password (String)
  * @param callback (function(result)) 
  */
-FmdClient.prototype.login = function(login, password, callback){
+FmdClient.prototype.login = function(email, password, callback){
 	
 	// for this login step we use one HTTP operation on one resource, which is authentication-aware.
 	// In this example, we use the GET operation on the resource /users/{login} including credentials
 	// as HTTP auth header.
-	var resource = this._usersResource + "/" + login;
+	var resource = this._usersResource + "/" + email;
 	var that = this;
 	
 	// use helper function to create credentials as base64 encoding for HTTP auth header
-	var credentials = __make_base_auth(login,password);
+	var credentials = __make_base_auth(email,password);
 	
 	// here, you see a first example of an AJAX request done with the help of jQuery.
 	$.ajax({
@@ -112,7 +112,7 @@ FmdClient.prototype.login = function(login, password, callback){
 			// store credentials in local storage
 			// Local Storage version
 			
-			localStorage.setItem("fmdsuid",login);
+			localStorage.setItem("fmdsuid",email);
 			localStorage.setItem("fmdscred",credentials);
 			
 			
@@ -171,15 +171,15 @@ FmdClient.prototype.logout = function(){
  * @param password (String)
  * @param callback (function(result)) 
  */
-FmdClient.prototype.signup = function(login, name, password, callback){
+FmdClient.prototype.signup = function(email, username, password, callback){
 	
 	// create JSON representation to be passed to the Web Service
 	var d = {};
-	d.login = login;
-	d.name = name;
-	d.pass = password;
+	d.email = email;
+	d.username = username;
+	d.password = password;
 	
-	var resource = this._usersResource;
+	var resource = this._UsersResource;
 	
 	// do AJAX call to Web Service using jQuery.ajax
 	$.ajax({
@@ -253,15 +253,15 @@ FmdClient.prototype.getUsers = function(callback){
  * @param callback (function(result)) 
  */
 FmdClient.prototype.getMedia = function(callback){
-	var resource = this._mediaResource;
+	var resource = this._MediaResource;
 	
 	$.get(resource, function(data) {
 		callback(data.media);		
 	});
 };
 
-FmdClient.prototype.getMediaRatings = function(m, callback){
-	var resource = this._mediaResource + "/" + m.id + "/ratings";
+FmdClient.prototype.getMediaRates = function(m, callback){
+	var resource = this._MediaResource + "/" + m.id + "/rates";
 	
 	$.get(resource, function(data) {
 		callback(m,data.ratings);		
@@ -273,8 +273,8 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 	if(!this.isLoggedIn){
 		alert("Not logged in");
 	} 
-	var resource = this._mediaResource + "/" + m.id + "/ratings";
-	var d = {rating: r};
+	var resource = this._MediaResource + "/" + m.id + "/rates";
+	var d = {rate: r};
 	
 	var that = this;
 	
