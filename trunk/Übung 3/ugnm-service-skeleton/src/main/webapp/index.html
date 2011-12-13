@@ -329,7 +329,7 @@
 						bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
 						bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
 
-						bValid = bValid && checkRegexp( $("#signup-usernam"), /^[A-Za-z]([@])([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+						bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([@])([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
 						bValid = bValid && checkRegexp( $("#signup-email"), /^[a-z]]([0-9a-z_])+$/i, "email may consist of a-z, 0-9, @ underscores, begin with a letter." );
 						bValid = bValid && checkRegexp( $("#signup-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
 
@@ -353,7 +353,7 @@
 					}
 				},
 				close: function() {
-					$("#signup-usernam").removeClass("ui-state-error");
+					$("#signup-username").removeClass("ui-state-error");
 					$("#signup-email").removeClass("ui-state-error");
 					$("#signup-password").removeClass("ui-state-error");
 				}
