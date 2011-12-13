@@ -13,10 +13,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -71,11 +71,11 @@ public class RatesResource {
         
         @GET
         @Produces("application/json")
-        public JSONObject getAllRates(@PathParam("email") String email) {
+        public Response getAllRates(@PathParam("email") String email) {
 
                 List<Rates> rateList = ratesService.getAllRatesOfUser(email);
                 Iterator<Rates> rit = rateList.iterator();
-               
+
                 Vector<String> vRates = new Vector<String>();
                
                 while(rit.hasNext()){
@@ -83,13 +83,14 @@ public class RatesResource {
                         String rUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + r.getId() + "/" + r.getMediumUrl() + "/" + r.getRate();
                         vRates.add(rUri);
                 }
-
                 try {
-                        JSONObject j = new JSONObject();
-                        j.append("rates",vRates);
-                        return j;
+                    	JSONObject j = new JSONObject();
+                    	j.append("rates", vRates);
+                        Response.ResponseBuilder r = Response.ok(j);
+                        return CORS.makeCORS(r, _corsHeaders);
                 } catch (JSONException e) {
-                        throw new WebApplicationException(500);
+                	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
         }
        
@@ -113,19 +114,23 @@ public class RatesResource {
                         	    u.setEp(ep);
                         	    userService.update(u);
                         	    reached(ep, email);
-                          	    return Response.ok().build();
+                        	    Response.ResponseBuilder r = Response.status(Status.OK);
+                                return CORS.makeCORS(r, _corsHeaders);
                         	}
                         	else{    
-                                return Response.ok().build();
+                        		Response.ResponseBuilder r = Response.status(Status.OK);
+                                return CORS.makeCORS(r, _corsHeaders);
                         	}
                         }
                         else{
-                                throw new WebApplicationException(401);
+                        	Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                            return CORS.makeCORS(r, _corsHeaders);
                         }
                        
                 }
                 else{
-                        throw new WebApplicationException(406);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
     }
        
@@ -146,7 +151,7 @@ public class RatesResource {
                        
                         return rating;
                 } catch (JSONException e) {
-                        throw new WebApplicationException(406);
+                        return null;
                 }
                
         }

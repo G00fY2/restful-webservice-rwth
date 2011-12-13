@@ -7,8 +7,8 @@ import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,25 +39,28 @@ public class RateResource {
         
         @GET
         @Produces("application/json")
-        public Rates getRate(@PathParam("email") String userEmail, @PathParam("id") int id){
+        public Response getRate(@PathParam("email") String userEmail, @PathParam("id") int id){
         	
 //Rates-Objekt wird mit uebergebenen Parametern erzeugt        	
         
-                Rates r = rateService.getRateById(id);
+                Rates r1 = rateService.getRateById(id);
                 
 //Wenn Rate-Object nicht = "null" und die mail im object aequivalent zur uebergebenen usermail ist, wird dieses Object ausgegeben               
 //Andernfalls wird eine 404 WebApplicationException geschmissen                  
                 
-                if (r==null){
-                        throw new WebApplicationException(404);
+                if (r1==null){
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
-                return r;
+                Response.ResponseBuilder r = Response.ok(r1);
+                return CORS.makeCORS(r, _corsHeaders);
         }
         
         @DELETE
         public Response deleteRate(@HeaderParam("authorization") String auth, @PathParam("id") int id){
                         if(admin_authenticated(auth)==false){
-                                throw new WebApplicationException(401);
+                        	 Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                             return CORS.makeCORS(r, _corsHeaders);
                         }
 //GET Achievement ueber Primary Id              
 
@@ -67,13 +70,15 @@ public class RateResource {
                
                 if(rate!=null){
                         rateService.delete(rate);
-                        return Response.ok().build();
+                        Response.ResponseBuilder r = Response.ok(rate);
+                        return CORS.makeCORS(r, _corsHeaders);
                 }
                
 //Andernfalls wird eine 404 WebApplicationException geschmissen                
                
                 else{
-                        throw new WebApplicationException(404);
+                	 Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                     return CORS.makeCORS(r, _corsHeaders);
                 }
         }
         

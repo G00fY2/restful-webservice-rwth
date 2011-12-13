@@ -74,23 +74,15 @@ public class UsersResource {
                 JSONObject j = new JSONObject();
 //Liste wird ausgegeben
                 try {
-                	while(usit.hasNext()){
-        				User u = usit.next();
-        				JSONObject jou = new JSONObject();
-        				jou.put("email", u.getEmail());
-        				jou.put("username", u.getUsername());
-        				jou.put("ep", u.getEp());
-        				String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + u.getEmail();
-        				jou.put("resource", uUri);
-        				j.accumulate("users", jou);
-                	}
+                	
+                	j.append("users", vUsers);
+                	Response.ResponseBuilder r = Response.ok(j);
+                    return CORS.makeCORS(r, _corsHeaders);		
                 } catch (JSONException e) {
         			Response.ResponseBuilder r = Response.serverError();
         			return CORS.makeCORS(r, _corsHeaders);
         		}
 
-        		Response.ResponseBuilder r = Response.ok(j);
-        		return CORS.makeCORS(r,_corsHeaders);
         	}
         
 //Erstellt einen User und fügt diesen mittels POST hinzu
