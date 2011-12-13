@@ -18,7 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.WebApplicationException;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,7 +53,7 @@ public class UsersResource {
         @GET
         @Produces("application/json")
    
-        public JSONObject getUsers() {
+        public Response getUsers() {
    
 //Liste wird erstellt    
         	
@@ -71,51 +71,64 @@ public class UsersResource {
                         String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + u.getEmail();
                         vUsers.add(uUri);
                 }
-                
+                JSONObject j = new JSONObject();
 //Liste wird ausgegeben
                 try {
-                        JSONObject j = new JSONObject();
-                        j.append("users",vUsers);
-                        return j;
+                	while(usit.hasNext()){
+        				User u = usit.next();
+        				JSONObject jou = new JSONObject();
+        				jou.put("email", u.getEmail());
+        				jou.put("username", u.getUsername());
+        				jou.put("ep", u.getEp());
+        				String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + u.getEmail();
+        				jou.put("resource", uUri);
+        				j.accumulate("users", jou);
+                	}
                 } catch (JSONException e) {
-                        throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
-                }
-                
-        }
+        			Response.ResponseBuilder r = Response.serverError();
+        			return CORS.makeCORS(r, _corsHeaders);
+        		}
+
+        		Response.ResponseBuilder r = Response.ok(j);
+        		return CORS.makeCORS(r,_corsHeaders);
+        	}
         
 //Erstellt einen User und fügt diesen mittels POST hinzu
         
           @POST
-    @Consumes("application/json")  
-public Response putUser(JSONObject o) throws JSONException {
+          @Consumes("application/json")  
+          public Response putUser(JSONObject o) throws JSONException {
         
                 if(o == null || !(o.has("email") && o.has("username") && o.has("password"))){
-                        throw new WebApplicationException(Status.BAD_REQUEST);
+                	Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
                 else{
-                User nu = new User();
-                nu.setEmail((String) o.get("email"));
-                nu.setUsername((String) o.get("username"));
-                nu.setPassword((String) o.get("password"));
-                nu.setName((String) o.get("name"));
-                nu.setEp(0);
-                   
-                     
-                
-                if(userService.findUser(nu) == null) {
-                        userService.save(nu);
-                        URI location;
-                                try {
-                                        location = new URI(uriInfo.getAbsolutePath().toASCIIString() + "/" + o.get("email"));
-                                        return Response.created(location).build();
-                                } catch (URISyntaxException e) {
-                                        throw new WebApplicationException(Status.INTERNAL_SERVER_ERROR);
-                                }
-                }
-                else{
-                        throw new WebApplicationException(Status.CONFLICT);
-                }
-        }
-    }
-        
+        			User nu = new User();
+        			nu.setEmail((String) o.get("email"));
+        			nu.setPassword((String) o.get("password"));
+        			nu.setUsername((String) o.get("username"));
+        			nu.setEp(0);
+
+        			if(userService.findUser(nu) == null) {
+        				userService.save(nu);
+        				URI location;
+        				try {
+        					location = new URI(uriInfo.getAbsolutePath().toASCIIString() + "/" + o.get("email"));
+        					
+        					Response.ResponseBuilder r = Response.created(location);
+        					return CORS.makeCORS(r, _corsHeaders);
+        					
+        				} catch (URISyntaxException e) {
+        					Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
+        					return CORS.makeCORS(r, _corsHeaders);
+        				}
+        			}
+        			else{
+        				Response.ResponseBuilder r = Response.status(Status.CONFLICT);
+        				return CORS.makeCORS(r, _corsHeaders);
+        			}
+        		}
+          }
+
 }

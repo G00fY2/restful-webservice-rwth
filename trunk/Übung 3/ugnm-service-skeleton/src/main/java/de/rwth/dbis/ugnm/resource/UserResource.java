@@ -9,10 +9,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 
 import org.codehaus.jettison.json.JSONException;
@@ -48,7 +48,7 @@ public class UserResource {
    
         @GET
         @Produces("application/json")
-        public User getUser(@PathParam("email") String email) {
+        public Response getUser(@PathParam("email") String email) {
         	
 //User-Objekt wird mit uebergebenen Parametern erzeugt
         	
@@ -58,12 +58,14 @@ public class UserResource {
 //Andernfalls wird eine 404 WebApplicationException geschmissen
                 
                 if (u!=null){
-             u.setPassword(null);
+                	u.setPassword(null);
                 }
                 else{
-             throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
-                return u;
+                Response.ResponseBuilder r = Response.ok(u);
+                return CORS.makeCORS(r, _corsHeaders);
 }
 
 
@@ -76,7 +78,8 @@ public class UserResource {
 //Wenn übergebener Nutzer (als Json-Object) = null -> 404 WebApplicationException
         	
                 if(o == null){
-                        throw new WebApplicationException(400);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
 
 //Wenn länge=0 wurde keine änderung vorgenommen -> notModified Response                 
@@ -93,13 +96,14 @@ public class UserResource {
 //Andernfalls wird eine 404 WebApplicationException geschmissen                  
                 
                 if(u == null){
-                        throw new WebApplicationException(404);
-                }
-                
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
+            }
 //Wenn User-Object nicht authenticated wird eine 401 WebApplicationException geschmissen                 
                 
                 if(!authenticated(auth, u)){
-                        throw new WebApplicationException(401);
+                	 Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                     return CORS.makeCORS(r, _corsHeaders);
                 }               
                 boolean changed = false;
                
@@ -107,7 +111,7 @@ public class UserResource {
                 
         if (o.has("email") && !o.getString("email").equals(u.getEmail())){
                 u.setUsername(o.getString("email"));
-                        changed = true;
+                changed = true;
                 }
         if (o.has("password") && !o.getString("password").equals(u.getPassword())){
                 u.setPassword(o.getString("password"));
@@ -115,10 +119,11 @@ public class UserResource {
                 }
         
                 if(changed){
-                        userService.update(u);
-                        return Response.ok().build();
+                	   Response.ResponseBuilder r = Response.status(Status.CREATED);
+                       return CORS.makeCORS(r, _corsHeaders);
                 } else {
-                        return Response.notModified().build();
+                	Response.ResponseBuilder r = Response.status(Status.NOT_MODIFIED);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
     }
 
@@ -134,14 +139,17 @@ public class UserResource {
 //Wenn Achievement nicht "null" und user authenticated ist wird das Achievement gelöscht und ein ok-Response abgesetzt                
                 
                 if(u == null){
-                        throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
                 if(!authenticated(auth, u)){
-                        throw new WebApplicationException(401);
+                	 Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                     return CORS.makeCORS(r, _corsHeaders);
                 }
                 userService.delete(u);
                 
-                return Response.ok().build();
+                Response.ResponseBuilder r = Response.ok();
+                return CORS.makeCORS(r, _corsHeaders);
         }
 
         // Little gift from your tutors...
