@@ -3,6 +3,7 @@ package de.rwth.dbis.ugnm.resource;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -16,6 +17,7 @@ import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Rates;
 import de.rwth.dbis.ugnm.service.RatesService;
+import de.rwth.dbis.ugnm.util.CORS;
 
 @Path("/users/{email}/rates/{id}")
 @Component
@@ -24,6 +26,14 @@ public class RateResource {
         @Autowired
         RatesService rateService;
  
+    	private String _corsHeaders;
+    	
+    	// each resource should have this method annotated with OPTIONS. This is needed for CORS.
+    	@OPTIONS
+    	public Response corsResource(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+    		_corsHeaders = requestH;
+    		return CORS.makeCORS(Response.ok(), requestH);
+    	}
 //Gibt ueber GET ein einzelnes Rate aus           
 //GET Rate ueber Foreginkey userEmail, Primary id         
         
