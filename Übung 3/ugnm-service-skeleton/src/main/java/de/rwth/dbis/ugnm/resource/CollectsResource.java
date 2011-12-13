@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -27,6 +28,7 @@ import de.rwth.dbis.ugnm.entity.User;
 import de.rwth.dbis.ugnm.service.CollectService;
 import de.rwth.dbis.ugnm.service.AchievementService;
 import de.rwth.dbis.ugnm.service.UserService;
+import de.rwth.dbis.ugnm.util.CORS;
 
 @Path("/users/{email}/collect")
 @Component
@@ -44,6 +46,14 @@ public class CollectsResource {
         
         @Context UriInfo uriInfo;
 
+    	private String _corsHeaders;
+    	
+    	// each resource should have this method annotated with OPTIONS. This is needed for CORS.
+    	@OPTIONS
+    	public Response corsResource(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+    		_corsHeaders = requestH;
+    		return CORS.makeCORS(Response.ok(), requestH);
+    	}
 //Gibt ueber GET ein Liste aller Collects aus
         
         @GET

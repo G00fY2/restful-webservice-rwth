@@ -3,6 +3,7 @@ package de.rwth.dbis.ugnm.resource;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,6 +18,7 @@ import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Collect;
 import de.rwth.dbis.ugnm.service.CollectService;
+import de.rwth.dbis.ugnm.util.CORS;
 
 @Path("/users/{email}/collect/{achievementId}")
 @Component
@@ -27,6 +29,15 @@ public class CollectResource {
 
 //Gibt ueber GET ein einzelnes Collect aus           
 //GET Collect ueber Foreginkeys userEmail, achievementId     
+        
+    	private String _corsHeaders;
+    	
+    	// each resource should have this method annotated with OPTIONS. This is needed for CORS.
+    	@OPTIONS
+    	public Response corsResource(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+    		_corsHeaders = requestH;
+    		return CORS.makeCORS(Response.ok(), requestH);
+    	}
         
         @GET
         @Produces("application/json")

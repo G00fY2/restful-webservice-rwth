@@ -6,6 +6,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -25,6 +26,7 @@ import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Achievement;
 import de.rwth.dbis.ugnm.service.AchievementService;
+import de.rwth.dbis.ugnm.util.CORS;
 
 @Path("/achievements/{id}")
 @Component
@@ -36,6 +38,15 @@ public class AchievementResource {
        
         @Context UriInfo uriInfo;
        
+    	private String _corsHeaders;
+    	
+    	// each resource should have this method annotated with OPTIONS. This is needed for CORS.
+    	@OPTIONS
+    	public Response corsResource(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+    		_corsHeaders = requestH;
+    		return CORS.makeCORS(Response.ok(), requestH);
+    	}
+        
 //Gibt ueber GET ein einzelnes Achievement aus
 //GET Achievement ueber Primary id
        

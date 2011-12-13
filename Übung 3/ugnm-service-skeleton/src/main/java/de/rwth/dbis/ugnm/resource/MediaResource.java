@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -28,6 +29,7 @@ import com.sun.jersey.core.util.Base64;
 
 import de.rwth.dbis.ugnm.entity.Medium;
 import de.rwth.dbis.ugnm.service.MediumService;
+import de.rwth.dbis.ugnm.util.CORS;
 
 @Path("/media")
 @Component
@@ -41,7 +43,15 @@ public class MediaResource {
 
         @Context UriInfo uriInfo;
 
-        
+    	private String _corsHeaders;
+    	
+    	// each resource should have this method annotated with OPTIONS. This is needed for CORS.
+    	@OPTIONS
+    	public Response corsResource(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+    		_corsHeaders = requestH;
+    		return CORS.makeCORS(Response.ok(), requestH);
+    	}
+    	
 //Gibt ueber GET ein Liste aller Medien aus        
         
         @GET
