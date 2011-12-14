@@ -1,5 +1,6 @@
 package de.rwth.dbis.ugnm.resource;
 
+import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -14,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
@@ -99,7 +101,9 @@ public class CollectsResource {
                 if(achievementService.getById(collect.getAchievementId()) != null){
                         if(authenticated(auth, userService.getByEmail(email))){
                                 collectService.save(collect);
-                                Response.ResponseBuilder r = Response.status(Status.OK);
+                                UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+                                URI collectUri = ub.path(collect.getUserEmail()).build();
+                                Response.ResponseBuilder r = Response.created(collectUri);
                                 return CORS.makeCORS(r, _corsHeaders);
                         }
                         else{

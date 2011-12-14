@@ -11,11 +11,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 
 import org.codehaus.jettison.json.JSONException;
@@ -52,7 +52,7 @@ public class AchievementResource {
        
         @GET
         @Produces("application/json")
-        public Achievement getAchievement(@PathParam("id") int id) {
+        public Response getAchievement(@PathParam("id") int id) {
    
 //Achievement-Objekt wird mit uebergebenen Parametern erzeugt
                
@@ -63,9 +63,11 @@ public class AchievementResource {
                
                
                 if (a==null){
-                        throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
-                return a;
+                Response.ResponseBuilder r = Response.ok(a);
+                return CORS.makeCORS(r, _corsHeaders);
         }
        
 //Ermöglicht ueber PUT das aendern eines einzelnen Achievements          
@@ -74,7 +76,8 @@ public class AchievementResource {
     @Consumes("application/json")
     public Response updateAchievement(@HeaderParam("authorization") String auth, @PathParam("id") int id, JSONObject o) throws JSONException {
         	 	if(admin_authenticated(auth)==false){
-        	 		throw new WebApplicationException(401);
+        	 		Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                    return CORS.makeCORS(r, _corsHeaders);
         	 	}
 //GET Achievement ueber Primary id  
                
@@ -89,17 +92,20 @@ public class AchievementResource {
                                 UriBuilder ub = uriInfo.getAbsolutePathBuilder();
                                 String relativePath = ""+achievement.getId();
                                 URI achievementUri = ub.path(relativePath).build();
-                                return Response.created(achievementUri).build();
+                                Response.ResponseBuilder r = Response.ok(achievementUri);
+                                return CORS.makeCORS(r, _corsHeaders);
                         }
                         else{
-                                return Response.notModified().build();
+                        	 Response.ResponseBuilder r = Response.status(Status.NOT_MODIFIED);
+                             return CORS.makeCORS(r, _corsHeaders);
                         }
                 }
                
 //Andernfalls wird eine 404 WebApplicationException geschmissen                
                
                 else{
-                        throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
     }
        
@@ -108,7 +114,8 @@ public class AchievementResource {
         @DELETE
         public Response deleteAchievement(@HeaderParam("authorization") String auth, @PathParam("id") int id){
                         if(admin_authenticated(auth)==false){
-                                throw new WebApplicationException(401);
+                        	Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                            return CORS.makeCORS(r, _corsHeaders);
                         }
 //GET Achievement ueber Primary Id              
 
@@ -124,7 +131,8 @@ public class AchievementResource {
 //Andernfalls wird eine 404 WebApplicationException geschmissen                
                
                 else{
-                        throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
         }
        
@@ -144,7 +152,7 @@ public class AchievementResource {
                                 achievement.setUrl(url);
                                 return achievement;
                         } catch (JSONException e) {
-                                throw new WebApplicationException(406);
+                                return null;
                         }
                 }
                

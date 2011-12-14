@@ -17,7 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -56,7 +56,7 @@ public class AchievementsResource {
              
         @GET
         @Produces("application/json")
-        public JSONObject getAchievements() {
+        public Response getAchievements() {
 
                 List<Achievement> achievements = achievementService.getAll();
                 Iterator<Achievement> ait = achievements.iterator();
@@ -72,9 +72,11 @@ public class AchievementsResource {
                 try {
                         JSONObject j = new JSONObject();
                         j.append("achievements",vAchievements);
-                        return j;
+                        Response.ResponseBuilder r = Response.ok(j);
+                        return CORS.makeCORS(r, _corsHeaders);
                 } catch (JSONException e) {
-                        throw new WebApplicationException(500);
+                	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
         }
         
@@ -86,7 +88,8 @@ public class AchievementsResource {
     @Consumes("application/json")
     public Response createAchievement(@HeaderParam("authorization") String auth, JSONObject o) throws JSONException {
         	if(admin_authenticated(auth)==false){
-                throw new WebApplicationException(401);
+        		Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                return CORS.makeCORS(r, _corsHeaders);
         	}
 //Achievement-Objekt wird mit uebergebenen Parametern erzeugt 
         	
@@ -103,10 +106,12 @@ public class AchievementsResource {
                         UriBuilder ub = uriInfo.getAbsolutePathBuilder();
                         String relativePath = ""+achievement.getId();
                         URI achievementUri = ub.path(relativePath).build();
-                        return Response.created(achievementUri).build();
+                        Response.ResponseBuilder r = Response.created(achievementUri);
+                        return CORS.makeCORS(r, _corsHeaders);
                 }
                 else{
-                        throw new WebApplicationException(409);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
         }
         
@@ -126,7 +131,7 @@ public class AchievementsResource {
                     achievement.setUrl(url);
                     return achievement;
             } catch (JSONException e) {
-                    throw new WebApplicationException(406);
+                    return null;
             }
                 
         }
