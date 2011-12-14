@@ -91,7 +91,7 @@ public class UsersResource {
           @Consumes("application/json")  
           public Response putUser(JSONObject o) throws JSONException {
         
-                if(o == null || !(o.has("email") && o.has("username") && o.has("password"))){
+                if(o == null || !(o.has("email") && o.has("username") && o.has("password") && o.has("name"))){
                 	Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
@@ -100,6 +100,7 @@ public class UsersResource {
         			nu.setEmail((String) o.get("email"));
         			nu.setPassword((String) o.get("password"));
         			nu.setUsername((String) o.get("username"));
+        			nu.setName((String) o.get("name"));
         			nu.setEp(0);
 
         			if(userService.findUser(nu) == null) {
