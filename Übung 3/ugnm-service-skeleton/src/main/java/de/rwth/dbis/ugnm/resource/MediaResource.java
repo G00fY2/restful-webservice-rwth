@@ -17,7 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -56,7 +56,7 @@ public class MediaResource {
         
         @GET
         @Produces("application/json")
-        public JSONObject getAllMedia() {
+        public Response getAllMedia() {
 
                 
                 List<Medium> media = mediumService.getAll();
@@ -73,9 +73,11 @@ public class MediaResource {
                 try {
                         JSONObject j = new JSONObject();
                         j.append("media",vMedia);
-                        return j;
+                        Response.ResponseBuilder r = Response.ok(j);
+                        return CORS.makeCORS(r, _corsHeaders);
                 } catch (JSONException e) {
-                        throw new WebApplicationException(500);
+                	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
         }
         
@@ -85,7 +87,8 @@ public class MediaResource {
     @Consumes("application/json")
     public Response createMedium(@HeaderParam("authorization") String auth, JSONObject o) throws JSONException {
         	if(admin_authenticated(auth)==false){
-                throw new WebApplicationException(401);
+        		Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                return CORS.makeCORS(r, _corsHeaders);
         	}
    
 //Medium-Objekt wird mit uebergebenen Parametern erzeugt
@@ -101,10 +104,12 @@ public class MediaResource {
                         mediumService.save(medium);
                         UriBuilder ub = uriInfo.getAbsolutePathBuilder();
                         URI mediumUri = ub.path(medium.getUrl()).build();
-                        return Response.created(mediumUri).build();
+                        Response.ResponseBuilder r = Response.created(mediumUri);
+                        return CORS.makeCORS(r, _corsHeaders);
                 }
                 else{
-                        throw new WebApplicationException(409);
+                	Response.ResponseBuilder r = Response.status(Status.CONFLICT);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
         }
 
@@ -123,7 +128,7 @@ public class MediaResource {
                         medium.setDescription(description);
                         return medium;
                 } catch (JSONException e) {
-                        throw new WebApplicationException(406);
+                        return null;
                 }  
         }
         
