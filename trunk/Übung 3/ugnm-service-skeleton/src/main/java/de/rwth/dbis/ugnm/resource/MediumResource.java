@@ -11,11 +11,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -51,12 +51,14 @@ public class MediumResource {
         
         @GET
         @Produces("application/json")
-        public Medium getMedium(@PathParam("url") String url){
+        public Response getMedium(@PathParam("url") String url){
                 Medium m = mediumService.getByUrl(url);
                 if (m==null){
-                        throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
-                return m;
+                Response.ResponseBuilder r = Response.ok(m);
+                return CORS.makeCORS(r, _corsHeaders);
         }
       
         
@@ -67,7 +69,8 @@ public class MediumResource {
     @Consumes("application/json")
     public Response updateMedium(@HeaderParam("authorization") String auth, @PathParam("url") String url, JSONObject o) throws JSONException {
         		if(admin_authenticated(auth)==false){
-        			throw new WebApplicationException(401);
+        			Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                    return CORS.makeCORS(r, _corsHeaders);
         		}
 //GET Medium ueber Primary url
         	
@@ -81,13 +84,15 @@ public class MediumResource {
                                 mediumService.update(medium);
                                 UriBuilder ub = uriInfo.getAbsolutePathBuilder();
                                 URI mediumUri = ub.path(medium.getUrl()).build();
-                                return Response.created(mediumUri).build();
+                                Response.ResponseBuilder r = Response.created(mediumUri);
+                                return CORS.makeCORS(r, _corsHeaders);
                 }
 
 //Andernfalls wird eine 404 WebApplicationException geschmissen
                 
                 else{
-                        throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
     }
         
@@ -96,7 +101,8 @@ public class MediumResource {
         @DELETE
         public Response deleteMedium(@HeaderParam("authorization") String auth, @PathParam("url") String url){
         		if(admin_authenticated(auth)==false){
-        			throw new WebApplicationException(401);
+        			Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                    return CORS.makeCORS(r, _corsHeaders);
         		}
 //GET Medium ueber Primary url        	
         	
@@ -106,13 +112,15 @@ public class MediumResource {
 //Wenn Medium nicht "null" ist wird das Medium gelöscht und ein ok-Response abgesetzt
                 	
                         mediumService.delete(medium);
-                        return Response.ok().build();
+                        Response.ResponseBuilder r = Response.ok(medium);
+                        return CORS.makeCORS(r, _corsHeaders);	
                 }
                 
 //Andernfalls wird eine 404 WebApplicationException geschmissen             
                 
                 else{
-                        throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
         }
         
@@ -128,7 +136,7 @@ public class MediumResource {
                                 medium.setUrl(url);
                                 return medium;
                         } catch (JSONException e) {
-                                throw new WebApplicationException(406);
+                                return null;
                         }
                 }
                 
