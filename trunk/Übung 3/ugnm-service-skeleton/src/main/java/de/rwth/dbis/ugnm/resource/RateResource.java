@@ -70,7 +70,7 @@ public class RateResource {
                
                 if(rate!=null){
                         rateService.delete(rate);
-                        Response.ResponseBuilder r = Response.ok(rate);
+                        Response.ResponseBuilder r = Response.status(Status.OK);
                         return CORS.makeCORS(r, _corsHeaders);
                 }
                
