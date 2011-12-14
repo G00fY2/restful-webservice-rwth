@@ -11,10 +11,10 @@
 function FmdClient(endpointUrl){
 	
 	// store a couple of central resource URIs for later usage
-	this._ServiceEndpoint = endpointUrl;
-	this._UsersResource = this._serviceEndpoint + "Users";
-	this._MediaResource = this._serviceEndpoint + "Media";
-	this._AchievementsResource = this._serviceEndpoint + "Achievements";
+	this._serviceEndpoint = endpointUrl;
+	this._usersResource = this._serviceEndpoint + "Users";
+	this._mediaResource = this._serviceEndpoint + "Media";
+	this._achievementsResource = this._serviceEndpoint + "Achievements";
 	
 	// since RESTful Web Services are stateless by design, credentials will have to be sent
 	// with every HTTP request requiring authentication. However, users should only provide
