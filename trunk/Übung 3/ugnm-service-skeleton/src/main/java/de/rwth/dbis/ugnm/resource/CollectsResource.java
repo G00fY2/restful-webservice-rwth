@@ -16,6 +16,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -58,7 +59,7 @@ public class CollectsResource {
         
         @GET
         @Produces("application/json")
-        public JSONObject getAllCollects(@PathParam("email") String email) {
+        public Response getAllCollects(@PathParam("email") String email) {
 
                 List<Collect> collectList = collectService.getAllAchievementsOfUser(email);
                 Iterator<Collect> cit = collectList.iterator();
@@ -74,9 +75,11 @@ public class CollectsResource {
                 try {
                         JSONObject j = new JSONObject();
                         j.append("collect",vCollect);
-                        return j;
+                        Response.ResponseBuilder r = Response.ok(j);
+                        return CORS.makeCORS(r, _corsHeaders);
                 } catch (JSONException e) {
-                        throw new WebApplicationException(500);
+                	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
         }
         
@@ -97,15 +100,18 @@ public class CollectsResource {
                 if(achievementService.getById(collect.getAchievementId()) != null){
                         if(authenticated(auth, userService.getByEmail(email))){
                                 collectService.save(collect);
-                                return Response.ok().build();
+                                Response.ResponseBuilder r = Response.status(Status.OK);
+                                return CORS.makeCORS(r, _corsHeaders);
                         }
                         else{
-                                throw new WebApplicationException(401);
+                            	Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                                return CORS.makeCORS(r, _corsHeaders);
                         }
                         
                 }
                 else{
-                        throw new WebApplicationException(406);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
     }
         
@@ -121,7 +127,7 @@ public class CollectsResource {
                         
                         return collect;
                 } catch (JSONException e) {
-                        throw new WebApplicationException(406);
+                        return null;
                 }
                 
         }

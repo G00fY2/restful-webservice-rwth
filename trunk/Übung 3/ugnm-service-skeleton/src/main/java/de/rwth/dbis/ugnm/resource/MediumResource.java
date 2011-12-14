@@ -112,7 +112,7 @@ public class MediumResource {
 //Wenn Medium nicht "null" ist wird das Medium gelöscht und ein ok-Response abgesetzt
                 	
                         mediumService.delete(medium);
-                        Response.ResponseBuilder r = Response.ok(medium);
+                        Response.ResponseBuilder r = Response.status(Status.OK);
                         return CORS.makeCORS(r, _corsHeaders);	
                 }
                 

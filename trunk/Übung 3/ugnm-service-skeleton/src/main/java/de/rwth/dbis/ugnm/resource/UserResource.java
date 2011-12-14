@@ -148,7 +148,7 @@ public class UserResource {
                 }
                 userService.delete(u);
                 
-                Response.ResponseBuilder r = Response.ok();
+                Response.ResponseBuilder r = Response.status(Status.OK);
                 return CORS.makeCORS(r, _corsHeaders);
         }
 

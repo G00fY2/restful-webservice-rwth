@@ -7,8 +7,8 @@ import javax.ws.rs.OPTIONS;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,7 +41,7 @@ public class CollectResource {
         
         @GET
         @Produces("application/json")
-        public Collect getCollect(@PathParam("email") String userEmail, @PathParam("achievementId") int achievementId){
+        public Response getCollect(@PathParam("email") String userEmail, @PathParam("achievementId") int achievementId){
         	
 //Collect-Objekt wird mit uebergebenen Parametern erzeugt 
         	
@@ -51,15 +51,18 @@ public class CollectResource {
 //Andernfalls wird eine 404 WebApplicationException geschmissen               
                 
                 if (c==null){
-                        throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
-                return c;
+                Response.ResponseBuilder r = Response.ok(c);
+                return CORS.makeCORS(r, _corsHeaders);
         }
         
         @DELETE
         public Response deleteCollect(@HeaderParam("authorization") String auth, @PathParam("email") String userEmail, @PathParam("achievementId") int achievementId){
                         if(admin_authenticated(auth)==false){
-                                throw new WebApplicationException(401);
+                        	Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                            return CORS.makeCORS(r, _corsHeaders);
                         }
 //GET Achievement ueber Primary Id              
 
@@ -69,13 +72,15 @@ public class CollectResource {
                
                 if(collect!=null){
                         collectService.delete(collect);
-                        return Response.ok().build();
+                        Response.ResponseBuilder r = Response.status(Status.OK);
+                        return CORS.makeCORS(r, _corsHeaders);
                 }
                
 //Andernfalls wird eine 404 WebApplicationException geschmissen                
                
                 else{
-                        throw new WebApplicationException(404);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
+                    return CORS.makeCORS(r, _corsHeaders);
                 }
         }
         
