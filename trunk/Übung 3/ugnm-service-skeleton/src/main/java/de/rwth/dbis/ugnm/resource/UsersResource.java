@@ -98,8 +98,8 @@ public class UsersResource {
                 else{
         			User nu = new User();
         			nu.setEmail((String) o.get("email"));
-        			nu.setPassword((String) o.get("password"));
         			nu.setUsername((String) o.get("username"));
+        			nu.setPassword((String) o.get("password"));
         			nu.setName((String) o.get("name"));
         			nu.setEp(0);
 
