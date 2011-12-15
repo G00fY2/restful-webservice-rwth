@@ -1,3 +1,4 @@
+that.dialog("close");
 <html>
 <head>
 <body bgcolor="#FFFFFF" link=white>
@@ -549,9 +550,9 @@
                                                         // PUT form data to resource /users
                                                         fmd.signup( $("#signup-email").val(), $("#signup-username").val(), $("#signup-name").val(),$("#signup-password").val(), function(result){
                                                                 if(result.status == "created"){
-                                                                        updateTips( "User " + $("#signup-email").val() + " successfully created. Please close the dialog and log in.");
-                                                                that.dialog("close");
-                                                                updateUsers();
+                                                                	updateTips( "User " + $("#signup-login").val() + " successfully created");
+                                                               		that.dialog("close");
+                                                               		//updateUsers();
                                                                 } else if( result.status == "conflict"){
                                                                         updateTips( "User " + $("#signup-email").val() + " already exists!");
                                                                         $("#signup-email").addClass( "ui-state-error" );
