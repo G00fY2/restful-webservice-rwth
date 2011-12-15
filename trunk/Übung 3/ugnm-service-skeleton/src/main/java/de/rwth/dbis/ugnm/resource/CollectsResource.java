@@ -62,7 +62,7 @@ public class CollectsResource {
         @Produces("application/json")
         public Response getAllCollects(@PathParam("email") String email) {
 
-                List<Collect> collectList = collectService.getAllAchievementsOfUser(email);
+                List<Collect> collectList = collectService.getAll(email);
                 Iterator<Collect> cit = collectList.iterator();
                 
                 Vector<String> vCollect = new Vector<String>();      
