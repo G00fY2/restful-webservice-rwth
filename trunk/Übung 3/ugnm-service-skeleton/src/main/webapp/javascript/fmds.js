@@ -175,14 +175,15 @@ FmdClient.prototype.logout = function(){
  * @param callback (function(result)) 
  * @param name (String)
  */
-FmdClient.prototype.signup = function(email, username, password, name, callback){
+FmdClient.prototype.signup = function(email, username, name, password, callback){
         
         // create JSON representation to be passed to the Web Service
         var d = {};
         d.email = email;
         d.username = username;
-        d.pass = password;
         d.name = name;
+        d.pass = password;
+
         
         var resource = this._usersResource;
         
