@@ -549,7 +549,7 @@
                                                         // PUT form data to resource /users
                                                         fmd.signup( $("#signup-email").val(), $("#signup-username").val(), $("#signup-name").val(),$("#signup-password").val(), function(result){
                                                                 if(result.status == "created"){
-                                                                	updateTips( "User " + $("#signup-login").val() + " successfully created");
+                                                                	updateTips( "User " + $("#signup-email").val() + " successfully created");
                                                                		that.dialog("close");
                                                                		//updateUsers();
                                                                 } else if( result.status == "conflict"){
