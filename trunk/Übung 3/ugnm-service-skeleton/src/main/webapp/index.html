@@ -238,7 +238,7 @@
                                var usr = users[i];              //Hole alle User
                                
                                fmd.getUserStats(usr, function(user){            //Zusammenfügen von User und Name, und ep
-                                       var li =  $("<li></li>").append("<span>" + user.ep + "XP</span> - <span>" + user.name + "</span>");
+                                       var li =  $("<li></li>").append("<span>" + user.ep + "XP</span> - <span>" + user.username + "</span>");
                                        ol.append(li);
                                });
                                
@@ -247,20 +247,20 @@
                });
        }
                    
-                //Diese Funktion gibt alle Medien
-                   function getAchievements() { 
-                           fmd.getAchievementAssociations(function(achievementAssociationList){
+                //Diese Funktion gibt alle Collects
+                   function getCollects() { 
+                           fmd.getCollects(function(collectList){
                                    var ol = $("<ol></ol>").attr({"id":"userlist"});
 
-                                   for(i in achievementAssociationList){
-                                           var a = achievementAssociationList[i];
+                                   for(i in collectList){
+                                           var a = collectList[i];
                                            
-                                           fmd.getAchievement(a, function(achievementUri){
+                                           fmd.getAchievements(a, function(achievementUri){
                                                    var aU = achievementUri;
-                                                   fmd.getAchievementStats(aU, function(achievement){
+                                                   fmd.getAchievement(aU, function(achievement){
                                                            
                                    var li =  $("<li></li>").append("<span>ID: " + achievement.id + "</span> - <span>Name: " + achievement.name + 
-                                                   "</span> - <span>Description: " + achievement.description + "<img src=\""+achievement.pictureUrl+"\">");
+                                                   "</span> - <span>Description: " + achievement.description + "<img src=\""+achievement.url+"\">");
                                    ol.append(li);
                                    
                                                    });
@@ -278,18 +278,18 @@
                                 for(i in media){
                                         var med = media[i];
                                         
-                                        fmd.getMediumStats(med,function(mediumStats){
+                                        fmd.getMedium(med,function(medium){
                                         
-                                                var titleValue = "\nDescription: " + mediumStats.description;
+                                                var titleValue = "\nDescription: " + medium.description;
                                                 
                                                 var count = media.length;
                                                 var realCount = 0;
                                                 
                                                 console.log(titleValue);
                                                 
-                                                var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + mediumStats.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){            
-                                                        cmedium = mediumStats;
-                                                        $("#rate-image").html("<img src='" + mediumStats.url + "' height='300' alt='" + titleValue + "' />");
+                                                var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + medium.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){            
+                                                        cmedium = medium;
+                                                        $("#rate-image").html("<img src='" + medium.url + "' height='300' alt='" + titleValue + "' />");
                                                 });
                                                 ul.append(li);
                                                 
@@ -305,6 +305,12 @@
                                 
                         });
                 }
+                
+                /* DEFINITION sichtbarkeit
+                 * 
+                 * 
+                 * 
+                 
         // Hier ist die Sichtbarkeit für den Endlos-Modus definiert:
         // spezielle Sachen (z.B. MyProfile, Top10) werden versteckt und neue dafür angezeigt (z.B. Back-Button)
                 endless = new Boolean(true);                    
@@ -465,7 +471,7 @@
                                 $("#media").hide();                             
                         }
                 }               
-                
+     */            
                 
                 //Init Funktion
                 function init() {                       
@@ -485,7 +491,7 @@
                                         "Login": function() {
                                                 var that = $(this);
                                                 fmd.login(
-                                                        $("#login-mail").val(),
+                                                        $("#login-email").val(),
                                                         $("#login-password").val(),
                                                         function(result){
                                                                 console.log("Login Result: " + result);
@@ -502,14 +508,14 @@
                         });
                         
                         //Registrier-Funktion
-                        $("#signup-mail").focusout(function(){
-                                fmd.isRegistered($("#signup-mail").val(),function(result){
+                        $("#signup-email").focusout(function(){
+                                fmd.isRegistered($("#signup-email").val(),function(result){
                                         if(result){
-                                                updateTips( "User " + $("#signup-mail").val() + " already exists!");
-                                                $("#signup-mail").addClass( "ui-state-error" );
+                                                updateTips( "User " + $("#signup-email").val() + " already exists!");
+                                                $("#signup-email").addClass( "ui-state-error" );
                                         } else {
-                                                updateTips( "Mail " + $("#signup-mail").val() + " available.");
-                                                $("#signup-mail").removeClass( "ui-state-error" );
+                                                updateTips( "E-Mail " + $("#signup-email").val() + " available.");
+                                                $("#signup-email").removeClass( "ui-state-error" );
                                         }
                                 });
                         });
@@ -525,29 +531,32 @@
                                                 var that = $(this);
                                                 var bValid = true;
                                                 
+                                                $("#signup-username").removeClass("ui-state-error");
+                                                $("#signup-email").removeClass("ui-state-error");
                                                 $("#signup-name").removeClass("ui-state-error");
-                                                $("#signup-mail").removeClass("ui-state-error");
                                                 $("#signup-password").removeClass("ui-state-error");
                                                 
-                                                bValid = bValid && checkLength( $("#signup-name"), "name", 6, 80 );
-                                                bValid = bValid && checkLength( $("#signup-mail"), "mail", 6, 80 );
+                                                bValid = bValid && checkLength( $("#signup-username"), "username", 6, 80 );
+                                                bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
                                                 bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
+                                                bValid = bValid && checkLength( $("#signup-name"), "name", 6, 80 );
                                                 
                                                 // Prüfe, ob Eingaben des Users den Vorgaben entsprechen
-                                                bValid = bValid && checkRegexp( $("#signup-mail"), /^([A-Za-z_.])[^@]+@.+\.[^.]+$/i, "Mail may consist of a-z, 0-9, underscores, must contain @ and end with a domain." );
-                                                bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+                                                bValid = bValid && checkRegexp( $("#signup-email"), /^([A-Za-z_.])[^@]+@.+\.[^.]+$/i, "Mail may consist of a-z, 0-9, underscores, must contain @ and end with a domain." );
+                                                bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
                                                 bValid = bValid && checkRegexp( $("#signup-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+                                                bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Password field only allow : a-z 0-9" );
 
                                                 if ( bValid ) {                                                 
                                                         // PUT form data to resource /users
-                                                        fmd.signup( $("#signup-mail").val(), $("#signup-name").val(), $("#signup-password").val(), function(result){
+                                                        fmd.signup( $("#signup-email").val(), $("#signup-username").val(), $("#signup-name").val(),$("#signup-password").val(), function(result){
                                                                 if(result.status == "created"){
-                                                                        updateTips( "User " + $("#signup-mail").val() + " successfully created. Please close the dialog and log in.");
+                                                                        updateTips( "User " + $("#signup-email").val() + " successfully created. Please close the dialog and log in.");
                                                                 //that.dialog("close");
                                                                         //updateUsers();
                                                                 } else if( result.status == "conflict"){
-                                                                        updateTips( "User " + $("#signup-mail").val() + " already exists!");
-                                                                        $("#signup-mail").addClass( "ui-state-error" );
+                                                                        updateTips( "User " + $("#signup-email").val() + " already exists!");
+                                                                        $("#signup-email").addClass( "ui-state-error" );
                                                                 }                                                       
                                                         });
                                                 }
@@ -557,13 +566,14 @@
                                         }
                                 },
                                 close: function() {
-                                        $("#signup-name").removeClass("ui-state-error");
-                                        $("#signup-mail").removeClass("ui-state-error");
+                                        $("#signup-username").removeClass("ui-state-error");
+                                        $("#signup-email").removeClass("ui-state-error");
                                         $("#signup-password").removeClass("ui-state-error");
+                                        $("#signup-name").removeClass("ui-state-error");
                                 }
                         });
                         
-                        // Funktion um sein aktuelles Profil zu ändern, es kann nur der Name und das Passwort verändert werden
+                        // Funktion um sein aktuelles Profil zu ändern, es kann nur der Username, Name und das Passwort verändert werden
                         $( "#dialog-UpdateProfile" ).dialog({
                                 autoOpen: false,
                                 height: 350,
@@ -575,25 +585,28 @@
                                                 var that = $(this);
                                                 var bValid = true;
                                                 
+                                                $("#update-username").removeClass("ui-state-error");
                                                 $("#update-name").removeClass("ui-state-error");
                                                 $("#update-password-old").removeClass("ui-state-error");
                                                 
-                                                bValid = bValid && checkLength( $("#update-name"), "name", 6, 80 );                     
+                                                bValid = bValid && checkLength( $("#update-username"), "username", 6, 80 );   
+                                                bValid = bValid && checkLength( $("#update-username"), "name", 6, 80 );  
                                                 bValid = bValid && checkLength( $("#update-password-old"), "password", 6, 20 );
                                                 bValid = bValid && checkLength( $("#update-password-new"), "password", 6, 20 );
 
-                                                bValid = bValid && checkRegexp( $("#update-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Userame may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+                                                bValid = bValid && checkRegexp( $("#update-username"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+                                                bValid = bValid && checkRegexp( $("#update-name"), /^[A-Za-z]([A-Za-z ])+$/i, "name may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
                                                 bValid = bValid && checkRegexp( $("#update-password-old"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );         
                                                 bValid = bValid && checkRegexp( $("#update-password-new"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
                                                 
                                                 if ( bValid ) {                                                 
                                                         // PUT form data to resource /users
-                                                        fmd.update( $("#update-name").val(), $("#update-password-old").val(), $("#update-password-new").val(), function(result){        
+                                                        fmd.update( $("#update-username").val(), $("#update-name").val(), $("#update-password-old").val(), $("#update-password-new").val(), function(result){        
                                                                 if(result.status == "created"){                                                                                                                                                                                                 
-                                                                        updateTips( "User " + $("#update-name").val() + " successfully changed. Please close the dialog");              
+                                                                        updateTips( "User " + $("#update-username").val() + " successfully changed. Please close the dialog");              
                                                                                                                                 } else if( result.status == "conflict"){                                                                                                                                                                                
-                                                                        updateTips( "User " + $("#signup-mail").val() + " already exists!");
-                                                                        $("#signup-mail").addClass( "ui-state-error" );
+                                                                        updateTips( "User " + $("#signup-email").val() + " already exists!");
+                                                                        $("#signup-email").addClass( "ui-state-error" );
                                                                 }
                                                         });
                                                 }
@@ -604,11 +617,15 @@
                                         }
                                 },
                                 close: function() {
+                                        $("#signup-username").removeClass("ui-state-error");
                                         $("#signup-name").removeClass("ui-state-error");
-                                        $("#signup-mail").removeClass("ui-state-error");
+                                        $("#signup-email").removeClass("ui-state-error");
                                         $("#signup-password").removeClass("ui-state-error");
                                 }
                         });
+                        
+                        
+                        
                         // Das ist der Dialog, wenn man auf Instruction klickt, der Inhalt ist im html definiert
                         $("#dialog-Instrucions" ).dialog({
                                 autoOpen: false,
@@ -622,18 +639,6 @@
                                 }
                         });
                         
-                        // Das ist der Dialog, für den Time Modus, dieser ist noch nicht implementiert
-                        $("#dialog-TimeMode" ).dialog({
-                                autoOpen: false,
-                                height: 200,
-                                width: 250,
-                                modal: true,
-                                buttons: {
-                                                OK: function() {
-                                                $(this).dialog("close");
-                                        }
-                                }
-                        });
                                         
                         
                         //Funktionalitäten der jeweiligen Buttons:
@@ -642,16 +647,6 @@
                                 $( "#dialog-Instrucions" ).dialog("open");
                         });
                                                 
-                        
-                        $( "#TimeModeb" ).button().click(function() {
-                                $( "#dialog-TimeMode" ).dialog("open");                 
-                        });
-                        
-                        $( "#EndlessModeb" ).button().click(function() {
-                                endless = Boolean(true);
-                                updateEndless();
-                                updateMedia();                          
-                        });
 
                         
                         $( "#top10b" ).button().click(function() {                              
@@ -790,13 +785,7 @@
 <div align = "center">
 <img id = "indexPicture" src = "media/index.jpg" alt="" ></img>
 </div>
-
-<!------------------------  Die Anzeige für die Spielmodi ------------------------>
-<div id="modi">         
-        <p>Choose a kind of game and join it: </p>      
-                <button id="EndlessModeb" >Endless Mode</button>                                
-                <button id="TimeModeb" >Timed Mode</button>                     
-</div>  
+  
 
 <!------------------------  Das ist die Anzeige von den bilder und fake und true button ------------------------>
 <div id="media">
@@ -822,9 +811,6 @@
 
 <!------------------------------------------------  Dialoge -------------------------------------------------------------------->
 
-<div id="dialog-TimeMode" title="TimeMode">
-        <label for="time">coming soon...</label>
-</div>
 
 <div id="dialog-Instrucions" title="Instrucions for playing:">
         <label for="first">You have to rate pictures. For each right rate you get an ep. If you have enough ep you get an achievement.</label>
@@ -833,8 +819,8 @@
 <div id="dialog-login" title="Login">
         <form>
                 <fieldset>
-                        <label for="login-mail">Mail:</label>
-                        <input type="text" id="login-mail" value="" class="text ui-widget-content ui-corner-all" /><br/>
+                        <label for="login-email">E-Mail:</label>
+                        <input type="text" id="login-email" value="" class="text ui-widget-content ui-corner-all" /><br/>
                         <label for="login-password">Password:</label>
                         <input type="password" id="login-password" value="" class="text ui-widget-content ui-corner-all" /><br/>
                 </fieldset>
@@ -848,20 +834,28 @@
                         <table>
                                 <tr>
                                         <td>
-                                                <label for="signup-mail">Mail:</label>
+                                                <label for="signup-email">E-Mail:</label>
                                         </td>
                                         <td>
-                                                <input type="text" id="signup-mail" value="" class="text ui-widget-content ui-corner-all" />
+                                                <input type="text" id="signup-email" value="" class="text ui-widget-content ui-corner-all" />
                                         </td>
                                 </tr>
                                 <tr>
                                         <td>
-                                                <label for="signup-name">Name:</label>
+                                                <label for="signup-Username">User-Name:</label>
                                         </td>
                                         <td>    
-                                                <input type="text" id="signup-name" class="text ui-widget-content ui-corner-all" />
+                                                <input type="text" id="signup-username" class="text ui-widget-content ui-corner-all" />
                                         </td>
                                 </tr>
+                                <tr>
+                                <td>
+                                        <label for="signup-Name">Name:</label>
+                                </td>
+                                <td>    
+                                        <input type="text" id="signup-name" class="text ui-widget-content ui-corner-all" />
+                                </td>
+                        </tr>
                                 <tr>
                                         <td>
                                                 <label for="signup-password">Password:</label>
@@ -882,12 +876,20 @@
                         <table>
                                 <tr>
                                         <td>
-                                                <label for="signup-name">New Name:</label>
+                                                <label for="signup-username">New User-Name:</label>
                                         </td>
                                         <td>
-                                                <input type="text" id="signup-name" value="" class="text ui-widget-content ui-corner-all" />
+                                                <input type="text" id="signup-username" value="" class="text ui-widget-content ui-corner-all" />
                                         </td>
                                 </tr>
+                                <tr>
+                                <td>
+                                        <label for="signup-name">New User-Name:</label>
+                                </td>
+                                <td>
+                                        <input type="text" id="signup-name" value="" class="text ui-widget-content ui-corner-all" />
+                                </td>
+                        </tr>
                                 <tr>
                                         <td>
                                                 <label for="signup-password-old">Password (old):</label>
