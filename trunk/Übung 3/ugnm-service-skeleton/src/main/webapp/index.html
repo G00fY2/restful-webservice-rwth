@@ -308,11 +308,11 @@
                 
 
                  
-        // Hier ist die Sichtbarkeit für den Endlos-Modus definiert:
+     
         // spezielle Sachen (z.B. MyProfile, Top10) werden versteckt und neue dafür angezeigt (z.B. Back-Button)
-                endless = new Boolean(true);                    
-                function updateEndless(){
-                        if(endless == true){    
+                game = new Boolean(true);                    
+                function updateGame(){
+                        if(game == true){    
                                 $("#top10b").hide();                                            
                                 $("#username").html(fmd._uid);                          
                                 $("#loginb").hide();
@@ -692,7 +692,7 @@
                                 fmd.rateMedium(cmedium,false,function(result){
                                         if(result.status == "rated"){
                                                 updateMedia();
-                                                updateEndless();
+                                                updateGame();
                                         } else {
                                                 alert(result.status);
                                         }
@@ -704,7 +704,7 @@
                                 fmd.rateMedium(cmedium,true,function(result){
                                         if(result.status == "rated"){
                                                 updateMedia();
-                                                updateEndless();
+                                                updateGame();
                                         } else {
                                                 alert(result.status);
                                         }
@@ -750,8 +750,8 @@
 <body>
 <table class="main">
   <tr>
-    <td style="height:42pt" >
-      Welcome to Fake Media Detection Game! 
+    <td style="height:62pt" >
+      UGNM Group 4 - Fake Media Detection 
   </tr>
 </table>
 
@@ -763,7 +763,7 @@
                 <button id="logoutb">Logout</button>
                 <button id="registerb">Register</button>
                 <button id="updateb">Change Profile</button>
-                <button id="viewb">View Profile</button>
+                <button id="viewb">Profile</button>
                 <button id="top10b" >Top 10</button>    
                 <button id="Instrucionsb">Instructions</button>
                 <button id="backb" >Back</button>
@@ -773,7 +773,7 @@
 
 <!--------------------------  Achievement -------------------------->
 <div id = "achieve">
-        <p>This are your Achievements: </p>
+        <p>Your Achievements: </p>
         <span id="achievements"></span>         
 </div>
 
@@ -880,7 +880,7 @@
                                 </tr>
                                 <tr>
                                 <td>
-                                        <label for="signup-name">New User-Name:</label>
+                                        <label for="signup-name">New Name:</label>
                                 </td>
                                 <td>
                                         <input type="text" id="signup-name" value="" class="text ui-widget-content ui-corner-all" />
