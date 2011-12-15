@@ -529,24 +529,13 @@
                                                 var that = $(this);
                                                 var bValid = true;
                                                 
-<<<<<<< .mine
-
-                                                $("#signup-email").removeClass("ui-state-error");
-=======
-                                              
-                                                $("#signup-email").removeClass("ui-state-error");
->>>>>>> .r348
                                                 $("#signup-username").removeClass("ui-state-error");
-                                                $("#signup-password").removeClass("ui-state-error");
+                                                $("#signup-email").removeClass("ui-state-error");
                                                 $("#signup-name").removeClass("ui-state-error");
+                                                $("#signup-password").removeClass("ui-state-error");
                                                 
-<<<<<<< .mine
-                                                
-                                                bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
-=======
-                                                bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
->>>>>>> .r348
                                                 bValid = bValid && checkLength( $("#signup-username"), "username", 6, 80 );
+                                                bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
                                                 bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
                                                 bValid = bValid && checkLength( $("#signup-name"), "name", 6, 80 );
                                                 
@@ -554,11 +543,11 @@
                                                 bValid = bValid && checkRegexp( $("#signup-email"), /^([A-Za-z_.])[^@]+@.+\.[^.]+$/i, "Mail may consist of a-z, 0-9, underscores, must contain @ and end with a domain." );
                                                 bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
                                                 bValid = bValid && checkRegexp( $("#signup-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-                                                bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Name field only allow : a-z 0-9" );
+                                                bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Password field only allow : a-z 0-9" );
 
                                                 if ( bValid ) {                                                 
                                                         // PUT form data to resource /users
-                                                        fmd.signup( $("#signup-email").val(), $("#signup-username").val(), $("#signup-password").val(),$("#signup-name").val(), function(result){
+                                                        fmd.signup( $("#signup-email").val(), $("#signup-username").val(), $("#signup-name").val(),$("#signup-password").val(), function(result){
                                                                 if(result.status == "created"){
                                                                         updateTips( "User " + $("#signup-email").val() + " successfully created. Please close the dialog and log in.");
                                                                 //that.dialog("close");
@@ -575,13 +564,8 @@
                                         }
                                 },
                                 close: function() {
-<<<<<<< .mine
-                                		$("#signup-email").removeClass("ui-state-error");
                                         $("#signup-username").removeClass("ui-state-error");
-=======
-                                		$("#signup-email").removeClass("ui-state-error");
-                                		$("#signup-username").removeClass("ui-state-error");                                      
->>>>>>> .r348
+                                        $("#signup-email").removeClass("ui-state-error");
                                         $("#signup-password").removeClass("ui-state-error");
                                         $("#signup-name").removeClass("ui-state-error");
                                 }
@@ -920,6 +904,17 @@
                                                 <input type="password" id="signup-password-old" class="text ui-widget-content ui-corner-all" />
                                         </td>
                                 </tr>
+                                <tr>
+                                        <td>
+                                                <label for="signup-password-new">Password (new):</label>
+                                        </td>
+                                        <td>
+                                                <input type="password" id="signup-password-new" value="" class="text ui-widget-content ui-corner-all" />
+                                        </td>
+                                </tr>
+                        </table>
+                </fieldset>
+        </form>                            </tr>
                                 <tr>
                                         <td>
                                                 <label for="signup-password-new">Password (new):</label>
