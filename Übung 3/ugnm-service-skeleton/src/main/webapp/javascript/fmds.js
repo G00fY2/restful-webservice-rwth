@@ -83,7 +83,7 @@ FmdClient.prototype.isLoggedIn = function(){
  * @param password (String)
  * @param callback (function(result)) 
  */
-FmdClient.prototype.login = functiom(email, password, callback){
+FmdClient.prototype.login = function(email, password, callback){
         
         // for this login step we use one HTTP operation on one resource, which is authentication-aware.
         // In this example, we use the GET operation on the resource /users/{login} including credentials
