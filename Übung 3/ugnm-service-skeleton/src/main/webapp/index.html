@@ -529,13 +529,23 @@
                                                 var that = $(this);
                                                 var bValid = true;
                                                 
+<<<<<<< .mine
+
+                                                $("#signup-email").removeClass("ui-state-error");
+=======
                                               
                                                 $("#signup-email").removeClass("ui-state-error");
+>>>>>>> .r348
                                                 $("#signup-username").removeClass("ui-state-error");
                                                 $("#signup-password").removeClass("ui-state-error");
                                                 $("#signup-name").removeClass("ui-state-error");
                                                 
+<<<<<<< .mine
+                                                
                                                 bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
+=======
+                                                bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
+>>>>>>> .r348
                                                 bValid = bValid && checkLength( $("#signup-username"), "username", 6, 80 );
                                                 bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
                                                 bValid = bValid && checkLength( $("#signup-name"), "name", 6, 80 );
@@ -565,8 +575,13 @@
                                         }
                                 },
                                 close: function() {
+<<<<<<< .mine
+                                		$("#signup-email").removeClass("ui-state-error");
+                                        $("#signup-username").removeClass("ui-state-error");
+=======
                                 		$("#signup-email").removeClass("ui-state-error");
                                 		$("#signup-username").removeClass("ui-state-error");                                      
+>>>>>>> .r348
                                         $("#signup-password").removeClass("ui-state-error");
                                         $("#signup-name").removeClass("ui-state-error");
                                 }
