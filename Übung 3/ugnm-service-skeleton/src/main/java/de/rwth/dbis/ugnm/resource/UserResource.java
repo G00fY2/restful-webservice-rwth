@@ -85,7 +85,8 @@ public class UserResource {
 //Wenn länge=0 wurde keine änderung vorgenommen -> notModified Response                 
                 
                 if(o.length() == 0){
-                         return Response.notModified().build();
+                	Response.ResponseBuilder r = Response.status(Status.NOT_MODIFIED);
+                	return CORS.makeCORS(r, _corsHeaders);
                 }
 
 //GET User ueber Primary email            
