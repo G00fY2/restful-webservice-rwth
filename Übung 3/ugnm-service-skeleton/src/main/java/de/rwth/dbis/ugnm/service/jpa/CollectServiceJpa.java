@@ -43,7 +43,7 @@ public class CollectServiceJpa implements CollectService{
         
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
-        public List<Collect> getAllAchievementsOfUser(String email) {
+        public List<Collect> getAll(String email) {
                 Query query = entityManager.createNamedQuery("Collect.findCollectOfUser");
                 query.setParameter("userEmail", email);
                 List<Collect> collects = null;
