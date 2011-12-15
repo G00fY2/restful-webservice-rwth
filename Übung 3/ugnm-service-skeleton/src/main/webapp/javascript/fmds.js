@@ -181,7 +181,7 @@ FmdClient.prototype.signup = function(email, username, password, name, callback)
         var d = {};
         d.email = email;
         d.username = username;
-        d.pass = password;
+        d.password = password;
         d.name = name;
         
         var resource = this._usersResource;
