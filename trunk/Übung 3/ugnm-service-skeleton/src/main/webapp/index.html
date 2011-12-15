@@ -237,7 +237,7 @@
                        for(i in users){
                                var usr = users[i];              //Hole alle User
                                
-                               fmd.getUserStats(usr, function(user){            //Zusammenfügen von User und Name, und ep
+                               fmd.getUser(usr, function(user){            //Zusammenfügen von User und Name, und ep
                                        var li =  $("<li></li>").append("<span>" + user.ep + "XP</span> - <span>" + user.username + "</span>");
                                        ol.append(li);
                                });
@@ -321,13 +321,15 @@
                                 $("#updateb").hide();           
                                 $("#viewb").hide();     
                                 $("#Gameb").hide();                           
-                                $("#indexPicture").hide();                                            
+                                $("#indexPicture").hide();
+                                $("#indexPicture2").hide();
                                 $("#users").hide();     
                                 $("#Instrucionsb").show();
                                 $("#trueb").show();     
                                 $("#fakeb").show();
                                 $("#rate-image").show();        
-                                $("#media").show();     
+                                $("#media").show();
+                                $("#slogan").hide();  
                                 $("#achieve").hide();
                                 $("#backb").show();
                                 
@@ -341,11 +343,13 @@
                                 $("#updateb").hide();                                                   
                                 $("#Instrucionsb").show();
                                 $("#Gameb").show();                          
-                                $("#indexPicture").hide();                     
+                                $("#indexPicture").hide(); 
+                                $("#indexPicture2").hide();
                                 $("#trueb").hide();
                                 $("#fakeb").hide();
                                 $("#rate-image").hide();
                                 $("#media").hide();
+                                $("#slogan").hide();  
                                 $("#achieve").hide();                                   
                         }
                 }
@@ -367,14 +371,17 @@
                                 $("#registerb").hide();                                 
                                 $("#Instrucionsb").hide();
                                 $("#Gameb").hide();                                                      
-                                $("#indexPicture").hide();                      
+                                $("#indexPicture").hide();
+                                $("#indexPicture2").hide();
                                 $("#trueb").hide();             
                                 $("#fakeb").hide();
                                 $("#rate-image").hide();
                                 $("#achieve").show();  
                                 $("#backb").show();
+                                $("#slogan").hide();  
                         } else {
                                 $("#top10b").hide();
+                                $("#slogan").show();  
                                                                                                                 
                         }
                 }
@@ -393,7 +400,8 @@
                                 $("#users").hide();                     
                                 $("#viewb").hide();     
                                 $("#rate-image").hide();
-                                $("#achieve").hide();                                   
+                                $("#achieve").hide(); 
+                                $("#slogan").show();  
                         } else {
                                 $("#top10b").hide();
                                 $("#users").show();
@@ -406,12 +414,14 @@
                                 $("#viewb").hide();     
                                 $("#Instrucionsb").hide();
                                 $("#Gameb").hide();                            
-                                $("#indexPicture").hide();                       
+                                $("#indexPicture").hide();
+                                $("#indexPicture2").hide();
                                 $("#trueb").hide();                             
                                 $("#fakeb").hide();
                                 $("#rate-image").hide();        
                                 $("#achieve").hide();
                                 $("#backb").show();
+                                $("#slogan").hide();  
                         }
                 }
                 
@@ -430,11 +440,13 @@
                                 $("#backb").hide();
                                 $("#Instrucionsb").show();                              
                                 $("#Gameb").show();                           
-                                $("#indexPicture").hide();                      
+                                $("#indexPicture").hide();   
+                                $("#indexPicture2").hide();
                                 $("#trueb").hide();
                                 $("#fakeb").hide();
                                 $("#rate-image").hide();
                                 $("#media").hide(); 
+                                $("#slogan").hide();  
                         		$("#top10b").show();
 
                         } else {
@@ -452,8 +464,10 @@
                                 $("#fakeb").hide();
                                 $("#seehighscore").hide();              
                                 $("#indexPicture").show();
+                                $("#indexPicture2").show();
                                 $("#rate-image").hide();
-                                $("#media").hide();                             
+                                $("#media").hide();
+                                $("#slogan").show();  
                         }
                 }               
           
@@ -770,8 +784,10 @@
 <!------------------------ Willkommens Bild+Unterschrift: ------------------------>
 <div align = "center">
 <img id = "indexPicture" src = "media/index.jpeg"></img>
-</br>
-<p>True or Fake? Its your choise.. </p>
+<div id = "slogan">
+<p>True or Fake? Its your choise..</p>
+<span id="slogan"></span>         
+</div>
 <img id = "indexPicture2" src = "media/index2.jpeg"></img>
 </br>
 </div>
@@ -779,7 +795,7 @@
 
 <!------------------------  Das ist die Anzeige von den bilder und fake und true button ------------------------>
 <div id="media">
-<p> It's your choice. Is the picture you see right or wrong? Try to correctly guess and get an ep. </p>
+<p> True or Fake? Its your choise.. </p>
         <div class="infiniteCarousel">
       <div id="medialist" class="wrapper">        
       </div>
