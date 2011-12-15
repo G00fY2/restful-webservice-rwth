@@ -320,18 +320,16 @@
                                 $("#registerb").hide();                         
                                 $("#updateb").hide();           
                                 $("#viewb").hide();     
-                                $("#EndlessModeb").hide();              
-                                $("#modi").hide();              
-                                $("#indexPicture").hide();              
-                                $("#TimeModeb").hide();                                 
-                                $("#backb").show();
+                                $("#Gameb").hide();                           
+                                $("#indexPicture").hide();                                            
                                 $("#users").hide();     
                                 $("#Instrucionsb").show();
                                 $("#trueb").show();     
                                 $("#fakeb").show();
                                 $("#rate-image").show();        
                                 $("#media").show();     
-                                $("#achieve").hide();                           
+                                $("#achieve").hide();
+                                $("#backb").show();
                                 
                         } else {                                
                                 $("#top10b").hide();
@@ -342,10 +340,8 @@
                                 $("#registerb").show();                         
                                 $("#updateb").hide();                                                   
                                 $("#Instrucionsb").show();
-                                $("#EndlessModeb").show();              
-                                $("#modi").show();              
-                                $("#indexPicture").hide();              
-                                $("#TimeModeb").show();         
+                                $("#Gameb").show();                          
+                                $("#indexPicture").hide();                     
                                 $("#trueb").hide();
                                 $("#fakeb").hide();
                                 $("#rate-image").hide();
@@ -361,10 +357,8 @@
                         if(view == true){       
                                 $("#username").html(fmd._uid);  
                                 $("#updateb").show();
-                                $("#achivements").show();
-                                $("#backb").show();                             
+                                $("#achivements").show();                             
                                 $("#viewb").hide();
-                                $("#modi").hide();
                                 $("#top10b").hide();
                                 $("#users").hide();
                                 $("#seehighscore").hide();                                                                      
@@ -372,13 +366,13 @@
                                 $("#logoutb").hide();
                                 $("#registerb").hide();                                 
                                 $("#Instrucionsb").hide();
-                                $("#EndlessModeb").hide();                                                      
-                                $("#indexPicture").hide();              
-                                $("#TimeModeb").hide();         
+                                $("#Gameb").hide();                                                      
+                                $("#indexPicture").hide();                      
                                 $("#trueb").hide();             
                                 $("#fakeb").hide();
                                 $("#rate-image").hide();
-                                $("#achieve").show();                                                   
+                                $("#achieve").show();  
+                                $("#backb").show();
                         } else {
                                 $("#top10b").hide();
                                                                                                                 
@@ -390,7 +384,7 @@
                 top10 = new Boolean(true);                              
                 function updatetop10(){
                         if(top10 == true){
-                                $("#top10b").show();
+                                $("#top10b").hide();
                                 $("#seehighscore").hide();                                                              
                                 $("#backb").hide();                                                             
                                 $("#loginb").show();                            
@@ -404,7 +398,6 @@
                                 $("#top10b").hide();
                                 $("#users").show();
                                 $("#seehighscore").show();
-                                $("#backb").show();
                                 $("#username").html(fmd._uid);                          
                                 $("#loginb").hide();
                                 $("#logoutb").hide();
@@ -412,14 +405,13 @@
                                 $("#updateb").hide();           
                                 $("#viewb").hide();     
                                 $("#Instrucionsb").hide();
-                                $("#EndlessModeb").hide();              
-                                $("#modi").hide();              
-                                $("#indexPicture").hide();              
-                                $("#TimeModeb").hide();         
+                                $("#Gameb").hide();                            
+                                $("#indexPicture").hide();                       
                                 $("#trueb").hide();                             
                                 $("#fakeb").hide();
                                 $("#rate-image").hide();        
-                                $("#achieve").hide();                           
+                                $("#achieve").hide();
+                                $("#backb").show();
                         }
                 }
                 
@@ -431,22 +423,22 @@
                                 $("#seehighscore").hide();
                                 $("#achivements").hide();                               
                                 $("#loginb").hide();
-                                $("#backb").hide();
                                 $("#logoutb").show();
                                 $("#registerb").hide();                         
                                 $("#updateb").hide();                           
-                                $("#viewb").show();     
+                                $("#viewb").show();  
+                                $("#backb").hide();
                                 $("#Instrucionsb").show();                              
-                                $("#EndlessModeb").show();              
-                                $("#modi").show();              
-                                $("#indexPicture").hide();              
-                                $("#TimeModeb").show();         
+                                $("#Gameb").show();                           
+                                $("#indexPicture").hide();                      
                                 $("#trueb").hide();
                                 $("#fakeb").hide();
                                 $("#rate-image").hide();
-                                $("#media").hide();                                     
+                                $("#media").hide(); 
+                        		$("#top10b").show();
 
                         } else {
+                        		$("#top10b").hide();
                                 $("#username").html("");
                                 $("#loginb").show();
                                 $("#logoutb").hide();
@@ -455,14 +447,10 @@
                                 $("#updateb").hide();
                                 $("#viewb").hide();     
                                 $("#Instrucionsb").show();
-                                $("#EndlessModeb").hide();
-                                $("#TimeModeb").hide();
-                                $("#EndlessModeb").hide();
-                                $("#TimeModeb").hide();         
+                                $("#Gameb").hide();       
                                 $("#trueb").hide();
                                 $("#fakeb").hide();
                                 $("#seehighscore").hide();              
-                                $("#modi").hide();
                                 $("#indexPicture").show();
                                 $("#rate-image").hide();
                                 $("#media").hide();                             
@@ -751,25 +739,27 @@
 <table class="main">
   <tr>
     <td style="height:62pt" >
-      UGNM Group 4 - Fake Media Detection 
+      <b>UGNM Group 4 - Fake Media Detection </b>
   </tr>
 </table>
-
+</br>
 <!--------------------------  Das sind die Buttons die links oben angezeigt werden:-------------------------->
+
 <div id="profile">
         <span id="username"></span>     
         <span id="profile-buttons">
+        		<button id="registerb">Register</button>
+                <button id="Instrucionsb">Instructions</button>
                 <button id="loginb">Login</button>
                 <button id="logoutb">Logout</button>
-                <button id="registerb">Register</button>
                 <button id="updateb">Change Profile</button>
                 <button id="viewb">Profile</button>
-                <button id="top10b" >Top 10</button>    
-                <button id="Instrucionsb">Instructions</button>
-                <button id="backb" >Back</button>
-        
+                <button id="top10b" >Top 10</button>        
+                <button id="backb" >Back</button>   
         </span>
 </div>
+</br>
+
 
 <!--------------------------  Achievement -------------------------->
 <div id = "achieve">
@@ -777,9 +767,10 @@
         <span id="achievements"></span>         
 </div>
 
-<!------------------------ Willkommens Bild: ------------------------>
+<!------------------------ Willkommens Bild+Unterschrift: ------------------------>
 <div align = "center">
-<img id = "indexPicture" src = "media/index.jpg" alt="" ></img>
+<img id = "indexPicture" src = "media/index.jpeg" alt="" width="610" height="450"></img>
+<p></br>True or Fake? Its your choise.. </p>
 </div>
   
 
@@ -796,20 +787,20 @@
   
 <div id="truefakebutton">       
                 <button id="trueb">True</button>
-                <button id="fakeb" >fake</button>
+                <button id="fakeb" >Fake</button>
 </div>
 
 <!--------------------------  Die Anzeige für die Highscore + Liste   -------------------------->
 <div align="center">
-        <p id="seehighscore" >Highscore - this are the top 10: </p>
+        <p id="seehighscore" >User - TOP 10: </p>
         <p id="users"></p>
 </div>
 
 <!------------------------------------------------  Dialoge -------------------------------------------------------------------->
 
 
-<div id="dialog-Instrucions" title="Instrucions for playing:">
-        <label for="first">You have to rate pictures. For each right rate you get an ep. If you have enough ep you get an achievement.</label>
+q<div id="dialog-Instrucions" title="Instrucions for playing:">
+        <label for="first">This game is made to rate fake pictures. If you rate a picture correctly, you get EP and in some special cases Achievements.</label>
 </div>
 
 <div id="dialog-login" title="Login">
@@ -824,7 +815,7 @@
 </div>
 
 <div id="dialog-signup" title="Sign Up">
-        <p id="signup-tips" class="validateTips">All form fields are required.</p>
+        <p id="signup-tips" class="validateTips">Registrant Information -</br> All fields required.</p>
         <form>
                 <fieldset>
                         <table>
@@ -866,13 +857,13 @@
 </div>
 
 <div id="dialog-UpdateProfile" title="Change your Profile">
-        <p id="signup-tips" class="validateTips">All form fields are required.</p>
+        <p id="signup-tips" class="validateTips">Update Information -</br> All fields required.</p>
         <form>
                 <fieldset>
                         <table>
                                 <tr>
                                         <td>
-                                                <label for="signup-username">New User-Name:</label>
+                                                <label for="signup-username">User-Name (new):</label>
                                         </td>
                                         <td>
                                                 <input type="text" id="signup-username" value="" class="text ui-widget-content ui-corner-all" />
@@ -880,7 +871,7 @@
                                 </tr>
                                 <tr>
                                 <td>
-                                        <label for="signup-name">New Name:</label>
+                                        <label for="signup-name">Name (new):</label>
                                 </td>
                                 <td>
                                         <input type="text" id="signup-name" value="" class="text ui-widget-content ui-corner-all" />
