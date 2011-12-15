@@ -178,8 +178,12 @@ FmdClient.prototype.logout = function(){
 <<<<<<< .mine
 FmdClient.prototype.signup = function(email, username, password, name, callback){
 =======
+<<<<<<< .mine
+FmdClient.prototype.signup = function(email, username, password, name, callback){
+=======
 FmdClient.prototype.signup = function(email, username, password, name callback){
 >>>>>>> .r347
+>>>>>>> .r348
         
         // create JSON representation to be passed to the Web Service
         var d = {};
@@ -188,9 +192,12 @@ FmdClient.prototype.signup = function(email, username, password, name callback){
         d.pass = password;
         d.name = name;
 <<<<<<< .mine
+=======
+<<<<<<< .mine
     
 =======
 >>>>>>> .r347
+>>>>>>> .r348
 
 
         
