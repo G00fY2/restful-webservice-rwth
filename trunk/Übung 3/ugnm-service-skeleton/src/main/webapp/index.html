@@ -645,7 +645,11 @@
                                 $( "#dialog-Instrucions" ).dialog("open");
                         });
                                                 
-
+                        $( "#Gameb" ).button().click(function() {
+                            endless = Boolean(true);
+                            updateGame();
+                            updateMedia();                          
+                    });
                         
                         $( "#top10b" ).button().click(function() {                              
                                 top10 = Boolean(false);
@@ -763,11 +767,12 @@
         <span id="username"></span>     
         <span id="profile-buttons">
         		<button id="registerb">Register</button>
+                <button id="Gameb" >Game</button>  
                 <button id="Instrucionsb">Instructions</button>
                 <button id="loginb">Login</button>
                 <button id="logoutb">Logout</button>
                 <button id="updateb">Change Profile</button>
-                <button id="viewb">Profile</button>
+                <button id="viewb">Profile</button> 
                 <button id="top10b" >Top 10</button>        
                 <button id="backb" >Back</button>   
         </span>
