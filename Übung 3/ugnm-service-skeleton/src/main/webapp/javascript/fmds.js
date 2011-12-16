@@ -464,6 +464,55 @@ FmdClient.prototype.getAchievement = function(achievementUri, callback){
 
 };
 
+FmdClient.prototype.updateProfile = function(username, name, passwordOld, passwordNew, callback){
+
+    
+    var resource = this._usersResource + "/" + this._uid;
+    
+    var d = {};
+    d.username = username;
+    d.name = name;
+    d.password = passwordNew;
+    stringd = JSON.stringify(d);
+
+    var that = this;
+    // use helper function to create credentials as base64 encoding for HTTP auth header
+    var credentials = __make_base_auth(this._uid,passwordOld);
+    alert(credentials);
+    // here, you see a first example of an AJAX request done with the help of jQuery.
+    $.ajax({
+            url: resource, // specify a url to which the HTTP request is sent
+            type: "PUT", // specify the HTTP operation
+            data: JSON.stringify(d),
+            
+            // set HTTP auth header before sending request
+            beforeSend: function(xhr){
+                    xhr.setRequestHeader("Authorization", credentials);
+            },
+            
+            // this is one of the callbacks to be triggered on successful processing 
+            // of the request by the Web service, in this case a succeeded GET including
+            // successful authentication.
+            success: function(){
+                    
+                    callback(true);
+            },
+            
+            // this is another mechanism of reacting to any answer coming from the Web service.
+            statusCode: {
+                    // if user does not exist, return authentication failed.
+                    404: function(){
+                            callback(false);
+                    },
+                    // if credentials were not correct, return authentication failed.
+                    401: function(){
+                            callback(false);
+                    } 
+            }
+    });
+};
+
+
 // Private helper function to create Base64 encoded credentials as needed for
 // HTTP basic authentication
 function __make_base_auth(user, password) {
