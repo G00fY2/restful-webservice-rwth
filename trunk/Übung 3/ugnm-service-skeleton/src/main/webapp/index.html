@@ -240,41 +240,49 @@
        }
 
                    
-                   function updateMedia() {
-                           fmd.getMedia(function(media){
-                                   var ul = $("<ul></ul>");
-                                   var ct = 0;
-                                   for(i in media){
-                                           var med = media[i];
-                                           
-                                           fmd.getMedium(med,function(medium){
-                                           
-                                                   var titleValue = "\nDescription: " + medium.description;
-                                                   
-                                                   var count = media.length;
-                                                   var realCount = 0;
-                                                   
-                                                   console.log(titleValue);
-                                                   
-                                                   var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + medium.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){            
-                                                           cmedium = medium;
-                                                           $("#rate-image").html("<img src='" + medium.url + "' height='300' alt='" + titleValue + "' />");
-                                                   });
-                                                   ul.append(li);
-                                                   
-                                                   if(ct == media.length-1){
-                                                           $("#medialist").html(ul);
-                                                           $('.infiniteCarousel').infiniteCarousel();
-                                                   }
-                                                   ct++;
-                                                   console.log("============================================================");
-                                           });
-                                   
-                                   }
-                                   
-                           });
-                   }   
-
+           		function updateMedia() {
+        			fmd.getMedia(function(media){
+        				var ul = $("<ul></ul>");
+        				var ct = 0;
+        				for(i in media){
+        					var med = media[i];
+        					
+        					fmd.getRates(med,function(m, rates){
+        					
+        						var titleValue = "URL: " + m.url + "\nDescription: " + m.description +"\nRatings:";
+        						
+        						var count = ratings.length;
+        						var realCount = 0;
+        						
+        						for(j in ratings){
+        							var r = ratings[j];
+        							if (r.rating === 1) {
+        								realCount++;
+        							}
+        						}
+        						
+        						titleValue += realCount + "/" + count;
+        						
+        						console.log(titleValue);
+        						
+        						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + m.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
+        							cmedium = m;
+        							$("#rate-image").html("<img src='" + m.url + "' height='300' alt='" + titleValue + "' />");
+        						});
+        						ul.append(li);
+        						
+        						if(ct == media.length-1){
+        							$("#medialist").html(ul);
+        							$('.infiniteCarousel').infiniteCarousel();
+        						}
+        						ct++;
+        						console.log("============================================================");
+        					});
+        				
+        				}
+        				
+        			});
+        		}
                  
                 function init() {                       
                         fmd = new FmdClient("http://127.0.0.1:8080/ugnm-service/resources/");
