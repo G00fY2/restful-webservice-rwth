@@ -554,13 +554,11 @@ FmdClient.prototype.updateProfile = function(username, name, passwordO, password
 };
 
 
-/** Private helper function to create Base64 encoded credentials as needed for
- *  HTTP basic authentication
- */
-
+//Private helper function to create Base64 encoded credentials as needed for
+//HTTP basic authentication
 function __make_base_auth(user, password) {
-        var tok = user + ':' + password;
-        var hash = $.base64.encode(tok);
-        var result = "Basic " + hash;
-        return result;
+	var tok = user + ':' + password;
+	var hash = $.base64.encode(tok);
+	var result = "Basic " + hash;
+	return result;
 }
