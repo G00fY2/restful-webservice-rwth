@@ -110,8 +110,8 @@ public class UserResource {
                
 //Wenn User authenticated über email und password wird der User geändert                
                 
-        if (o.has("email") && !o.getString("email").equals(u.getEmail())){
-                u.setUsername(o.getString("email"));
+        if (o.has("username") && !o.getString("username").equals(u.getUsername())){
+                u.setUsername(o.getString("username"));
                 changed = true;
                 }
         if (o.has("password") && !o.getString("password").equals(u.getPassword())){

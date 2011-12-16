@@ -584,24 +584,21 @@
                                                 var bValid = true;
                                                 
                                                 $("#updateUsername").removeClass("ui-state-error");
-                                                $("#updateName").removeClass("ui-state-error");
                                                 $("#updatePasswordNew").removeClass("ui-state-error");
                                                 
-                                                bValid = bValid && checkLength( $("#updateUsername"), "username", 6, 80 ); 
-                                                bValid = bValid && checkLength( $("#updateName"), "name", 6, 80 );                      
+                                                bValid = bValid && checkLength( $("#updateUsername"), "username", 6, 80 );                  
                                                 bValid = bValid && checkLength( $("#updatePasswordOld"), "password", 6, 20 );
                                                 bValid = bValid && checkLength( $("#updatePasswordNew"), "password", 6, 20 );
 
                                                 bValid = bValid && checkRegexp( $("#updateUsername"), /^[A-Za-z]([A-Za-z ])+$/i, "Userame may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
-                                                bValid = bValid && checkRegexp( $("#updateName"), /^[A-Za-z]([A-Za-z ])+$/i, "Userame may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
                                                 bValid = bValid && checkRegexp( $("#updatePasswordOld"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );           
                                                 bValid = bValid && checkRegexp( $("#updatePasswordNew"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
                                                 
                                                 if ( bValid ) {                                                 
                                                         // PUT form data to resource /users
-                                                        fmd.updateProfile( $("#updateUsername").val(),  $("#updateName").val(), $("#updatePasswordOld").val(), $("#updatePasswordNew").val(), function(result){      
+                                                        fmd.updateProfile( $("#updateUsername").val(), $("#updatePasswordOld").val(), $("#updatePasswordNew").val(), function(result){      
                                                                 if(result.status == "created"){                                                                                                                                                                                                 
-                                                                        updateTips( "User " + $("#updateName").val() + " successfully changed. Please close the dialog");               
+                                                                        updateTips( "User " + $("#updateUsername").val() + " successfully changed. Please close the dialog");               
                                                                 } 
                                                         });
                                                 }
@@ -613,7 +610,6 @@
                                 },
                                 close: function() {
                                  	   $("#signup-username").removeClass("ui-state-error");
-                                        $("#signup-name").removeClass("ui-state-error");
                                         $("#signup-email").removeClass("ui-state-error");
                                         $("#signup-password").removeClass("ui-state-error");
                                 }
