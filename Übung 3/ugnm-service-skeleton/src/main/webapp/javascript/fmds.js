@@ -464,14 +464,13 @@ FmdClient.prototype.getAchievement = function(achievementUri, callback){
 
 };
 
-FmdClient.prototype.updateProfile = function(username, name, passwordOld, passwordNew, callback){
+FmdClient.prototype.updateProfile = function(username, passwordOld, passwordNew, callback){
 
     
     var resource = this._usersResource + "/" + this._uid;
     
     var d = {};
     d.username = username;
-    d.name = name;
     d.password = passwordNew;
     stringd = JSON.stringify(d);
 
