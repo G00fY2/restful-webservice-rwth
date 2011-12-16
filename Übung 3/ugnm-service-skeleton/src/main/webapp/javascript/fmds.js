@@ -206,7 +206,7 @@ FmdClient.prototype.signup = function(email, username, password, name, callback)
                                 callback({status:"conflict"});
                         },
                         406: function(){
-                                callback({status:"not Acceptable"});
+                                callback({status:"not acceptable"});
                         },
                         500: function(){
                                 callback({status:"servererror"});
@@ -230,52 +230,22 @@ FmdClient.prototype.signup = function(email, username, password, name, callback)
  */
 FmdClient.prototype.getUsers = function(callback){
         var resource = this._usersResource;
-        
-        var uris;
+        var uri;
 
         $.ajax({
                 url: resource,
                 type: "GET",
                 
-                success: function(value){
-                        uris = eval('(' + value + ')');
-                        uris = uris.users[0];
-                        callback(uris);
+                success: function(x){
+                        uri = eval('(' + x + ')');
+                        uri = uri.users[0];
+                        callback(uri);
                 },
                 
         });
 
 };
 
-/**
- * Retrieves a user asynchronously. The result parameter of the callback function 
- * contains a user with
- * 
- * <ul>
- *      <li>mail - Mail</li>
- *      <li>name - Full Name</li>
- *      <li>ep - Experience Points</li>
- * </ul>
- * 
- * @param userUri
- * @param callback (function(result)) 
- */
-FmdClient.prototype.getUser = function(userUri, callback){
-
-        var user;
-        $.ajax({
-                url: userUri,
-                type: "GET",
-                
-                success: function(value){
-                        user = eval('(' + value + ')');
-                        
-                        callback(user);
-                },
-                
-        });
-
-};
 
 /**
  * Retrieves all media asynchronously. The result parameter of the callback function 
@@ -289,16 +259,16 @@ FmdClient.prototype.getUser = function(userUri, callback){
  */
 FmdClient.prototype.getMedia = function(callback){
         var resource = this._mediaResource;
-        var uris;
+        var uri;
 
         $.ajax({
                 url: resource,
                 type: "GET",
                 
-                success: function(value){
-                        uris = eval('(' + value + ')');
-                        uris = uris.media[0];
-                        callback(uris);
+                success: function(x){
+                        uris = eval('(' + x + ')');
+                        uris = uri.media[0];
+                        callback(uri);
                 },
                 
         });
@@ -309,26 +279,21 @@ FmdClient.prototype.getMedia = function(callback){
 * 
 *       [<MEDIUM1>,...,<MEDIUMn>]
 *  
-* where each <MEDIUMx> contains the URI:
-* <ul>
-*       <li>url - Media URL</li>
-*       <li>description - Fulltext Description of the Medium</li>
-*  <li>resource - URL to the Medium Resource</li>
-* </ul>
+* where each <MEDIUMx> contains the URI
 * 
 * @param callback (function(result)) 
 */
 
-FmdClient.prototype.getMedium = function(mediumUri, callback){
+FmdClient.prototype.getMedium = function(uri, callback){
         var medium;
 
         $.ajax({
-                url: mediumUri,
+                url: uri,
                 type: "GET",
                 
-                success: function(value){
+                success: function(x){
                         
-                        medium = eval('(' + value + ')');
+                        medium = eval('(' + x + ')');
                         
                         callback(medium);
                 },
@@ -344,6 +309,7 @@ FmdClient.prototype.getRates = function(m, r, callback){
         } 
         
         var resource = this._usersResource + "/" + this._uid + "/rates";
+        //Kommi wegen id
         var d = {};
         d.id = m.id;
         d.rating = r;
@@ -392,17 +358,17 @@ FmdClient.prototype.getRates = function(m, r, callback){
 }
 
 /**
- * Retrieves all AchievementAssociation of the user asynchronously. The result parameter of the callback function 
- * contains the list of all Achievement Associations URI's associated with the user.
+ * Retrieves all Collects of the user asynchronously. The result parameter of the callback function 
+ * contains the list of all Collects URI's associated with the user.
  * 
- *      [<MEDIUM1>,...,<MEDIUMn>]
+ *      [<COLLECT1>,...,<COLLECTn>]
  *  
- * where each <MEDIUMx> contains the URI:
+ * where each <COLLECTx> contains the URI
  * 
  * @param callback (function(result)) 
  */
 FmdClient.prototype.getCollects = function(callback){
-        var uris;
+        var uri;
 
         if(!this.isLoggedIn){
                 alert("Not logged in");
@@ -414,26 +380,87 @@ FmdClient.prototype.getCollects = function(callback){
                 url: resource,
                 type: "GET",
                 
-                success: function(value){
-                        uris = eval('(' + value + ')');
-                        uris = uris.getAll[0];
-                        callback(uris);
+                success: function(x){
+                        uri = eval('(' + x + ')');
+                        uri = uri.getAll[0];
+                        callback(uri);
                         
                 },
                 
         });
 };
-FmdClient.prototype.getAchievements = function(achievement, callback){
-        var achievement;
-        var resource = achievement;
+
+/**
+ * Retrieves a user asynchronously. 
+ *
+ * @param uri
+ * @param callback (function(result)) 
+ */
+FmdClient.prototype.getUser = function(uri, callback){
+
+        var user;
+        $.ajax({
+                url: uri,
+                type: "GET",
+                
+                success: function(x){
+                        user = eval('(' + x + ')');
+                        
+                        callback(user);
+                },
+                
+        });
+
+};
+
+/**
+ * Retrieves a medium asynchronously. 
+ *
+ * @param uri
+ * @param callback (function(result)) 
+ */
+
+FmdClient.prototype.getMedium = function(uri, callback){
+        var medium;
+
+        $.ajax({
+                url: uri,
+                type: "GET",
+                
+                success: function(x){
+                        
+                        medium = eval('(' + x + ')');
+                        
+                        callback(medium);
+                },
+                
+        });
+
+};
+
+
+/**
+ * Retrieves all Achievements of the user asynchronously. The result parameter of the callback function 
+ * contains the list of all Collects URI's associated with the user.
+ * 
+ *      [<ACHIEVEMENT1>,...,<ACHIEVEMENTn>]
+ *  
+ * where each <ACHIEVEMENTx> contains the URI
+ * 
+ * @param callback (function(result)) 
+ */
+
+FmdClient.prototype.getAchievements = function(a, callback){
+        var a;
+        var resource = a;
         var achievementRessource = this._achievementsResource;
         $.ajax({
                 url: resource,
                 type: "GET",
                 
-                success: function(value){
+                success: function(x){
                         
-                        association = eval('(' + value + ')');
+                        association = eval('(' + x + ')');
                         
                         var achievementId = association.achievementId;
                         
@@ -445,16 +472,24 @@ FmdClient.prototype.getAchievements = function(achievement, callback){
         });
 
 };
-FmdClient.prototype.getAchievement = function(achievementUri, callback){
+
+/**
+ * Retrieves a achievement asynchronously. 
+ *
+ * @param uri
+ * @param callback (function(result)) 
+ */
+
+FmdClient.prototype.getAchievement = function(uri, callback){
         var achievement;
         
         $.ajax({
-                url: achievementUri,
+                url: uri,
                 type: "GET",
                 
-                success: function(value){
+                success: function(x){
                         
-                        achievement = eval('(' + value + ')');
+                        achievement = eval('(' + x + ')');
                         
                         callback(achievement);
                         
@@ -464,19 +499,26 @@ FmdClient.prototype.getAchievement = function(achievementUri, callback){
 
 };
 
-FmdClient.prototype.updateProfile = function(username, passwordOld, passwordNew, callback){
 
+/**
+ * Updates a currently logged in user. Effectively, username, password and name will be changed.
+ */
+
+FmdClient.prototype.updateProfile = function(username, name, passwordO, passwordN, callback){
+ 
+
+	// for this update step we use one HTTP operation on one resource, which is authentication-aware.
     
     var resource = this._usersResource + "/" + this._uid;
     
     var d = {};
     d.username = username;
-    d.password = passwordNew;
+    d.password = passwordN;
     stringd = JSON.stringify(d);
 
     var that = this;
     // use helper function to create credentials as base64 encoding for HTTP auth header
-    var credentials = __make_base_auth(this._uid,passwordOld);
+    var credentials = __make_base_auth(this._uid,passwordO);
     alert(credentials);
     // here, you see a first example of an AJAX request done with the help of jQuery.
     $.ajax({
@@ -485,8 +527,8 @@ FmdClient.prototype.updateProfile = function(username, passwordOld, passwordNew,
             data: JSON.stringify(d),
             
             // set HTTP auth header before sending request
-            beforeSend: function(xhr){
-                    xhr.setRequestHeader("Authorization", credentials);
+            beforeSend: function(x){
+                    x.setRequestHeader("Authorization", credentials);
             },
             
             // this is one of the callbacks to be triggered on successful processing 
@@ -512,8 +554,10 @@ FmdClient.prototype.updateProfile = function(username, passwordOld, passwordNew,
 };
 
 
-// Private helper function to create Base64 encoded credentials as needed for
-// HTTP basic authentication
+/** Private helper function to create Base64 encoded credentials as needed for
+ *  HTTP basic authentication
+ */
+
 function __make_base_auth(user, password) {
         var tok = user + ':' + password;
         var hash = $.base64.encode(tok);
