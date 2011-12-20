@@ -67,7 +67,7 @@ public class RatesResourceTest extends JerseyTest{
 		ClientResponse response = resource().path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 401 (Unauthorized) zurückgeliefert wurde.
-		assertEquals(response.getStatus(), Status.UNAUTHORIZED.getStatusCode());
+		assertEquals(Status.UNAUTHORIZED.getStatusCode(), response.getStatus());
 		
 		String content2 = "{}";
 		
@@ -75,7 +75,7 @@ public class RatesResourceTest extends JerseyTest{
 		ClientResponse response2 = r.path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
 		
 		// teste, ob der spezifizierte HTTP Status 406 (Not Acceptable) zurückgeliefert wurde.
-		assertEquals(response2.getStatus(), Status.NOT_ACCEPTABLE.getStatusCode());
+		assertEquals(Status.NOT_ACCEPTABLE.getStatusCode(), response2.getStatus());
 		
 		// gebe JSON Content als String an.
 		String content3 = "{'url':'www.medium99.de','rate':1}";
@@ -84,7 +84,7 @@ public class RatesResourceTest extends JerseyTest{
 		ClientResponse response3 = r.path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content3);
 		
 		// teste, ob der spezifizierte HTTP Status 406 (Not Acceptable) zurückgeliefert wurde.
-		assertEquals(response3.getStatus(), Status.NOT_ACCEPTABLE.getStatusCode());		
+		assertEquals(Status.NOT_ACCEPTABLE.getStatusCode(), response3.getStatus());		
 	}
     
 
@@ -117,7 +117,7 @@ public class RatesResourceTest extends JerseyTest{
 		ClientResponse response = r.path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 200 (Ok) zurückgeliefert wurde.
-		assertEquals(response.getStatus(), Status.OK.getStatusCode());
+		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
 		// gebe JSON Content als String an.
 		String content2 = "{'url':'www.medium2.de','rate':1}";
@@ -126,7 +126,7 @@ public class RatesResourceTest extends JerseyTest{
 		ClientResponse response2 = r.path("users/sven.hausburg@rwth-aachen.de/rates").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
 				
 		// teste, ob der spezifizierte HTTP Status 200 (Ok) zurückgeliefert wurde.
-		assertEquals(response2.getStatus(), Status.OK.getStatusCode());
+		assertEquals(Status.OK.getStatusCode(), response2.getStatus());
 		
 		}
 	
@@ -149,7 +149,7 @@ public class RatesResourceTest extends JerseyTest{
 		ClientResponse response = resource().path("users/sven.hausburg@rwth-aachen.de/rates").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		
 		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
-        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
+        assertEquals(MediaType.APPLICATION_JSON, response.getType().toString());
         
         // verarbeite die zurückgelieferten Daten als JSON Objekt.
         JSONObject o = response.getEntity(JSONObject.class);

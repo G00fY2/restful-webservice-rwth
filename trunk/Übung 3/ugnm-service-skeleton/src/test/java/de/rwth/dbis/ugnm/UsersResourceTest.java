@@ -71,7 +71,7 @@ public class UsersResourceTest extends JerseyTest{
 		ClientResponse response = resource().path("users").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		
 		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
-        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
+        assertEquals(MediaType.APPLICATION_JSON, response.getType().toString());
         
         // verarbeite die zurückgelieferten Daten als JSON Objekt.
         JSONObject o = response.getEntity(JSONObject.class);
@@ -111,13 +111,13 @@ public class UsersResourceTest extends JerseyTest{
         ClientResponse response = r.path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
         
         // teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-        assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
+        assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
         
         // sende GET Request an Ressource /users und erhalte Antwort als Instanz der Klasse ClientResponse
         ClientResponse response2 = r.path("users/thomas.tomatenkop@gmx.de").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         
         // teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
-        assertEquals(response2.getType().toString(),MediaType.APPLICATION_JSON);
+        assertEquals(MediaType.APPLICATION_JSON, response2.getType().toString());
         
         // verarbeite die zurückgelieferten Daten als JSON Objekt.
         JSONObject o = response2.getEntity(JSONObject.class);
@@ -132,7 +132,7 @@ public class UsersResourceTest extends JerseyTest{
         r2.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
         
         ClientResponse response3 = r2.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
-        assertEquals(response3.getStatus(), Status.OK.getStatusCode());    
+        assertEquals(Status.OK.getStatusCode(), response3.getStatus());    
     }
     
     
@@ -164,7 +164,7 @@ public class UsersResourceTest extends JerseyTest{
 		ClientResponse response = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
 		
 		// teste, ob der spezifizierte HTTP Status 404 (Not Found) zurückgeliefert wurde. 
-        assertEquals(response.getStatus(), Status.NOT_FOUND.getStatusCode());
+        assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	
         // ----------- Erfolgreiches Anlegen eines Users ---------------
         
@@ -175,17 +175,17 @@ public class UsersResourceTest extends JerseyTest{
 		ClientResponse response2 = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
+		assertEquals(Status.CREATED.getStatusCode(), response2.getStatus());
 		
 		WebResource r2 = resource(); 
 
         r2.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
 		
 		ClientResponse response3 = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
-        assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+        assertEquals(Status.OK.getStatusCode(), response3.getStatus());
         
         ClientResponse response4 = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
-        assertEquals(response4.getStatus(), Status.NOT_FOUND.getStatusCode());
+        assertEquals(Status.NOT_FOUND.getStatusCode(), response4.getStatus());
 	}
 	
 	
@@ -214,21 +214,21 @@ public class UsersResourceTest extends JerseyTest{
 		ClientResponse response2 = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-		assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
+		assertEquals(Status.CREATED.getStatusCode(), response2.getStatus());
 		
 		WebResource r2 = resource(); 
 
         r2.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "falsch")); 
 		
 		ClientResponse response3 = r2.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
-        assertEquals(response3.getStatus(), Status.UNAUTHORIZED.getStatusCode());
+        assertEquals(Status.UNAUTHORIZED.getStatusCode(), response3.getStatus());
         
         WebResource r3 = resource(); 
 
         r3.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
 		
         ClientResponse response4 = r3.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
-        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
+        assertEquals(Status.OK.getStatusCode(), response4.getStatus());
 	}
 	
 	
@@ -255,21 +255,21 @@ public class UsersResourceTest extends JerseyTest{
 		ClientResponse response = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
 				
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-		assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
+		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 		// ----------- Erneutes Anlegen des Users ---------------
 				
 		// sende POST Request inkl. validem Content und unter Angabe des MIME Type application/json an Ressource /users.
 		ClientResponse response2 = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
 				
 		// teste, ob der spezifizierte HTTP Status 409 (Conflict) zurückgeliefert wurde.
-		assertEquals(response2.getStatus(), Status.CONFLICT.getStatusCode());
+		assertEquals(Status.CONFLICT.getStatusCode(), response2.getStatus());
 		
 		WebResource r = resource(); 
 
         r.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "1234")); 
 		
         ClientResponse response4 = r.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
-        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
+        assertEquals(Status.OK.getStatusCode(), response4.getStatus());
 	}
 	
 	
@@ -295,7 +295,7 @@ public class UsersResourceTest extends JerseyTest{
 			ClientResponse response = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
 					
 			// teste, ob der spezifizierte HTTP Status 400 (Bad Request) zurückgeliefert wurde.
-			assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+			assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
 	}
 	
 	@Test
@@ -324,7 +324,7 @@ public class UsersResourceTest extends JerseyTest{
 		ClientResponse response = resource().path("users").type(MediaType.APPLICATION_JSON).post(ClientResponse.class,content);
 						
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-		assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
+		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 		
 		// ----------- Updaten ohne Authorisierung ---------------
 
@@ -332,7 +332,7 @@ public class UsersResourceTest extends JerseyTest{
 	
         ClientResponse response2 = resource().path("users/thomas.tomatenkop@gmx.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
         
-        assertEquals(response2.getStatus(), Status.UNAUTHORIZED.getStatusCode());
+        assertEquals(Status.UNAUTHORIZED.getStatusCode(), response2.getStatus());
         
      // ----------- Updaten success ---------------
         WebResource r2 = resource(); 
@@ -341,7 +341,7 @@ public class UsersResourceTest extends JerseyTest{
 		
         ClientResponse response3 = r2.path("users/thomas.tomatenkop@gmx.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
         
-        assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+        assertEquals(Status.OK.getStatusCode(), response3.getStatus());
         
      // ----------- Delete mit neuem Password ---------------
         WebResource r3 = resource(); 
@@ -349,12 +349,12 @@ public class UsersResourceTest extends JerseyTest{
         r3.addFilter(new HTTPBasicAuthFilter("thomas.tomatenkop@gmx.de", "neuesPW"));
         
         ClientResponse response4 = r3.path("users/thomas.tomatenkop@gmx.de").delete(ClientResponse.class);
-        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
+        assertEquals(Status.OK.getStatusCode(), response4.getStatus());
      
      // ----------- Update non existing ---------------
         ClientResponse response5 = r2.path("users/thomas.tomatenkop@gmx.de").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
         
-        assertEquals(response5.getStatus(), Status.NOT_FOUND.getStatusCode());
+        assertEquals(Status.NOT_FOUND.getStatusCode(), response5.getStatus());
         
 
 	}

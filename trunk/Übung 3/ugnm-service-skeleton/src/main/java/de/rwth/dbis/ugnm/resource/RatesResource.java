@@ -96,24 +96,30 @@ public class RatesResource {
        
        
        
-//Ermöglicht ueber PUT das erstellen eines einzelnen Ratings 
+//Ermöglicht ueber PUT das Erstellen eines einzelnen Ratings (inkl. EPs + Achievements)
         
         @PUT
     @Consumes("application/json")
     public Response createRate(@HeaderParam("authorization") String auth,@PathParam("email") String email, JSONObject o) throws JSONException{
-                //Create a new rating..
+                
                 Rates rate = parseRateJsonFile(o, email);
                 Medium m = mediumService.getByUrl(o.getString("url"));
                 User u = userService.getByEmail(email); 
-                //check if the Medium does exist
+                
+                //prüft ob das Medium existiert
                 if(mediumService.getByUrl(rate.getMediumUrl())!= null){
                         if(authenticated(auth, userService.getByEmail(email))){
                         	ratesService.save(rate);
+                        	
+                        	//Vergibt 50 EP falls rate aequivalent value von Medium
                         	if(m.getValue()==rate.getRate()){
-                        	    int ep = u.getEp()+100;
+                        	    int ep = u.getEp()+50;
                         	    u.setEp(ep);
                         	    userService.update(u);
+                        	    
+                        	    //Ruft Methode zur Vergabe der Achievements auf (siehe unten)
                         	    reached(ep, email);
+                        	    
                         	    Response.ResponseBuilder r = Response.status(Status.OK);
                                 return CORS.makeCORS(r, _corsHeaders);
                         	}
@@ -175,24 +181,23 @@ public class RatesResource {
                 return false;
         }
        
-        
-        private Collect reached(int ep, String email){
+        //Methode zur Vergabe der Achievements
+        private void reached(int ep, String email){
+        	
             Collect collect = new Collect();
-        	if(ep==100){
+    		collect.setUserEmail(email);
+    		
+        	if(ep==100 && achievementService.getById(1) != null){
         		collect.setAchievementId(1);
-        		collect.setUserEmail(email);
         		collectService.save(collect);
         	}
-        	else if(ep==200){
+        	else if(ep==500 && achievementService.getById(2) != null){
         		collect.setAchievementId(2);
-                collect.setUserEmail(email);
                 collectService.save(collect);
          	}
-        	else if(ep==500){
+        	else if(ep==1000 && achievementService.getById(3) != null){
                 collect.setAchievementId(3);
-                collect.setUserEmail(email);
                 collectService.save(collect);
         	}         
-            return collect;
         }
 }

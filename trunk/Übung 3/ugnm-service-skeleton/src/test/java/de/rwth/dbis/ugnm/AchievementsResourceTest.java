@@ -55,7 +55,7 @@ public class AchievementsResourceTest extends JerseyTest{
 		ClientResponse response = resource().path("achievements").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
 		
 		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
-        assertEquals(response.getType().toString(), MediaType.APPLICATION_JSON);
+        assertEquals(MediaType.APPLICATION_JSON, response.getType().toString());
         
         // verarbeite die zurückgelieferten Daten als JSON Objekt.
         JSONObject o = response.getEntity(JSONObject.class);
@@ -95,7 +95,7 @@ public class AchievementsResourceTest extends JerseyTest{
 		ClientResponse response = r.path("achievements").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 406 (Not Acceptable) zurückgeliefert wurde.
-		assertEquals(response.getStatus(), Status.NOT_ACCEPTABLE.getStatusCode());	
+		assertEquals(Status.NOT_ACCEPTABLE.getStatusCode(), response.getStatus());	
 		
 		// ----------- Anlegen eines Achievements ohne Authorisierung---------------
 		
@@ -105,7 +105,7 @@ public class AchievementsResourceTest extends JerseyTest{
 		ClientResponse response1 = resource().path("achievements").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
 		
 		// teste, ob der spezifizierte HTTP Status 401 (Unauthorized) zurückgeliefert wurde.
-		assertEquals(response1.getStatus(), Status.UNAUTHORIZED.getStatusCode());	
+		assertEquals(Status.UNAUTHORIZED.getStatusCode(), response1.getStatus());	
 	}
 	
 	
@@ -140,7 +140,7 @@ public class AchievementsResourceTest extends JerseyTest{
 		ClientResponse response1 = r.path("achievements").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-		assertEquals(response1.getStatus(), Status.CREATED.getStatusCode());
+		assertEquals(Status.CREATED.getStatusCode(), response1.getStatus());
 	    
 		// gebe JSON Content als String an.
 		String content2 = "{'description':'Neues Test-Achievement Update','name':'Achievement9 Update','url':'/achievements/9'}";
@@ -149,13 +149,13 @@ public class AchievementsResourceTest extends JerseyTest{
 		ClientResponse response2 = resource().path("achievements/9").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
 		
 		// teste, ob der spezifizierte HTTP Status 401 (Unauthorized) zurückgeliefert wurde.
-		assertEquals(response2.getStatus(), Status.UNAUTHORIZED.getStatusCode());
+		assertEquals(Status.UNAUTHORIZED.getStatusCode(), response2.getStatus());
 		
 		// sende GET Request an Ressource /Achievements/... und erhalte Antwort als Instanz der Klasse ClientResponse
 		ClientResponse response3 = resource().path("achievements/9").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
         
 		// teste, ob die gelieferten Daten den entsprechenden MIME Typ für JSON aufweisen.
-		assertEquals(response3.getType().toString(),MediaType.APPLICATION_JSON);
+		assertEquals(MediaType.APPLICATION_JSON, response3.getType().toString());
         
 		// verarbeite die zurückgelieferten Daten als JSON Objekt.
 		JSONObject o = response3.getEntity(JSONObject.class);
@@ -167,7 +167,7 @@ public class AchievementsResourceTest extends JerseyTest{
         assertTrue(o.has("url"));  
 
 		ClientResponse response4 = r.path("achievements/9").delete(ClientResponse.class);
-        assertEquals(response4.getStatus(), Status.OK.getStatusCode());
+        assertEquals(Status.OK.getStatusCode(), response4.getStatus());
 		
 	}
 	
@@ -201,7 +201,7 @@ public class AchievementsResourceTest extends JerseyTest{
 		ClientResponse response = r.path("achievements/9").delete(ClientResponse.class);
 		
 		// teste, ob der spezifizierte HTTP Status 404 (Not Found) zurückgeliefert wurde. 
-        assertEquals(response.getStatus(), Status.NOT_FOUND.getStatusCode());
+        assertEquals(Status.NOT_FOUND.getStatusCode(), response.getStatus());
 	
         // ----------- Erfolgreiches Anlegen eines Achievements ---------------
         
@@ -212,7 +212,7 @@ public class AchievementsResourceTest extends JerseyTest{
 		ClientResponse response1 = r.path("achievements").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 		
 		// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-		assertEquals(response1.getStatus(), Status.CREATED.getStatusCode());
+		assertEquals(Status.CREATED.getStatusCode(), response1.getStatus());
 		
 		// ----------- Erfolgreiches Anlegen eines Achievements - Zweites mal ---------------
 
@@ -223,10 +223,10 @@ public class AchievementsResourceTest extends JerseyTest{
 		ClientResponse response2 = r.path("achievements").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
 		
 		// teste, ob der spezifizierte HTTP Status 409 (Conflict) zurückgeliefert wurde.
-		assertEquals(response2.getStatus(), Status.CONFLICT.getStatusCode());
+		assertEquals(Status.CONFLICT.getStatusCode(), response2.getStatus());
 		
 		ClientResponse response3 = r.path("achievements/9").delete(ClientResponse.class);
-        assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+        assertEquals(Status.OK.getStatusCode(), response3.getStatus());
 	}
 	
     
@@ -259,7 +259,7 @@ public class AchievementsResourceTest extends JerseyTest{
 	ClientResponse response1 = r.path("achievements").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 	
 	// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-	assertEquals(response1.getStatus(), Status.CREATED.getStatusCode());
+	assertEquals(Status.CREATED.getStatusCode(), response1.getStatus());
 	
 	// ----------- Delete ohne Authorisierung ---------------
 	WebResource r2 = resource(); 
@@ -271,10 +271,10 @@ public class AchievementsResourceTest extends JerseyTest{
 	ClientResponse response2 = r2.path("achievements/9").delete(ClientResponse.class);
 	
 	// teste, ob der spezifizierte HTTP Status 401 (Unauthorized) zurückgeliefert wurde. 
-    assertEquals(response2.getStatus(), Status.UNAUTHORIZED.getStatusCode());
+    assertEquals(Status.UNAUTHORIZED.getStatusCode(), response2.getStatus());
 
 	ClientResponse response3 = r.path("achievements/9").delete(ClientResponse.class);
-    assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+    assertEquals(Status.OK.getStatusCode(), response3.getStatus());
 	
 	}
 	
@@ -309,7 +309,7 @@ public class AchievementsResourceTest extends JerseyTest{
 	ClientResponse response = r.path("achievements").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content);
 	
 	// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-	assertEquals(response.getStatus(), Status.CREATED.getStatusCode());
+	assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
     
 	// gebe JSON Content als String an.
 	String content2 = "{}";
@@ -318,7 +318,7 @@ public class AchievementsResourceTest extends JerseyTest{
 	ClientResponse response1 = r.path("achievements/9").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content2);
 	
 	// teste, ob der spezifizierte HTTP Status 406 (Not Acceptable) zurückgeliefert wurde.
-	assertEquals(response1.getStatus(), Status.NOT_ACCEPTABLE.getStatusCode());
+	assertEquals(Status.NOT_ACCEPTABLE.getStatusCode(), response1.getStatus());
 
 	// gebe JSON Content als String an.
 	String content3 = "{'description':'Neues Test-Achievement Update','name':'Achievement9 Update','url':'/achievements/9'}";
@@ -327,10 +327,10 @@ public class AchievementsResourceTest extends JerseyTest{
 	ClientResponse response2 = r.path("achievements/9").type(MediaType.APPLICATION_JSON).put(ClientResponse.class,content3);
 	
 	// teste, ob der spezifizierte HTTP Status 201 (Created) zurückgeliefert wurde.
-	assertEquals(response2.getStatus(), Status.CREATED.getStatusCode());
+	assertEquals(Status.CREATED.getStatusCode(), response2.getStatus());
 	
 	ClientResponse response3 = r.path("achievements/9").delete(ClientResponse.class);
-    assertEquals(response3.getStatus(), Status.OK.getStatusCode());
+    assertEquals(Status.OK.getStatusCode(), response3.getStatus());
 	
 
 	}
