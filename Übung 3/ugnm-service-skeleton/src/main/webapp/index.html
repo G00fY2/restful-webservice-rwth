@@ -1,887 +1,527 @@
 <html>
 <head>
 
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
-        <link rel="stylesheet" href="./css/jquery.tooltip.css" type="text/css" media="all" />
-        <style type="text/css">
-                * { 
-                        color: black; 
-                        font-family: Verdana;
-                        sans-serif; 
-                        font-size: 11pt;
-                }
+	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="./css/jquery.tooltip.css" type="text/css" media="all" />
+	<style type="text/css">
+		* { 
+			color: black; 
+			font-family: Verdana;
+			sans-serif; 
+			font-size: 9pt;
+		}
+		
+		body { font: 1em "Trebuchet MS", verdana, arial, sans-serif; font-size: 100%; }
+		input, textarea { font-family: Arial; font-size: 125%; padding: 7px; }
+		label { display: block; } 
+
+		.infiniteCarousel {
+		  width: 395px;
+		  position: relative;
+		}
+
+		.infiniteCarousel .wrapper {
+		  width: 315px; /* .infiniteCarousel width - (.wrapper margin-left + .wrapper margin-right) */
+		  overflow: auto;
+		  min-height: 10em;
+		  margin: 0 40px;
+		  position: absolute;
+		  top: 0;
+		}
+
+		.infiniteCarousel ul img {
+		  border: 5px solid #000;
+		  -moz-border-radius: 5px;
+		  -webkit-border-radius: 5px;
+		  
+		}
+
+		.infiniteCarousel .wrapper ul {
+		  width: 9999px;
+		  list-style-image:none;
+		  list-style-position:outside;
+		  list-style-type:none;
+		  margin:0;
+		  padding:0;
+		  position: absolute;
+		  top: 0;
+		}
+
+		.infiniteCarousel ul li {
+		  display:block;
+		  float:left;
+		  padding: 10px;
+		  height: 85px;
+		  width: 85px;
+		}
+
+		.infiniteCarousel ul li img {
+		  display:block;
+		}
+
+		.infiniteCarousel .arrow {
+		  display: block;
+		  height: 37px;
+		  width: 36px;
+		  background: url(media/arrow.png) no-repeat 0 0;
+		  text-indent: -999px;
+		  position: absolute;
+		  top: 37px;
+		  cursor: pointer;
+		}
+
+		.infiniteCarousel .forward {
+		  background-position: 0 0;
+		  right: 0;
+		}
+
+		.infiniteCarousel .back {
+		  background-position: 0 -72px;
+		  left: 0;
+		}
+
+		.infiniteCarousel .forward:hover {
+		  background-position: 0 -36px;
+		}
+
+		.infiniteCarousel .back:hover {
+		  background-position: 0 -108px;
+		}
+		
+		#users {
+			position: absolute;
+			top: 50px;
+			right: 20px;
+		}
+		
+		#rate {
+			width: 600px;
+		}
+		
+		#rate-image {
+			height: 300px;
+		}
+		
+		
+		
+	</style>
+	
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="./javascript/jquery.base64.js"></script>
+	<script type="text/javascript" src="./javascript/jquery.tooltip.js"></script>
+	<script type="text/javascript" src="./javascript/fmds.js"></script>
+	
+	<script type="text/javascript">
                 
-                body { font: 1em "Trebuchet MS", verdana, arial, sans-serif; font-size: 100%; }
-                input, textarea { font-family: Arial; font-size: 125%; padding: 7px; }
-                label { display: block; }                   
+	var fmd;
+	
+	var cmedium;
+	
+	$.fn.infiniteCarousel = function () {
 
-                .infiniteCarousel {
-                  width: 395px;         
-                  position: relative;
-                        }
+		function repeat(str, num) {
+			return new Array( num + 1 ).join( str );
+		}
+	  
+		return this.each(function () {
+			var $wrapper = $('> div', this).css('overflow', 'hidden'),
+				$slider = $wrapper.find('> ul'),
+				$items = $slider.find('> li'),
+				$single = $items.filter(':first'),
+				
+				singleWidth = $single.outerWidth(), 
+				visible = Math.ceil($wrapper.innerWidth() / singleWidth), // note: doesn't include padding or border
+				currentPage = 1,
+				pages = Math.ceil($items.length / visible);            
 
-                .infiniteCarousel .wrapper {
-                  width: 315px; /* .infiniteCarousel width - (.wrapper margin-left + .wrapper margin-right) */
-                  overflow: auto;
-                  min-height: 10em;
-                  margin: 0 40px;
-                  position: absolute;
-                  top: 0;              
-                }
-        
-                .infiniteCarousel ul img {
-                  border: 5px solid #000;       
-                  -moz-border-radius: 5px;
-                  -webkit-border-radius: 5px;                     
-                }
 
-                .infiniteCarousel .wrapper ul {
-                  width: 9999px;        
-                  list-style-image:none;
-                  list-style-position:outside;
-                  list-style-type:none;
-                  margin:0;
-                  padding:0;
-                  position: absolute;
-                  top: 0;
-                }
+			// 1. Pad so that 'visible' number will always be seen, otherwise create empty items
+			if (($items.length % visible) != 0) {
+				$slider.append(repeat('<li class="empty" />', visible - ($items.length % visible)));
+				$items = $slider.find('> li');
+			}
 
-                .infiniteCarousel ul li {
-                  display:block;
-                  float:left;
-                  padding: 10px;
-                  height: 85px;
-                  width: 85px;
-                }
+			// 2. Top and tail the list with 'visible' number of items, top has the last section, and tail has the first
+			$items.filter(':first').before($items.slice(- visible).clone().addClass('cloned'));
+			$items.filter(':last').after($items.slice(0, visible).clone().addClass('cloned'));
+			$items = $slider.find('> li'); // reselect
+			
+			// 3. Set the left position to the first 'real' item
+			$wrapper.scrollLeft(singleWidth * visible);
+			
+			// 4. paging function
+			function gotoPage(page) {
+				var dir = page < currentPage ? -1 : 1,
+					n = Math.abs(currentPage - page),
+					left = singleWidth * dir * visible * n;
+				
+				$wrapper.filter(':not(:animated)').animate({
+					scrollLeft : '+=' + left
+				}, 500, function () {
+					if (page == 0) {
+						$wrapper.scrollLeft(singleWidth * visible * pages);
+						page = pages;
+					} else if (page > pages) {
+						$wrapper.scrollLeft(singleWidth * visible);
+						// reset back to start position
+						page = 1;
+					} 
 
-                .infiniteCarousel ul li img {
-                  display:block;
-                }
-
-                .infiniteCarousel .arrow {
-                  display: block;
-                  height: 37px;
-                  width: 36px;
-                  background: url(media/arrow.png) no-repeat 0 0;
-                  text-indent: -999px;
-                  position: absolute;
-                  top: 37px;               
-                  cursor: pointer;
-                }
-
-                .infiniteCarousel .forward {
-                  background-position: 0 0;
-                  right: 0;
-                }
-
-                .infiniteCarousel .back {
-                  background-position: 0 -72px;
-                  left: 0;
-                }
-
-                .infiniteCarousel .forward:hover {
-                  background-position: 0 -36px;
-                }
-
-                .infiniteCarousel .back:hover {
-                  background-position: 0 -108px;
-                }
+					currentPage = page;
+				});                
+				
+				return false;
+			}
+			
+			$wrapper.after('<a class="arrow back">&lt;</a><a class="arrow forward">&gt;</a>');
+			
+			// 5. Bind to the forward and back buttons
+			$('a.back', this).click(function () {
+				return gotoPage(currentPage - 1);                
+			});
+			
+			$('a.forward', this).click(function () {
+				return gotoPage(currentPage + 1);
+			});
+			
+			// create a public interface to move to a specific page
+			$(this).bind('goto', function (event, page) {
+				gotoPage(page);
+			});
+		});  
+	};
                 
-                table.main td{
-                        border: 0;
-                        background-color: A6A5A5;
-                        text-align: center;
-                        padding:0;
-                        spacing:0;
-                }
+	function updateUsers() {
+		fmd.getUsers(function(users){
+			var ol = $("<ol></ol>").attr({"id":"userlist"});
+			for(i in users){
+				var usr = users[i];
+				var li =  $("<li></li>").append("<span>" + usr.xp + "XP</span> - <span>" + usr.username + "</span>");
+				ol.append(li);
+			}
+			$("#users").html(ol);
+		});
+	}
+	
+	function updateMedia() {
+		fmd.getMedia(function(media){
+			var ul = $("<ul></ul>");
+			var ct = 0;
+			for(i in media){
+				var med = media[i];
+				
+				fmd.getMediaRatings(med,function(m, ratings){
+				
+					var titleValue = "URL: " + m.url + "\nDescription: " + m.description +"\nRatings:";
+					
+					var count = ratings.length;
+					var realCount = 0;
+					
+					for(j in ratings){
+						var r = ratings[j];
+						if (r.rating === 1) {
+							realCount++;
+						}
+					}
+					
+					titleValue += realCount + "/" + count;
+					
+					console.log(titleValue);
+					
+					var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + m.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
+						cmedium = m;
+						$("#rate-image").html("<img src='" + m.url + "' height='300' alt='" + titleValue + "' />");
+					});
+					ul.append(li);
+					
+					if(ct == media.length-1){
+						$("#medialist").html(ul);
+						$('.infiniteCarousel').infiniteCarousel();
+					}
+					ct++;
+					console.log("============================================================");
+				});
+			
+			}
+			
+		});
+	}
+	
+	function updateStatus(){
+		if(fmd.isLoggedIn()){
+			$("#username").html(fmd._uid);
+			
+			$("#loginb").hide();
+			$("#logoutb").show();
+			$("#registerb").hide();
+			
+		} else {
+			$("#username").html("");
+			$("#loginb").show();
+			$("#logoutb").hide();
+			$("#registerb").show();
+		}
+	}
+	
+	function init() {
+		
+		fmd = new FmdClient("http://127.0.0.1:8080/ugnm-service/resources/");
+		
+		// load all users and display in a list
+		updateStatus();
+		updateUsers();
+		updateMedia();
+		
+		$("#dialog-login" ).dialog({
+			autoOpen: false,
+			height: 200,
+			width: 350,
+			modal: true,
+			buttons: {
+				"Login": function() {
+					var that = $(this);
+					fmd.login(
+						$("#login-email").val(),
+						$("#login-password").val(),
+						function(result){
+							console.log("Login Result: " + result);
+							if(result){
+								that.dialog("close");
+								updateStatus();
+							}
+						});
+				},
+				Cancel: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+		
+		$("#signup-login").focusout(function(){
+			fmd.isRegistered($("#signup-email").val(),function(result){
+				if(result){
+					updateTips( "User " + $("#signup-email").val() + " already exists!");
+					$("#signup-email").addClass( "ui-state-error" );
+				} else {
+					updateTips( "E-Mail " + $("#signup-email").val() + " available.");
+					$("#signup-email").removeClass( "ui-state-error" );
+				}
+			});
+		});
+		
+		$( "#dialog-signup" ).dialog({
+			autoOpen: false,
+			height: 250,
+			width: 450,
+			modal: true,
+			buttons: {
+				"Sign Up": function() {
+				
+					var that = $(this);
+					var bValid = true;
+					
+					$("#signup-username").removeClass("ui-state-error");
+					$("#signup-email").removeClass("ui-state-error");
+					$("#signup-name").removeClass("ui-state-error");
+					$("#signup-password").removeClass("ui-state-error");
+					
+					bValid = bValid && checkLength( $("#signup-username"), "username", 6, 80 );
+					bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
+					bValid = bValid && checkLength( $("#signup-username"), "name", 6, 80 );
+					bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
+
+
+					bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+					bValid = bValid && checkRegexp( $("#signup-email"), /^[a-z]([0-9a-z_])+$/i, "Login may consist of a-z, 0-9, underscores, begin with a letter." );
+					bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Name may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+					bValid = bValid && checkRegexp( $("#signup-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+
+					if ( bValid ) {
+						
+						// POST form data to resource /users
+						fmd.signup( $("#signup-email").val(), $("#signup-username").val(), $("#signup-name").val(), $("#signup-password").val(), function(result){
+							if(result.status == "created"){
+								updateTips( "User " + $("#signup-email").val() + " successfully created");
+								that.dialog("close");
+								updateUsers();
+							} else if( result.status == "conflict"){
+								updateTips( "User " + $("#signup-email").val() + " already exists!");
+								$("#signup-email").addClass( "ui-state-error" );
+							}
+						});
+					}
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				$("#signup-username").removeClass("ui-state-error");
+				$("#signup-email").removeClass("ui-state-error");
+				$("#signup-name").removeClass("ui-state-error");
+				$("#signup-password").removeClass("ui-state-error");
+			}
+		});
+	});
+	
+	$( "#loginb" ).button().click(function() {
+		$( "#dialog-login" ).dialog("open");
+	});
+	
+	$( "#registerb" ).button().click(function() {
+		$( "#dialog-signup" ).dialog("open");
+	});
+	
+	$( "#logoutb" ).button().click(function() {
+		fmd.logout();
+		updateStatus();
+	});
+	
+	$( "#fakeb" ).button().click(function() {
+		console.log(cmedium.id + " is a Fake");
+		fmd.rateMedium(cmedium,0,function(result){
+			if(result.status == "rated"){
+				updateMedia();
+				updateUsers();
+			} else {
+				alert(result.status);
+			}
+		});
+	});
+	
+	$( "#trueb" ).button().click(function() {
+		console.log(cmedium.id + " is Authentic");
+		fmd.rateMedium(cmedium,1,function(result){
+			if(result.status == "rated"){
+				updateMedia();
+				updateUsers();
+			} else {
+				alert(result.status);
+			}
+		});
+	});
+	
+}
+                        
+function updateTips( t ) {
+	$("#signup-tips").text( t ).addClass( "ui-state-highlight" );
+	setTimeout(function() {
+		$("#signup-tips").removeClass( "ui-state-highlight", 1500 );
+	}, 500 );
+}
+
+function checkLength( o, n, min, max ) {
+	if ( o.val().length > max || o.val().length < min ) {
+		o.addClass( "ui-state-error" );
+		updateTips( "Length of " + n + " must be between " +
+			min + " and " + max + "." );
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function checkRegexp( o, regexp, n ) {
+	if ( !( regexp.test( o.val() ) ) ) {
+		o.addClass( "ui-state-error" );
+		updateTips( n );
+		return false;
+	} else {
+		return true;
+	}
+}
+
+$(document).ready(init);
                 
-                table.main{
-                         border-collapse: collapse;
-                         border-color: A6A5A5;
-                         width:100%;
-                }
-                
-                
-				#users {
-				position: absolute;
-				top: 50px;
-				right: 20px;
-				}               
-                
-                                
-                #rate {
-                        width: 600px;
-                }
-                
-                #rate-image {           
-                        height: 300px;
-                        text-align: center;     
-                }
-                             
-                #top10 {                 
-                        text-align: center;                     
-                } 
-                
-                        
-                #media {                
-                        text-align: center;                     
-                } 
-                
-                #achieve {      
-                        width:100%;
-                        text-align: center;                                             
-                }
-                                
-                #truefakeb {               
-                        text-align: center;                     
-                } 
-                
-        </style>
-        
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="./javascript/jquery.base64.js"></script>
-        <script type="text/javascript" src="./javascript/jquery.tooltip.js"></script>
-        <script type="text/javascript" src="./javascript/fmds.js"></script>
-        
-        <script type="text/javascript">
-                
-                var fmd;
-                
-                var cmedium;
-                $.fn.infiniteCarousel = function () {
-
-                        function repeat(str, num) {
-                                return new Array( num + 1 ).join( str );
-                        }
-                  
-                        return this.each(function () {
-                                var $wrapper = $('> div', this).css('overflow', 'hidden'),
-                                        $slider = $wrapper.find('> ul'),
-                                        $items = $slider.find('> li'),
-                                        $single = $items.filter(':first'),
-                                        
-                                        singleWidth = $single.outerWidth(), 
-                                        visible = Math.ceil($wrapper.innerWidth() / singleWidth), // note: doesn't include padding or border
-                                        currentPage = 1,
-                                        pages = Math.ceil($items.length / visible);            
-
-
-                                // 1. Pad so that 'visible' number will always be seen, otherwise create empty items
-                                if (($items.length % visible) != 0) {
-                                        $slider.append(repeat('<li class="empty" />', visible - ($items.length % visible)));
-                                        $items = $slider.find('> li');
-                                }
-
-                                // 2. Top and tail the list with 'visible' number of items, top has the last section, and tail has the first
-                                $items.filter(':first').before($items.slice(- visible).clone().addClass('cloned'));
-                                $items.filter(':last').after($items.slice(0, visible).clone().addClass('cloned'));
-                                $items = $slider.find('> li'); // reselect
-                                
-                                // 3. Set the left position to the first 'real' item
-                                $wrapper.scrollLeft(singleWidth * visible);
-                                
-                                // 4. paging function
-                                function gotoPage(page) {
-                                        var dir = page < currentPage ? -1 : 1,
-                                                n = Math.abs(currentPage - page),
-                                                left = singleWidth * dir * visible * n;
-                                        
-                                        $wrapper.filter(':not(:animated)').animate({
-                                                scrollLeft : '+=' + left
-                                        }, 500, function () {
-                                                if (page == 0) {
-                                                        $wrapper.scrollLeft(singleWidth * visible * pages);
-                                                        page = pages;
-                                                } else if (page > pages) {
-                                                        $wrapper.scrollLeft(singleWidth * visible);
-                                                        // reset back to start position
-                                                        page = 1;
-                                                } 
-
-                                                currentPage = page;
-                                        });                
-                                        
-                                        return false;
-                                }
-                                
-                                $wrapper.after('<a class="arrow back">&lt;</a><a class="arrow forward">&gt;</a>');
-                                
-                                // 5. Bind to the forward and back buttons
-                                $('a.back', this).click(function () {
-                                        return gotoPage(currentPage - 1);                
-                                });
-                                
-                                $('a.forward', this).click(function () {
-                                        return gotoPage(currentPage + 1);
-                                });
-                                
-                                // create a public interface to move to a specific page
-                                $(this).bind('goto', function (event, page) {
-                                        gotoPage(page);
-                                });
-                        });  
-                };
-                
-                   function updateUsers() {             
-               fmd.getUsers(function(users){
-                       var ol = $("<ol></ol>").attr({"id":"userlist"});
-                       for(i in users){
-                               var usr = users[i];
-                               
-                               fmd.getUser(usr, function(user){
-                                       var li =  $("<li></li>").append("<span>" + user.ep + "XP</span> - <span>" + user.username + "</span>");
-                                       ol.append(li);
-                               });
-                               
-                       }
-                       $("#users").html(ol);
-               });
-       }
-
-                   
-           		function updateMedia() {
-        			fmd.getMedia(function(media){
-        				var ul = $("<ul></ul>");
-        				var ct = 0;
-        				for(i in media){
-        					var med = media[i];
-        					
-        					fmd.getRates(med,function(m, rates){
-        					
-        						var titleValue = "URL: " + m.url + "\nDescription: " + m.description +"\nRatings:";
-        						
-        						var count = ratings.length;
-        						var realCount = 0;
-        						
-        						for(j in ratings){
-        							var r = ratings[j];
-        							if (r.rating === 1) {
-        								realCount++;
-        							}
-        						}
-        						
-        						titleValue += realCount + "/" + count;
-        						
-        						console.log(titleValue);
-        						
-        						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + m.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
-        							cmedium = m;
-        							$("#rate-image").html("<img src='" + m.url + "' height='300' alt='" + titleValue + "' />");
-        						});
-        						ul.append(li);
-        						
-        						if(ct == media.length-1){
-        							$("#medialist").html(ul);
-        							$('.infiniteCarousel').infiniteCarousel();
-        						}
-        						ct++;
-        						console.log("============================================================");
-        					});
-        				
-        				}
-        				
-        			});
-        		}
-                 
-                function init() {                       
-                        fmd = new FmdClient("http://127.0.0.1:8080/ugnm-service/resources/");
-                        
-
-                        updateStatus();                 
-                        updatetop10();
-                        
-
-                        $("#dialog-login" ).dialog({
-                                autoOpen: false,
-                                height: 300,
-                                width: 350,
-                                modal: true,
-                                buttons: {
-                                        "Login": function() {
-                                                var that = $(this);
-                                                fmd.login(
-                                                        $("#login-email").val(),
-                                                        $("#login-password").val(),
-                                                        function(result){
-                                                                console.log("Login Result: " + result);
-                                                                if(result){
-                                                                        that.dialog("close");
-                                                                        updateStatus();
-                                                                }
-                                                        });
-                                        },
-                                        Cancel: function() {
-                                                $(this).dialog("close");
-                                        }
-                                }
-                        });
-                      
-
-                        $("#signup-email").focusout(function(){
-                                fmd.isRegistered($("#signup-email").val(),function(result){
-                                        if(result){
-                                                updateTips( "User " + $("#signup-email").val() + " already exists!");
-                                                $("#signup-email").addClass( "ui-state-error" );
-                                        } else {
-                                                updateTips( "E-Mail " + $("#signup-email").val() + " available.");
-                                                $("#signup-email").removeClass( "ui-state-error" );
-                                        }
-                                });
-                        });
-                        
-                        $( "#dialog-signup" ).dialog({
-                                autoOpen: false,
-                                height: 400,
-                                width: 400,
-                                modal: true,
-                                buttons: {
-                                        "Sign Up": function() {
-                                        
-                                                var that = $(this);
-                                                var bValid = true;
-                                                
-                                                $("#signup-username").removeClass("ui-state-error");
-                                                $("#signup-email").removeClass("ui-state-error");
-                                                $("#signup-name").removeClass("ui-state-error");
-                                                $("#signup-password").removeClass("ui-state-error");
-                                                
-                                                bValid = bValid && checkLength( $("#signup-username"), "username", 6, 80 );
-                                                bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
-                                                bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
-                                                bValid = bValid && checkLength( $("#signup-name"), "name", 6, 80 );
-
-                                                bValid = bValid && checkRegexp( $("#signup-email"), /^([A-Za-z_.])[^@]+@.+\.[^.]+$/i, "Mail may consist of a-z, 0-9, underscores, must contain @ and end with a domain." );
-                                                bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
-                                                bValid = bValid && checkRegexp( $("#signup-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-                                                bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Password field only allow : a-z 0-9" );
-
-                                                if ( bValid ) {                                                 
-
-                                                        fmd.signup( $("#signup-email").val(), $("#signup-username").val(), $("#signup-name").val(),$("#signup-password").val(), function(result){
-                                                                if(result.status == "created"){
-                                                                	updateTips( "User " + $("#signup-email").val() + " successfully created");
-                                                               		that.dialog("close");
-                                                                } else if( result.status == "conflict"){
-                                                                        updateTips( "User " + $("#signup-email").val() + " already exists!");
-                                                                        $("#signup-email").addClass( "ui-state-error" );
-                                                                }                                                       
-                                                        });
-                                                }
-                                        },
-                                        Cancel: function() {
-                                                $( this ).dialog( "close" );
-                                        }
-                                },
-                                close: function() {
-                                        $("#signup-username").removeClass("ui-state-error");
-                                        $("#signup-email").removeClass("ui-state-error");
-                                        $("#signup-password").removeClass("ui-state-error");
-                                        $("#signup-name").removeClass("ui-state-error");
-                                }
-                        });
-                        
-                        function getCollects() { 
-                            fmd.getCollects(function(collectList){
-                                    var ol = $("<ol></ol>").attr({"id":"userlist"});
-
-                                    for(i in collectList){
-                                            var a = collectList[i];
-                                            
-                                            fmd.getAchievements(a, function(achievementUri){
-                                                    var aU = achievementUri;
-                                                    fmd.getAchievement(aU, function(achievement){
-                                                            
-                                    var li =  $("<li></li>").append("<span>ID: " + achievement.id + "</span> - <span>Name: " + achievement.name + 
-                                                    "</span> - <span>Description: " + achievement.description + "<img src=\""+achievement.url+"\">");
-                                    ol.append(li);
-                                    
-                                                    });
-                                            });
-                                    }
-                                    $("#achievements").html(ol);
-                            });
-                    }
-                        
-                       $( "#dialog-UpdateProfile" ).dialog({
-                                autoOpen: false,
-                                height: 350,
-                                width: 450,
-                                modal: true,
-                                buttons: {
-                                        "Change": function() {
-                                        
-                                                var that = $(this);
-                                                var bValid = true;
-                                                
-                                                $("#updateUsername").removeClass("ui-state-error");
-                                                $("#updatePasswordNew").removeClass("ui-state-error");
-                                                
-                                                bValid = bValid && checkLength( $("#updateUsername"), "username", 6, 80 );                  
-                                                bValid = bValid && checkLength( $("#updatePasswordOld"), "password", 6, 20 );
-                                                bValid = bValid && checkLength( $("#updatePasswordNew"), "password", 6, 20 );
-
-                                                bValid = bValid && checkRegexp( $("#updateUsername"), /^[A-Za-z]([A-Za-z ])+$/i, "Userame may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
-                                                bValid = bValid && checkRegexp( $("#updatePasswordOld"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );           
-                                                bValid = bValid && checkRegexp( $("#updatePasswordNew"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-                                                
-                                                if ( bValid ) {                                                 
-                                                   
-                                                        fmd.updateProfile( $("#updateUsername").val(), $("#updatePasswordOld").val(), $("#updatePasswordNew").val(), function(result){      
-                                                                if(result.status == "created"){                                                                                                                                                                                                 
-                                                                        updateTips( "User " + $("#updateUsername").val() + " successfully changed. Please close the dialog");               
-                                                                } 
-                                                        });
-                                                }
-                                                
-                                        },
-                                        Cancel: function() {
-                                                $( this ).dialog( "close" );
-                                        }
-                                },
-                                close: function() {
-                                 	   $("#signup-username").removeClass("ui-state-error");
-                                        $("#signup-email").removeClass("ui-state-error");
-                                        $("#signup-password").removeClass("ui-state-error");
-                                }
-                        });
-
-
-                        $("#dialog-Guide" ).dialog({
-                                autoOpen: false,
-                                height: 250,
-                                width: 400,
-                                modal: true,
-                                buttons: {
-                                                OK: function() {
-                                                $(this).dialog("close");
-                                        }
-                                }
-                        });
-                        
-                                        
-                                                       
-                        $( "#Guideb" ).button().click(function() {
-                                $( "#dialog-Guide" ).dialog("open");
-                        });
-                                                
-                        $( "#Gameb" ).button().click(function() {
-                            endless = Boolean(true);
-                            updateGame();
-                            updateMedia();                          
-                    });
-                        
-                        $( "#top10b" ).button().click(function() {                              
-                                top10 = Boolean(false);
-                                updateUsers();
-                                updatetop10();                          
-                        });
-                        
-                        $( "#backb" ).button().click(function() {                               
-                                top10 = Boolean(true);                          
-                                updatetop10();
-                                updateStatus();
-                        });
-                        
-                        
-                        $( "#loginb" ).button().click(function() {
-                                $( "#dialog-login" ).dialog("open");
-                        });
-                        
-                        $( "#registerb" ).button().click(function() {
-                                $( "#dialog-signup" ).dialog("open");
-                        });
-                        
-                        $( "#updateb" ).button().click(function() {
-                                $( "#dialog-UpdateProfile" ).dialog("open");
-                        });
-                        
-                        $( "#viewb" ).button().click(function() {
-                                view = Boolean(true);                           
-                                updateview();
-                                getAchievements();
-                        });                     
-                        
-                        $( "#myProfile" ).button().click(function() {
-                                fmd.logout();
-                                updateStatus();
-                        });
-                        
-                        $( "#logoutb" ).button().click(function() {
-                                fmd.logout();
-                                updateStatus();
-                                updateGameMode()                                
-                        });
-                        
-                        $( "#fakeb" ).button().click(function() {
-                                console.log(cmedium.id + " is a Fake");
-                                fmd.rateMedium(cmedium,false,function(result){
-                                        if(result.status == "rated"){
-                                                updateMedia();
-                                                updateGame();
-                                        } else {
-                                                alert(result.status);
-                                        }
-                                });
-                        });
-                        
-                        $( "#trueb" ).button().click(function() {
-                                console.log(cmedium.id + " is Authentic");
-                                fmd.rateMedium(cmedium,true,function(result){
-                                        if(result.status == "rated"){
-                                                updateMedia();
-                                                updateGame();
-                                        } else {
-                                                alert(result.status);
-                                        }
-                                });
-                        });
-                
-                }
-                
-                function updateTips( t ) {
-                        $("#signup-tips").text( t ).addClass( "ui-state-highlight" );
-                        setTimeout(function() {
-                                $("#signup-tips").removeClass( "ui-state-highlight", 1500 );
-                        }, 500 );
-                }
-                
-                function checkLength( o, n, min, max ) {
-                        if ( o.val().length > max || o.val().length < min ) {
-                                o.addClass( "ui-state-error" );
-                                updateTips( "Length of " + n + " must be between " +
-                                        min + " and " + max + "." );
-                                return false;
-                        } else {
-                                return true;
-                        }
-                }
-
-                function checkRegexp( o, regexp, n ) {
-                        if ( !( regexp.test( o.val() ) ) ) {
-                                o.addClass( "ui-state-error" );
-                                updateTips( n );
-                                return false;
-                        } else {
-                                return true;
-                        }
-                }
-                
-                        game = new Boolean(true);                    
-                        function updateGame(){
-                                if(game == true){    
-                                        $("#top10b").hide();                                            
-                                        $("#username").html(fmd._uid);                          
-                                        $("#loginb").hide();
-                                        $("#logoutb").hide();
-                                        $("#registerb").hide();                         
-                                        $("#updateb").hide();           
-                                        $("#viewb").hide();     
-                                        $("#Gameb").hide();                           
-                                        $("#indexPicture").hide();
-                                        $("#indexPicture2").hide();
-                                        $("#users").hide();     
-                                        $("#Guideb").show();
-                                        $("#trueb").show();     
-                                        $("#fakeb").show();
-                                        $("#rate-image").show();        
-                                        $("#media").show();
-                                        $("#slogan").hide();  
-                                        $("#achieve").hide();
-                                        $("#backb").show();
-                                        
-                                } else {                                
-                                        $("#top10b").hide();
-                                        $("#users").show();                     
-                                        $("#username").html(fmd._uid);                          
-                                        $("#loginb").show();
-                                        $("#logoutb").show();
-                                        $("#registerb").show();                         
-                                        $("#updateb").hide();                                                   
-                                        $("#Guideb").show();
-                                        $("#Gameb").show();                          
-                                        $("#indexPicture").hide(); 
-                                        $("#indexPicture2").hide();
-                                        $("#trueb").hide();
-                                        $("#fakeb").hide();
-                                        $("#rate-image").hide();
-                                        $("#media").hide();
-                                        $("#slogan").hide();  
-                                        $("#achieve").hide();                                   
-                                }
-                        }
-                        
-                        view = new Boolean(true);                               
-                        function updateview(){  
-                                if(view == true){       
-                                        $("#username").html(fmd._uid);  
-                                        $("#updateb").show();
-                                        $("#achivements").show();                             
-                                        $("#viewb").hide();
-                                        $("#top10b").hide();
-                                        $("#users").hide();
-                                        $("#top10").hide();                                                                      
-                                        $("#loginb").hide();
-                                        $("#logoutb").hide();
-                                        $("#registerb").hide();                                 
-                                        $("#Guideb").hide();
-                                        $("#Gameb").hide();                                                      
-                                        $("#indexPicture").hide();
-                                        $("#indexPicture2").hide();
-                                        $("#trueb").hide();             
-                                        $("#fakeb").hide();
-                                        $("#rate-image").hide();
-                                        $("#achieve").show();  
-                                        $("#backb").show();
-                                        $("#slogan").hide();  
-                                } else {
-                                        $("#top10b").hide();
-                                        $("#slogan").show();  
-                                                                                                                        
-                                }
-                        }
-                        
-                        top10 = new Boolean(true);                              
-                        function updatetop10(){
-                                if(top10 == true){
-                                        $("#top10b").hide();
-                                        $("#top10").hide();                                                              
-                                        $("#backb").hide();                                                             
-                                        $("#loginb").show();                            
-                                        $("#registerb").show();                                                 
-                                        $("#Guideb").show();
-                                        $("#users").hide();                     
-                                        $("#viewb").hide();     
-                                        $("#rate-image").hide();
-                                        $("#achieve").hide(); 
-                                        $("#slogan").show();  
-                                } else {
-                                        $("#top10b").hide();
-                                        $("#users").show();
-                                        $("#top10").show();
-                                        $("#username").html(fmd._uid);                          
-                                        $("#loginb").hide();
-                                        $("#logoutb").hide();
-                                        $("#registerb").hide();                         
-                                        $("#updateb").hide();           
-                                        $("#viewb").hide();     
-                                        $("#Guideb").hide();
-                                        $("#Gameb").hide();                            
-                                        $("#indexPicture").hide();
-                                        $("#indexPicture2").hide();
-                                        $("#trueb").hide();                             
-                                        $("#fakeb").hide();
-                                        $("#rate-image").hide();        
-                                        $("#achieve").hide();
-                                        $("#backb").show();
-                                        $("#slogan").hide();  
-                                }
-                        }
-                        
-                        function updateStatus(){
-                                if(fmd.isLoggedIn()){
-                                        $("#username").html(fmd._uid);  
-                                        $("#top10").hide();
-                                        $("#achivements").hide();                               
-                                        $("#loginb").hide();
-                                        $("#logoutb").show();
-                                        $("#registerb").hide();                         
-                                        $("#updateb").hide();                           
-                                        $("#viewb").show();  
-                                        $("#backb").hide();
-                                        $("#Guideb").show();                              
-                                        $("#Gameb").show();                           
-                                        $("#indexPicture").show();   
-                                        $("#indexPicture2").show();
-                                        $("#trueb").hide();
-                                        $("#fakeb").hide();
-                                        $("#rate-image").hide();
-                                        $("#media").hide(); 
-                                        $("#slogan").show();  
-                                		$("#top10b").show();
-
-                                } else {
-                                		$("#top10b").hide();
-                                        $("#username").html("");
-                                        $("#loginb").show();
-                                        $("#logoutb").hide();
-                                        $("#achivements").hide();
-                                        $("#registerb").show();
-                                        $("#updateb").hide();
-                                        $("#viewb").hide();     
-                                        $("#Guideb").show();
-                                        $("#Gameb").hide();       
-                                        $("#trueb").hide();
-                                        $("#fakeb").hide();
-                                        $("#top10").hide();              
-                                        $("#indexPicture").show();
-                                        $("#indexPicture2").show();
-                                        $("#rate-image").hide();
-                                        $("#media").hide();
-                                        $("#slogan").show();  
-                                }
-                        }               
-                
-                $(document).ready(init);
-                
-        </script>
+	</script>
 </head>
 
 <body>
-<table class="main">
-  <tr>
-    <td style="height:62pt" >
-      <b>UGNM Group 4 - Fake Media Detection </b>
-  </tr>
-</table>
-</br>
-<!-- BUTOONS -->
+<h2>UGNM Group 4 - Fake Media Detection Game</h2>
 
 <div id="profile">
-        <span id="username"></span>     
-        <span id="profile-buttons">
-        		<button id="registerb">Register</button>
-                <button id="Gameb" >Game</button>  
-                <button id="Guideb">Guide</button>
-                <button id="loginb">Login</button>
-                <button id="logoutb">Logout</button>
-                <button id="updateb">Change Profile</button>
-                <button id="viewb">Profile</button> 
-                <button id="top10b" >Top 10</button>        
-                <button id="backb" >Back</button>   
-        </span>
+	<span id="username"></span>
+	<span id="achievements"></span>
+	<span id="profile-buttons">
+		<button id="loginb">Login</button>
+		<button id="logoutb">Logout</button>
+		<button id="registerb">Register</button>
+	</span>
 </div>
-</br>
 
+<br/>
 
-<div id = "achieve">
-        <p>Your Achievements: </p>
-        <span id="achievements"></span>         
+<div id="rate">
+	<center>
+	<div id="rate-image"></div><br/>
+	<button id="trueb" >True</button>
+	<button id="fakeb" >Fake</button>
+	</center>
 </div>
-<!-- STARTBANNER + TEXT -->
-<div align = "center">
-<img id = "indexPicture" src = "media/index.jpeg"></img>
-<div id = "slogan">
-<p>True or Fake? Its your choise..</p>
-<span id="slogan"></span>         
-</div>
-<img id = "indexPicture2" src = "media/index2.jpeg"></img>
-</br>
-</div>
-  
 
-<!-- GAMEMENU -->
 <div id="media">
-<p> True or Fake? Its your choise.. </p>
-        <div class="infiniteCarousel">
-      <div id="medialist" class="wrapper">        
+	<div class="infiniteCarousel">
+      <div id="medialist" class="wrapper">
+        
       </div>
-    </div>      
- </div>
- 
-<div id="rate-image"> </div>    
-  
-<div id="truefakeb">       
-                <button id="trueb">True</button>
-                <button id="fakeb" >Fake</button>
+    </div>
 </div>
 
-<!--- TOP10 --->
-<div align="center">
-        <p id="top10" >User - TOP 10: </p>
-        <p id="users"></p>
-</div>
-
-<!----TEXT-->-
-
-
-<div id="dialog-Guide" title="How-to-Play Guide:">
-        <label for="first">This game is made to rate fake pictures. If you rate a picture correctly, you get EP and in some special cases Achievements.</label>
-</div>
+<div id="users"></div>
 
 <div id="dialog-login" title="Login">
-        <form>
-                <fieldset>
-                        <label for="login-email">E-Mail:</label>
-                        <input type="text" id="login-email" value="" class="text ui-widget-content ui-corner-all" /><br/>
-                        <label for="login-password">Password:</label>
-                        <input type="password" id="login-password" value="" class="text ui-widget-content ui-corner-all" /><br/>
-                </fieldset>
-        </form>
+	<form>
+		<fieldset>
+			<label for="login-email">E-Mail:</label>
+			<input type="text" id="login-email" value="" class="text ui-widget-content ui-corner-all" /><br/>
+			<label for="login-password">Password:</label>
+			<input type="password" id="login-password" value="" class="text ui-widget-content ui-corner-all" /><br/>
+		</fieldset>
+	</form>
 </div>
 
 <div id="dialog-signup" title="Sign Up">
-        <p id="signup-tips" class="validateTips">Registrant Information -</br> All fields required.</p>
-        <form>
-                <fieldset>
-                        <table>
-                                <tr>
-                                        <td>
-                                                <label for="signup-email">E-Mail:</label>
-                                        </td>
-                                        <td>
-                                                <input type="text" id="signup-email" value="" class="text ui-widget-content ui-corner-all" />
-                                        </td>
-                                </tr>
-                                <tr>
-                                        <td>
-                                                <label for="signup-Username">User-Name:</label>
-                                        </td>
-                                        <td>    
-                                                <input type="text" id="signup-username" class="text ui-widget-content ui-corner-all" />
-                                        </td>
-                                </tr>
-                                <tr>
-                                <td>
-                                        <label for="signup-Name">Name:</label>
-                                </td>
-                                <td>    
-                                        <input type="text" id="signup-name" class="text ui-widget-content ui-corner-all" />
-                                </td>
-                        </tr>
-                                <tr>
-                                        <td>
-                                                <label for="signup-password">Password:</label>
-                                        </td>
-                                        <td>
-                                                <input type="password" id="signup-password" value="" class="text ui-widget-content ui-corner-all" />
-                                        </td>
-                                </tr>
-                        </table>
-                </fieldset>
-        </form>
+	<p id="signup-tips" class="validateTips">All form fields are required.</p>
+	<form>
+		<fieldset>
+			<table>
+				<tr>
+					<td>
+						<label for="signup-email">E-Mail:</label>
+					</td>
+					<td>
+						<input type="text" id="signup-email" value="" class="text ui-widget-content ui-corner-all" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="signup-username">User-Name:</label>
+					</td>
+					<td>	
+						<input type="text" id="signup-username" class="text ui-widget-content ui-corner-all" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="signup-name">Name:</label>
+					</td>
+					<td>	
+						<input type="text" id="signup-name" class="text ui-widget-content ui-corner-all" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="signup-password">Password:</label>
+					</td>
+					<td>
+						<input type="password" id="signup-password" value="" class="text ui-widget-content ui-corner-all" />
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
 </div>
 
-<div id="dialog-UpdateProfile" title="Change your Profile">
-        <p id="signup-tips" class="validateTips">Update Information -</br> All fields required.</p>
-        <form>
-                <fieldset>
-                        <table>
-                                <tr>
-                                        <td>
-                                                <label for="signup-username">User-Name (new):</label>
-                                        </td>
-                                        <td>
-                                                <input type="text" id="signup-username" value="" class="text ui-widget-content ui-corner-all" />
-                                        </td>
-                                </tr>
-                        </tr>
-                                <tr>
-                                        <td>
-                                                <label for="signup-password-old">Password (old):</label>
-                                        </td>
-                                        <td>    
-                                                <input type="password" id="signup-password-old" class="text ui-widget-content ui-corner-all" />
-                                        </td>
-                                </tr>
-                                <tr>
-                                        <td>
-                                                <label for="signup-password-new">Password (new):</label>
-                                        </td>
-                                        <td>
-                                                <input type="password" id="signup-password-new" value="" class="text ui-widget-content ui-corner-all" />
-                                        </td>
-                                </tr>
-                        </table>
-                </fieldset>
-        </form>
+</body>
+</html>
