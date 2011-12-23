@@ -8,6 +8,12 @@
  * 
  * @returns {FmdClient}
  */
+
+
+
+
+/** ------------------------ Client ------------------- */
+
 function FmdClient(endpointUrl){
 	
 	// store a couple of central resource URIs for later usage
@@ -15,6 +21,8 @@ function FmdClient(endpointUrl){
 	this._usersResource = this._serviceEndpoint + "users";
 	this._mediaResource = this._serviceEndpoint + "media";
 	this._achievementsResource = this._serviceEndpoint + "achievements";
+	this._collectsResource = this._serviceEndpoint + "collects";
+	this._ratesResource = this._serviceEndpoint + "rates";
 	
 	// since RESTful Web Services are stateless by design, credentials will have to be sent
 	// with every HTTP request requiring authentication. However, users should only provide
@@ -31,6 +39,12 @@ function FmdClient(endpointUrl){
 	
 };
 
+
+
+
+/** ------------------------ "Doing-functions" ------------------- */
+
+
 /**
  * Determines asynchronously, if a user with a given login is registered already.
  * The result parameter in the callback function exhibits a value true, if a user 
@@ -39,6 +53,7 @@ function FmdClient(endpointUrl){
  * @param (String) email
  * @param (function(result)) callback
  */
+
 FmdClient.prototype.isRegistered = function(email, callback){
 	$.ajax({
 		url: this._usersResource + "/" + email,
@@ -55,12 +70,16 @@ FmdClient.prototype.isRegistered = function(email, callback){
 	});
 };
 
+
+
+
 /**
  * Determines if a user is currently logged in and returns a boolean value of 
  * true if a user is logged in, false else.
  * 
  * @returns (boolean) 
  */
+
 FmdClient.prototype.isLoggedIn = function(){
 	if(typeof this._uid !== 'undefined' && typeof this._cred !== 'undefined'){
 		return true;
@@ -68,6 +87,8 @@ FmdClient.prototype.isLoggedIn = function(){
 		return false;
 	}
 };
+
+
 
 
 /**
@@ -80,6 +101,7 @@ FmdClient.prototype.isLoggedIn = function(){
  * @param password (String)
  * @param callback (function(result)) 
  */
+
 FmdClient.prototype.login = function(email, password, callback){
 	
 	// for this login step we use one HTTP operation on one resource, which is authentication-aware.
@@ -141,10 +163,14 @@ FmdClient.prototype.login = function(email, password, callback){
 	});
 };
 
+
+
+
 /**
  * Logs out currently logged in user. Effectively, credentials in local storage and available as fields
  * _uid and _cred will be reset.
  */
+
 FmdClient.prototype.logout = function(){
 	
 	// remove credentials from local storage
@@ -155,6 +181,9 @@ FmdClient.prototype.logout = function(){
 	delete this._uid;
 	delete this._cred;
 };
+
+
+
 
 /**
  * Signs up a new user with given login, name and password against the UGNM Web service asynchronously.  
@@ -172,6 +201,7 @@ FmdClient.prototype.logout = function(){
  * @param password (String)
  * @param callback (function(result)) 
  */
+
 FmdClient.prototype.signup = function(email, username, name, password, callback){
 	
 	// create JSON representation to be passed to the Web Service
@@ -212,64 +242,113 @@ FmdClient.prototype.signup = function(email, username, name, password, callback)
 	});
 };
 
-/**
- * Retrieves all users asynchronously. The result parameter of the callback function 
- * contains the list of all retrieved users as an array of JSON objects of the form
+
+
+/** Delete User completly from Database returns a boolean value of 
+ * true if a user is deleted, false else.
  * 
- *  	[<USER1>,...,<USERn>]
- *  
- * where each <USERx> contains the URI ... [following fields:
+ * @returns (boolean)
  * 
- * <ul>
- * 	<li>email - Email</li>
- * 	<li>username - User-Name</li>
- * 	<li>name - Full Name</li>
- * 	<li>ep - Experience Points</li>
- *  <li>resource - URL to the User Resource</li>
- * </ul>
- *  ]
- * @param callback (function(result)) 
  */
-FmdClient.prototype.getUsers = function(callback){
-	
-	var resource = this._usersResource;
-	
-	$.getJSON(resource, function(data) {
-		callback(data.users);		
-	});
+
+FmdClient.prototype.deleteUser = function(email, password, callback){
+    
+    var resource = this._usersResource + "/" + email;
+    
+    // use helper function to create credentials as base64 encoding for HTTP auth header
+    var credentials = __make_base_auth(email, password);
+    
+    // do AJAX call to Web Service using jQuery.ajax
+    $.ajax({
+            url: resource,
+            type: 'DELETE',
+            
+    		// set HTTP auth header before sending request
+    		beforeSend: function(xhr){
+    			xhr.setRequestHeader("Authorization", credentials);
+    		},
+
+            // process result in case of success and feed result to callback function passed by developer
+            success: function(){
+                    callback(true);
+            },
+            // process result in case of different HTTP statuses and feed result to callback function passed by developer
+            statusCode: {
+                    409: function(){
+                            callback({status:"conflict"});
+                    },
+                    500: function(){
+                            callback({status:"servererror"});
+                    },
+                    
+            }
+    });
 };
 
+
+
+
 /**
- * Retrieves all media asynchronously. The result parameter of the callback function 
- * contains the list of all retrieved media as an array of JSON objects of the form
+ * Update User BUT completly its not possible to update single attributes, because of the
+ * function-logic (its like creating)
  * 
- *  	[<MEDIUM1>,...,<MEDIUMn>]
- *  
- * where each <MEDIUMx> contains the URI [following fields:
- * 
- * <ul>
- * 	<li>url - Media URL</li>
- * 	<li>description - Fulltext Description of the Medium</li>
- *  <li>resource - URL to the Medium Resource</li>
- * </ul>
- * 	]
- * @param callback (function(result)) 
+ *
  */
-FmdClient.prototype.getMedia = function(callback){
-	var resource = this._mediaResource;
-	
-	$.getJSON(resource, function(data) {
-		callback(data.media);		
-	});
+
+FmdClient.prototype.updateUser = function(email, username, name, password, callback){
+    
+    // create JSON representation to be passed to the Web Service
+	var d = {};
+	d.email = email;
+	d.username = username;
+	d.name = name;
+	d.password = password;
+
+    var resource = this._usersResource + "/" + email;
+    
+    var credentials = __make_base_auth(email, password);
+    
+    
+
+    // do AJAX call to Web Service using jQuery.ajax
+    $.ajax({
+            url: resource,
+            type: "PUT",
+            data: JSON.stringify(d), // JSON data must be transformed to a String representation
+            
+            beforeSend: function(xhr){
+                    xhr.setRequestHeader("Authorization", credentials);
+            },
+            // process result in case of success and feed result to callback function passed by developer
+            success: function(uri){
+    			var result = {};
+    			result.status = "updated";
+    			result.uri = uri;
+    			
+    			callback(result);
+    		},
+            // process result in case of different HTTP statuses and feed result to callback function passed by developer
+            statusCode: {
+                    409: function(){
+                            callback({status:"conflict"});
+                    },
+                    500: function(){
+                            callback({status:"servererror"});
+                    },
+                    
+            },
+            contentType: "application/json",
+            cache: false
+    });
 };
 
-FmdClient.prototype.getMediaRates = function(m, callback){
-	var resource = this._mediaResource + "/" + m.id + "/rates";
-	
-	$.getJSON(resource, function(data) {
-		callback(m,data.ratings);		
-	});
-};
+
+
+
+/**
+ * Rates a specified Medium by a logged in User.
+ * The callback parameter result is a JSON object.
+ */
 
 FmdClient.prototype.rateMedium = function(m, r, callback){
 	
@@ -321,7 +400,137 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 	});
 }
 
-//TODO: add further library functions
+
+
+
+
+/** ------------------------ Single-Getter-Functions ------------------- */
+
+
+FmdClient.prototype.getUser = function(email, callback){
+    
+    var resource = this._usersResource + "/" + email;
+    
+    $.getJSON(resource, function(data) {
+            callback(data);         
+    });
+};
+
+
+FmdClient.prototype.getMedium = function(mediumId, callback){
+    var resource = this._mediaResource + "/" + mediumId;
+    
+    $.getJSON(resource, function(data) {
+            callback(data);         
+    });
+};
+
+FmdClient.prototype.getAchievement = function(achievementId, callback){
+    var resource = this._achievementsResource + "/" + achievementId;
+    
+    $.getJSON(resource, function(data) {
+            callback(data);         
+    });
+};
+
+
+FmdClient.prototype.getCollect = function(achievementId, callback){
+    var resource = this._usersResource + "/" + this._uid + "/collect" + achievementId;
+    
+    $.getJSON(resource, function(data) {
+            callback(data);         
+    });
+};
+
+FmdClient.prototype.getRate = function(ratesId, callback){
+	var resource = this._usersResource + "/" + this._uid + "/rates" + ratesId;
+    
+    $.getJSON(resource, function(data) {
+            callback(data);         
+    });
+};
+
+
+
+
+
+
+/** ------------------------ Multi-Getter-Functions ------------------- */
+
+
+
+/**
+ * Retrieves all users/media/achievements/collects/rates asynchronously. The result parameter of the callback function 
+ * contains the list of all retrieved users as an array of JSON objects of the form: (Users-Example)
+ * 
+ *  	[<USER1>,...,<USERn>]
+ *  
+ * where each <USERx> contains the URI ... [following fields:
+ * 
+ * <ul>
+ * 	<li>email - Email</li>
+ * 	<li>username - User-Name</li>
+ * 	<li>name - Full Name</li>
+ * 	<li>ep - Experience Points</li>
+ *  <li>resource - URL to the User Resource</li>
+ * </ul>
+ *  ]
+ * @param callback (function(result)) 
+ * 
+ * All other functions are equal to the getUsers-function, exempted from the URI fields.
+ * 
+ */
+
+FmdClient.prototype.getUsers = function(callback){
+	
+	var resource = this._usersResource;
+	
+	$.getJSON(resource, function(data) {
+		callback(data.users);		
+	});
+};
+
+
+FmdClient.prototype.getMedia = function(callback){
+	var resource = this._mediaResource;
+	
+	$.getJSON(resource, function(data) {
+		callback(data.media);		
+	});
+};
+
+
+FmdClient.prototype.getAchievements = function(callback){
+	var resource = this._achievementsResource;
+	
+	$.getJSON(resource, function(data) {
+		callback(data.achievements);		
+	});
+};
+
+
+FmdClient.prototype.getCollects = function(email, callback){
+	 var resource = this._usersResource + "/" + this._uid + "/collect";
+	    
+	$.getJSON(resource, function(data) {
+		callback(email, data.collects);		
+	});
+};
+
+
+FmdClient.prototype.getRates = function(email, callback){
+	var resource = this._usersResource + "/" + this._uid + "/rates";
+	
+	$.getJSON(resource, function(data) {
+		callback(email, data.rates);		
+	});
+};
+
+
+
+
+
+
 
 // Private helper function to create Base64 encoded credentials as needed for
 // HTTP basic authentication
