@@ -1,3 +1,10 @@
+use ugnm1112g4;
+drop table Achievement;
+drop table Collect;
+drop table Medium;
+drop table Rates;
+drop table User;
+
 CREATE TABLE User( 
   email varchar(100) NOT NULL, 
   username varchar(100) NOT NULL, 
@@ -5,18 +12,20 @@ CREATE TABLE User(
   name varchar(100) NOT NULL,
   ep int(11) NOT NULL DEFAULT '0',
   
-  CONSTRAINT User_PK PRIMARY KEY (email, username)
+  CONSTRAINT User_PK PRIMARY KEY (email),
+  CONSTRAINT User_UK UNIQUE KEY (username)
 ); 
 
 
 
 
 CREATE TABLE Medium( 
+  id int(11) AUTO_INCREMENT NOT NULL,
   url varchar(100) NOT NULL, 
   value int(1) NOT NULL, 
   description varchar(100) NOT NULL, 
   
-  CONSTRAINT Medium_PK PRIMARY KEY (url), 
+  CONSTRAINT Medium_PK PRIMARY KEY (id), 
   CONSTRAINT Medium_value_CHECK CHECK (vaulue >=0 AND calue <=1)
 ); 
 
@@ -24,7 +33,7 @@ CREATE TABLE Medium(
 
 
 CREATE TABLE Achievement( 
-  id int(11) AUTO_INCREMENT,
+  id int(11) AUTO_INCREMENT NOT NULL,
   description varchar(100) NOT NULL, 
   name varchar(40) NOT NULL, 
   url varchar(100) NOT NULL, 
@@ -39,11 +48,11 @@ CREATE TABLE Rates(
   id int(11) AUTO_INCREMENT,
   time timestamp NOT NULL,
   rate int(1) NOT NULL, 
-  mediumUrl varchar(100) NOT NULL, 
+  mediumId varchar(100) NOT NULL, 
   userEmail varchar(50) NOT NULL,
 
   CONSTRAINT Rates_PK PRIMARY KEY (id),
-  CONSTRAINT Rates_FK1 FOREIGN KEY (mediumUrl) REFERENCES Medium (url),
+  CONSTRAINT Rates_FK1 FOREIGN KEY (mediumId) REFERENCES Medium (id),
   CONSTRAINT Rates_FK2 FOREIGN KEY (userEmail) REFERENCES User (email)
 );
 
