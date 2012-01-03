@@ -239,20 +239,72 @@
 				
 			});
 		}
-	
-		function updateStatus(){
-			if(fmd.isLoggedIn()){
+		
+		function updateUser(){			
+			$("#username").html(fmd._uid);
+			$("#loginb").hide();
+			$("#logoutb").show();
+			$("#registerb").hide();
+		    $("#trueb").hide();                             
+            $("#fakeb").hide();
+            $("#profileb").hide();
+            $("#gameb").show();
+            $("#editb").show();
+            $("#help1b").hide();
+            $("#help2b").hide();
+            $("#help3b").hide();	
+            $("#help4b").show();
+	}
+		
+		function updateGame(){			
 				$("#username").html(fmd._uid);
-				
 				$("#loginb").hide();
 				$("#logoutb").show();
 				$("#registerb").hide();
+			    $("#trueb").show();                             
+                $("#fakeb").show();
+                $("#profileb").show();
+                $("#gameb").hide();
+                $("#editb").hide();
+                $("#help1b").hide();
+                $("#help2b").hide();
+                $("#help3b").show();
+                $("#help4b").hide();
+		}
+		
+		
+		function updateStatus(){
+			if(fmd.isLoggedIn()){
+				
+				$("#username").html(fmd._uid);
+				$("#loginb").hide();
+				$("#logoutb").show();
+				$("#registerb").hide();
+			    $("#trueb").hide();                             
+                $("#fakeb").hide();
+                $("#profileb").show();
+                $("#gameb").show();
+                $("#editb").hide();
+                $("#help1b").hide();
+                $("#help2b").show();
+                $("#help3b").hide();
+                $("#help4b").hide();
 				
 			} else {
+				
 				$("#username").html("");
 				$("#loginb").show();
 				$("#logoutb").hide();
 				$("#registerb").show();
+			    $("#trueb").hide();                             
+                $("#fakeb").hide();
+                $("#gameb").hide();
+                $("#editb").hide();
+                $("#profileb").hide();
+                $("#help1b").show();
+                $("#help2b").hide();
+                $("#help3b").hide();
+                $("#help4b").hide();
 			}
 		}
 		
@@ -267,7 +319,7 @@
 			
 			$("#dialog-login" ).dialog({
 				autoOpen: false,
-				height: 200,
+				height: 220,
 				width: 350,
 				modal: true,
 				buttons: {
@@ -302,9 +354,58 @@
 				});
 			});
 			
+			
+			$("#dialog-help1" ).dialog({
+                 autoOpen: false,
+                 height: 220,
+                 width: 400,
+                 modal: true,
+                 buttons: {
+                                 OK: function() {
+                                 $(this).dialog("close");
+                         }
+                 }
+			});
+			
+			$("#dialog-help2" ).dialog({
+                autoOpen: false,
+                height: 250,
+                width: 400,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                $(this).dialog("close");
+                        }
+                }
+			});
+			
+			$("#dialog-help3" ).dialog({
+                autoOpen: false,
+                height: 400,
+                width: 400,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                $(this).dialog("close");
+                        }
+                }
+			});
+			
+			$("#dialog-help4" ).dialog({
+                autoOpen: false,
+                height: 250,
+                width: 400,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                $(this).dialog("close");
+                        }
+                }
+			});
+			
 			$( "#dialog-signup" ).dialog({
 				autoOpen: false,
-				height: 350,
+				height: 320,
 				width: 550,
 				modal: true,
 				buttons: {
@@ -355,17 +456,106 @@
 				}
 			});
 			
+			
+			
+			$( "#dialog-editUser" ).dialog({
+                autoOpen: false,
+                height: 320,
+                width: 450,
+                modal: true,
+                buttons: {
+                        "Change": function() {
+                        
+                                var that = $(this);
+                                var bValid = true;
+                                
+                                $("#update-name").removeClass("ui-state-error");
+        						$("#update-username").removeClass("ui-state-error");
+        						$("#update-email").removeClass("ui-state-error");
+        						$("#update-password").removeClass("ui-state-error");
+        						
+        						bValid = bValid && checkLength( $("#update-name"), "name", 6, 80 );
+        						bValid = bValid && checkLength( $("#update-username"), "username", 6, 80 );
+        						bValid = bValid && checkLength( $("#update-email"), "email", 6, 80 );
+        						bValid = bValid && checkLength( $("#update-password"), "password", 6, 20 );
+
+        						bValid = bValid && checkRegexp( $("#update-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+        						bValid = bValid && checkRegexp( $("#update-username"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+        						bValid = bValid && checkRegexp( $("#update-email"), /^([A-Za-z_.])[^@]+@.+\.[^.]+$/i, "Login may consist of a-z, 0-9, underscores, begin with a letter." );
+        						bValid = bValid && checkRegexp( $("#update-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+                                
+                                if ( bValid ) {                                                 
+                                        // PUT form data to resource /users
+                                        fmd.updateUser( $("#update-email").val(), $("#update-name").val(), $("#update-username").val(), $("#update-password").val(), function(result){
+            								if(result.status == "created"){
+            									updateTips( "User " + $("#update-email").val() + " successfully updated");
+            									that.dialog("close");
+            									updateUsers();
+            								} else if( result.status == "conflict"){
+            									updateTips( "User " + $("#signup-email").val() + " can not be updated!");
+            									$("#update-email").addClass( "ui-state-error" );
+            								}
+            							});
+            						}
+            					},
+                        Cancel: function() {
+                                $( this ).dialog( "close" );
+                        }
+                },
+                close: function() {
+                    $("#update-name").removeClass("ui-state-error");
+					$("#update-username").removeClass("ui-state-error");
+					$("#update-email").removeClass("ui-state-error");
+					$("#update-password").removeClass("ui-state-error");
+                }
+        });
+			
+			
+			
+			
+			
+			
+			
 			$( "#loginb" ).button().click(function() {
 				$( "#dialog-login" ).dialog("open");
+			});
+			
+			$( "#help1b" ).button().click(function() {
+				$( "#dialog-help1" ).dialog("open");
+			});
+			
+			$( "#help2b" ).button().click(function() {
+				$( "#dialog-help2" ).dialog("open");
+			});
+			
+			$( "#help3b" ).button().click(function() {
+				$( "#dialog-help3" ).dialog("open");
+			});
+			
+			$( "#help4b" ).button().click(function() {
+				$( "#dialog-help4" ).dialog("open");
 			});
 			
 			$( "#registerb" ).button().click(function() {
 				$( "#dialog-signup" ).dialog("open");
 			});
 			
+			$( "#editb" ).button().click(function() {
+				$( "#dialog-editUser" ).dialog("open");
+			});
+			
 			$( "#logoutb" ).button().click(function() {
 				fmd.logout();
 				updateStatus();
+			});
+			
+			$( "#gameb" ).button().click(function() {
+                updateGame();
+                updateMedia();                          
+			});
+			
+			$( "#profileb" ).button().click(function() {
+                updateUser();                        
 			});
 			
 			$( "#fakeb" ).button().click(function() {
@@ -435,8 +625,16 @@
 	<span id="achievements"></span>
 	<span id="profile-buttons">
 		<button id="loginb">Login</button>
-		<button id="logoutb">Logout</button>
+		<button id="gameb">Game</button>
+		<button id="profileb">Profile</button>
+		<button id="editb">Edit</button>
 		<button id="registerb">Register</button>
+		<button id="help1b">Help</button>
+		<button id="help2b">Help</button>
+		<button id="help3b">Help</button>
+		<button id="help4b">Help</button>
+		<button id="logoutb">Logout</button>
+		
 	</span>
 </div>
 
@@ -459,6 +657,55 @@
 </div>
 
 <div id="users"></div>
+
+
+<! ******* DIALOG-BOXEN *********>
+
+
+<div id="dialog-help1" title="Help">
+<p id="registrate" class="help"><b>How to registrate?!</b></p>
+	<form>
+		<fieldset>
+			<label for="help1"><p>Please click at the top of the page the Register-Button and follow the instruductions.</p></label>
+		</fieldset>
+	</form>
+</div>
+
+
+<div id="dialog-help2" title="Help">
+<p id="play" class="help"><b>How to play?!</b></p>
+	<form>
+		<fieldset>
+			<label for="help2"><p>Please click at the top of the page the Game-Button and have fun!</p><p> You have to rate the pictures as true or false.</p></label>
+		</fieldset>
+	</form>
+</div>
+
+
+<div id="dialog-help3" title="Help">
+<p id="ep" class="help"><b>How I get EP?!</b></p>
+	<form>
+		<fieldset>
+			<label for="help3"><p>If you rate a picture correctly, you will get a small amount of EP.</p> There are a lot of hidden achievements in the game ;) <p>Can you get them all?</p></label>
+		</fieldset>
+	</form>
+	
+	<p id="ep" class="help"><b>How I get Achievements?!</b></p>
+	<form>
+		<fieldset>
+			<label for="help3"><p></p> There are a lot of hidden achievements in the game ;) <p>Can you get them all?</p></label>
+		</fieldset>
+	</form>
+</div>
+
+<div id="dialog-help4" title="Help">
+<p id="edit" class="help"><b>How to edit the profile?!</b></p>
+	<form>
+		<fieldset>
+			<label for="help4"><p>Please click at the top of the page the Edit-Button.</p><p> Here you can edit your Profile.</p></label>
+		</fieldset>
+	</form>
+</div>
 
 <div id="dialog-login" title="Login">
 	<form>
@@ -513,5 +760,46 @@
 	</form>
 </div>
 
+<div id="dialog-editUser" title="Edit my profile">
+<p id="edit-tips" class="validateTips">All form fields are required.</p>
+<form>
+	<fieldset>
+		<table>
+			<tr>
+				<td>
+					<label for="update-email">E-Mail:</label>
+				</td>
+				<td>
+					<input type="text" id="update-email" value="" class="text ui-widget-content ui-corner-all" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="update-name">Name:</label>
+				</td>
+				<td>	
+					<input type="text" id="update-name" class="text ui-widget-content ui-corner-all" />
+				</td>
+			</tr>
+			<tr>
+			<td>
+				<label for="update-username">Username:</label>
+			</td>
+			<td>	
+				<input type="text" id="update-username" class="text ui-widget-content ui-corner-all" />
+			</td>
+		</tr>
+			<tr>
+				<td>
+					<label for="update-password">Password:</label>
+				</td>
+				<td>
+					<input type="password" id="update-password" value="" class="text ui-widget-content ui-corner-all" />
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+</form>
+</div>
 </body>
 </html>
