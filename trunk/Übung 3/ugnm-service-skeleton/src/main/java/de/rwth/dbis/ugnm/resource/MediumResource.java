@@ -28,7 +28,7 @@ import de.rwth.dbis.ugnm.entity.Medium;
 import de.rwth.dbis.ugnm.service.MediumService;
 import de.rwth.dbis.ugnm.util.CORS;
 
-@Path("/media/{url}")
+@Path("/media/{id}")
 @Component
 public class MediumResource {
 
@@ -47,12 +47,12 @@ public class MediumResource {
     	}
     	
 //Gibt ueber GET ein einzelnes Medium aus
-//GET Medium ueber Primary url
+//GET Medium ueber Primary id
         
         @GET
         @Produces("application/json")
-        public Response getMedium(@PathParam("url") String url){
-                Medium m = mediumService.getByUrl(url);
+        public Response getMedium(@PathParam("id") int id){
+                Medium m = mediumService.getById(id);
                 if (m==null){
                 	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
                     return CORS.makeCORS(r, _corsHeaders);
@@ -62,28 +62,28 @@ public class MediumResource {
         }
       
         
-//Ermöglicht ueber PUT das aendern eines einzelnen Mediums 
+//Ermoeglicht ueber PUT das aendern eines einzelnen Mediums 
         
         
         @PUT
     @Consumes("application/json")
-    public Response updateMedium(@HeaderParam("authorization") String auth, @PathParam("url") String url, JSONObject o) throws JSONException {
+    public Response updateMedium(@HeaderParam("authorization") String auth, @PathParam("id") int id, JSONObject o) throws JSONException {
         		if(admin_authenticated(auth)==false){
         			Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
                     return CORS.makeCORS(r, _corsHeaders);
         		}
-//GET Medium ueber Primary url
+//GET Medium ueber Primary id
         	
-                Medium m = mediumService.getByUrl(url);
+                Medium m = mediumService.getById(id);
 
 //Wenn Achievement nicht "null" ist wird das Medium geupdated und ein created-Response abgesetzt                 
                 
                 if(m != null){
 
-                                Medium medium = parseJsonUpdateFile(o, url);
+                                Medium medium = parseJsonUpdateFile(o, id);
                                 mediumService.update(medium);
                                 UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-                                URI mediumUri = ub.path(medium.getUrl()).build();
+                                URI mediumUri = ub.path(medium.getId()+"").build();
                                 Response.ResponseBuilder r = Response.created(mediumUri);
                                 return CORS.makeCORS(r, _corsHeaders);
                 }
@@ -96,20 +96,20 @@ public class MediumResource {
                 }
     }
         
-//Ermöglicht ueber DELETE das loeschen eines einzelnen Mediums 
+//Ermoeglicht ueber DELETE das loeschen eines einzelnen Mediums 
         
         @DELETE
-        public Response deleteMedium(@HeaderParam("authorization") String auth, @PathParam("url") String url){
+        public Response deleteMedium(@HeaderParam("authorization") String auth, @PathParam("id") int id){
         		if(admin_authenticated(auth)==false){
         			Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
                     return CORS.makeCORS(r, _corsHeaders);
         		}
-//GET Medium ueber Primary url        	
+//GET Medium ueber Primary id        	
         	
-                Medium medium = mediumService.getByUrl(url);
+                Medium medium = mediumService.getById(id);
                 if(medium!=null){
                 	
-//Wenn Medium nicht "null" ist wird das Medium gelöscht und ein ok-Response abgesetzt
+//Wenn Medium nicht "null" ist wird das Medium geloescht und ein ok-Response abgesetzt
                 	
                         mediumService.delete(medium);
                         Response.ResponseBuilder r = Response.status(Status.OK);
@@ -124,16 +124,18 @@ public class MediumResource {
                 }
         }
         
-//Parst die fuer Achievement nötigen Attribute in Json   
+//Parst die fuer Achievement noetigen Attribute in Json   
         
-                private Medium parseJsonUpdateFile(JSONObject o, String url){
+                private Medium parseJsonUpdateFile(JSONObject o, int id){
                         try {
                                 int value = o.getInt("value");
                                 String description = o.getString("description");
+                                String url = o.getString("url");
                                 Medium medium = new Medium();
                                 medium.setValue(value);
                                 medium.setDescription(description);
                                 medium.setUrl(url);
+                                medium.setId(id);
                                 return medium;
                         } catch (JSONException e) {
                                 return null;

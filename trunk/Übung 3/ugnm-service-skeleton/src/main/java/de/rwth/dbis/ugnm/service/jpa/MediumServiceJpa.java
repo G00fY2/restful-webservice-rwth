@@ -46,18 +46,18 @@ public class MediumServiceJpa implements MediumService{
         @Transactional(readOnly = true)
         public List<Medium> getAll() {
                 Query query = entityManager.createNamedQuery("Medium.findAll");
-                List<Medium> medium = null;   //hier users durch medium ersetzt
+                List<Medium> medium = null;
                 medium = query.getResultList();
                 return medium;
         }
 
-//Gibt über die url ein einzelnes medium aus 
+//Gibt ueber die id ein einzelnes medium aus 
         
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
-        public Medium getByUrl(String url) {
+        public Medium getById(int id) {
                 Query queryFindMedia = entityManager.createNamedQuery("Medium.findMedium");
-                queryFindMedia.setParameter("url", url);
+                queryFindMedia.setParameter("id", id);
                 List<Medium> media = queryFindMedia.getResultList();
                 Medium result = null;
                 if(media.size() > 0) {
@@ -67,11 +67,11 @@ public class MediumServiceJpa implements MediumService{
         }
 
         
-//Löscht über DELETE ein Medium
+//Loescht ueber DELETE ein Medium
         
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean delete(Medium medium) {
-                medium = entityManager.getReference(Medium.class, medium.getUrl());
+                medium = entityManager.getReference(Medium.class, medium.getId());
                 if (medium == null)
                         return false;
                 entityManager.remove(medium);
@@ -79,7 +79,7 @@ public class MediumServiceJpa implements MediumService{
                 return true;
         }
 
-//Ändert über UPDATE ein Medium
+//Aendert ueber UPDATE ein Medium
         
         @Transactional(readOnly=false, propagation=Propagation.REQUIRED)
         public boolean update(Medium medium) {
@@ -94,7 +94,7 @@ public class MediumServiceJpa implements MediumService{
         public Medium findMedium(Medium medium) {
                 Medium result = null;
                 Query queryFindMedia = entityManager.createNamedQuery("Medium.findMedium");
-                queryFindMedia.setParameter("url", medium.getUrl());
+                queryFindMedia.setParameter("id", medium.getId());
 
                 List<Medium> media = queryFindMedia.getResultList();
                 if(media.size() > 0) {

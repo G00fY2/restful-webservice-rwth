@@ -80,7 +80,7 @@ public class RatesResource {
                
                 while(rit.hasNext()){
                         Rates r = rit.next();
-                        String rUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + r.getId() + "/" + r.getMediumUrl() + "/" + r.getRate();
+                        String rUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + r.getId() + "/" + r.getMediumId() + "/" + r.getRate();
                         vRates.add(rUri);
                 }
                 try {
@@ -96,18 +96,18 @@ public class RatesResource {
        
        
        
-//Ermöglicht ueber PUT das Erstellen eines einzelnen Ratings (inkl. EPs + Achievements)
+//Ermoeglicht ueber PUT das Erstellen eines einzelnen Ratings (inkl. EPs + Achievements)
         
         @PUT
     @Consumes("application/json")
     public Response createRate(@HeaderParam("authorization") String auth,@PathParam("email") String email, JSONObject o) throws JSONException{
                 
                 Rates rate = parseRateJsonFile(o, email);
-                Medium m = mediumService.getByUrl(o.getString("url"));
+                Medium m = mediumService.getById(o.getInt("id"));
                 User u = userService.getByEmail(email); 
                 
                 //prüft ob das Medium existiert
-                if(mediumService.getByUrl(rate.getMediumUrl())!= null){
+                if(mediumService.getById(rate.getMediumId())!= null){
                         if(authenticated(auth, userService.getByEmail(email))){
                         	ratesService.save(rate);
                         	
@@ -141,15 +141,15 @@ public class RatesResource {
     }
        
 
-//Parst die fuer Rates nötigen Attribute in Json          
+//Parst die fuer Rates noetigen Attribute in Json          
         
         private Rates parseRateJsonFile(JSONObject o, String email){
 
                 try {
-                        String mediumUrl = o.getString("url");
+                        int mediumId = o.getInt("mediumId");
                         int rate = o.getInt("rate");
                         Rates rating = new Rates();      
-                        rating.setMediumUrl(mediumUrl);
+                        rating.setMediumId(mediumId);
                         rating.setUserEmail(email);
                         rating.setRate(rate);
                         Timestamp tstamp = new Timestamp(System.currentTimeMillis());

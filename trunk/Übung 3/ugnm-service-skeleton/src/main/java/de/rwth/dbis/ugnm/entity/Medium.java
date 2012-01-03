@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Medium")
 @NamedQueries({
         @NamedQuery(name = "Medium.findAll", query = "SELECT m FROM Medium m"),
-        @NamedQuery(name = "Medium.findMedium", query = "SELECT m FROM Medium m where m.url=:url")
+        @NamedQuery(name = "Medium.findMedium", query = "SELECT m FROM Medium m where m.id=:id")
 })
 
 
@@ -21,9 +21,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Medium {
          
-//Url ist PRIMARY
+//Id ist PRIMARY
 	
         @Id
+        @Column(name = "id", nullable = false)
+        private int id;
+        
         @Column(name = "url", nullable = false)
         private String url;
                
@@ -36,6 +39,14 @@ public class Medium {
 
 //Getter+Setter Methoden
        
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+    	}
+        
         public void setUrl(String url) {
                 this.url = url;
         }
