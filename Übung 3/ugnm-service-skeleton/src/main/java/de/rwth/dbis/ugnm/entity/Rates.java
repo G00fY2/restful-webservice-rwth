@@ -37,8 +37,8 @@ public class Rates {
         @Column(name = "rate", nullable = false)
         private int rate;
         
-        @Column(name = "mediumUrl", nullable = false)
-        private String mediumUrl;
+        @Column(name = "mediumId", nullable = false)
+        private int mediumId;
        
         @Column(name = "userEmail", nullable = false)
                 private String userEmail;
@@ -48,7 +48,7 @@ public class Rates {
         private User userInstance;
         
         @ManyToOne
-        @JoinColumn(name="mediumUrl", referencedColumnName="url", insertable = false, updatable = false)
+        @JoinColumn(name="mediumId", referencedColumnName="id", insertable = false, updatable = false)
         private Medium mediumInstance;
         
 
@@ -86,12 +86,12 @@ public class Rates {
             this.rate = rate;
         }
         
-        public void setMediumUrl(String url) {
-            this.mediumUrl = url;
+        public void setMediumId(int id) {
+            this.mediumId = id;
         }
     
-        public String getMediumUrl(){
-            return mediumUrl;
+        public int getMediumId(){
+            return mediumId;
     	}
 
         public void setUserEmail(String email) {

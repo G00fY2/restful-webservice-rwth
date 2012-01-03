@@ -66,7 +66,7 @@ public class MediaResource {
                 
                 while(mit.hasNext()){
                         Medium m = mit.next();
-                        String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + m.getUrl();
+                        String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + m.getId();
                         vMedia.add(uUri);
                 }
 
@@ -103,7 +103,7 @@ public class MediaResource {
                 if(mediumService.findMedium(medium) == null) {
                         mediumService.save(medium);
                         UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-                        URI mediumUri = ub.path(medium.getUrl()).build();
+                        URI mediumUri = ub.path(medium.getId()+"").build();
                         Response.ResponseBuilder r = Response.created(mediumUri);
                         return CORS.makeCORS(r, _corsHeaders);
                 }
@@ -118,11 +118,13 @@ public class MediaResource {
         
         private Medium parseMediumJsonFile(JSONObject o){
 
-                try {
+                try {	
+                		int id = o.getInt("id");
                         String url = o.getString("url");
                         int value = o.getInt("value");
                         String description = o.getString("description");
                         Medium medium = new Medium();
+                        medium.setId(id);
                         medium.setUrl(url);
                         medium.setValue(value);
                         medium.setDescription(description);
