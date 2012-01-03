@@ -102,13 +102,17 @@ public class RatesResource {
     @Consumes("application/json")
     public Response createRate(@HeaderParam("authorization") String auth,@PathParam("email") String email, JSONObject o) throws JSONException{
                 
-                Rates rate = parseRateJsonFile(o, email);
-                Medium m = mediumService.getById(o.getInt("id"));
-                User u = userService.getByEmail(email); 
                 
-                //prüft ob das Medium existiert
-                if(mediumService.getById(rate.getMediumId())!= null){
+                //prüft ob das Medium existiert und ob man authorisiert ist
+                if(mediumService.getById(o.getInt("id"))!= null){
                         if(authenticated(auth, userService.getByEmail(email))){
+                        	
+                        	//Ruft den den Parse auf
+                        	Rates rate = parseRateJsonFile(o, email);
+                        	
+                            Medium m = mediumService.getById(o.getInt("id"));
+                            User u = userService.getByEmail(email); 
+                        	
                         	ratesService.save(rate);
                         	
                         	//Vergibt 50 EP falls rate aequivalent value von Medium
@@ -146,7 +150,7 @@ public class RatesResource {
         private Rates parseRateJsonFile(JSONObject o, String email){
 
                 try {
-                        int mediumId = o.getInt("mediumId");
+                        int mediumId = o.getInt("id");
                         int rate = o.getInt("rate");
                         Rates rating = new Rates();      
                         rating.setMediumId(mediumId);
