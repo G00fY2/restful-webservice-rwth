@@ -8,28 +8,28 @@ REM get all media
 curl http://localhost:8080/ugnm-service/resources/media -v -X GET
 
 REM create new media "/media/medium4"
-curl -v -X PUT http://localhost:8080/ugnm-service/resources/media -H "Content-Type: application/json" -d "{'url':'www.medium4.de','value':0,'description':'Neues Test Medium 4',}"
+curl -v -X PUT http://localhost:8080/ugnm-service/resources/media -H "Content-Type: application/json" -d "{'id':4,'url':'www.medium4.de','value':0,'description':'Neues Test Medium 4'}"
 
 REM try to create new media "www.picture1.com1" again. Should result in conflict.
-curl http://localhost:8080/ugnm-service/resources/media -v -X PUT -H "Content-Type: application/json" -d "{'url':'www.medium4.de','value':0,'description':'Neues Test Medium 4',}"
+curl http://localhost:8080/ugnm-service/resources/media -v -X PUT -H "Content-Type: application/json" -d "{'id':4,'url':'www.medium4.de','value':0,'description':'Neues Test Medium 4'}"
 
 REM try to create new media with missing parameter.
-curl http://localhost:8080/ugnm-service/resources/media -v -X PUT -H "Content-Type: application/json" -d "{'url':www.medium5.de'}"
+curl http://localhost:8080/ugnm-service/resources/media -v -X PUT -H "Content-Type: application/json" -d "{'url':'www.medium5.de'}"
 
 REM get non-existing media
 curl http://localhost:8080/ugnm-service/resources/media/idonotexist -v -X GET
 
 REM get data of media "www.medium4.de"
-curl http://localhost:8080/ugnm-service/resources/media/www.medium4.de -v -X GET
+curl http://localhost:8080/ugnm-service/resources/media/1 -v -X GET
 
-REM update data of media "www.pmedium4.de" without data.
-curl http://localhost:8080/ugnm-service/resources/media/www.medium4.de -v -X PUT -H "Content-Type: application/json" -d "{}"
+REM update data of media "www.medium4.de" without data.
+curl http://localhost:8080/ugnm-service/resources/media/4 -v -X PUT -H "Content-Type: application/json" -d "{}"
 
 REM update data of media "www.medium4.de"
-curl http://localhost:8080/ugnm-service/resources/media/www.medium4.de -v -X PUT -H "Content-Type: application/json" -d "{'url':'www.medium4.de','value':1,'description':'Neues Medium 4 Update'}"
+curl http://localhost:8080/ugnm-service/resources/media/4 -v -X PUT -H "Content-Type: application/json" -d "{'id':4,'url':'www.medium4.de','value':1,'description':'Neues Medium 4 Update'}"
 
 REM get updated data of media "www.medium4.de"
-curl http://localhost:8080/ugnm-service/resources/media/www.medium4.de -v -X GET
+curl http://localhost:8080/ugnm-service/resources/media/4 -v -X GET
 
 REM update data of non-existing media
 curl http://localhost:8080/ugnm-service/resources/media/idnotexist -v -X PUT -H "Content-Type: application/json" -d "{'url':'www.notexist.de','value':0,'description':'not exist'}"
