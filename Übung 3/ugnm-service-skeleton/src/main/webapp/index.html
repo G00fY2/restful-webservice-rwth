@@ -102,6 +102,10 @@
 			height: 300px;
 		}
 		
+		#media {                
+              text-align: center;                     
+      }
+		
 		
 		
 	</style>
@@ -211,9 +215,9 @@
 				for(i in media){
 					var med = media[i];
 					
-					fmd.getMedium(med,function(m){
+					fmd.getMedium(med,function(medium){
 					
-						var titleValue = "\nDescription: " + m.description +"\nRatings:";
+						var titleValue = "\nDescription: " + medium.description;
 						
 						var count = media.length;
 						var realCount = 0;
@@ -221,9 +225,9 @@
 						
 						console.log(titleValue);
 						
-						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + m.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
-							cmedium = m;
-							$("#rate-image").html("<img src='" + m.url + "' height='300' alt='" + titleValue + "' />");
+						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + medium.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
+							cmedium = medium;
+							$("#rate-image").html("<img src='" + medium.url + "' height='300' alt='" + titleValue + "' />");
 						});
 						ul.append(li);
 						
@@ -250,6 +254,9 @@
             $("#profileb").hide();
             $("#gameb").show();
             $("#editb").show();
+            $("#rate-image").show();   
+            $("#rate").show(); 
+            $("#media").show();
             $("#help1b").hide();
             $("#help2b").hide();
             $("#help3b").hide();	
@@ -266,6 +273,10 @@
                 $("#profileb").show();
                 $("#gameb").hide();
                 $("#editb").hide();
+                $("#rate-image").show();   
+                $("#rate").show(); 
+                $("#media").show();
+                $("#medialist").show();
                 $("#help1b").hide();
                 $("#help2b").hide();
                 $("#help3b").show();
@@ -285,6 +296,9 @@
                 $("#profileb").show();
                 $("#gameb").show();
                 $("#editb").hide();
+                $("#rate-image").show();   
+                $("#rate").show(); 
+                $("#media").show();
                 $("#help1b").hide();
                 $("#help2b").show();
                 $("#help3b").hide();
@@ -301,6 +315,9 @@
                 $("#gameb").hide();
                 $("#editb").hide();
                 $("#profileb").hide();
+                $("#rate-image").show();   
+                $("#rate").show(); 
+                $("#media").show();
                 $("#help1b").show();
                 $("#help2b").hide();
                 $("#help3b").hide();
@@ -315,7 +332,6 @@
 			// load all users and display in a list
 			updateStatus();
 			updateUsers();
-			updateMedia();
 			
 			$("#dialog-login" ).dialog({
 				autoOpen: false,
@@ -485,7 +501,7 @@
         						bValid = bValid && checkRegexp( $("#update-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
                                 
                                 if ( bValid ) {                                                 
-                                        // PUT form data to resource /users
+          
                                         fmd.updateUser( $("#update-email").val(), $("#update-name").val(), $("#update-username").val(), $("#update-password").val(), function(result){
             								if(result.status == "created"){
             									updateTips( "User " + $("#update-email").val() + " successfully updated");
@@ -563,7 +579,7 @@
 				fmd.rateMedium(cmedium,0,function(result){
 					if(result.status == "rated"){
 						updateMedia();
-						updateUsers();
+						updateGame();
 					} else {
 						alert(result.status);
 					}
@@ -575,7 +591,7 @@
 				fmd.rateMedium(cmedium,1,function(result){
 					if(result.status == "rated"){
 						updateMedia();
-						updateUsers();
+						updateGame();
 					} else {
 						alert(result.status);
 					}
@@ -801,5 +817,9 @@
 	</fieldset>
 </form>
 </div>
+
+
+
+
 </body>
 </html>
