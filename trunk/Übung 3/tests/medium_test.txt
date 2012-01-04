@@ -8,7 +8,7 @@ REM get all media
 curl http://localhost:8080/ugnm-service/resources/media -v -X GET
 
 REM create new media "/media/medium4"
-curl -v -X PUT http://localhost:8080/ugnm-service/resources/media -H "Content-Type: application/json" -d "{'id:5,'url':'www.medium4.de','value':0,'description':'Neues Test Medium 4'}" --user sven.hausburg@rwth-aachen.de:abc123
+curl -v -X PUT http://localhost:8080/ugnm-service/resources/media -H "Content-Type: application/json" -d "{'id':4,'url':'www.medium4.de','value':0,'description':'Neues Test Medium 4'}" --user sven.hausburg@rwth-aachen.de:abc123
 
 REM try to create new media "www.picture1.com1" again. Should result in conflict.
 curl http://localhost:8080/ugnm-service/resources/media -v -X PUT -H "Content-Type: application/json" -d "{'id':4,'url':'www.medium4.de','value':0,'description':'Neues Test Medium 4'}" --user sven.hausburg@rwth-aachen.de:abc123

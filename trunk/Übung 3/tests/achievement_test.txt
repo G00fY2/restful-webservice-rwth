@@ -13,7 +13,7 @@ REM try to create new achievements with id "4" again. Should result in conflict.
 curl -v -X PUT http://localhost:8080/ugnm-service/resources/achievements/ -H "Content-Type: application/json" -d "{'id':4,'description':'Neues Test-Achievement','name':'Achievement4','url':'/achievements/4'}" --user sven.hausburg@rwth-aachen.de:abc123
 
 REM try to create new achievements with missing parameter.
-curl http://localhost:8080/ugnm-service/resources/achievements -v -X PUT -H "Content-Type: application/json" -d "{'id':5}" --user sven.hausburg@rwth-aachen.de:abc123
+curl http://localhost:8080/ugnm-service/resources/achievements -v -X PUT -H "Content-Type: application/json" -d "{'description':'Neues Test-Achievement'}" --user sven.hausburg@rwth-aachen.de:abc123
 
 REM get non-existing achievements
 curl http://localhost:8080/ugnm-service/resources/achievements/idonotexist -v -X GET
