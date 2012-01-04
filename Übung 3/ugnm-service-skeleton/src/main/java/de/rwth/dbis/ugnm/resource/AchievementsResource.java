@@ -92,7 +92,7 @@ public class AchievementsResource {
                 return CORS.makeCORS(r, _corsHeaders);
         	}
         	
-            //Falls neues Achievement nicht alle Daten hat gibt es einen 406 Error
+            //Falls neues Achievement nicht alle Daten hat gibt es einen 400 Error
             
         	if(o == null || !(o.has("id") && o.has("description") && o.has("name"))){
                 Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
