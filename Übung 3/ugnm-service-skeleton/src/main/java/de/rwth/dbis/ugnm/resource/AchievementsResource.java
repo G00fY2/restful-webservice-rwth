@@ -91,11 +91,19 @@ public class AchievementsResource {
         		Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
                 return CORS.makeCORS(r, _corsHeaders);
         	}
+        	
+            //Falls neues Achievement nicht alle Daten hat gibt es einen 406 Error
+            
+        	if(o == null || !(o.has("id") && o.has("description") && o.has("name"))){
+                Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
+                return CORS.makeCORS(r, _corsHeaders);
+            }
+        	
 //Achievement-Objekt wird mit uebergebenen Parametern erzeugt 
         	
                 Achievement achievement = parseAchievementJsonFile(o);
                 
-//Methode überprüft ob Achievement existiert
+//Methode überprüft ob Achievement bereits existiert
                 
                 return addIfDoesNotExist(achievement);
     }
