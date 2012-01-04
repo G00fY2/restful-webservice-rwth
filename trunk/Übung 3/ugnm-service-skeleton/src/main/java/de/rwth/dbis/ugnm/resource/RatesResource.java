@@ -104,7 +104,7 @@ public class RatesResource {
                 
                 
                 //prüft ob das Medium existiert und ob man authorisiert ist
-                if(mediumService.getById(o.getInt("id"))!= null){
+                if((mediumService.getById(o.getInt("id")) != null) && (o.has("rate"))){
                         if(authenticated(auth, userService.getByEmail(email))){
                         	
                         	//Ruft den den Parse auf

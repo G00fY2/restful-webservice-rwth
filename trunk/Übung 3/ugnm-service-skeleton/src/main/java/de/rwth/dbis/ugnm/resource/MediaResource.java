@@ -91,9 +91,17 @@ public class MediaResource {
                 return CORS.makeCORS(r, _corsHeaders);
         	}
    
+            //Falls neues Medium nicht alle Daten hat gibt es einen 406 Error
+            
+        	if(o == null || !(o.has("id") && o.has("url") && o.has("value") && o.has("description"))){
+                Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
+                return CORS.makeCORS(r, _corsHeaders);
+            }
+            
 //Medium-Objekt wird mit uebergebenen Parametern erzeugt
         	
             Medium medium = parseMediumJsonFile(o);
+            
             return addIfDoesNotExist(medium);
     }
 
