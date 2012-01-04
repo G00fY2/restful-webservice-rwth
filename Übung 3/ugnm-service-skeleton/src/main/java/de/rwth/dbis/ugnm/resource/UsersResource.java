@@ -92,7 +92,7 @@ public class UsersResource {
           public Response putUser(JSONObject o) throws JSONException {
         
                 if(o == null || !(o.has("email") && o.has("username") && o.has("password") && o.has("name"))){
-                	Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
+                	Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
                 else{
