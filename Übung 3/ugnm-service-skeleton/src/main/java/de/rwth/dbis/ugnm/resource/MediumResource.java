@@ -73,7 +73,7 @@ public class MediumResource {
                     return CORS.makeCORS(r, _corsHeaders);
         		}
 
-            	if(o == null || !(o.has("id") && o.has("url") && o.has("value") && o.has("description"))){
+            	if(o == null || !(o.has("url") && o.has("value") && o.has("description"))){
                     Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
