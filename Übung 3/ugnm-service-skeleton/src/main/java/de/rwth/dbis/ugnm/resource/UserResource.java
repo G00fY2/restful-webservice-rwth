@@ -75,57 +75,63 @@ public class UserResource {
     @Consumes("application/json")
     public Response updateUser(@HeaderParam("authorization") String auth, @PathParam("email") String email, JSONObject o) throws JSONException {
 
-//Wenn übergebener Nutzer (als Json-Object) = null -> 404 WebApplicationException
+        	//GET User ueber Primary email            
+            User u = userService.getByEmail(email);
+            
+            //Prueft ob User vorhanden und authentifiziert
+            if(u != null){
+        	if(authenticated(auth, u)){
+        	
+//Wenn uebergebenes Json-Object = null -> 406 WebApplicationException
         	
                 if(o == null){
                 	Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
 
-//Wenn länge=0 wurde keine änderung vorgenommen -> notModified Response                 
+//Wenn Laenge = 0 wurde keine aenderung vorgenommen -> notModified Response                 
                 
                 if(o.length() == 0){
                 	Response.ResponseBuilder r = Response.status(Status.NOT_MODIFIED);
                 	return CORS.makeCORS(r, _corsHeaders);
                 }
+                
+                //Es wird geprueft ob der username und/oder das passwort geändert werden sollen
+                boolean updateStatus = false;
 
-//GET User ueber Primary email            
+                if (o.has("username") && !o.getString("username").equals(u.getUsername())){
+                        u.setUsername(o.getString("username"));
+                        updateStatus = true;
+                        }
+                if (o.has("password") && !o.getString("password").equals(u.getPassword())){
+                        u.setPassword(o.getString("password"));
+                        updateStatus = true;
+                        }
                 
-                User u = userService.getByEmail(email);
-                
-//Wenn User-Object nicht = "null" wird dieses ausgegeben
-//Andernfalls wird eine 404 WebApplicationException geschmissen                  
-                
-                if(u == null){
+                        if(updateStatus){
+                        	//Updatet den user
+                        		userService.update(u);
+
+                        	   Response.ResponseBuilder r = Response.status(Status.CREATED);
+                               
+                        	   return CORS.makeCORS(r, _corsHeaders);
+                        } else {
+                        	Response.ResponseBuilder r = Response.status(Status.NOT_MODIFIED);
+                            return CORS.makeCORS(r, _corsHeaders);
+                        }
+                      
+                        
+        	}else{                        
+                   	 Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                        return CORS.makeCORS(r, _corsHeaders);
+                   }
+            
+            }else{                
                 	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
                     return CORS.makeCORS(r, _corsHeaders);
-            }
-//Wenn User-Object nicht authenticated wird eine 401 WebApplicationException geschmissen                 
-                
-                if(!authenticated(auth, u)){
-                	 Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
-                     return CORS.makeCORS(r, _corsHeaders);
-                }               
-                boolean changed = false;
-               
-//Wenn User authenticated über email und password wird der User geändert                
-                
-        if (o.has("username") && !o.getString("username").equals(u.getUsername())){
-                u.setUsername(o.getString("username"));
-                changed = true;
-                }
-        if (o.has("password") && !o.getString("password").equals(u.getPassword())){
-                u.setPassword(o.getString("password"));
-                        changed = true;
-                }
-        
-                if(changed){
-                	   Response.ResponseBuilder r = Response.status(Status.CREATED);
-                       return CORS.makeCORS(r, _corsHeaders);
-                } else {
-                	Response.ResponseBuilder r = Response.status(Status.NOT_MODIFIED);
-                    return CORS.makeCORS(r, _corsHeaders);
-                }
+            }                
+                          
+
     }
 
 //Ermöglicht ueber DELETE das loeschen eines einzelnen Users 
