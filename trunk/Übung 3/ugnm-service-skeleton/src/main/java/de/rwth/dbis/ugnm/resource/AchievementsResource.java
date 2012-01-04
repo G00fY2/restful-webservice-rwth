@@ -95,7 +95,7 @@ public class AchievementsResource {
             //Falls neues Achievement nicht alle Daten hat gibt es einen 400 Error
             
         	if(o == null || !(o.has("id") && o.has("description") && o.has("name"))){
-                Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
+                Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
                 return CORS.makeCORS(r, _corsHeaders);
             }
         	

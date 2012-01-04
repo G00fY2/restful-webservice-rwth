@@ -72,8 +72,13 @@ public class MediumResource {
         			Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
                     return CORS.makeCORS(r, _corsHeaders);
         		}
-//GET Medium ueber Primary id
-        	
+
+            	if(o == null || !(o.has("id") && o.has("url") && o.has("value") && o.has("description"))){
+                    Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
+                    return CORS.makeCORS(r, _corsHeaders);
+                }
+            	
+            	//GET Medium ueber Primary id
                 Medium m = mediumService.getById(id);
 
 //Wenn Achievement nicht "null" ist wird das Medium geupdated und ein created-Response abgesetzt                 
