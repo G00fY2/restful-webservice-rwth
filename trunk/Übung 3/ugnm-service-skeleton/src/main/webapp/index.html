@@ -440,6 +440,10 @@
 			updateStatus();
 			updateUsers();
 			
+			
+			//#####################################################
+			//                     Login Dialog
+			//#####################################################
 			$("#dialog-login" ).dialog({
 				autoOpen: false,
 				height: 215,
@@ -469,15 +473,148 @@
 			$("#signup-email").focusout(function(){
 				fmd.isRegistered($("#signup-email").val(),function(result){
 					if(result){
-						updateTips( "E-mail " + $("#signup-email").val() + " bereits registriert!");
+						updateTips( "E-mail " + $("#signup-email").val() + " already exists!");
 						$("#signup-email").addClass( "ui-state-error" );
 					} else {
-						updateTips( "E-mail " + $("#signup-email").val() + " verfügbar.");
+						updateTips( "Account " + $("#signup-email").val() + " available.");
 						$("#signup-email").removeClass( "ui-state-error" );
 					}
 				});
 			});
 			
+			
+			//#####################################################
+			//                     Registrierungs Dialog
+			//#####################################################
+			$( "#dialog-signup" ).dialog({
+				autoOpen: false,
+				height: 330,
+				width: 550,
+				modal: true,
+				buttons: {
+					"Sign Up": function() {
+					
+						var that = $(this);
+						var bValid = true;
+						
+						$("#signup-name").removeClass("ui-state-error");
+						$("#signup-username").removeClass("ui-state-error");
+						$("#signup-email").removeClass("ui-state-error");
+						$("#signup-password").removeClass("ui-state-error");
+						
+						bValid = bValid && checkLength( $("#signup-name"), "name", 6, 80 );
+						bValid = bValid && checkLength( $("#signup-username"), "username", 6, 80 );
+						bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
+						bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
+
+						bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+						bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, spaces, numbers and underscores, and must begin with a letter." );
+						bValid = bValid && checkRegexp( $("#signup-email"), /^([A-Za-z_.])[^@]+@.+\.[^.]+$/i, "Login may consist of a-z, 0-9, underscores, begin with a letter." );
+						bValid = bValid && checkRegexp( $("#signup-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+
+						if ( bValid ) {
+							
+							// POST form data to resource /users
+							fmd.signup( $("#signup-email").val(), $("#signup-name").val(), $("#signup-username").val(), $("#signup-password").val(), function(result){
+								if(result.status == "created"){
+									updateTips( "Account " + $("#signup-email").val() + " successfully registrated! Close the window and login with your new account.");
+									$("#register-success").dialog("open");
+									that.dialog("close");
+									updateUsers();
+								} else if( result.status == "conflict"){
+									updateTips( "E-mail " + $("#signup-email").val() + " allready registrated");
+									$("#signup-email").addClass( "ui-state-error" );
+								}
+							});
+						}
+					},
+					Cancel: function() {
+						$( this ).dialog( "close" );
+					}
+				},
+				close: function() {
+					$("#signup-name").removeClass("ui-state-error");
+					$("#signup-username").removeClass("ui-state-error");
+					$("#signup-email").removeClass("ui-state-error");
+					$("#signup-password").removeClass("ui-state-error");
+				}
+			});
+			
+			
+			//#####################################################
+			//     Edit User Dialog (wie Registrieren aufgebaut)
+			//#####################################################
+			$( "#dialog-editUser" ).dialog({
+                autoOpen: false,
+                height: 330,
+                width: 450,
+                modal: true,
+                buttons: {
+                        "Change": function() {
+                        
+                                var that = $(this);
+                                var bValid = true;
+                                
+        						$("#update-username").removeClass("ui-state-error");
+                                $("#update-name").removeClass("ui-state-error");
+           						$("#update-passwordNew").removeClass("ui-state-error");
+        						
+        						bValid = bValid && checkLength( $("#update-username"), "username", 6, 80 );
+        						bValid = bValid && checkLength( $("#update-name"), "name", 6, 80 );
+        						bValid = bValid && checkLength( $("#update-password"), "password", 6, 20 );
+        						bValid = bValid && checkLength( $("#update-passwordNew"), "password", 6, 20 );
+
+        						bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, spaces, numbers and underscores, and must begin with a letter." );
+        						bValid = bValid && checkRegexp( $("#update-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
+        						bValid = bValid && checkRegexp( $("#update-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+        						bValid = bValid && checkRegexp( $("#update-passwordNew"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+                                
+                                if ( bValid ) {                                                 
+          
+                                        fmd.updateUser( $("#update-username").val(), $("#update-name").val(), $("#update-password").val(), $("#update-passwordNew").val(), function(result){
+            								if(result.status == "ok"){
+            									updateTips( "User " + $("#update-email").val() + " successfully updated!");
+            									that.dialog("close");
+            									updateUsers();
+            								} else if(result.status == "unauthorized"){
+            									updateTips( "Your old password is wrong.");
+            									$("#update-email").addClass( "ui-state-error" );
+            								}
+            								else if(result.status == "notmodfied"){
+            									updateTips( "User " + $("#update-email").val() + " could not be updated!");
+            									$("#update-email").addClass( "ui-state-error" );
+            								}
+            							});
+            						}
+            					},
+                        Cancel: function() {
+                                $( this ).dialog( "close" );
+                        }
+                },
+                close: function() {
+                    $("#update-name").removeClass("ui-state-error");
+					$("#update-username").removeClass("ui-state-error");
+					$("#update-email").removeClass("ui-state-error");
+					$("#update-password").removeClass("ui-state-error");
+                }
+        });
+			
+			
+			//#####################################################
+			//     Kleinere Dialoge
+			//#####################################################	
+			$("#register-success" ).dialog({
+                                autoOpen: false,
+                                height: 200,
+                                width: 220,
+                                modal: true,
+                                buttons: {
+                                                OK: function() {
+                                                        $(this).dialog("close");                                                        
+                                        }
+                                }
+                        });
+
 			
 			$("#dialog-help1" ).dialog({
                  autoOpen: false,
@@ -564,123 +701,12 @@
                         }
                 }
 			});
-			
-			$( "#dialog-signup" ).dialog({
-				autoOpen: false,
-				height: 330,
-				width: 550,
-				modal: true,
-				buttons: {
-					"Sign Up": function() {
-					
-						var that = $(this);
-						var bValid = true;
-						
-						$("#signup-name").removeClass("ui-state-error");
-						$("#signup-username").removeClass("ui-state-error");
-						$("#signup-email").removeClass("ui-state-error");
-						$("#signup-password").removeClass("ui-state-error");
-						
-						bValid = bValid && checkLength( $("#signup-name"), "name", 6, 80 );
-						bValid = bValid && checkLength( $("#signup-username"), "username", 6, 80 );
-						bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
-						bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
 
-						bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
-						bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
-						bValid = bValid && checkRegexp( $("#signup-email"), /^([A-Za-z_.])[^@]+@.+\.[^.]+$/i, "Login may consist of a-z, 0-9, underscores, begin with a letter." );
-						bValid = bValid && checkRegexp( $("#signup-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+			
 
-						if ( bValid ) {
-							
-							// POST form data to resource /users
-							fmd.signup( $("#signup-email").val(), $("#signup-name").val(), $("#signup-username").val(), $("#signup-password").val(), function(result){
-								if(result.status == "created"){
-									updateTips( "User " + $("#signup-email").val() + " successfully registrated!");
-									that.dialog("close");
-									updateUsers();
-								} else if( result.status == "conflict"){
-									updateTips( "User " + $("#signup-email").val() + " allready registrated");
-									$("#signup-email").addClass( "ui-state-error" );
-								}
-							});
-						}
-					},
-					Cancel: function() {
-						$( this ).dialog( "close" );
-					}
-				},
-				close: function() {
-					$("#signup-name").removeClass("ui-state-error");
-					$("#signup-username").removeClass("ui-state-error");
-					$("#signup-email").removeClass("ui-state-error");
-					$("#signup-password").removeClass("ui-state-error");
-				}
-			});
-			
-			
-			
-			$( "#dialog-editUser" ).dialog({
-                autoOpen: false,
-                height: 330,
-                width: 450,
-                modal: true,
-                buttons: {
-                        "Change": function() {
-                        
-                                var that = $(this);
-                                var bValid = true;
-                                
-        						$("#update-username").removeClass("ui-state-error");
-                                $("#update-name").removeClass("ui-state-error");
-           						$("#update-passwordNew").removeClass("ui-state-error");
-        						
-        						bValid = bValid && checkLength( $("#update-username"), "username", 6, 80 );
-        						bValid = bValid && checkLength( $("#update-name"), "name", 6, 80 );
-        						bValid = bValid && checkLength( $("#update-password"), "password", 6, 20 );
-        						bValid = bValid && checkLength( $("#update-passwordNew"), "password", 6, 20 );
-
-        						bValid = bValid && checkRegexp( $("#update-username"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
-        						bValid = bValid && checkRegexp( $("#update-name"), /^[A-Za-z]([A-Za-z ])+$/i, "Username may consist of A-Z, a-z, spaces, and underscores, and must begin with a letter." );
-        						bValid = bValid && checkRegexp( $("#update-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-        						bValid = bValid && checkRegexp( $("#update-passwordNew"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-                                
-                                if ( bValid ) {                                                 
-          
-                                        fmd.updateUser( $("#update-username").val(), $("#update-name").val(), $("#update-password").val(), $("#update-passwordNew").val(), function(result){
-            								if(result.status == "ok"){
-            									updateTips( "User " + $("#update-email").val() + " successfully updated!");
-            									that.dialog("close");
-            									updateUsers();
-            								} else if(result.status == "unauthorized"){
-            									updateTips( "Altes Password falsch eingegeben.");
-            									$("#update-email").addClass( "ui-state-error" );
-            								}
-            								else if(result.status == "notmodfied"){
-            									updateTips( "User " + $("#update-email").val() + " can not be updated!");
-            									$("#update-email").addClass( "ui-state-error" );
-            								}
-            							});
-            						}
-            					},
-                        Cancel: function() {
-                                $( this ).dialog( "close" );
-                        }
-                },
-                close: function() {
-                    $("#update-name").removeClass("ui-state-error");
-					$("#update-username").removeClass("ui-state-error");
-					$("#update-email").removeClass("ui-state-error");
-					$("#update-password").removeClass("ui-state-error");
-                }
-        });
-			
-			
-			
-			
-			
-			
-			
+			//#####################################################
+			//     				Buttons
+			//#####################################################
 			$( "#loginb" ).button().click(function() {
 				$( "#dialog-login" ).dialog("open");
 			});
@@ -762,7 +788,11 @@
 			});
 			
 		}
+
 		
+		//#####################################################
+		//   Funktionen die in den Anfragen verwendet werden
+		//#####################################################
 		function updateTips( t ) {
 			$("#signup-tips").text( t ).addClass( "ui-state-highlight" );
 			setTimeout(function() {
@@ -955,13 +985,13 @@
 
 
 <div id="dialog-help4" title="Help">
-	<p id="edit" class="help"><b>How to edit the profile?!</b></p>
+	<p id="edit" class="help"><b>How to edit your profile?!</b></p>
 		<form>
 			<fieldset>
 				<table>
 					<tr>
 						<td>
-							<label for="help4"><p>Please click at the top of the page the Edit-Button.</p><p> Here you can edit your Profile.</p></label>
+							<label for="help4"><p>Please click at the Edit-Button on the top of the page.</p><p> Here you can edit your Profile.</p></label>
 						</td>
 					</tr>
 				</table>
@@ -970,13 +1000,13 @@
 </div>
 
 <div id="dialog-help5" title="Help">
-<p id="toplist" class="help"><b>What is a TopList?!</b></p>
+<p id="toplist" class="help"><b>What is the TopList?!</b></p>
 	<form>
 		<fieldset>
 			<table>
 				<tr>
 					<td>
-						<label for="help5"><p>The Toplist shows the TOP Player of this game.</p><p> Maybe one day you will be the nunmber one ;)</p></label>
+						<label for="help5"><p>The Toplist shows the leading Players of this game.</p><p> Maybe one day you will be the nunmber one ;)</p></label>
 					</td>
 				</tr>
 			</table>
@@ -1054,6 +1084,10 @@
 			</table>
 		</fieldset>
 	</form>
+</div>
+
+<div id="register-success" title="Sucess">
+        <label for="first">Registration was successfull! Go back and login with your new account.</label>
 </div>
 
 <div id="dialog-editUser" title="Edit my profile">
