@@ -220,8 +220,12 @@ FmdClient.prototype.signup = function(email, name, username, password, callback)
 		data: JSON.stringify(d), // JSON data must be transformed to a String representation
 		
 		// process result in case of success and feed result to callback function passed by developer
-		success: function(){
-				callback({status:"ok"});
+        success: function(uri){
+			var result = {};
+			result.status = "created";
+			result.uri = uri;
+			
+			callback(result);
 		},
 		// process result in case of different HTTP statuses and feed result to callback function passed by developer
 		statusCode: {
