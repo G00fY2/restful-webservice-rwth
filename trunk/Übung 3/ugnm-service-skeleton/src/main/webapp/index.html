@@ -326,16 +326,17 @@
 			$("#registerb").hide();
 		    $("#trueb").hide();                             
             $("#fakeb").hide();
-            $("#profileb").hide();
+            $("#profileb").show();
             $("#gameb").show();
-            $("#editb").show();
-            $("#rate-image").show();   
-            $("#game").show(); 
-            $("#media").show();
+            $("#editb").hide();
+            $("#rate-image").hide();   
+            $("#game").hide(); 
+            $("#media").hide();
             $("#help1b").hide();
             $("#help2b").hide();
             $("#help3b").hide();	
-            $("#help4b").show();
+            $("#help4b").hide();
+            $("#help5b").show();
 	}
 		
 		function updateUser(){			
@@ -357,6 +358,7 @@
             $("#help2b").hide();
             $("#help3b").hide();	
             $("#help4b").show();
+            $("#help5b").hide();
 	}
 		
 		function updateGame(){			
@@ -379,6 +381,7 @@
                 $("#help2b").hide();
                 $("#help3b").show();
                 $("#help4b").hide();
+                $("#help5b").hide();
 		}
 		
 		
@@ -403,6 +406,7 @@
                 $("#help2b").show();
                 $("#help3b").hide();
                 $("#help4b").hide();
+                $("#help5b").hide();
 				
 			} else {
 				
@@ -424,6 +428,7 @@
                 $("#help2b").hide();
                 $("#help3b").hide();
                 $("#help4b").hide();
+                $("#help5b").hide();
 			}
 		}
 		
@@ -511,6 +516,19 @@
 			});
 			
 			$("#dialog-help4" ).dialog({
+                autoOpen: false,
+                height: 250,
+                width: 400,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                $(this).dialog("close");
+                        }
+                }
+			});
+			
+			
+			$("#dialog-help5" ).dialog({
                 autoOpen: false,
                 height: 250,
                 width: 400,
@@ -683,6 +701,10 @@
 				$( "#dialog-help4" ).dialog("open");
 			});
 			
+			$( "#help5b" ).button().click(function() {
+				$( "#dialog-help5" ).dialog("open");
+			});
+			
 			$( "#registerb" ).button().click(function() {
 				$( "#dialog-signup" ).dialog("open");
 			});
@@ -814,6 +836,7 @@
 		<button id="help2b">Help</button>
 		<button id="help3b">Help</button>
 		<button id="help4b">Help</button>
+		<button id="help5b">Help</button>
 		<button id="logoutb">Logout</button>	
 	</span>
 	
@@ -944,6 +967,21 @@
 				</table>
 			</fieldset>
 		</form>
+</div>
+
+<div id="dialog-help5" title="Help">
+<p id="toplist" class="help"><b>What is a TopList?!</b></p>
+	<form>
+		<fieldset>
+			<table>
+				<tr>
+					<td>
+						<label for="help5"><p>The Toplist shows the TOP Player of this game.</p><p> Maybe one day you will be the nunmber one ;)</p></label>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
 </div>
 
 
