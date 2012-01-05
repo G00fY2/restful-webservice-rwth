@@ -4,6 +4,14 @@
 	<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" type="text/css" media="all" />
 	<link rel="stylesheet" href="./css/jquery.tooltip.css" type="text/css" media="all" />
 	<style type="text/css">
+	
+	
+		a:link {text-decoration:none}
+		a:visited {text-decoration:none}
+		a:hover {text-decoration:none}
+		a:active {text-decoration:none}
+		a:focus {text-decoration:none}
+	
 		* { 
 			color: black; 
 			font-family: Verdana;
@@ -136,23 +144,42 @@
 			margin-right: auto;
 			width:98%;
 			position: absolute;
-            text-align: center;
-			top: 600px;
+			top: 630px;
 			border-top:1px solid rgb(195,195,195);
-			font-size: 5pt;
+			font-size: 9pt;
 		
         }
 		
 		#rightField { 
 			width: 25%;
 			position: absolute;
-			top: 150px;
+			top: 190px;
 			right: 20px;
 			font-size: 9pt;
                    
         }
 		
+		#panties{
+			position: absolute;
+			float:right;
+			top: 550px;
+			padding-bottom: 10px;
+			margin-left: 90%;
+		}
 		
+		#copyright{
+			float:left;
+			font-size: 7pt;
+			padding-top: 10px;
+		}
+		
+		#footnotes{
+			position: absolute;
+			float:right;
+			font-size: 7pt;
+			padding-top: 10px;
+			margin-left: 90%;
+		}
 		
 	</style>
 	
@@ -290,10 +317,33 @@
 			});
 		}
 		
-		function updateUser(){			
+		function updateToplist(){			
 			$("#username").html(fmd._uid);
 			$("#loginb").hide();
+			$("#rightField").show();
 			$("#logoutb").show();
+			$("#toplistb").hide(); 
+			$("#registerb").hide();
+		    $("#trueb").hide();                             
+            $("#fakeb").hide();
+            $("#profileb").hide();
+            $("#gameb").show();
+            $("#editb").show();
+            $("#rate-image").show();   
+            $("#game").show(); 
+            $("#media").show();
+            $("#help1b").hide();
+            $("#help2b").hide();
+            $("#help3b").hide();	
+            $("#help4b").show();
+	}
+		
+		function updateUser(){			
+			$("#username").html(fmd._uid);
+			$("#rightField").hide();
+			$("#loginb").hide();
+			$("#logoutb").show();
+			$("#toplistb").show(); 
 			$("#registerb").hide();
 		    $("#trueb").hide();                             
             $("#fakeb").hide();
@@ -312,6 +362,8 @@
 		function updateGame(){			
 				$("#username").html(fmd._uid);
 				$("#loginb").hide();
+				$("#rightField").hide();
+				$("#toplistb").show(); 
 				$("#logoutb").show();
 				$("#registerb").hide();
 			    $("#trueb").show();                             
@@ -336,7 +388,9 @@
 				$("#username").html(fmd._uid);
 				$("#loginb").hide();
 				$("#logoutb").show();
+				$("#rightField").hide();
 				$("#registerb").hide();
+				$("#toplistb").show(); 
 			    $("#trueb").hide();                             
                 $("#fakeb").hide();
                 $("#profileb").show();
@@ -353,6 +407,8 @@
 			} else {
 				
 				$("#username").html("");
+				$("#toplistb").hide(); 
+				$("#rightField").hide();
 				$("#loginb").show();
 				$("#logoutb").hide();
 				$("#registerb").show();
@@ -381,8 +437,8 @@
 			
 			$("#dialog-login" ).dialog({
 				autoOpen: false,
-				height: 220,
-				width: 350,
+				height: 215,
+				width: 390,
 				modal: true,
 				buttons: {
 					"Login": function() {
@@ -432,7 +488,7 @@
 			
 			$("#dialog-help2" ).dialog({
                 autoOpen: false,
-                height: 250,
+                height: 265,
                 width: 400,
                 modal: true,
                 buttons: {
@@ -444,7 +500,7 @@
 			
 			$("#dialog-help3" ).dialog({
                 autoOpen: false,
-                height: 400,
+                height: 420,
                 width: 400,
                 modal: true,
                 buttons: {
@@ -455,6 +511,31 @@
 			});
 			
 			$("#dialog-help4" ).dialog({
+                autoOpen: false,
+                height: 250,
+                width: 400,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                $(this).dialog("close");
+                        }
+                }
+			});
+			
+			
+			$("#dialog-about" ).dialog({
+                autoOpen: false,
+                height: 270,
+                width: 400,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                $(this).dialog("close");
+                        }
+                }
+			});
+			
+			$("#dialog-contact" ).dialog({
                 autoOpen: false,
                 height: 250,
                 width: 400,
@@ -497,11 +578,11 @@
 							// POST form data to resource /users
 							fmd.signup( $("#signup-email").val(), $("#signup-name").val(), $("#signup-username").val(), $("#signup-password").val(), function(result){
 								if(result.status == "created"){
-									updateTips( "User " + $("#signup-email").val() + " erfolgreich registiert!");
+									updateTips( "User " + $("#signup-email").val() + " successfully registrated!");
 									that.dialog("close");
 									updateUsers();
 								} else if( result.status == "conflict"){
-									updateTips( "User " + $("#signup-email").val() + " bereits registriert");
+									updateTips( "User " + $("#signup-email").val() + " allready registrated");
 									$("#signup-email").addClass( "ui-state-error" );
 								}
 							});
@@ -523,7 +604,7 @@
 			
 			$( "#dialog-editUser" ).dialog({
                 autoOpen: false,
-                height: 320,
+                height: 330,
                 width: 450,
                 modal: true,
                 buttons: {
@@ -550,7 +631,7 @@
           
                                         fmd.updateUser( $("#update-username").val(), $("#update-name").val(), $("#update-password").val(), $("#update-passwordNew").val(), function(result){
             								if(result.status == "ok"){
-            									updateTips( "User " + $("#update-email").val() + " erfolgreich geändert!");
+            									updateTips( "User " + $("#update-email").val() + " successfully updated!");
             									that.dialog("close");
             									updateUsers();
             								} else if(result.status == "unauthorized"){
@@ -558,7 +639,7 @@
             									$("#update-email").addClass( "ui-state-error" );
             								}
             								else if(result.status == "notmodfied"){
-            									updateTips( "User " + $("#update-email").val() + " wurde NICHT geändert!");
+            									updateTips( "User " + $("#update-email").val() + " can not be updated!");
             									$("#update-email").addClass( "ui-state-error" );
             								}
             							});
@@ -615,6 +696,11 @@
 				updateStatus();
 			});
 			
+			$( "#toplistb" ).button().click(function() {
+				updateToplist()
+                updateUsers();                         
+			});
+			
 			$( "#gameb" ).button().click(function() {
                 updateGame();
                 updateMedia();                          
@@ -623,6 +709,11 @@
 			$( "#profileb" ).button().click(function() {
                 updateUser();                        
 			});
+			
+			$( "#aboutl" ).click(function() {
+				$( "#dialog-about" ).dialog("open");
+			});
+			
 			
 			$( "#fakeb" ).button().click(function() {
 				console.log(cmedium.id + " is a Fake");
@@ -692,14 +783,25 @@
 
 
 <div id="topField">
-			<h2>UGNM - Fake Media Detection Game</h2>
+	<img id = "banner" src = "media/banner2.jpg" alt="" ></img>
 </div>
 
 
 
-<div id="profile">
 
-	<span id="username"></span>
+
+
+															<! ******* DIALOG-BOXEN *********>
+
+
+
+
+
+
+
+<div id="profile">
+	
+	<b><span id="username"></b></span>
 	
 	<span id="profile-buttons">
 		<button id="loginb">Login</button>
@@ -707,6 +809,7 @@
 		<button id="profileb">Profile</button>
 		<button id="editb">Edit</button>
 		<button id="registerb">Register</button>
+		<button id="toplistb">TopList</button>
 		<button id="help1b">Help</button>
 		<button id="help2b">Help</button>
 		<button id="help3b">Help</button>
@@ -737,70 +840,141 @@
 
 <div id="rightField">
 	<div id="users"></div>
+</div> 
+
+<div id="panties">
+	<img id = "fun" src = "media/panties.jpg" alt="" ></img>
 </div>
 
 <div id="bottomField">
-	<h2>About blabla</h2>
+	
+	<div id="footnotes">
+		<a id="aboutl" style="cursor:hand">About  - </a>
+		<a id="contactl" href="mailto:sven.hausburg@rwth-aachen.de">Contact Us</a>
+	</div>
+	
+	<div id="copyright">
+	© Thomas W./ Sven H.
+	</div>
 </div>
 
-<! ******* DIALOG-BOXEN *********>
+
+
+
+
+																<! ******* DIALOG-BOXEN *********>
+
+
+
+
 
 
 <div id="dialog-help1" title="Help">
-<p id="registrate" class="help"><b>How to registrate?!</b></p>
-	<form>
-		<fieldset>
-			<label for="help1"><p>Please click at the top of the page the Register-Button and follow the instruductions.</p></label>
-		</fieldset>
-	</form>
+	<p id="registrate" class="help"><b>How to registrate?!</b></p>
+		<form>
+			<fieldset>
+				<table>
+					<tr>
+						<td>
+							<label for="help1"><p>Please click at the top of the page the Register-Button and follow the instruductions.</p></label>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</form>
 </div>
 
 
 <div id="dialog-help2" title="Help">
-<p id="play" class="help"><b>How to play?!</b></p>
-	<form>
-		<fieldset>
-			<label for="help2"><p>Please click at the top of the page the Game-Button and have fun!</p><p> You have to rate the pictures as true or false.</p></label>
-		</fieldset>
-	</form>
+	<p id="play" class="help"><b>How to play?!</b></p>
+		<form>
+			<fieldset>
+				<table>
+					<tr>
+						<td>
+							<label for="help2"><p>Please click at the top of the page the Game-Button and have fun!</p><p> You have to rate the pictures as true or false.</p></label>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</form>
 </div>
 
 
 <div id="dialog-help3" title="Help">
-<p id="ep" class="help"><b>How I get EP?!</b></p>
-	<form>
-		<fieldset>
-			<label for="help3"><p>If you rate a picture correctly, you will get a small amount of EP.</p> There are a lot of hidden achievements in the game ;) <p>Can you get them all?</p></label>
-		</fieldset>
-	</form>
+	<p id="ep" class="help"><b>How I get EP?!</b></p>
+		<form>
+			<fieldset>
+				<table>
+					<tr>
+						<td>
+							<label for="help3"><p>If you rate a picture correctly, you will get a small amount of EP.</p> There are a lot of hidden achievements in the game ;) <p>Can you get them all?</p></label>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</form>
 	
 	<p id="ep" class="help"><b>How I get Achievements?!</b></p>
 	<form>
 		<fieldset>
-			<label for="help3"><p></p> There are a lot of hidden achievements in the game ;) <p>Can you get them all?</p></label>
+			<table>
+				<tr>
+					<td>
+						<label for="help3"><p></p> There are a lot of hidden achievements in the game ;) <p>Can you get them all?</p></label>
+					</td>
+				</tr>
+			</table>
 		</fieldset>
 	</form>
 </div>
 
+
+
 <div id="dialog-help4" title="Help">
-<p id="edit" class="help"><b>How to edit the profile?!</b></p>
-	<form>
-		<fieldset>
-			<label for="help4"><p>Please click at the top of the page the Edit-Button.</p><p> Here you can edit your Profile.</p></label>
-		</fieldset>
-	</form>
+	<p id="edit" class="help"><b>How to edit the profile?!</b></p>
+		<form>
+			<fieldset>
+				<table>
+					<tr>
+						<td>
+							<label for="help4"><p>Please click at the top of the page the Edit-Button.</p><p> Here you can edit your Profile.</p></label>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</form>
 </div>
+
+
 
 <div id="dialog-login" title="Login">
 	<form>
 		<fieldset>
-			<label for="login-login">Login:</label>
-			<input type="text" id="login-email" value="" class="text ui-widget-content ui-corner-all" /><br/>
-			<label for="login-password">Password:</label>
-			<input type="password" id="login-password" value="" class="text ui-widget-content ui-corner-all" /><br/>
+			<table>
+				<tr>
+					<td>
+						<label for="login-login">Login:</label>
+					</td>
+					<td>
+						<input type="text" id="login-email" value="" class="text ui-widget-content ui-corner-all" /><br/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="login-password">Password:</label>
+					</td>
+					<td>
+						<input type="password" id="login-password" value="" class="text ui-widget-content ui-corner-all" /><br/>
+					</td>
+				</tr>
+			</table>
 		</fieldset>
 	</form>
 </div>
+
+
+
 
 <div id="dialog-signup" title="Sign Up">
 	<p id="signup-tips" class="validateTips">All form fields are required.</p>
@@ -886,7 +1060,20 @@
 </form>
 </div>
 
-
+<div id="dialog-about" title="About">
+<p id="about" class="about"><b>About Us:</b></p>
+	<form>
+		<fieldset>
+			<table>
+				<tr>
+					<td>
+						<label for="help2"><p>We are a team of two developers who are going to create one of your favorite games!</p><p> Please let us know if you have some suggestions for improvements.</p></label>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
+</div>
 
 
 </body>
