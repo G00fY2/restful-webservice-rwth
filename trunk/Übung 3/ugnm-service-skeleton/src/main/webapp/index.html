@@ -8,10 +8,9 @@
 			color: black; 
 			font-family: Verdana;
 			sans-serif; 
-			font-size: 9pt;
 		}
 		
-		body { font: 1em "Trebuchet MS", verdana, arial, sans-serif; font-size: 100%; }
+		body { font: 1em "Trebuchet MS", verdana, arial, sans-serif; font-size: 70%; }
 		input, textarea { font-family: Arial; font-size: 125%; padding: 7px; }
 		label { display: block; } 
 
@@ -89,13 +88,6 @@
 		}
 		
 		#users {
-			position: absolute;
-			top: 50px;
-			right: 20px;
-		}
-		
-		#rate {
-			width: 600px;
 		}
 		
 		#rate-image {
@@ -104,7 +96,61 @@
 		
 		#media {                
               text-align: center;                     
-      }
+        }
+		
+		#trueFakeb {                
+            text-align: center; 
+			font-size: 9pt;
+        }
+		
+		#profile {
+			padding-bottom: 10px;
+			border-bottom:1px solid rgb(195,195,195);
+			padding-top: 10px;
+			border-top:1px solid rgb(195,195,195);
+			font-size: 9pt;
+		}
+		
+		#game {
+			width: 50%;
+			high: 75%;
+			margin-left: auto;
+			margin-right: auto;
+			padding-bottom: 10px;
+			padding-top: 10px;
+			font-size: 9pt;
+		}
+		
+		#topField { 
+			margin-left: auto;
+			margin-right: auto;
+			width:98%;
+			padding-bottom: 25px;
+			padding-top: 15px;
+            text-align: center;
+			
+        }
+		
+		#bottomField { 
+			margin-left: auto;
+			margin-right: auto;
+			width:98%;
+			position: absolute;
+            text-align: center;
+			top: 600px;
+			border-top:1px solid rgb(195,195,195);
+			font-size: 5pt;
+		
+        }
+		
+		#rightField { 
+			width: 25%;
+			position: absolute;
+			top: 150px;
+			right: 20px;
+			font-size: 9pt;
+                   
+        }
 		
 		
 		
@@ -255,7 +301,7 @@
             $("#gameb").show();
             $("#editb").show();
             $("#rate-image").show();   
-            $("#rate").show(); 
+            $("#game").show(); 
             $("#media").show();
             $("#help1b").hide();
             $("#help2b").hide();
@@ -274,7 +320,7 @@
                 $("#gameb").hide();
                 $("#editb").hide();
                 $("#rate-image").show();   
-                $("#rate").show(); 
+                $("#game").show(); 
                 $("#media").show();
                 $("#medialist").show();
                 $("#help1b").hide();
@@ -297,7 +343,7 @@
                 $("#gameb").show();
                 $("#editb").hide();
                 $("#rate-image").show();   
-                $("#rate").show(); 
+                $("#game").show(); 
                 $("#media").show();
                 $("#help1b").hide();
                 $("#help2b").show();
@@ -316,7 +362,7 @@
                 $("#editb").hide();
                 $("#profileb").hide();
                 $("#rate-image").show();   
-                $("#rate").show(); 
+                $("#game").show(); 
                 $("#media").show();
                 $("#help1b").show();
                 $("#help2b").hide();
@@ -422,7 +468,7 @@
 			
 			$( "#dialog-signup" ).dialog({
 				autoOpen: false,
-				height: 320,
+				height: 330,
 				width: 550,
 				modal: true,
 				buttons: {
@@ -637,12 +683,24 @@
 	</script>
 </head>
 
+
+
+
+
+
 <body>
-<h2>UGNM Fake Media Detection Game</h2>
+
+
+<div id="topField">
+			<h2>UGNM - Fake Media Detection Game</h2>
+</div>
+
+
 
 <div id="profile">
+
 	<span id="username"></span>
-	<span id="achievements"></span>
+	
 	<span id="profile-buttons">
 		<button id="loginb">Login</button>
 		<button id="gameb">Game</button>
@@ -653,31 +711,37 @@
 		<button id="help2b">Help</button>
 		<button id="help3b">Help</button>
 		<button id="help4b">Help</button>
-		<button id="logoutb">Logout</button>
-		
+		<button id="logoutb">Logout</button>	
 	</span>
+	
 </div>
 
-<br/>
 
-<div id="rate">
-	<center>
-	<div id="rate-image"></div><br/>
-	<button id="trueb" >True</button>
-	<button id="fakeb" >Fake</button>
-	</center>
+
+<div id="game">
+
+	<div id="rate-image"></div>
+	
+	<div id="truefakeb">
+		<button id="trueb" >True</button>
+		<button id="fakeb" >Fake</button>
+	</div>
+	
+	<div id="media">
+		<div class="infiniteCarousel">
+			<div id="medialist" class="wrapper"></div>
+		</div>
+	</div>
+	
 </div>
 
-<div id="media">
-	<div class="infiniteCarousel">
-      <div id="medialist" class="wrapper">
-        
-      </div>
-    </div>
+<div id="rightField">
+	<div id="users"></div>
 </div>
 
-<div id="users"></div>
-
+<div id="bottomField">
+	<h2>About blabla</h2>
+</div>
 
 <! ******* DIALOG-BOXEN *********>
 
@@ -781,7 +845,7 @@
 </div>
 
 <div id="dialog-editUser" title="Edit my profile">
-<p id="edit-tips" class="validateTips">Zum Ändern müssen alle Felder ausgefüllt werden!</p>
+<p id="edit-tips" class="validateTips">All form fields are required.</p>
 <form>
 	<fieldset>
 		<table>
@@ -803,7 +867,7 @@
 		</tr>
 			<tr>
 				<td>
-					<label for="update-password">Jetziges Password:</label>
+					<label for="update-password">Old Password:</label>
 				</td>
 				<td>
 					<input type="password" id="update-password" value="" class="text ui-widget-content ui-corner-all" />
@@ -811,7 +875,7 @@
 			</tr>
 			<tr>
 				<td>
-					<label for="update-passwordNew">Neues Password:</label>
+					<label for="update-passwordNew">New Password:</label>
 				</td>
 				<td>
 					<input type="password" id="update-passwordNew" value="" class="text ui-widget-content ui-corner-all" />
