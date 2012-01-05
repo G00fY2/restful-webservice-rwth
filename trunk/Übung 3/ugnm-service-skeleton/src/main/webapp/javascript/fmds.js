@@ -111,7 +111,7 @@ FmdClient.prototype.login = function(email, password, callback){
 	var that = this;
 	
 	// use helper function to create credentials as base64 encoding for HTTP auth header
-	var credentials = __make_base_auth(email,password);
+	var credentials = __make_base_auth(email, password);
 	
 	// here, you see a first example of an AJAX request done with the help of jQuery.
 	$.ajax({
@@ -202,13 +202,13 @@ FmdClient.prototype.logout = function(){
  * @param callback (function(result)) 
  */
 
-FmdClient.prototype.signup = function(email, username, name, password, callback){
+FmdClient.prototype.signup = function(email, name, username, password, callback){
 	
 	// create JSON representation to be passed to the Web Service
 	var d = {};
 	d.email = email;
-	d.username = username;
 	d.name = name;
+	d.username = username;
 	d.password = password;
 	
 	var resource = this._usersResource;
@@ -216,26 +216,25 @@ FmdClient.prototype.signup = function(email, username, name, password, callback)
 	// do AJAX call to Web Service using jQuery.ajax
 	$.ajax({
 		url: resource,
-		type: "POST",
+		type: "PUT",
 		data: JSON.stringify(d), // JSON data must be transformed to a String representation
 		
 		// process result in case of success and feed result to callback function passed by developer
-		success: function(uri){
-			var result = {};
-			result.status = "created";
-			result.uri = uri;
-			
-			callback(result);
+		success: function(){
+				callback({status:"ok"});
 		},
 		// process result in case of different HTTP statuses and feed result to callback function passed by developer
 		statusCode: {
-			409: function(){
-				callback({status:"conflict"});
+			406: function(){
+				callback({status:"notacceptable"});
 			},
 			500: function(){
 				callback({status:"servererror"});
 			},
-			
+            409: function(){
+                callback({status:"conflict"});
+            },
+
 		},
 		contentType: "application/json",
 		cache: false
@@ -295,18 +294,17 @@ FmdClient.prototype.deleteUser = function(email, password, callback){
  *
  */
 
-FmdClient.prototype.updateUser = function(email, username, name, password, callback){
+FmdClient.prototype.updateUser = function(username, name, password, passwordNew, callback){
     
     // create JSON representation to be passed to the Web Service
 	var d = {};
-	d.email = email;
 	d.username = username;
 	d.name = name;
-	d.password = password;
+	d.password = passwordNew;
 
-    var resource = this._usersResource + "/" + email;
+    var resource = this._usersResource + "/" + this._uid;
     
-    var credentials = __make_base_auth(email, password);
+    var credentials = __make_base_auth(this._uid, password);
     
     
 
@@ -322,18 +320,18 @@ FmdClient.prototype.updateUser = function(email, username, name, password, callb
             // process result in case of success and feed result to callback function passed by developer
             success: function(uri){
     			var result = {};
-    			result.status = "updated";
+    			result.status = "ok";
     			result.uri = uri;
     			
     			callback(result);
     		},
             // process result in case of different HTTP statuses and feed result to callback function passed by developer
             statusCode: {
-                    409: function(){
-                            callback({status:"conflict"});
+                    304: function(){
+                            callback({status:"notmodfied"});
                     },
-                    500: function(){
-                            callback({status:"servererror"});
+                    401: function(){
+                            callback({status:"unauthorized"});
                     },
                     
             },
@@ -363,7 +361,7 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 	// do AJAX call to Web Service using jQuery.ajax
 	$.ajax({
 		url: resource,
-		type: "POST",
+		type: "PUT",
 		data: JSON.stringify(d), // JSON data must be transformed to a String representation
 		beforeSend: function(xhr){
 			xhr.setRequestHeader("Authorization", that._cred);
