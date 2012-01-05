@@ -9,7 +9,7 @@ import java.util.Vector;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.OPTIONS;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
@@ -85,9 +85,9 @@ public class UsersResource {
 
         	}
         
-//Erstellt einen User und fügt diesen mittels POST hinzu
+//Erstellt einen User und fügt diesen mittels PUT hinzu
         
-          @POST
+          @PUT
           @Consumes("application/json")  
           public Response putUser(JSONObject o) throws JSONException {
         

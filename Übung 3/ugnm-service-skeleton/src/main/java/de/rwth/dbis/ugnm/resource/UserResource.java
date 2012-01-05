@@ -48,25 +48,40 @@ public class UserResource {
    
         @GET
         @Produces("application/json")
-        public Response getUser(@PathParam("email") String email) {
+        public Response getUser(@HeaderParam("authorization") String auth, @PathParam("email") String email) {
         	
 //User-Objekt wird mit uebergebenen Parametern erzeugt
         	
                 User u = userService.getByEmail(email);
                 
-//Wenn User-Object nicht = "null" wird das password auf null gesetzt und dieses Object ausgegeben               
-//Andernfalls wird eine 404 WebApplicationException geschmissen
+//Wenn User-Object nicht = "null" wird wird geprüft, ob die GET Anfrage mit oder ohne Authorisierung gestellt wurde               
+//Im ersten Fall bleibt das Password unverändert, im zweiten Fall wird es "null" gesetzt
                 
                 if (u!=null){
-                	u.setPassword(null);
+                
+                	//prüfe ob authHeader mit übergeben
+                	if(auth==null){
+                		//setze passwort vor dem return auf "null"
+                		u.setPassword(null);
+                        Response.ResponseBuilder r = Response.ok(u);
+                        return CORS.makeCORS(r, _corsHeaders); 
+                	}
+                	else if(authenticated(auth,u)){
+                		//wenn authorisiert gebe user unverändert aus
+                        Response.ResponseBuilder r = Response.ok(u);
+                        return CORS.makeCORS(r, _corsHeaders);
+                	}
+                	else{
+                        Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                        return CORS.makeCORS(r, _corsHeaders);
+                	}
                 }
+                
                 else{
                 	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
-                Response.ResponseBuilder r = Response.ok(u);
-                return CORS.makeCORS(r, _corsHeaders);
-}
+        }
 
 
 //Ermöglicht ueber PUT das aendern eines einzelnen Users 
@@ -81,41 +96,30 @@ public class UserResource {
             //Prueft ob User vorhanden und authentifiziert
             if(u != null){
         	if(authenticated(auth, u)){
-        	
-//Wenn uebergebenes Json-Object = null -> 406 WebApplicationException
-        	
-                if(o == null){
-                	Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
-                    return CORS.makeCORS(r, _corsHeaders);
-                }
+        		
+        	boolean updated = false;
+            
+        	if(o.has("username") || o.has("name") || o.has("password")){
+                if(!o.getString("username").equals(u.getUsername()) && "username" != null){
+                	u.setUsername(o.getString("username"));
+                	updated = true;	
+                	}
+                if(!o.getString("name").equals(u.getName()) && "name" != null){
+                	u.setName(o.getString("name"));
+                	updated = true;	
+                	}
+                if(!o.getString("password").equals(u.getPassword()) && "password" != null){
+                	u.setPassword(o.getString("password"));
+                	updated = true;	
+                	}     
+        	}
 
-//Wenn Laenge = 0 wurde keine aenderung vorgenommen -> notModified Response                 
-                
-                if(o.length() == 0){
-                	Response.ResponseBuilder r = Response.status(Status.NOT_MODIFIED);
-                	return CORS.makeCORS(r, _corsHeaders);
-                }
-                
-                //Es wird geprueft ob der username und/oder das passwort geändert werden sollen
-                boolean updateStatus = false;
-
-                if (o.has("username") && !o.getString("username").equals(u.getUsername())){
-                        u.setUsername(o.getString("username"));
-                        updateStatus = true;
-                        }
-                if (o.has("password") && !o.getString("password").equals(u.getPassword())){
-                        u.setPassword(o.getString("password"));
-                        updateStatus = true;
-                        }
-                
-                        if(updateStatus){
-                        	//Updatet den user
-                        		userService.update(u);
-
-                        	   Response.ResponseBuilder r = Response.status(Status.CREATED);
-                               
-                        	   return CORS.makeCORS(r, _corsHeaders);
-                        } else {
+                 if(updated){
+                	 userService.update(u);
+                	 Response.ResponseBuilder r = Response.status(Status.OK);
+                	 return CORS.makeCORS(r, _corsHeaders);
+                        } 
+                 	else {
                         	Response.ResponseBuilder r = Response.status(Status.NOT_MODIFIED);
                             return CORS.makeCORS(r, _corsHeaders);
                         }
