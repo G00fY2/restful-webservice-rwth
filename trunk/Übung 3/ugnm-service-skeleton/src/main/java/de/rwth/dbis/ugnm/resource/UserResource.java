@@ -99,7 +99,7 @@ public class UserResource {
         		
         	boolean updated = false;
             
-        	if(o.has("username") || o.has("name") || o.has("password")){
+        	if(o.has("username") && o.has("name") && o.has("password")){
                 if(!o.getString("username").equals(u.getUsername()) && "username" != null){
                 	u.setUsername(o.getString("username"));
                 	updated = true;	

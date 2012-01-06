@@ -146,18 +146,18 @@ FmdClient.prototype.login = function(email, password, callback){
 			*/
 			
 			//
-			callback(true);
+			callback({status:"ok"});
 		},
 		
 		// this is another mechanism of reacting to any answer coming from the Web service.
 		statusCode: {
-			// if user does not exist, return authentication failed.
+			// if user does not exist, return not_found failed.
 			404: function(){
-				callback(false);
+				callback({status:"notfound"});
 			},
 			// if credentials were not correct, return authentication failed.
 			401: function(){
-				callback(false);
+				callback({status:"unauthorized"});
 			} 
 		}
 	});
@@ -322,17 +322,15 @@ FmdClient.prototype.updateUser = function(username, name, password, passwordNew,
                     xhr.setRequestHeader("Authorization", credentials);
             },
             // process result in case of success and feed result to callback function passed by developer
-            success: function(uri){
+            success: function(){
     			var result = {};
     			result.status = "ok";
-    			result.uri = uri;
-    			
     			callback(result);
     		},
             // process result in case of different HTTP statuses and feed result to callback function passed by developer
             statusCode: {
                     304: function(){
-                            callback({status:"notmodfied"});
+                            callback({status:"notmodified"});
                     },
                     401: function(){
                             callback({status:"unauthorized"});
