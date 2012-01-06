@@ -95,6 +95,7 @@
 		  background-position: 0 -108px;
 		}
 		
+		
 		#users {
 		}
 		
@@ -153,7 +154,7 @@
 		#rightField { 
 			width: 25%;
 			position: absolute;
-			top: 190px;
+			top: 200px;
 			right: 20px;
 			font-size: 9pt;
                    
@@ -180,6 +181,113 @@
 			padding-top: 10px;
 			margin-left: 90%;
 		}
+		
+		#mainpage { 
+			
+			width:98%;
+			
+        }
+		
+		#loggedinpage { 
+			
+			width:98%;
+			
+        }
+		
+		#pantieMain1 {
+			position: absolute;
+			margin-left: 33%;
+			top: 310px;
+		}
+		
+		#pantieMain2 {
+			position: absolute;
+			margin-left: 8%;
+			float:left;
+			top: 510px;
+			padding-bottom: 10px;
+		}
+		
+		#arrowRegi {
+			position: absolute;
+			margin-left: 10%;
+		}
+		
+		#arrowHaF {
+			position: absolute;
+			top: 450px;
+			margin-left: 88%;
+		}
+		
+		#textArrow1 {
+			position: absolute;
+			top: 430px;
+			margin-left: 87%;
+			font-size: 9pt;
+		}
+		
+		#textArrow {
+			position: absolute;
+			padding-top: 45px;
+			margin-left: 17%;
+			font-size: 9pt;
+		}
+		
+		#textWelcome {
+			position: absolute;
+			padding-top: 250px;
+			margin-left: 5%;
+			font-size: 14pt;
+		}
+		
+		#textDesc {
+			position: absolute;
+			padding-top: 190px;
+			margin-left: 40%;
+			font-size: 8pt;
+		}
+		
+		#arrowGame {
+			position: absolute;
+			margin-left: 8%;
+		}
+		
+		#pantieMulti {
+			position: absolute;
+			top: 150px;
+			margin-left: 3%;
+			font-size: 14pt;
+		}
+		
+		
+		#textArrowGame {
+			position: absolute;
+			padding-top: 27px;
+			margin-left: 16%;
+			font-size: 9pt;
+		}
+		
+		
+		#arrowTop {
+			position: absolute;
+			padding-top: 190px;
+			margin-left: 55%;
+		}
+		
+		#pantieKing {
+			position: absolute;
+			padding-top: 120px;
+			margin-left: 25%;
+		}
+		
+		#texttoplist {
+			position: absolute;
+			padding-top: 250px;
+			margin-left: 5%;
+			font-size: 14pt;
+		}
+		
+		
 		
 	</style>
 	
@@ -330,6 +438,9 @@
             $("#gameb").show();
             $("#editb").hide();
             $("#rate-image").hide();   
+            $("#mainpage").hide();
+            $("#loggedinpage").hide();
+            $("#toplistpage").show();
             $("#game").hide(); 
             $("#media").hide();
             $("#help1b").hide();
@@ -351,7 +462,10 @@
             $("#profileb").hide();
             $("#gameb").show();
             $("#editb").show();
-            $("#rate-image").show();   
+            $("#rate-image").show();
+            $("#mainpage").hide();
+            $("#loggedinpage").hide();
+            $("#toplistpage").hide();
             $("#game").show(); 
             $("#media").show();
             $("#help1b").hide();
@@ -377,6 +491,9 @@
                 $("#game").show(); 
                 $("#media").show();
                 $("#medialist").show();
+                $("#mainpage").hide();
+                $("#loggedinpage").hide();
+                $("#toplistpage").hide();
                 $("#help1b").hide();
                 $("#help2b").hide();
                 $("#help3b").show();
@@ -398,6 +515,9 @@
                 $("#fakeb").hide();
                 $("#profileb").show();
                 $("#gameb").show();
+                $("#mainpage").hide();
+                $("#loggedinpage").show();
+                $("#toplistpage").hide();
                 $("#editb").hide();
                 $("#rate-image").show();   
                 $("#game").show(); 
@@ -421,9 +541,12 @@
                 $("#gameb").hide();
                 $("#editb").hide();
                 $("#profileb").hide();
-                $("#rate-image").show();   
-                $("#game").show(); 
-                $("#media").show();
+                $("#rate-image").show();  
+                $("#mainpage").show();
+                $("#loggedinpage").hide();
+                $("#toplistpage").hide();
+                $("#game").hide(); 
+                $("#media").hide();
                 $("#help1b").show();
                 $("#help2b").hide();
                 $("#help3b").hide();
@@ -667,7 +790,7 @@
 			
 			$("#dialog-help5" ).dialog({
                 autoOpen: false,
-                height: 250,
+                height: 270,
                 width: 400,
                 modal: true,
                 buttons: {
@@ -831,6 +954,9 @@
 
 
 
+															<! ******* BODY-START + BANNER *********>
+
+
 <body>
 
 
@@ -843,7 +969,7 @@
 
 
 
-															<! ******* DIALOG-BOXEN *********>
+															<! ******* NAVIGATION-BAR *********>
 
 
 
@@ -856,22 +982,151 @@
 	<b><span id="username"></b></span>
 	
 	<span id="profile-buttons">
-		<button id="loginb">Login</button>
-		<button id="gameb">Game</button>
-		<button id="profileb">Profile</button>
-		<button id="editb">Edit</button>
-		<button id="registerb">Register</button>
-		<button id="toplistb">TopList</button>
-		<button id="help1b">Help</button>
-		<button id="help2b">Help</button>
-		<button id="help3b">Help</button>
-		<button id="help4b">Help</button>
-		<button id="help5b">Help</button>
-		<button id="logoutb">Logout</button>	
+		<button id="loginb"><b>Login</b></button>
+		<button id="gameb"><b>Game</b></button>
+		<button id="profileb"><b>Profile</b></button>
+		<button id="editb"><b>Edit</b></button>
+		<button id="registerb"><b>Sign Up</b></button>
+		<button id="toplistb"><b>TopList</b></button>
+		<button id="help1b"><b>Help</b></button>
+		<button id="help2b"><b>Help</b></button>
+		<button id="help3b"><b>Help</b></button>
+		<button id="help4b"><b>Help</b></button>
+		<button id="help5b"><b>Help</b></button>
+		<button id="logoutb"><b>Logout</b></button>
+		</b>
 	</span>
 	
 </div>
 
+
+
+															<! ******* MAIN-PAGE *********>
+
+
+
+
+<div id="mainpage">
+
+	<div id="arrowHaF">
+		<img id = "pantie" src = "media/arrowHaF.jpg" alt="" ></img>
+	</div>
+
+	<div id="arrowRegi">
+		<img id = "arrowR" src = "media/registerA.jpg" alt="" ></img>
+	</div>
+
+	<div id="pantieMain1">
+		<img id = "pantie" src = "media/pantieMain1.jpg" alt="" ></img>
+		</div>
+
+	<div id="pantieMain2">
+		<img id = "pantie" src = "media/pantieMain2.jpg" alt="" ></img>
+	</div>
+
+	<div id="textWelcome">
+		<b>Welcome to Fake Media Detection.</b>
+	</div>
+	
+	<div id="textArrow">
+		<b>Please Sign Up!</b>
+	</div>
+	
+	<div id="textArrow1">
+		<b>Have Fun!</b>
+	</div>
+	
+	<div id="textDesc">
+		<b>
+		<p>Welcome to Fake Media Detection!</p>
+		</b>
+		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
+		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
+		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
+		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
+		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
+		
+	</div>
+
+</div>
+
+
+
+															<! ******* LOGGED IN-PAGE *********>
+
+
+
+
+<div id="loggedinpage">
+
+	<div id="arrowGame">
+		<img id = "arrowF" src = "media/arrowGame.jpg" alt="" ></img>
+	</div>
+	
+	<div id="pantieMulti">
+		<img id = "pantieMulti" src = "media/pantiesMulti.jpg" alt="" ></img>
+	</div>
+	
+	<div id="textArrowGame">
+		<b>Start the game and be the best!</b>
+	</div>
+	
+	<div id="textDesc">
+		<b>
+		<p>You think you can win?</p>
+		</b>
+		<p>blablbalbablabalbalablab</p>
+		<p>blablbalbablabalbalablabla</p>
+		<p>blablbalbablabalbala</p>
+		<p>blablbalbablabalbalablabla</p>
+		<p>blablbalbablabalbalabla</p>
+		
+	</div>
+
+</div>
+
+															<! ******* TOPLIST-PAGE *********>
+
+
+
+
+<div id="toplistpage">
+
+	<div id="arrowTop">
+		<img id = "arrowF" src = "media/arrowTop.jpg" alt="" ></img>
+	</div>
+	
+	<div id="pantieKing">
+		<img id = "arrowF" src = "media/pantieKing.jpg" alt="" ></img>
+	</div>
+	
+	<div id="texttoplist">
+		<b>The Hall of Fame.</b>
+	</div>
+	
+	<div id="textDesc">
+		<b>
+		<p>Start your Game-Carrier..</p>
+		</b>
+		<p>blablbalbablabalbalablab</p>
+		<p>blablbalbablabalbalablabla</p>
+		<p>blablbalbablabalbala</p>
+		<p>blablbalbablabalbalablabla</p>
+		<p>blablbalbablabalbalabla</p>
+		
+	</div>
+
+</div>
+
+
+
+<div id="rightField">
+	<div id="users"></div>
+</div> 
+
+
+
+															<! ******* GAME-PAGE *********>
 
 
 <div id="game">
@@ -891,13 +1146,22 @@
 	
 </div>
 
-<div id="rightField">
-	<div id="users"></div>
-</div> 
+
+
+
+															<! ******* FUNNY-LITTLE-DUDE-BOTTOM *********>
+
+
+
 
 <div id="panties">
 	<img id = "fun" src = "media/panties.jpg" alt="" ></img>
 </div>
+
+
+															<! ******* FOOTER *********>
+
+
 
 <div id="bottomField">
 	
@@ -929,7 +1193,7 @@
 				<table>
 					<tr>
 						<td>
-							<label for="help1"><p>Please click at the top of the page the Register-Button and follow the instruductions.</p></label>
+							<label for="help1"><p>Please click at the top of the page the Sign Up-Button and follow the instruductions.</p></label>
 						</td>
 					</tr>
 				</table>
