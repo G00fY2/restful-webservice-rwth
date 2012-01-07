@@ -32,9 +32,10 @@ function FmdClient(endpointUrl){
 	// instance, we check, if credentials are stored in local storage and - if so - set two 
 	// client fields _uid and _cred, which can be used for authentication in subsequent requests.
 	
-	if(localStorage.getItem("fmdsuid") !== null && localStorage.getItem("fmdscred") !== null){
+	if(localStorage.getItem("fmdsuname") !== null && localStorage.getItem("fmdsuid") !== null && localStorage.getItem("fmdscred") !== null){
+		this._uname = localStorage.getItem("fmdsuname");
 		this._uid = localStorage.getItem("fmdsuid");
-		this._cred = localStorage.getItem("fmdscred");
+		this._cred = localStorage.getItem("fmdscred");;
 	}
 	
 };
@@ -126,14 +127,20 @@ FmdClient.prototype.login = function(email, password, callback){
 		// this is one of the callbacks to be triggered on successful processing 
 		// of the request by the Web service, in this case a succeeded GET including
 		// successful authentication.
-		success: function(){
+		dataType: 'text',
+		success: function(data){
+				var object = $.parseJSON(data); 
+        		var name = object.name;                  
+
 			// set user id and credentials as fields of the client.
+        	that._uname = name;
 			that._uid = email;
 			that._cred = credentials;
 			
 			// store credentials in local storage
 			// Local Storage version
 			
+			localStorage.setItem("fmdsuname",name);
 			localStorage.setItem("fmdsuid",email);
 			localStorage.setItem("fmdscred",credentials);
 			
@@ -174,10 +181,12 @@ FmdClient.prototype.login = function(email, password, callback){
 FmdClient.prototype.logout = function(){
 	
 	// remove credentials from local storage
+	localStorage.removeItem("fmdsuname");
 	localStorage.removeItem("fmdsuid");
 	localStorage.removeItem("fmdscred");
 	
 	// reset client fields
+	delete this._uname;	
 	delete this._uid;
 	delete this._cred;
 };
@@ -298,12 +307,11 @@ FmdClient.prototype.deleteUser = function(email, password, callback){
  *
  */
 
-FmdClient.prototype.updateUser = function(username, name, password, passwordNew, callback){
+FmdClient.prototype.updateUser = function(username, password, passwordNew, callback){
     
     // create JSON representation to be passed to the Web Service
 	var d = {};
 	d.username = username;
-	d.name = name;
 	d.password = passwordNew;
 
     var resource = this._usersResource + "/" + this._uid;

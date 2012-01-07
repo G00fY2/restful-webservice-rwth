@@ -441,7 +441,7 @@
 		//        jQuery show und hide Buttons 
 		//#####################################################
 		function updateToplist(){			
-			$("#username").html(fmd._uid);
+			$("#username").html("Hi " + fmd._uname + " !");
 			$("#loginb").hide();
 			$("#rightField").show();
 			$("#logoutb").show();
@@ -466,7 +466,7 @@
 	}
 		
 		function updateUser(){			
-			$("#username").html(fmd._uid);
+			$("#username").html("Hi " + fmd._uname + " !");
 			$("#rightField").hide();
 			$("#loginb").hide();
 			$("#logoutb").show();
@@ -491,7 +491,7 @@
 	}
 		
 		function updateGame(){			
-				$("#username").html(fmd._uid);
+				$("#username").html("Hi " + fmd._uname + " !");
 				$("#loginb").hide();
 				$("#rightField").hide();
 				$("#toplistb").show(); 
@@ -520,7 +520,7 @@
 		function updateStatus(){
 			if(fmd.isLoggedIn()){
 				
-				$("#username").html(fmd._uid);
+				$("#username").html("Hi " + fmd._uname + " !");
 				$("#loginb").hide();
 				$("#logoutb").show();
 				$("#rightField").hide();
@@ -698,23 +698,20 @@
                                 var bValid = true;
                                 
         						$("#update-username").removeClass("ui-state-error");
-                                $("#update-name").removeClass("ui-state-error");
            						$("#update-password").removeClass("ui-state-error");                                
            						$("#update-passwordNew").removeClass("ui-state-error");
         						
         						bValid = bValid && checkLengthEdit( $("#update-username"), "username", 6, 80 );
-        						bValid = bValid && checkLengthEdit( $("#update-name"), "name", 6, 80 );
         						bValid = bValid && checkLengthEdit( $("#update-password"), "password", 6, 20 );
         						bValid = bValid && checkLengthEdit( $("#update-passwordNew"), "password", 6, 20 );
 
         						bValid = bValid && checkRegexpEdit( $("#update-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, 0-9, spaces and underscores, and must begin with a letter." );
-        						bValid = bValid && checkRegexpEdit( $("#update-name"), /^[A-Za-z]([A-Za-z ])+$/, "Name may consist of A-Z, a-z and spaces, and must begin with a letter." );
         						bValid = bValid && checkRegexpEdit( $("#update-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
         						bValid = bValid && checkRegexpEdit( $("#update-passwordNew"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
                                 
                                 if ( bValid ) {                                                 
           
-                                        fmd.updateUser( $("#update-username").val(), $("#update-name").val(), $("#update-password").val(), $("#update-passwordNew").val(), function(result){
+                                        fmd.updateUser( $("#update-username").val(), $("#update-password").val(), $("#update-passwordNew").val(), function(result){
             								if(result.status == "ok"){
             									$("#update-success").dialog("open");
             									that.dialog("close");
@@ -736,7 +733,6 @@
                 close: function() {
 					updateTipsEdit( "All form fields are required.");
 					$("#update-username").removeClass("ui-state-error");
-                    $("#update-name").removeClass("ui-state-error");
 					$("#update-password").removeClass("ui-state-error");
 					$("#update-passwordNew").removeClass("ui-state-error");
                 }
@@ -744,7 +740,7 @@
 			
 			
 			//#####################################################
-			//     Kleinere Dialoge
+			//     Kleinere Dialoge (wie Help, Success und Fehler)
 			//#####################################################	
 			$("#login-notfound" ).dialog({
                                 autoOpen: false,
@@ -982,7 +978,7 @@
 
 		
 		//#####################################################
-		//   Funktionen die in den Anfragen verwendet werden
+		//   Funktionen zum Überprüfen der Texteingaben
 		//#####################################################
 		function updateTips( t ) {
 			$("#signup-tips").text( t ).addClass( "ui-state-highlight" );
@@ -1419,7 +1415,7 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="signup-name">Name:</label>
+						<label for="signup-name">Real name:</label>
 					</td>
 					<td>	
 						<input type="text" id="signup-name" class="text ui-widget-content ui-corner-all" />
@@ -1427,7 +1423,7 @@
 				</tr>
 				<tr>
 				<td>
-					<label for="signup-username">Username:</label>
+					<label for="signup-username">User name:</label>
 				</td>
 				<td>	
 					<input type="text" id="signup-username" class="text ui-widget-content ui-corner-all" />
@@ -1473,20 +1469,12 @@
 			<table>
 				<tr>
 					<td>
-					<label for="update-username">Username:</label>
+					<label for="update-username">User name:</label>
 				</td>
 				<td>	
 					<input type="text" id="update-username" class="text ui-widget-content ui-corner-all" />
 				</td>
 			</tr>
-			<tr>
-			<td>
-				<label for="update-name">Name:</label>
-			</td>
-			<td>	
-				<input type="text" id="update-name" class="text ui-widget-content ui-corner-all" />
-			</td>
-		</tr>
 			<tr>
 				<td>
 					<label for="update-password">Old Password:</label>

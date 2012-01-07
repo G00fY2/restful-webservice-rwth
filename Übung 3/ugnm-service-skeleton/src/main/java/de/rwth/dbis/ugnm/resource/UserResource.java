@@ -97,16 +97,12 @@ public class UserResource {
             if(u != null){
         	if(authenticated(auth, u)){
 
-        	if(o.has("username") && o.has("name") && o.has("password")){
+        	if(o.has("username") && o.has("password")){
         		
             	boolean updated = false;
             	
                 if(!o.getString("username").equals(u.getUsername()) && "username" != null){
                 	u.setUsername(o.getString("username"));
-                	updated = true;	
-                	}
-                if(!o.getString("name").equals(u.getName()) && "name" != null){
-                	u.setName(o.getString("name"));
                 	updated = true;	
                 	}
                 if(!o.getString("password").equals(u.getPassword()) && "password" != null){
