@@ -329,8 +329,8 @@ FmdClient.prototype.updateUser = function(username, name, password, passwordNew,
     		},
             // process result in case of different HTTP statuses and feed result to callback function passed by developer
             statusCode: {
-                    304: function(){
-                            callback({status:"notmodified"});
+                    406: function(){
+                            callback({status:"notacceptable"});
                     },
                     401: function(){
                             callback({status:"unauthorized"});
