@@ -96,10 +96,11 @@ public class UserResource {
             //Prueft ob User vorhanden und authentifiziert
             if(u != null){
         	if(authenticated(auth, u)){
-        		
-        	boolean updated = false;
-            
+
         	if(o.has("username") && o.has("name") && o.has("password")){
+        		
+            	boolean updated = false;
+            	
                 if(!o.getString("username").equals(u.getUsername()) && "username" != null){
                 	u.setUsername(o.getString("username"));
                 	updated = true;	
@@ -112,22 +113,24 @@ public class UserResource {
                 	u.setPassword(o.getString("password"));
                 	updated = true;	
                 	}     
-        	}
 
                  if(updated){
                 	 userService.update(u);
                 	 Response.ResponseBuilder r = Response.status(Status.OK);
                 	 return CORS.makeCORS(r, _corsHeaders);
-                        } 
-                 	else {
-                        	Response.ResponseBuilder r = Response.status(Status.NOT_MODIFIED);
+                        } else {
+                        	Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
                             return CORS.makeCORS(r, _corsHeaders);
                         }
-                      
-                        
-        	}else{                        
-                   	 Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
-                        return CORS.makeCORS(r, _corsHeaders);
+        	}
+        	else {
+            	Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
+                return CORS.makeCORS(r, _corsHeaders);
+         		}     
+        	}
+        	else{                        
+                   	Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                    return CORS.makeCORS(r, _corsHeaders);
                    }
             
             }else{                

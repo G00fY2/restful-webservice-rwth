@@ -659,12 +659,11 @@
 							// POST form data to resource /users
 							fmd.signup( $("#signup-email").val(), $("#signup-name").val(), $("#signup-username").val(), $("#signup-password").val(), function(result){
 								if(result.status == "created"){
-									updateTips( "Account " + $("#signup-email").val() + " successfully created! Close the window and login with your new account.");
 									$("#register-success").dialog("open");
 									that.dialog("close");
 									updateUsers();
 								} else if( result.status == "conflict"){
-									updateTips( "E-mail " + $("#signup-email").val() + " allready registrated.");
+									updateTips( "E-mail " + $("#signup-email").val() + " already exists!");
 									$("#signup-email").addClass( "ui-state-error" );
 								}
 							});
@@ -675,6 +674,7 @@
 					}
 				},
 				close: function() {
+					updateTips( "All form fields are required.");
 					$("#signup-name").removeClass("ui-state-error");
 					$("#signup-username").removeClass("ui-state-error");
 					$("#signup-email").removeClass("ui-state-error");
@@ -702,33 +702,29 @@
            						$("#update-password").removeClass("ui-state-error");                                
            						$("#update-passwordNew").removeClass("ui-state-error");
         						
-        						bValid = bValid && checkLength( $("#update-username"), "username", 6, 80 );
-        						bValid = bValid && checkLength( $("#update-name"), "name", 6, 80 );
-        						bValid = bValid && checkLength( $("#update-password"), "password", 6, 20 );
-        						bValid = bValid && checkLength( $("#update-passwordNew"), "password", 6, 20 );
+        						bValid = bValid && checkLengthEdit( $("#update-username"), "username", 6, 80 );
+        						bValid = bValid && checkLengthEdit( $("#update-name"), "name", 6, 80 );
+        						bValid = bValid && checkLengthEdit( $("#update-password"), "password", 6, 20 );
+        						bValid = bValid && checkLengthEdit( $("#update-passwordNew"), "password", 6, 20 );
 
-        						bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, 0-9, spaces and underscores, and must begin with a letter." );
-        						bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/, "Name may consist of A-Z, a-z and spaces, and must begin with a letter." );
-        						bValid = bValid && checkRegexp( $("#update-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-        						bValid = bValid && checkRegexp( $("#update-passwordNew"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+        						bValid = bValid && checkRegexpEdit( $("#update-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, 0-9, spaces and underscores, and must begin with a letter." );
+        						bValid = bValid && checkRegexpEdit( $("#update-name"), /^[A-Za-z]([A-Za-z ])+$/, "Name may consist of A-Z, a-z and spaces, and must begin with a letter." );
+        						bValid = bValid && checkRegexpEdit( $("#update-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+        						bValid = bValid && checkRegexpEdit( $("#update-passwordNew"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
                                 
                                 if ( bValid ) {                                                 
           
                                         fmd.updateUser( $("#update-username").val(), $("#update-name").val(), $("#update-password").val(), $("#update-passwordNew").val(), function(result){
             								if(result.status == "ok"){
-            									updateTips( "User " + $("#update-email").val() + " successfully edited!");
             									$("#update-success").dialog("open");
             									that.dialog("close");
             									updateUsers();
             								} else if(result.status == "unauthorized"){
-            									updateTips( "Old password is incorrect.");
             									$("#update-password").addClass( "ui-state-error" );
+            									updateTipsEdit( "Old password is incorrect!");
             								}
-            								else if(result.status == "notmodified"){
-            									updateTips( "No entry changed. Please try different ones.");
-            									$("#update-username").addClass( "ui-state-error" )
-            									$("#update-name").addClass( "ui-state-error" )
-            									$("#update-passwordNew").addClass( "ui-state-error" )
+            								else if(result.status == "notacceptable"){
+            									$("#update-error").dialog("open");
             								}
             							});
             						}
@@ -738,6 +734,7 @@
                         }
                 },
                 close: function() {
+					updateTipsEdit( "All form fields are required.");
 					$("#update-username").removeClass("ui-state-error");
                     $("#update-name").removeClass("ui-state-error");
 					$("#update-password").removeClass("ui-state-error");
@@ -787,6 +784,18 @@
                         });
 			
 			$("#update-success" ).dialog({
+                autoOpen: false,
+                height: 215,
+                width: 300,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                        $(this).dialog("close");                                                        
+                        }
+                }
+        });
+			
+			$("#update-error" ).dialog({
                 autoOpen: false,
                 height: 215,
                 width: 300,
@@ -997,6 +1006,34 @@
 			if ( !( regexp.test( o.val() ) ) ) {
 				o.addClass( "ui-state-error" );
 				updateTips( n );
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		function updateTipsEdit( t ) {
+			$("#editUser-tips").text( t ).addClass( "ui-state-highlight" );
+			setTimeout(function() {
+				$("#editUser-tips").removeClass( "ui-state-highlight", 1500 );
+			}, 500 );
+		}
+		
+		function checkLengthEdit( o, n, min, max ) {
+			if ( o.val().length > max || o.val().length < min ) {
+				o.addClass( "ui-state-error" );
+				updateTipsEdit( "Length of " + n + " must be between " +
+					min + " and " + max + "." );
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		function checkRegexpEdit( o, regexp, n ) {
+			if ( !( regexp.test( o.val() ) ) ) {
+				o.addClass( "ui-state-error" );
+				updateTipsEdit( n );
 				return false;
 			} else {
 				return true;
@@ -1425,13 +1462,17 @@
         <label for="first">Profile successfully changed!</label>
 </div>
 
+<div id="update-error" title="Not Modified">
+        <label for="first"><p>Profile could not be modified!</p><p>All entries already exist. Please try new ones.</p></label>
+</div>
+
 <div id="dialog-editUser" title="Edit my profile">
-<p id="signup-tips" class="validateTips">All form fields are required.</p>
-<form>
-	<fieldset>
-		<table>
-			<tr>
-				<td>
+	<p id="editUser-tips" class="validateTips">All form fields are required.</p>
+	<form>
+		<fieldset>
+			<table>
+				<tr>
+					<td>
 					<label for="update-username">Username:</label>
 				</td>
 				<td>	
