@@ -40,21 +40,14 @@ function FmdClient(endpointUrl){
 	
 };
 
-
-
-
-/** ------------------------ "Doing-functions" ------------------- */
-
-
 /**
  * Determines asynchronously, if a user with a given login is registered already.
  * The result parameter in the callback function exhibits a value true, if a user 
  * with the given login is already registered, false else.
  * 
- * @param (String) email
+ * @param (String) login
  * @param (function(result)) callback
  */
-
 FmdClient.prototype.isRegistered = function(email, callback){
 	$.ajax({
 		url: this._usersResource + "/" + email,
@@ -71,16 +64,12 @@ FmdClient.prototype.isRegistered = function(email, callback){
 	});
 };
 
-
-
-
 /**
  * Determines if a user is currently logged in and returns a boolean value of 
  * true if a user is logged in, false else.
  * 
  * @returns (boolean) 
  */
-
 FmdClient.prototype.isLoggedIn = function(){
 	if(typeof this._uid !== 'undefined' && typeof this._cred !== 'undefined'){
 		return true;
@@ -90,19 +79,16 @@ FmdClient.prototype.isLoggedIn = function(){
 };
 
 
-
-
 /**
  * Authenticates a user with the given credentials against the UGNM Web service. 
  * The callback parameter result is a boolean returning true, if authentication succeeded, false else.
  * A side effect of a successful authentication is that credentials are stored in local storage for
  * all later method calls.
  * 
- * @param email (String)
+ * @param login (String)
  * @param password (String)
  * @param callback (function(result)) 
  */
-
 FmdClient.prototype.login = function(email, password, callback){
 	
 	// for this login step we use one HTTP operation on one resource, which is authentication-aware.
@@ -170,14 +156,10 @@ FmdClient.prototype.login = function(email, password, callback){
 	});
 };
 
-
-
-
 /**
  * Logs out currently logged in user. Effectively, credentials in local storage and available as fields
  * _uid and _cred will be reset.
  */
-
 FmdClient.prototype.logout = function(){
 	
 	// remove credentials from local storage
@@ -190,9 +172,6 @@ FmdClient.prototype.logout = function(){
 	delete this._uid;
 	delete this._cred;
 };
-
-
-
 
 /**
  * Signs up a new user with given login, name and password against the UGNM Web service asynchronously.  
@@ -210,7 +189,6 @@ FmdClient.prototype.logout = function(){
  * @param password (String)
  * @param callback (function(result)) 
  */
-
 FmdClient.prototype.signup = function(email, name, username, password, callback){
 	
 	// create JSON representation to be passed to the Web Service
@@ -255,64 +233,17 @@ FmdClient.prototype.signup = function(email, name, username, password, callback)
 };
 
 
-
-/** Delete User completly from Database returns a boolean value of 
- * true if a user is deleted, false else.
- * 
- * @returns (boolean)
- * 
- */
-
-FmdClient.prototype.deleteUser = function(email, password, callback){
-    
-    var resource = this._usersResource + "/" + email;
-    
-    // use helper function to create credentials as base64 encoding for HTTP auth header
-    var credentials = __make_base_auth(email, password);
-    
-    // do AJAX call to Web Service using jQuery.ajax
-    $.ajax({
-            url: resource,
-            type: 'DELETE',
-            
-    		// set HTTP auth header before sending request
-    		beforeSend: function(xhr){
-    			xhr.setRequestHeader("Authorization", credentials);
-    		},
-
-            // process result in case of success and feed result to callback function passed by developer
-            success: function(){
-                    callback(true);
-            },
-            // process result in case of different HTTP statuses and feed result to callback function passed by developer
-            statusCode: {
-                    409: function(){
-                            callback({status:"conflict"});
-                    },
-                    500: function(){
-                            callback({status:"servererror"});
-                    },
-                    
-            }
-    });
-};
-
-
-
-
 /**
- * Update User BUT completly its not possible to update single attributes, because of the
- * function-logic (its like creating)
- * 
- *
+ * Updates User Profile by putting username and password
+ * (real) name can not be changed
  */
 
 FmdClient.prototype.updateUser = function(username, password, passwordNew, callback){
     
     // create JSON representation to be passed to the Web Service
-	var d = {};
-	d.username = username;
-	d.password = passwordNew;
+        var d = {};
+        d.username = username;
+        d.password = passwordNew;
 
     var resource = this._usersResource + "/" + this._uid;
     
@@ -331,10 +262,14 @@ FmdClient.prototype.updateUser = function(username, password, passwordNew, callb
             },
             // process result in case of success and feed result to callback function passed by developer
             success: function(){
-    			var result = {};
-    			result.status = "ok";
-    			callback(result);
-    		},
+            			//updatet authorizierung mit neuem password
+            			that._cred = __make_base_auth(this._uid, passwordNew);
+            			localStorage.setItem("fmdscred",that._cred);
+                        
+            			var result = {};
+                        result.status = "ok";
+                        callback(result);
+                },
             // process result in case of different HTTP statuses and feed result to callback function passed by developer
             statusCode: {
                     406: function(){
@@ -350,6 +285,46 @@ FmdClient.prototype.updateUser = function(username, password, passwordNew, callb
     });
 };
 
+
+
+
+
+/** Deletes users profile
+ *	this deletes user from database
+ */
+FmdClient.prototype.deleteUser = function(password, callback){
+    
+    var resource = this._usersResource + "/" + this._uid;
+
+    var credentials = __make_base_auth(this._uid, password);
+    
+    // do AJAX call to Web Service using jQuery.ajax
+    $.ajax({
+    		url: resource,
+    		type: "DELETE",
+            
+    		// set HTTP auth header before sending request
+    		beforeSend: function(xhr){
+    			xhr.setRequestHeader("Authorization", credentials);
+    		},
+
+            // process result in case of success and feed result to callback function passed by developer
+            success: function(){
+            	var result = {};
+                result.status = "ok";
+                callback(result);
+            },
+            // process result in case of different HTTP statuses and feed result to callback function passed by developer
+            statusCode: {
+                    401: function(){
+                            callback({status:"unauthorized"});
+                    },
+                    
+            },
+            contentType: "application/json",
+            cache: false
+    });
+};
 
 
 
@@ -499,6 +474,22 @@ FmdClient.prototype.getUsers = function(callback){
 };
 
 
+/**
+ * Retrieves all media asynchronously. The result parameter of the callback function 
+ * contains the list of all retrieved media as an array of JSON objects of the form
+ * 
+ *  	[<MEDIUM1>,...,<MEDIUMn>]
+ *  
+ * where each <MEDIUMx> contains the following fields:
+ * 
+ * <ul>
+ * 	<li>url - Media URL</li>
+ * 	<li>description - Fulltext Description of the Medium</li>
+ *  <li>resource - URL to the Medium Resource</li>
+ * </ul>
+ * 
+ * @param callback (function(result)) 
+ */
 FmdClient.prototype.getMedia = function(callback){
 	var resource = this._mediaResource;
 	
