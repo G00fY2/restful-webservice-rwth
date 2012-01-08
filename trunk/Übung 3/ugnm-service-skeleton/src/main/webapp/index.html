@@ -715,7 +715,7 @@
                                 if ( bValid ) {                                                 
           
                                         fmd.updateUser( $("#update-username").val(), $("#update-password").val(), $("#update-passwordNew").val(), function(result){
-                                        	 if(result == true){
+                                        	 if(result.status == "ok"){
             									$("#update-success").dialog("open");
             									that.dialog("close");
             									updateUsers();
@@ -750,7 +750,7 @@
                 width: 400,
                 modal: true,
                 buttons: {
-                        "Delete": function() {
+                        "Delete profile": function() {
                         
                                 var that = $(this);
                                 var bValid = true;
@@ -763,10 +763,10 @@
           
                                         fmd.deleteUser( $("#delete-password").val(), function(result){
             								if(result.status == "ok"){
-            									fmd.logout();
-            									updateUsers();
             									$("#delete-success").dialog("open");
             									that.dialog("close");
+            									fmd.logout();
+            									updateUsers();
             								} else if(result.status == "unauthorized"){
             									$("#delete-password").addClass( "ui-state-error" );
             								}

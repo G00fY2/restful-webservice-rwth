@@ -244,7 +244,8 @@ FmdClient.prototype.updateUser = function(username, password, passwordNew, callb
         var d = {};
         d.username = username;
         d.password = passwordNew;
-
+    
+    var that = this;
     var resource = this._usersResource + "/" + this._uid;
     
     var credentials = __make_base_auth(this._uid, password);
@@ -262,13 +263,13 @@ FmdClient.prototype.updateUser = function(username, password, passwordNew, callb
             },
             // process result in case of success and feed result to callback function passed by developer
             success: function(){
-            			//updatet authorizierung mit neuem password
+                        //updatet authorizierung mit neuem password
             			that._cred = __make_base_auth(this._uid, passwordNew);
             			localStorage.setItem("fmdscred",that._cred);
+
                         
-            			var result = {};
-                        result.status = "ok";
-                        callback(result);
+            			callback({status:"ok"});
+                        
                 },
             // process result in case of different HTTP statuses and feed result to callback function passed by developer
             statusCode: {
@@ -293,16 +294,14 @@ FmdClient.prototype.updateUser = function(username, password, passwordNew, callb
  *	this deletes user from database
  */
 FmdClient.prototype.deleteUser = function(password, callback){
-    
+	
     var resource = this._usersResource + "/" + this._uid;
-
     var credentials = __make_base_auth(this._uid, password);
     
     // do AJAX call to Web Service using jQuery.ajax
     $.ajax({
     		url: resource,
     		type: "DELETE",
-            
     		// set HTTP auth header before sending request
     		beforeSend: function(xhr){
     			xhr.setRequestHeader("Authorization", credentials);
@@ -310,13 +309,13 @@ FmdClient.prototype.deleteUser = function(password, callback){
 
             // process result in case of success and feed result to callback function passed by developer
             success: function(){
-            	var result = {};
-                result.status = "ok";
-                callback(result);
+
+                callback({status:"ok"});
             },
             // process result in case of different HTTP statuses and feed result to callback function passed by developer
             statusCode: {
                     401: function(){
+                    	alert("unauthorized");
                             callback({status:"unauthorized"});
                     },
                     
