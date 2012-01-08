@@ -71,15 +71,15 @@ public class UsersResource {
                         String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + u.getEmail();
                         vUsers.add(uUri);
                 }
-                JSONObject j = new JSONObject();
+
 //Liste wird ausgegeben
                 try {
-                	
+                    JSONObject j = new JSONObject();
                 	j.append("users", vUsers);
                 	Response.ResponseBuilder r = Response.ok(j);
                     return CORS.makeCORS(r, _corsHeaders);		
                 } catch (JSONException e) {
-        			Response.ResponseBuilder r = Response.serverError();
+        			Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
         			return CORS.makeCORS(r, _corsHeaders);
         		}
 

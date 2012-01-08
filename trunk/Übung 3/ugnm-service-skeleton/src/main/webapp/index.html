@@ -464,6 +464,8 @@
             $("#help3b").hide();	
             $("#help4b").hide();
             $("#help5b").show();
+
+           
 	}
 		
 		function updateUser(){			
@@ -718,7 +720,6 @@
                                         	 if(result.status == "ok"){
             									$("#update-success").dialog("open");
             									that.dialog("close");
-            									updateUsers();
             								} else if(result.status == "unauthorized"){
             									$("#update-password").addClass( "ui-state-error" );
             									updateTipsEdit( "Old password is incorrect!");
@@ -750,25 +751,28 @@
                 width: 400,
                 modal: true,
                 buttons: {
-                        "Delete profile": function() {
+                        "Delete": function() {
                         
                                 var that = $(this);
                                 var bValid = true;
                                 
            						$("#delete-password").removeClass("ui-state-error");                                
+        						
         						bValid = bValid && checkLengthEdit( $("#delete-password"), "password", 6, 20 );
-        						bValid = bValid && checkRegexpEdit( $("delete-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+
+        						bValid = bValid && checkRegexpEdit( $("#delete-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
                                 
                                 if ( bValid ) {                                                 
           
                                         fmd.deleteUser( $("#delete-password").val(), function(result){
-            								if(result.status == "ok"){
-            									$("#delete-success").dialog("open");
-            									that.dialog("close");
-            									fmd.logout();
-            									updateUsers();
+                                        	 if(result.status == "ok"){
+                                        		$("#delete-success").dialog("open");
+             									that.dialog("close");
+                                        		fmd.logout();
+                                        		updateUsers();
+                                        		updateStatus();
             								} else if(result.status == "unauthorized"){
-            									$("#delete-password").addClass( "ui-state-error" );
+            									$("#update-password").addClass( "ui-state-error" );
             								}
             							});
             						}
@@ -992,8 +996,8 @@
 			});
 			
 			$( "#toplistb" ).button().click(function() {
-				updateToplist()
-                updateUsers();                         
+                updateUsers(); 
+				updateToplist();                        
 			});
 			
 			$( "#gameb" ).button().click(function() {
@@ -1524,7 +1528,7 @@
 </div>
 
 <div id="delete-success" title="Profile deleted">
-        <label for="first">Profile successfully deleted!</label>
+        <label for="first">Your profile has been deleted!</label>
 </div>
 
 <div id="dialog-editUser" title="Edit my profile">
@@ -1562,15 +1566,22 @@
 </div>
 
 <div id="dialog-deleteUser" title="Delete my profile">
-	<p id="signup-tips" class="validateTips"><span style="color:#FF0000">WARNING: Deleting your profile is irrevocable!</span><br></p>
+	<p id="editUser-tips" class="validateTips"><span style="color:#FF0000">WARNING: Deleting your profile is irrevocable!</span></p>
 	<form>
 		<fieldset>
+			<table>
+			<tr>
+				<td>
 					<label for="delete-password">Password:</label>
-					<input type="password" id="delete-password" value="" class="text ui-widget-content ui-corner-all" /><br/>
+				</td>
+				<td>
+					<input type="password" id="delete-password" value="" class="text ui-widget-content ui-corner-all" />
+				</td>
+			</tr>
+		</table>
 	</fieldset>
 </form>
 </div>
-
 
 <div id="dialog-about" title="About">
 <p id="about" class="about"><b>About Us:</b></p>
