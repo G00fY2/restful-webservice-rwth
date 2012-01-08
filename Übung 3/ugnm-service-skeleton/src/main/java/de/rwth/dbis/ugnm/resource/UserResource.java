@@ -151,9 +151,8 @@ public class UserResource {
                 if(u != null){
                 	if(authenticated(auth, u)){
                      	userService.delete(u);
-                   	 Response.ResponseBuilder r = Response.status(Status.OK);
-                   	 return CORS.makeCORS(r, _corsHeaders);
-
+                        Response.ResponseBuilder r = Response.status(Status.OK);
+                        return CORS.makeCORS(r, _corsHeaders);
                 	}
             	else{                        
                    	Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
