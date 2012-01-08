@@ -287,35 +287,35 @@ FmdClient.prototype.updateUser = function(username, password, passwordNew, callb
 };
 
 
-
-
-
 /** Deletes users profile
  *	this deletes user from database
  */
 FmdClient.prototype.deleteUser = function(password, callback){
-	
+    
+    var that = this;
     var resource = this._usersResource + "/" + this._uid;
+    
     var credentials = __make_base_auth(this._uid, password);
     
+    
+
     // do AJAX call to Web Service using jQuery.ajax
     $.ajax({
-    		url: resource,
-    		type: "DELETE",
-    		// set HTTP auth header before sending request
-    		beforeSend: function(xhr){
-    			xhr.setRequestHeader("Authorization", credentials);
-    		},
-
+            url: resource,
+            type: "DELETE",
+            
+            beforeSend: function(xhr){
+                    xhr.setRequestHeader("Authorization", credentials);
+            },
             // process result in case of success and feed result to callback function passed by developer
             success: function(){
-
-                callback({status:"ok"});
-            },
+                        
+            			callback({status:"ok"});
+                        
+                },
             // process result in case of different HTTP statuses and feed result to callback function passed by developer
             statusCode: {
                     401: function(){
-                    	alert("unauthorized");
                             callback({status:"unauthorized"});
                     },
                     
@@ -324,7 +324,6 @@ FmdClient.prototype.deleteUser = function(password, callback){
             cache: false
     });
 };
-
 
 
 /**
@@ -466,10 +465,17 @@ FmdClient.prototype.getRate = function(ratesId, callback){
 FmdClient.prototype.getUsers = function(callback){
 	
 	var resource = this._usersResource;
-	
-	$.getJSON(resource, function(data) {
-		callback(data.users);		
-	});
+    $.ajax({
+            url: resource,
+            type: "GET",
+            success: function(data){
+            	var users = $.parseJSON(data);
+                    
+                    callback(users);
+            },
+            
+    });
+    
 };
 
 
