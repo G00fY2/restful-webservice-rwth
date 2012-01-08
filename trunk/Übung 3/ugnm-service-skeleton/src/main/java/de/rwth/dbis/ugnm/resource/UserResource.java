@@ -146,20 +146,24 @@ public class UserResource {
         	
                 User u = userService.getByEmail(email);
                 
-//Wenn Achievement nicht "null" und user authenticated ist wird das Achievement gelöscht und ein ok-Response abgesetzt                
+//Wenn User nicht "null" und user authenticated ist wird der user gelöscht und ein ok-Response zurückgegeben                
                 
-                if(u == null){
+                if(u != null){
+                	if(authenticated(auth, u)){
+                     	userService.delete(u);
+                   	 Response.ResponseBuilder r = Response.status(Status.OK);
+                   	 return CORS.makeCORS(r, _corsHeaders);
+
+                	}
+            	else{                        
+                   	Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                    return CORS.makeCORS(r, _corsHeaders);
+                   }
+            
+            }else{                
                 	Response.ResponseBuilder r = Response.status(Status.NOT_FOUND);
                     return CORS.makeCORS(r, _corsHeaders);
-                }
-                if(!authenticated(auth, u)){
-                	 Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
-                     return CORS.makeCORS(r, _corsHeaders);
-                }
-                userService.delete(u);
-                
-                Response.ResponseBuilder r = Response.status(Status.OK);
-                return CORS.makeCORS(r, _corsHeaders);
+            }  
         }
 
         // Little gift from your tutors...

@@ -452,6 +452,7 @@
             $("#profileb").show();
             $("#gameb").show();
             $("#editb").hide();
+            $("#deleteb").hide();
             $("#rate-image").hide();   
             $("#mainpage").hide();
             $("#loggedinpage").hide();
@@ -477,6 +478,7 @@
             $("#profileb").hide();
             $("#gameb").show();
             $("#editb").show();
+            $("#deleteb").show();
             $("#rate-image").show();
             $("#mainpage").hide();
             $("#loggedinpage").hide();
@@ -502,6 +504,7 @@
                 $("#profileb").show();
                 $("#gameb").hide();
                 $("#editb").hide();
+                $("#deleteb").hide();
                 $("#rate-image").show();   
                 $("#game").show(); 
                 $("#media").show();
@@ -534,6 +537,7 @@
                 $("#loggedinpage").show();
                 $("#toplistpage").hide();
                 $("#editb").hide();
+                $("#deleteb").hide();
                 $("#rate-image").show();   
                 $("#game").show(); 
                 $("#media").show();
@@ -555,6 +559,7 @@
                 $("#fakeb").hide();
                 $("#gameb").hide();
                 $("#editb").hide();
+                $("#deleteb").hide();
                 $("#profileb").hide();
                 $("#rate-image").show();  
                 $("#mainpage").show();
@@ -580,7 +585,7 @@
 			
 			
 			//#####################################################
-			//                     Login Dialog
+			//                     Login
 			//#####################################################
 			$("#dialog-login" ).dialog({
 				autoOpen: false,
@@ -626,7 +631,7 @@
 			
 			
 			//#####################################################
-			//                 Registrierungs Dialog
+			//                 Registrierung
 			//#####################################################
 			$( "#dialog-signup" ).dialog({
 				autoOpen: false,
@@ -684,7 +689,7 @@
 			
 			
 			//#####################################################
-			//     Edit User Dialog (wie Registrieren aufgebaut)
+			//     Edit User
 			//#####################################################
 			$( "#dialog-editUser" ).dialog({
                 autoOpen: false,
@@ -702,17 +707,15 @@
            						$("#update-passwordNew").removeClass("ui-state-error");
         						
         						bValid = bValid && checkLengthEdit( $("#update-username"), "username", 6, 80 );
-        						bValid = bValid && checkLengthEdit( $("#update-password"), "password", 6, 20 );
         						bValid = bValid && checkLengthEdit( $("#update-passwordNew"), "password", 6, 20 );
 
         						bValid = bValid && checkRegexpEdit( $("#update-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, 0-9, spaces and underscores, and must begin with a letter." );
-        						bValid = bValid && checkRegexpEdit( $("#update-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
         						bValid = bValid && checkRegexpEdit( $("#update-passwordNew"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
                                 
                                 if ( bValid ) {                                                 
           
                                         fmd.updateUser( $("#update-username").val(), $("#update-password").val(), $("#update-passwordNew").val(), function(result){
-            								if(result.status == "ok"){
+                                        	 if(result == true){
             									$("#update-success").dialog("open");
             									that.dialog("close");
             									updateUsers();
@@ -735,6 +738,47 @@
 					$("#update-username").removeClass("ui-state-error");
 					$("#update-password").removeClass("ui-state-error");
 					$("#update-passwordNew").removeClass("ui-state-error");
+                }
+        });
+			
+			//#####################################################
+			//     Delete User
+			//#####################################################
+			$( "#dialog-deleteUser" ).dialog({
+                autoOpen: false,
+                height: 215,
+                width: 400,
+                modal: true,
+                buttons: {
+                        "Delete": function() {
+                        
+                                var that = $(this);
+                                var bValid = true;
+                                
+           						$("#delete-password").removeClass("ui-state-error");                                
+        						bValid = bValid && checkLengthEdit( $("#delete-password"), "password", 6, 20 );
+        						bValid = bValid && checkRegexpEdit( $("delete-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+                                
+                                if ( bValid ) {                                                 
+          
+                                        fmd.deleteUser( $("#delete-password").val(), function(result){
+            								if(result.status == "ok"){
+            									fmd.logout();
+            									updateUsers();
+            									$("#delete-success").dialog("open");
+            									that.dialog("close");
+            								} else if(result.status == "unauthorized"){
+            									$("#delete-password").addClass( "ui-state-error" );
+            								}
+            							});
+            						}
+            					},
+                        Cancel: function() {
+                                $( this ).dialog( "close" );
+                        }
+                },
+                close: function() {
+					$("#delete-password").removeClass("ui-state-error");
                 }
         });
 			
@@ -765,7 +809,7 @@
                         }
                 }
         });
-			
+		
 			
 			$("#register-success" ).dialog({
                                 autoOpen: false,
@@ -780,6 +824,18 @@
                         });
 			
 			$("#update-success" ).dialog({
+                autoOpen: false,
+                height: 215,
+                width: 300,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                        $(this).dialog("close");                                                        
+                        }
+                }
+        });
+			
+			$("#delete-success" ).dialog({
                 autoOpen: false,
                 height: 215,
                 width: 300,
@@ -924,6 +980,10 @@
 			
 			$( "#editb" ).button().click(function() {
 				$( "#dialog-editUser" ).dialog("open");
+			});
+			
+			$( "#deleteb" ).button().click(function() {
+				$( "#dialog-deleteUser" ).dialog("open");
 			});
 			
 			$( "#logoutb" ).button().click(function() {
@@ -1078,6 +1138,7 @@
 		<button id="gameb"><b>Game</b></button>
 		<button id="profileb"><b>Profile</b></button>
 		<button id="editb"><b>Edit Profile</b></button>
+		<button id="deleteb"><b>Delete Profile</b></button>
 		<button id="registerb"><b>Sign Up</b></button>
 		<button id="toplistb"><b>TopList</b></button>
 		<button id="help1b"><b>Help</b></button>
@@ -1462,6 +1523,10 @@
         <label for="first"><p>Profile could not be modified!</p><p>All entries already exist. Please try new ones.</p></label>
 </div>
 
+<div id="delete-success" title="Profile deleted">
+        <label for="first">Profile successfully deleted!</label>
+</div>
+
 <div id="dialog-editUser" title="Edit my profile">
 	<p id="editUser-tips" class="validateTips">All form fields are required.</p>
 	<form>
@@ -1495,6 +1560,17 @@
 	</fieldset>
 </form>
 </div>
+
+<div id="dialog-deleteUser" title="Delete my profile">
+	<p id="signup-tips" class="validateTips"><span style="color:#FF0000">WARNING: Deleting your profile is irrevocable!</span><br></p>
+	<form>
+		<fieldset>
+					<label for="delete-password">Password:</label>
+					<input type="password" id="delete-password" value="" class="text ui-widget-content ui-corner-all" /><br/>
+	</fieldset>
+</form>
+</div>
+
 
 <div id="dialog-about" title="About">
 <p id="about" class="about"><b>About Us:</b></p>
