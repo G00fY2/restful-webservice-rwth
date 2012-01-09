@@ -596,7 +596,14 @@
 				modal: true,
 				buttons: {
 					"Login": function() {
+						
 						var that = $(this);
+						var bValid = true;
+
+						bValid = bValid && checkLengthLoginMail( $("#login-email"), "email", 6, 80 );
+						bValid = bValid && checkLengthLoginPass( $("#login-password"), "password", 6, 20 );
+						
+						if ( bValid ) {
 						fmd.login(
 							$("#login-email").val(),
 							$("#login-password").val(),
@@ -612,6 +619,7 @@
 									$("#login-unauthorized").dialog("open");
 								}
 							});
+						}
 					},
 					Cancel: function() {
 						$(this).dialog("close");
@@ -695,7 +703,7 @@
 			//#####################################################
 			$( "#dialog-editUser" ).dialog({
                 autoOpen: false,
-                height: 330,
+                height: 300,
                 width: 550,
                 modal: true,
                 buttons: {
@@ -753,29 +761,21 @@
                 buttons: {
                         "Delete": function() {
                         
-                                var that = $(this);
-                                var bValid = true;
-                                
-           						$("#delete-password").removeClass("ui-state-error");                                
-        						
-        						bValid = bValid && checkLengthEdit( $("#delete-password"), "password", 6, 20 );
-
-        						bValid = bValid && checkRegexpEdit( $("#delete-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-                                
-                                if ( bValid ) {                                                 
-          
-                                        fmd.deleteUser( $("#delete-password").val(), function(result){
+                                var that = $(this);                               
+								
+           						fmd.deleteUser( $("#delete-password").val(), function(result){
                                         	 if(result.status == "ok"){
+                                         		fmd.logout();
                                         		$("#delete-success").dialog("open");
              									that.dialog("close");
-                                        		fmd.logout();
+
                                         		updateUsers();
                                         		updateStatus();
+                                        		
             								} else if(result.status == "unauthorized"){
-            									$("#update-password").addClass( "ui-state-error" );
+            									$("#delete-password").addClass( "ui-state-error" );
             								}
             							});
-            						}
             					},
                         Cancel: function() {
                                 $( this ).dialog( "close" );
@@ -1040,9 +1040,29 @@
 			
 		}
 
+		//#####################################################
+		// Funktionen zum Überprüfen der Login Eingaben
+		//#####################################################
+		function checkLengthLoginMail( o, n, min, max ) {
+			if ( o.val().length > max || o.val().length < min ) {
+				$("#login-notfound").dialog("open");
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		function checkLengthLoginPass( o, n, min, max ) {
+			if ( o.val().length > max || o.val().length < min ) {
+				$("#login-unauthorized").dialog("open");
+				return false;
+			} else {
+				return true;
+			}
+		}
 		
 		//#####################################################
-		//   Funktionen zum Überprüfen der Texteingaben
+		//   Funktionen zum Überprüfen der Sign Up Eingaben
 		//#####################################################
 		function updateTips( t ) {
 			$("#signup-tips").text( t ).addClass( "ui-state-highlight" );
@@ -1072,6 +1092,9 @@
 			}
 		}
 		
+		//#####################################################
+		// Funktionen zum Überprüfen der Edit Profile Eingaben
+		//#####################################################
 		function updateTipsEdit( t ) {
 			$("#editUser-tips").text( t ).addClass( "ui-state-highlight" );
 			setTimeout(function() {
