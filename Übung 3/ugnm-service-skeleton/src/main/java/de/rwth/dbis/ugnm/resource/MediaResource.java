@@ -72,7 +72,7 @@ public class MediaResource {
 
                 try {
                         JSONObject j = new JSONObject();
-                        j.append("media",vMedia);
+                        j.put("Media",vMedia);
                         Response.ResponseBuilder r = Response.ok(j);
                         return CORS.makeCORS(r, _corsHeaders);
                 } catch (JSONException e) {

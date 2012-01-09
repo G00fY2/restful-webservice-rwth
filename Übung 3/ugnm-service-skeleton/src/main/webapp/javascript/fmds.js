@@ -496,11 +496,18 @@ FmdClient.prototype.getUsers = function(callback){
  * @param callback (function(result)) 
  */
 FmdClient.prototype.getMedia = function(callback){
-	var resource = this._mediaResource;
-	
-	$.getJSON(resource, function(data) {
-		callback(data.media);		
-	});
+    var resource = this._mediaResource;
+    
+    $.ajax({
+        url: resource,
+        type: "GET",
+        success: function(data){
+        	var media = $.parseJSON(data);
+                callback(media);
+        },
+        
+});
+
 };
 
 
