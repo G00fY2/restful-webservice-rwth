@@ -412,7 +412,7 @@
 				for(i in users){
 					var uri = users[i];
 					fmd.getUserUri(uri, function(object){
-					var li =  $("<li></li>").append("<span>" + object.ep + "EP</span> - <span>" + object.username + "</span>");
+					var li =  $("<li></li>").append("<span>" + object.ep + " EP</span> - <span>" + object.username + "</span>");
 					ol.append(li);
 					});
 					}
@@ -458,6 +458,26 @@
 				
 			});
 		}
+		//#####################################################
+		//                     Update Collects
+		//#####################################################
+		function updateCollects() {
+			fmd.getCollects(function(collects){
+				var ol = $("<ol></ol>").attr({"id":"userlist"});
+				for(i in collects){
+					var uri = collects[i];
+					fmd.getCollectUri(uri, function(object){
+					var id = object.AchievementId;
+					fmd.getAchievementId(id, function(achieve){
+					var li =  $("<li></li>").append("<span>" + achieve.name + "</span> - <span>" + achieve.description + "</span>");
+					ol.append(li);
+					});
+					});
+					}
+				$("#collects").html(ol);
+			});
+		}
+		
 		
 		
 		//#####################################################
@@ -1036,17 +1056,18 @@
 			});
 			
 			$( "#toplistb" ).button().click(function() {
-                updateUsers(); 
-				updateToplist();                        
+				updateToplist(); //opens "toplist side"
+				updateUsers();                        
 			});
 			
 			$( "#gameb" ).button().click(function() {
-                updateGame();
+                updateGame(); //opens "game side"
                 updateMedia();                          
 			});
 			
 			$( "#profileb" ).button().click(function() {
-                updateUser();                        
+                updateUser(); //opens "user side"
+                updateCollects();
 			});
 			
 			$( "#aboutl" ).click(function() {

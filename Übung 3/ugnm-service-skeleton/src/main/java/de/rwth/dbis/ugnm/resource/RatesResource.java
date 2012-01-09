@@ -85,7 +85,7 @@ public class RatesResource {
                 }
                 try {
                     	JSONObject j = new JSONObject();
-                    	j.append("rates", vRates);
+                    	j.put("rates", vRates);
                         Response.ResponseBuilder r = Response.ok(j);
                         return CORS.makeCORS(r, _corsHeaders);
                 } catch (JSONException e) {

@@ -21,8 +21,8 @@ function FmdClient(endpointUrl){
 	this._usersResource = this._serviceEndpoint + "users";
 	this._mediaResource = this._serviceEndpoint + "media";
 	this._achievementsResource = this._serviceEndpoint + "achievements";
-	this._collectsResource = this._serviceEndpoint + "collects";
-	this._ratesResource = this._serviceEndpoint + "rates";
+	//this._collectsResource = this._serviceEndpoint + "collects";
+	//this._ratesResource = this._serviceEndpoint + "rates";
 	
 	// since RESTful Web Services are stateless by design, credentials will have to be sent
 	// with every HTTP request requiring authentication. However, users should only provide
@@ -32,7 +32,8 @@ function FmdClient(endpointUrl){
 	// instance, we check, if credentials are stored in local storage and - if so - set two 
 	// client fields _uid and _cred, which can be used for authentication in subsequent requests.
 	
-	if(localStorage.getItem("fmdsuname") !== null && localStorage.getItem("fmdsuid") !== null && localStorage.getItem("fmdscred") !== null){
+	if(localStorage.getItem("fmdsusername") !== null && localStorage.getItem("fmdsuname") !== null && localStorage.getItem("fmdsuid") !== null && localStorage.getItem("fmdscred") !== null){
+		this._username = localStorage.getItem("fmdsusername");
 		this._uname = localStorage.getItem("fmdsuname");
 		this._uid = localStorage.getItem("fmdsuid");
 		this._cred = localStorage.getItem("fmdscred");;
@@ -117,10 +118,12 @@ FmdClient.prototype.login = function(email, password, callback){
 		success: function(data){
 				var object = $.parseJSON(data); 
         		var name = object.name; 
+        		var username = object.username;
         		var ep = object.ep;
 
 			// set user id and credentials as fields of the client.
         	that._uname = name;
+        	that.username = username;
 			that._uid = email;
 			that._cred = credentials;
 			that._uep = ep;
@@ -130,6 +133,7 @@ FmdClient.prototype.login = function(email, password, callback){
 			
 			localStorage.setItem("fmdsuep",ep);
 			localStorage.setItem("fmdsuname",name);
+			localStorage.setItem("fmdsusername",username);
 			localStorage.setItem("fmdsuid",email);
 			localStorage.setItem("fmdscred",credentials);
 			
@@ -167,11 +171,13 @@ FmdClient.prototype.logout = function(){
 	
 	// remove credentials from local storage
 	localStorage.removeItem("fmdsuname");
+	localStorage.removeItem("fmdsusername");
 	localStorage.removeItem("fmdsuid");
 	localStorage.removeItem("fmdscred");
 	
 	// reset client fields
 	delete this._uname;	
+	delete this._username;	
 	delete this._uid;
 	delete this._cred;
 };
@@ -269,7 +275,8 @@ FmdClient.prototype.updateUser = function(username, password, passwordNew, callb
                         //updatet authorizierung mit neuem password
             			that._cred = __make_base_auth(this._uid, passwordNew);
             			localStorage.setItem("fmdscred",that._cred);
-
+            			that._username = username;
+            			localStorage.setItem("fmdsusername",that._username);
                         
             			callback({status:"ok"});
                         
@@ -390,7 +397,21 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 
 /** ------------------------ Single-Getter-Functions ------------------- */
 
-
+/**
+ * Retrieves a user asynchronously. The result parameter of the callback function 
+ * contains the JSON object of the form: (User-Example)
+ 
+ * <ul>
+ * 	<li>email - Email</li>
+ * 	<li>username - User-Name</li>
+ * 	<li>name - Full Name</li>
+ * 	<li>ep - Experience Points</li>
+ * </ul>
+ *  ]
+ * @param callback (function(object)) 
+ * 
+ * 
+ */
 FmdClient.prototype.getUserEmail = function(email, callback){
     
     var resource = this._usersResource + "/" + email;
@@ -423,6 +444,21 @@ $.ajax({
 
 };
 
+/**
+ * Retrieves a medium asynchronously. The result parameter of the callback function 
+ * contains the JSON object of the form: (Medium-Example)
+ 
+ * <ul>
+ * 	<li>id - ID</li>
+ * 	<li>url - URL</li>
+ * 	<li>value - 1=True, 0=False</li>
+ * 	<li>description - Short description</li>
+ * </ul>
+ *  ]
+ * @param callback (function(object)) 
+ * 
+ * 
+ */
 FmdClient.prototype.getMediumId = function(mediumId, callback){
     var resource = this._mediaResource + "/" + mediumId;
 $.ajax({
@@ -454,34 +490,138 @@ FmdClient.prototype.getMediumUri = function(uri, callback){
 
 };
 
-FmdClient.prototype.getAchievement = function(achievementId, callback){
-    var resource = this._achievementsResource + "/" + achievementId;
-    
-    $.getJSON(resource, function(data) {
-            callback(data);         
-    });
+/**
+ * Retrieves a achievement asynchronously. The result parameter of the callback function 
+ * contains the JSON object of the form: (Achievement-Example)
+ 
+ * <ul>
+ * 	<li>id - ID</li>
+ * 	<li>description - Short description</li>
+ * 	<li>name - Name</li>
+ * 	<li>url - URL</li>
+ * </ul>
+ *  ]
+ * @param callback (function(object)) 
+ * 
+ * 
+ */
+FmdClient.prototype.getAchievementId = function(id, callback){
+    var resource = this._achievementsResource + "/" + id;
+$.ajax({
+        url: resource,
+        type: "GET",
+		dataType: 'text',
+        success: function(data){
+        	var achieve = $.parseJSON(data);
+              
+                callback(achieve);
+        },
+        
+});
+
+};
+
+FmdClient.prototype.getAchievementUri = function(uri, callback){
+	$.ajax({
+        url: uri,
+        type: "GET",
+		dataType: 'text',
+        success: function(data){
+        	var object = $.parseJSON(data);
+              
+                callback(object);
+        },
+        
+});
+
 };
 
 
-FmdClient.prototype.getCollect = function(achievementId, callback){
-    var resource = this._usersResource + "/" + this._uid + "/collect" + achievementId;
-    
-    $.getJSON(resource, function(data) {
-            callback(data);         
-    });
+/**
+ * Retrieves a collect asynchronously. The result parameter of the callback function 
+ * contains the JSON object of the form: (Collect-Example)
+ 
+ * <ul>
+ * 	<li>achievementId - ID</li>
+ * </ul>
+ *  ]
+ * @param callback (function(object)) 
+ * 
+ * 
+ */
+FmdClient.prototype.getCollectId = function(collectId, email, callback){
+    var resource = this._usersResource + "/" + email + "/collect/" + collectId;
+$.ajax({
+        url: resource,
+        type: "GET",
+		dataType: 'text',
+        success: function(data){
+        	var object = $.parseJSON(data);
+              
+                callback(object);
+        },
+        
+});
+
 };
 
-FmdClient.prototype.getRate = function(ratesId, callback){
-	var resource = this._usersResource + "/" + this._uid + "/rates" + ratesId;
-    
-    $.getJSON(resource, function(data) {
-            callback(data);         
-    });
+FmdClient.prototype.getCollectUri = function(uri, callback){
+$.ajax({
+        url: uri,
+        type: "GET",
+		dataType: 'text',
+        success: function(data){
+        	var object = $.parseJSON(data);
+              
+                callback(object);
+        },
+        
+});
+
 };
 
+/**
+ * Retrieves a rate asynchronously. The result parameter of the callback function 
+ * contains the JSON object of the form: (Collect-Example)
+ 
+ * <ul>
+ * 	<li>achievementId - ID</li>
+ * </ul>
+ *  ]
+ * @param callback (function(object)) 
+ * 
+ * 
+ */
+FmdClient.prototype.getRateId = function(rateId, callback){
+    var resource = this._usersResource + "/" + this._uid + "/rates/" + rateId;
+    $.ajax({
+        url: resource,
+        type: "GET",
+		dataType: 'text',
+        success: function(data){
+        	var object = $.parseJSON(data);
+              
+                callback(object);
+        },
+        
+});
 
+};
 
+FmdClient.prototype.getRateUri = function(uri, callback){
+	$.ajax({
+	        url: uri,
+	        type: "GET",
+			dataType: 'text',
+	        success: function(data){
+	        	var object = $.parseJSON(data);
+	              
+	                callback(object);
+	        },
+	        
+	});
 
+	};
 
 
 /** ------------------------ Multi-Getter-Functions ------------------- */
@@ -494,19 +634,10 @@ FmdClient.prototype.getRate = function(ratesId, callback){
  * 
  *  	[<USER1>,...,<USERn>]
  *  
- * where each <USERx> contains the URI ... [following fields:
+ * where each <USERx> contains the URI ... 
  * 
- * <ul>
- * 	<li>email - Email</li>
- * 	<li>username - User-Name</li>
- * 	<li>name - Full Name</li>
- * 	<li>ep - Experience Points</li>
- *  <li>resource - URL to the User Resource</li>
- * </ul>
- *  ]
- * @param callback (function(result)) 
+ * @param callback (function(users)) 
  * 
- * All other functions are equal to the getUsers-function, exempted from the URI fields.
  * 
  */
 
@@ -535,16 +666,11 @@ FmdClient.prototype.getUsers = function(callback){
  * 
  *  	[<MEDIUM1>,...,<MEDIUMn>]
  *  
- * where each <MEDIUMx> contains the following fields:
+ * where each <MEDIUMx> contains the URI ...
  * 
- * <ul>
- * 	<li>url - Media URL</li>
- * 	<li>description - Fulltext Description of the Medium</li>
- *  <li>resource - URL to the Medium Resource</li>
- * </ul>
- * 
- * @param callback (function(result)) 
+ * @param callback (function(media)) 
  */
+
 FmdClient.prototype.getMedia = function(callback){
     var resource = this._mediaResource;
    
@@ -563,38 +689,98 @@ FmdClient.prototype.getMedia = function(callback){
     
 };
 
+/**
+ * Retrieves all achievements asynchronously. The result parameter of the callback function 
+ * contains the list of all retrieved users as an array of JSON objects of the form: (Users-Example)
+ * 
+ *  	[<ACHIEVEMENT1>,...,<ACHIEVEMENTn>]
+ *  
+ * where each <ACHIEVEMENTx> contains the URI ... 
+ * 
+ * @param callback (function(achievements)) 
+ * 
+ * 
+ */
 
 FmdClient.prototype.getAchievements = function(callback){
-	var resource = this._achievementsResource;
 	
-	$.getJSON(resource, function(data) {
-		callback(data.achievements);		
-	});
+	var resource = this._achievementsResource;
+    $.ajax({
+            url: resource,
+            type: "GET",
+    		dataType: 'text',
+            success: function(data){
+            	var objects = $.parseJSON(data);
+            	var achievements = objects.achievements;
+                    
+                    callback(achievements);
+            },
+            
+    });
+    
 };
 
+/**
+ * Retrieves all collects asynchronously. The result parameter of the callback function 
+ * contains the list of all retrieved users as an array of JSON objects of the form: (Users-Example)
+ * 
+ *  	[<COLLECT>,...,<COLLECTn>]
+ *  
+ * where each <COLLECTx> contains the URI ... 
+ * 
+ * @param callback (function(collects)) 
+ * 
+ * 
+ */
+
+FmdClient.prototype.getCollects = function(callback){
+	var resource = this._usersResource + "/" + this._uid + "/collect";
+    $.ajax({
+            url: resource,
+            type: "GET",
+    		dataType: 'text',
+            success: function(data){
+            	var objects = $.parseJSON(data);
+            	var collects = objects.collects;
+                    
+                    callback(collects);
+            },
+            
+    });
+    
+};
+
+
+/**
+ * Retrieves all rates asynchronously. The result parameter of the callback function 
+ * contains the list of all retrieved users as an array of JSON objects of the form: (Users-Example)
+ * 
+ *  	[<RATE>,...,<RATEn>]
+ *  
+ * where each <RATEx> contains the URI ... 
+ * 
+ * @param callback (function(collects)) 
+ * 
+ * 
+ */
 
 FmdClient.prototype.getCollects = function(email, callback){
-	 var resource = this._usersResource + "/" + this._uid + "/collect";
-	    
-	$.getJSON(resource, function(data) {
-		callback(email, data.collects);		
-	});
-};
-
-
-FmdClient.prototype.getRates = function(email, callback){
-	var resource = this._usersResource + "/" + this._uid + "/rates";
 	
-	$.getJSON(resource, function(data) {
-		callback(email, data.rates);		
-	});
+	var resource = this._usersResource + "/" + email + "/rates";
+    $.ajax({
+            url: resource,
+            type: "GET",
+    		dataType: 'text',
+            success: function(data){
+            	var objects = $.parseJSON(data);
+            	var rates = objects.rates;
+                    
+                    callback(rates);
+            },
+            
+    });
+    
 };
-
-
-
-
-
-
 
 // Private helper function to create Base64 encoded credentials as needed for
 // HTTP basic authentication
