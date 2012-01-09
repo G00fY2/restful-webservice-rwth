@@ -164,6 +164,15 @@
                    
         }
 		
+		#rightFieldP { 
+			width: 25%;
+			position: absolute;
+			top: 200px;
+			right: 20px;
+			font-size: 9pt;
+                   
+        }
+		
 		#panties{
 			position: absolute;
 			float:right;
@@ -467,13 +476,13 @@
 				for(i in collects){
 					var uri = collects[i];
 					fmd.getCollectUri(uri, function(object){
-					var id = object.AchievementId;
-					fmd.getAchievementId(id, function(achieve){
-					var li =  $("<li></li>").append("<span>" + achieve.name + "</span> - <span>" + achieve.description + "</span>");
-					ol.append(li);
+						var id = object.AchievementId;
+						fmd.getAchievementId(id, function(achieve){
+							li =  $("<li></li>").append("<span>" + achieve.name + "</span> - <span>" + achieve.description + "</span>");
+						 	ol.append(li);
+						});
 					});
-					});
-					}
+				}
 				$("#collects").html(ol);
 			});
 		}
@@ -485,6 +494,7 @@
 		//#####################################################
 		function updateToplist(){			
 			$("#username").html(fmd._uname + " | EP: " + fmd._uep);
+			$("#rightFieldP").show();
 			$("#loginb").hide();
 			$("#rightField").show();
 			$("#logoutb").show();
@@ -514,7 +524,9 @@
 		
 		function updateUser(){			
 			$("#username").html(fmd._uname + " | EP: " + fmd._uep);
+			$("#usernameP").html("Welcome " +  fmd._username + ".");
 			$("#rightField").hide();
+			$("#rightFieldP").hide();
 			$("#loginb").hide();
 			$("#profilepage").show();
 			$("#logoutb").show();
@@ -541,6 +553,7 @@
 		
 		function updateGame(){			
 				$("#username").html(fmd._uname + " | EP: " + fmd._uep);
+				$("#rightFieldP").hide();
 				$("#loginb").hide();
 				$("#rightField").hide();
 				$("#profilepage").hide();
@@ -571,6 +584,8 @@
 			if(fmd.isLoggedIn()){
 				
 				$("#username").html(fmd._uname + " | EP: " + fmd._uep);
+				$("#rightFieldP").hide();
+				$("#rightField").hide();
 				$("#loginb").hide();
 				$("#profilepage").hide();
 				$("#logoutb").show();
@@ -598,6 +613,7 @@
 			} else {
 				
 				$("#username").html("");
+				$("#rightFieldP").hide();
 				$("#toplistb").hide(); 
 				$("#profilepage").hide(); 
 				$("#rightField").hide();
@@ -1277,8 +1293,12 @@
 	</div>
 
 	<div id="textProfile">
-		<b><span id="username"></b></span>
+		<b><span id="usernameP"></b></span>
 	</div>
+	
+	<div id="rightFieldP">
+		<div id="collects"></div>
+	</div> 
 	
 
 </div>
