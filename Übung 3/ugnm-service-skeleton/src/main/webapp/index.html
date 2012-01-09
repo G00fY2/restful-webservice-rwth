@@ -717,6 +717,7 @@
            						$("#update-passwordNew").removeClass("ui-state-error");
         						
         						bValid = bValid && checkLengthEdit( $("#update-username"), "username", 6, 80 );
+        						bValid = bValid && checkLengthEdit( $("#update-password"), "password", 6, 20 );
         						bValid = bValid && checkLengthEdit( $("#update-passwordNew"), "password", 6, 20 );
 
         						bValid = bValid && checkRegexpEdit( $("#update-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, 0-9, spaces and underscores, and must begin with a letter." );
@@ -762,7 +763,11 @@
                         "Delete": function() {
                         
                                 var that = $(this);                               
-								
+                                var bValid = true;
+                                $("#delete-password").removeClass("ui-state-error");
+                                bValid = bValid && checkLengthDelete( $("#delete-password"), "password", 6, 20 );
+                                
+                                if ( bValid ) {                                	
            						fmd.deleteUser( $("#delete-password").val(), function(result){
                                         	 if(result.status == "ok"){
                                          		fmd.logout();
@@ -776,6 +781,7 @@
             									$("#delete-password").addClass( "ui-state-error" );
             								}
             							});
+                     				}
             					},
                         Cancel: function() {
                                 $( this ).dialog( "close" );
@@ -1117,6 +1123,17 @@
 			if ( !( regexp.test( o.val() ) ) ) {
 				o.addClass( "ui-state-error" );
 				updateTipsEdit( n );
+				return false;
+			} else {
+				return true;
+			}
+		}
+		//#####################################################
+		// Funktion zum Überprüfen des Delete Passwords
+		//#####################################################
+		function checkLengthDelete( o, n, min, max ) {
+			if ( o.val().length > max || o.val().length < min ) {
+				o.addClass( "ui-state-error" );
 				return false;
 			} else {
 				return true;
