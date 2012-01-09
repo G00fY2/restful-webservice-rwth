@@ -301,7 +301,7 @@ FmdClient.prototype.deleteUser = function(password, callback){
 
     // do AJAX call to Web Service using jQuery.ajax
     $.ajax({
-            url: resource,
+    		url: resource,
             type: "DELETE",
             
             beforeSend: function(xhr){
