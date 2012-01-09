@@ -75,7 +75,7 @@ public class UsersResource {
 //Liste wird ausgegeben
                 try {
                     JSONObject j = new JSONObject();
-                	j.append("users", vUsers);
+                	j.put("users", vUsers);
                 	Response.ResponseBuilder r = Response.ok(j);
                     return CORS.makeCORS(r, _corsHeaders);		
                 } catch (JSONException e) {

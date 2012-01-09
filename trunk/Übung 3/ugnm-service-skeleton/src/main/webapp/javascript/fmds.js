@@ -388,22 +388,67 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 /** ------------------------ Single-Getter-Functions ------------------- */
 
 
-FmdClient.prototype.getUser = function(email, callback){
+FmdClient.prototype.getUserEmail = function(email, callback){
     
     var resource = this._usersResource + "/" + email;
-    
-    $.getJSON(resource, function(data) {
-            callback(data);         
-    });
+ $.ajax({
+        url: resource,
+        type: "GET",
+		dataType: 'text',
+        success: function(data){
+        	var object = $.parseJSON(data);
+              
+                callback(object);
+        },
+        
+});
+
 };
 
+FmdClient.prototype.getUserUri = function(uri, callback){
+$.ajax({
+        url: uri,
+        type: "GET",
+		dataType: 'text',
+        success: function(data){
+        	var object = $.parseJSON(data);
+              
+                callback(object);
+        },
+        
+});
 
-FmdClient.prototype.getMedium = function(mediumId, callback){
+};
+
+FmdClient.prototype.getMediumId = function(mediumId, callback){
     var resource = this._mediaResource + "/" + mediumId;
-    
-    $.getJSON(resource, function(data) {
-            callback(data);         
-    });
+$.ajax({
+        url: resource,
+        type: "GET",
+		dataType: 'text',
+        success: function(data){
+        	var object = $.parseJSON(data);
+              
+                callback(object);
+        },
+        
+});
+
+};
+
+FmdClient.prototype.getMediumUri = function(uri, callback){
+	$.ajax({
+        url: uri,
+        type: "GET",
+		dataType: 'text',
+        success: function(data){
+        	var object = $.parseJSON(data);
+              
+                callback(object);
+        },
+        
+});
+
 };
 
 FmdClient.prototype.getAchievement = function(achievementId, callback){
@@ -468,8 +513,10 @@ FmdClient.prototype.getUsers = function(callback){
     $.ajax({
             url: resource,
             type: "GET",
+    		dataType: 'text',
             success: function(data){
-            	var users = $.parseJSON(data);
+            	var objects = $.parseJSON(data);
+            	var users = objects.users;
                     
                     callback(users);
             },
@@ -497,17 +544,20 @@ FmdClient.prototype.getUsers = function(callback){
  */
 FmdClient.prototype.getMedia = function(callback){
     var resource = this._mediaResource;
-    
+   
     $.ajax({
-        url: resource,
-        type: "GET",
-        success: function(data){
-        	var media = $.parseJSON(data);
-                callback(media);
-        },
-        
-});
-
+            url: resource,
+            type: "GET",
+    		dataType: 'text',
+            success: function(data){
+            	var objects = $.parseJSON(data);
+            	var media = objects.media;
+                    
+                    callback(media);
+            },
+            
+    });
+    
 };
 
 
