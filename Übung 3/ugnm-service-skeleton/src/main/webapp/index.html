@@ -1094,7 +1094,7 @@
 			$( "#fakeb" ).button().click(function() {
 				console.log(cmedium.id + " is a Fake");
 				fmd.rateMedium(cmedium,0,function(result){
-					if(result.status == "rated"){
+					if(result.status == "created"){
 						updateMedia();
 						updateGame();
 					} else {
@@ -1106,7 +1106,7 @@
 			$( "#trueb" ).button().click(function() {
 				console.log(cmedium.id + " is Authentic");
 				fmd.rateMedium(cmedium,1,function(result){
-					if(result.status == "rated"){
+					if(result.status == "created"){
 						updateMedia();
 						updateGame();
 					} else {

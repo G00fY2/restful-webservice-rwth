@@ -123,7 +123,7 @@ FmdClient.prototype.login = function(email, password, callback){
 
 			// set user id and credentials as fields of the client.
         	that._uname = name;
-        	that.username = username;
+        	that._username = username;
 			that._uid = email;
 			that._cred = credentials;
 			that._uep = ep;
@@ -345,9 +345,13 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 	
 	if(!this.isLoggedIn){
 		alert("Not logged in");
-	} 
-	var resource = this._mediaResource + "/" + m.id + "/rates";
-	var d = {rate: r};
+	}
+	var picid = m.id;
+    var d = {};
+    d.id = picid;
+    d.rate = r;
+	
+    var resource = this._usersResource + "/" + this._uid + "/rates";
 	
 	var that = this;
 	
@@ -362,7 +366,7 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 		// process result in case of success and feed result to callback function passed by developer
 		success: function(uri){
 			var result = {};
-			result.status = "rated";
+			result.status = "created";
 			result.uri = uri;
 			
 			callback(result);
