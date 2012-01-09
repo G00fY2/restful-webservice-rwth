@@ -116,16 +116,19 @@ FmdClient.prototype.login = function(email, password, callback){
 		dataType: 'text',
 		success: function(data){
 				var object = $.parseJSON(data); 
-        		var name = object.name;                  
+        		var name = object.name; 
+        		var ep = object.ep;
 
 			// set user id and credentials as fields of the client.
         	that._uname = name;
 			that._uid = email;
 			that._cred = credentials;
+			that._uep = ep;
 			
 			// store credentials in local storage
 			// Local Storage version
 			
+			localStorage.setItem("fmdsuep",ep);
 			localStorage.setItem("fmdsuname",name);
 			localStorage.setItem("fmdsuid",email);
 			localStorage.setItem("fmdscred",credentials);

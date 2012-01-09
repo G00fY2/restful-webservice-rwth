@@ -394,7 +394,7 @@
 		
 		
 		//#####################################################
-		//                     Update User
+		//                     Update Users
 		//#####################################################
 		function updateUsers() {
 			fmd.getUsers(function(users){
@@ -454,7 +454,7 @@
 		//        jQuery show und hide Buttons 
 		//#####################################################
 		function updateToplist(){			
-			$("#username").html(fmd._uname + " |");
+			$("#username").html(fmd._uname + " | EP: " + fmd._uep);
 			$("#loginb").hide();
 			$("#rightField").show();
 			$("#logoutb").show();
@@ -482,7 +482,7 @@
 	}
 		
 		function updateUser(){			
-			$("#username").html(fmd._uname + " |");
+			$("#username").html(fmd._uname + " | EP: " + fmd._uep);
 			$("#rightField").hide();
 			$("#loginb").hide();
 			$("#logoutb").show();
@@ -508,7 +508,7 @@
 	}
 		
 		function updateGame(){			
-				$("#username").html(fmd._uname + " |");
+				$("#username").html(fmd._uname + " | EP: " + fmd._uep);
 				$("#loginb").hide();
 				$("#rightField").hide();
 				$("#toplistb").show(); 
@@ -537,7 +537,7 @@
 		function updateStatus(){
 			if(fmd.isLoggedIn()){
 				
-				$("#username").html(fmd._uname + " |");
+				$("#username").html(fmd._uname + " | EP: " + fmd._uep);
 				$("#loginb").hide();
 				$("#logoutb").show();
 				$("#rightField").hide();
