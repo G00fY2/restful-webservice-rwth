@@ -70,7 +70,7 @@
 		  display: block;
 		  height: 37px;
 		  width: 36px;
-		  background: url(media/arrow.png) no-repeat 0 0;
+		  background: url(media/arrow1.jpg) no-repeat 0 0;
 		  text-indent: -999px;
 		  position: absolute;
 		  top: 37px;
@@ -101,14 +101,18 @@
 		
 		#rate-image {
 			height: 300px;
+			padding-bottom: 10px;
+			border-bottom:1px solid rgb(195,195,195);
 		}
 		
 		#media {                
               text-align: center;                     
         }
 		
-		#trueFakeb {                
-            text-align: center; 
+		#trueFakeb { 
+			padding-top: 9%;
+			margin-left: 45%;
+			position:absolute;
 			font-size: 9pt;
         }
 		
@@ -494,12 +498,12 @@
             $("#gameb").show();
             $("#editb").show();
             $("#deleteb").show();
-            $("#rate-image").show();
+            $("#rate-image").hide();
             $("#mainpage").hide();
             $("#loggedinpage").hide();
             $("#toplistpage").hide();
-            $("#game").show(); 
-            $("#media").show();
+            $("#game").hide(); 
+            $("#media").hide();
             $("#help1b").hide();
             $("#help2b").hide();
             $("#help3b").hide();	
@@ -552,7 +556,7 @@
                 $("#toplistpage").hide();
                 $("#editb").hide();
                 $("#deleteb").hide();
-                $("#rate-image").show();   
+                $("#rate-image").hide();   
                 $("#game").show(); 
                 $("#media").show();
                 $("#help1b").hide();
@@ -575,7 +579,7 @@
                 $("#editb").hide();
                 $("#deleteb").hide();
                 $("#profileb").hide();
-                $("#rate-image").show();  
+                $("#rate-image").hide();  
                 $("#mainpage").show();
                 $("#loggedinpage").hide();
                 $("#toplistpage").hide();
@@ -1359,17 +1363,22 @@
 
 <div id="game">
 
-	<div id="rate-image"></div>
-	
 	<div id="truefakeb">
-		<button id="trueb" >True</button>
-		<button id="fakeb" >Fake</button>
+		<button id="trueb"><b>TRUE</b></button>
+		<p></p>
+		<button id="fakeb"><b>FAKE</b></button>
 	</div>
 	
+<center>
+	<div id="rate-image"></div>
+</center>
+
 	<div id="media">
+		<center>
 		<div class="infiniteCarousel">
 			<div id="medialist" class="wrapper"></div>
 		</div>
+		</center>
 	</div>
 	
 </div>
