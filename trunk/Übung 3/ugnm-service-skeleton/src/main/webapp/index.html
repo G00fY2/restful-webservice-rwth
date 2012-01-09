@@ -249,7 +249,7 @@
 		
 		#arrowGame {
 			position: absolute;
-			margin-left: 8%;
+			
 		}
 		
 		#pantieMulti {
@@ -263,7 +263,7 @@
 		#textArrowGame {
 			position: absolute;
 			padding-top: 27px;
-			margin-left: 16%;
+			margin-left: 8%;
 			font-size: 9pt;
 		}
 		
@@ -285,6 +285,17 @@
 			padding-top: 250px;
 			margin-left: 5%;
 			font-size: 14pt;
+		}
+		
+		#name{
+		float:right;
+		position: relative;
+		text-align: center;
+		padding-top: 1%;
+		top: 10%;
+		font-size: 14pt;
+		color: #9000A1;
+	
 		}
 		
 		
@@ -441,7 +452,7 @@
 		//        jQuery show und hide Buttons 
 		//#####################################################
 		function updateToplist(){			
-			$("#username").html("Hi " + fmd._uname + " !");
+			$("#username").html(fmd._uname + " |");
 			$("#loginb").hide();
 			$("#rightField").show();
 			$("#logoutb").show();
@@ -469,7 +480,7 @@
 	}
 		
 		function updateUser(){			
-			$("#username").html("Hi " + fmd._uname + " !");
+			$("#username").html(fmd._uname + " |");
 			$("#rightField").hide();
 			$("#loginb").hide();
 			$("#logoutb").show();
@@ -495,7 +506,7 @@
 	}
 		
 		function updateGame(){			
-				$("#username").html("Hi " + fmd._uname + " !");
+				$("#username").html(fmd._uname + " |");
 				$("#loginb").hide();
 				$("#rightField").hide();
 				$("#toplistb").show(); 
@@ -525,7 +536,7 @@
 		function updateStatus(){
 			if(fmd.isLoggedIn()){
 				
-				$("#username").html("Hi " + fmd._uname + " !");
+				$("#username").html(fmd._uname + " |");
 				$("#loginb").hide();
 				$("#logoutb").show();
 				$("#rightField").hide();
@@ -1175,7 +1186,9 @@
 
 <div id="profile">
 	
-	<b><span id="username"></b></span>
+	<div id="name">
+		<b><span id="username"></b></span>
+	</div>
 	
 	<span id="profile-buttons">
 		<button id="loginb"><b>Login</b></button>
