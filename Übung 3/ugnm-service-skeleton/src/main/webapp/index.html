@@ -656,8 +656,8 @@
 			//#####################################################
 			$( "#dialog-signup" ).dialog({
 				autoOpen: false,
-				height: 330,
-				width: 550,
+				height: 400,
+				width: 600,
 				modal: true,
 				buttons: {
 					"Sign Up": function() {
@@ -669,16 +669,22 @@
 						$("#signup-username").removeClass("ui-state-error");
 						$("#signup-email").removeClass("ui-state-error");
 						$("#signup-password").removeClass("ui-state-error");
+						$("#signup-passwordRepeat").removeClass("ui-state-error");
 						
 						bValid = bValid && checkLength( $("#signup-name"), "name", 6, 80 );
 						bValid = bValid && checkLength( $("#signup-username"), "username", 6, 80 );
 						bValid = bValid && checkLength( $("#signup-email"), "email", 6, 80 );
 						bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
+						bValid = bValid && checkLength( $("#signup-passwordRepeat"), "password", 6, 20 )
 
 						bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/, "Name may consist of A-Z, a-z and spaces, and must begin with a letter." );
 						bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, 0-9, spaces and underscores, and must begin with a letter." );
 						bValid = bValid && checkRegexp( $("#signup-email"), /^([A-Za-z_.])[^@]+@.+\.[^.]+$/i, "E-mail may consist of a-z, 0-9, underscores, begin with a letter." );
 						bValid = bValid && checkRegexp( $("#signup-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+						bValid = bValid && checkRegexp( $("#signup-passwordRepeat"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+						bValid = bValid && checkPasswords( $("#signup-password"), $("#signup-passwordRepeat") );
+						
+						
 
 						if ( bValid ) {
 							
@@ -705,6 +711,7 @@
 					$("#signup-username").removeClass("ui-state-error");
 					$("#signup-email").removeClass("ui-state-error");
 					$("#signup-password").removeClass("ui-state-error");
+					$("#signup-passwordRepeat").removeClass("ui-state-error");
 				}
 			});
 			
@@ -1103,6 +1110,16 @@
 			if ( !( regexp.test( o.val() ) ) ) {
 				o.addClass( "ui-state-error" );
 				updateTips( n );
+				return false;
+			} else {
+				return true;
+			}
+		}
+		
+		function checkPasswords( o, p) {
+			if ( !(o.val() == p.val() ) ) {
+				p.addClass( "ui-state-error" );
+				updateTips( "Passwords not equal." );
 				return false;
 			} else {
 				return true;
@@ -1553,6 +1570,14 @@
 					</td>
 					<td>
 						<input type="password" id="signup-password" value="" class="text ui-widget-content ui-corner-all" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="signup-passwordRepeat">Password (Repeat):</label>
+					</td>
+					<td>
+						<input type="password" id="signup-passwordRepeat" value="" class="text ui-widget-content ui-corner-all" />
 					</td>
 				</tr>
 			</table>
