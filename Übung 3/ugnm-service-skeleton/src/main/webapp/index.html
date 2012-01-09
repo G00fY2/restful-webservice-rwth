@@ -71,7 +71,6 @@
 		  height: 37px;
 		  width: 36px;
 		  background: url(media/arrow1.jpg) no-repeat 0 0;
-		  text-indent: -999px;
 		  position: absolute;
 		  top: 37px;
 		  cursor: pointer;
@@ -106,7 +105,8 @@
 		}
 		
 		#media {                
-              text-align: center;                     
+              text-align: center; 
+			padding-bottom: 15px;
         }
 		
 		#trueFakeb { 
@@ -302,7 +302,13 @@
 	
 		}
 		
-		
+		#textProfile{
+			position: absolute;
+		padding-top: 250px;
+		margin-left: 5%;
+		font-size: 14pt;
+			
+		}
 		
 	</style>
 	
@@ -474,6 +480,7 @@
             $("#mainpage").hide();
             $("#loggedinpage").hide();
             $("#toplistpage").show();
+            $("#profilepage").hide();
             $("#game").hide(); 
             $("#media").hide();
             $("#help1b").hide();
@@ -489,6 +496,7 @@
 			$("#username").html(fmd._uname + " | EP: " + fmd._uep);
 			$("#rightField").hide();
 			$("#loginb").hide();
+			$("#profilepage").show();
 			$("#logoutb").show();
 			$("#toplistb").show(); 
 			$("#registerb").hide();
@@ -515,6 +523,7 @@
 				$("#username").html(fmd._uname + " | EP: " + fmd._uep);
 				$("#loginb").hide();
 				$("#rightField").hide();
+				$("#profilepage").hide();
 				$("#toplistb").show(); 
 				$("#logoutb").show();
 				$("#registerb").hide();
@@ -543,6 +552,7 @@
 				
 				$("#username").html(fmd._uname + " | EP: " + fmd._uep);
 				$("#loginb").hide();
+				$("#profilepage").hide();
 				$("#logoutb").show();
 				$("#rightField").hide();
 				$("#registerb").hide();
@@ -557,8 +567,8 @@
                 $("#editb").hide();
                 $("#deleteb").hide();
                 $("#rate-image").hide();   
-                $("#game").show(); 
-                $("#media").show();
+                $("#game").hide(); 
+                $("#media").hide();
                 $("#help1b").hide();
                 $("#help2b").show();
                 $("#help3b").hide();
@@ -569,6 +579,7 @@
 				
 				$("#username").html("");
 				$("#toplistb").hide(); 
+				$("#profilepage").hide(); 
 				$("#rightField").hide();
 				$("#loginb").show();
 				$("#logoutb").hide();
@@ -918,7 +929,7 @@
 			
 			$("#dialog-help3" ).dialog({
                 autoOpen: false,
-                height: 420,
+                height: 410,
                 width: 400,
                 modal: true,
                 buttons: {
@@ -1233,7 +1244,28 @@
 
 
 
-															<! ******* MAIN-PAGE *********>
+															<! ******* PROFILE-PAGE *********>
+
+
+
+
+<div id="profilepage">
+
+	<div id="arrowProfile">
+		<img id = "pantie" src = "media/arrowHaF.jpg" alt="" ></img>
+	</div>
+
+	<div id="textProfile">
+		<b><span id="username"></b></span>
+	</div>
+	
+
+</div>
+
+
+
+
+																<! ******* MAIN-PAGE *********>
 
 
 
@@ -1470,6 +1502,7 @@
 		</form>
 	
 	<p id="ep" class="help"><b>How I get Achievements?!</b></p>
+	<p></<p>
 	<form>
 		<fieldset>
 			<table>
@@ -1560,7 +1593,7 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="signup-name">Real name:</label>
+						<label for="signup-name">Full name:</label>
 					</td>
 					<td>	
 						<input type="text" id="signup-name" class="text ui-widget-content ui-corner-all" />
@@ -1568,7 +1601,7 @@
 				</tr>
 				<tr>
 				<td>
-					<label for="signup-username">User name:</label>
+					<label for="signup-username">Username:</label>
 				</td>
 				<td>	
 					<input type="text" id="signup-username" class="text ui-widget-content ui-corner-all" />
@@ -1600,7 +1633,7 @@
 </div>
 
 <div id="login-unauthorized" title="Incorrect Password">
-        <label for="first">Please enter correct password!</label>
+        <label for="first">The Password is not correct!<p> Please try again..</p></label>
 </div>
 
 <div id="register-success" title="Sucess">
@@ -1626,7 +1659,7 @@
 			<table>
 				<tr>
 					<td>
-					<label for="update-username">User name:</label>
+					<label for="update-username">Username:</label>
 				</td>
 				<td>	
 					<input type="text" id="update-username" class="text ui-widget-content ui-corner-all" />
