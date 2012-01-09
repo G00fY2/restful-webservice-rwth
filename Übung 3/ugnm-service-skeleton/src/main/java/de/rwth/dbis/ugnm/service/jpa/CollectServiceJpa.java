@@ -44,22 +44,21 @@ public class CollectServiceJpa implements CollectService{
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
         public List<Collect> getAll(String email) {
-                Query query = entityManager.createNamedQuery("Collect.findCollectOfUser");
-                query.setParameter("userEmail", email);
+                Query queryCollects = entityManager.createNamedQuery("Collect.findCollectOfUser");
+                queryCollects.setParameter("email", email);
                 List<Collect> collects = null;
-                collects = query.getResultList();
+                collects = queryCollects.getResultList();
                 return collects;
         }
 
         
-//Gibt über findCollect ein einzelnes collect zu einem User aus 
+//Gibt über findCollect ein einzelnes collect aus 
         
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
-        public Collect findCollect(String userEmail, int achievementId) {
-                Query queryFindMedia = entityManager.createNamedQuery("Collect.findCollect");
-                queryFindMedia.setParameter("achievementId", achievementId);
-                queryFindMedia.setParameter("userEmail", userEmail);
+        public Collect getById(int id) {
+        		Query queryFindMedia = entityManager.createNamedQuery("Collect.findCollect");
+        		queryFindMedia.setParameter("id", id);
                 List<Collect> collects = queryFindMedia.getResultList();
                 Collect result = null;
                 if(collects.size() > 0) {

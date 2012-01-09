@@ -20,7 +20,7 @@ import de.rwth.dbis.ugnm.entity.Collect;
 import de.rwth.dbis.ugnm.service.CollectService;
 import de.rwth.dbis.ugnm.util.CORS;
 
-@Path("/users/{email}/collect/{achievementId}")
+@Path("/users/{email}/collect/{id}")
 @Component
 public class CollectResource {
 
@@ -41,11 +41,11 @@ public class CollectResource {
         
         @GET
         @Produces("application/json")
-        public Response getCollect(@PathParam("email") String userEmail, @PathParam("achievementId") int achievementId){
+        public Response getCollect(@PathParam("email") String userEmail, @PathParam("id") int id){
         	
 //Collect-Objekt wird mit uebergebenen Parametern erzeugt 
         	
-                Collect c = collectService.findCollect(userEmail, achievementId);
+                Collect c = collectService.getById(id);
                 
 //Wenn Collect-Object nicht = "null" wird dieses Object ausgegeben               
 //Andernfalls wird eine 404 WebApplicationException geschmissen               
@@ -59,14 +59,14 @@ public class CollectResource {
         }
         
         @DELETE
-        public Response deleteCollect(@HeaderParam("authorization") String auth, @PathParam("email") String userEmail, @PathParam("achievementId") int achievementId){
+        public Response deleteCollect(@HeaderParam("authorization") String auth, @PathParam("email") String userEmail, @PathParam("id") int id){
                         if(admin_authenticated(auth)==false){
                         	Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
                             return CORS.makeCORS(r, _corsHeaders);
                         }
 //GET Achievement ueber Primary Id              
 
-                Collect collect = collectService.findCollect(userEmail, achievementId);
+                Collect collect = collectService.getById(id);
                
 //Wenn Achievement nicht "null" ist wird das Achievement gelöscht und ein ok-Response abgesetzt
                
