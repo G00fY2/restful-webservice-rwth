@@ -400,10 +400,12 @@
 			fmd.getUsers(function(users){
 				var ol = $("<ol></ol>").attr({"id":"userlist"});
 				for(i in users){
-					var usr = users[i];
-					var li =  $("<li></li>").append("<span>" + usr.ep + "EP</span> - <span>" + usr.username + "</span>");
+					var uri = users[i];
+					fmd.getUserUri(uri, function(object){
+					var li =  $("<li></li>").append("<span>" + object.ep + "EP</span> - <span>" + object.username + "</span>");
 					ol.append(li);
-				}
+					});
+					}
 				$("#users").html(ol);
 			});
 		}
@@ -416,11 +418,11 @@
 				var ul = $("<ul></ul>");
 				var ct = 0;
 				for(i in media){
-					var med = media[i];
+					var uri = media[i];
 					
-					fmd.getMedium(med,function(medium){
+					fmd.getMediumUri(uri,function(object){
 					
-						var titleValue = "\nDescription: " + medium.description;
+						var titleValue = "\nDescription: " + object.description;
 						
 						var count = media.length;
 						var realCount = 0;
@@ -428,9 +430,9 @@
 						
 						console.log(titleValue);
 						
-						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + medium.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
-							cmedium = medium;
-							$("#rate-image").html("<img src='" + medium.url + "' height='300' alt='" + titleValue + "' />");
+						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
+							cmedium = object;
+							$("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
 						});
 						ul.append(li);
 						
@@ -593,7 +595,7 @@
 			
 			// load all users and display in a list
 			updateStatus();
-			updateUsers();
+			//updateUsers();
 			
 			
 			//#####################################################
