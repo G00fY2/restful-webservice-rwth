@@ -71,7 +71,7 @@ public class AchievementsResource {
 
                 try {
                         JSONObject j = new JSONObject();
-                        j.append("achievements",vAchievements);
+                        j.put("achievements",vAchievements);
                         Response.ResponseBuilder r = Response.ok(j);
                         return CORS.makeCORS(r, _corsHeaders);
                 } catch (JSONException e) {

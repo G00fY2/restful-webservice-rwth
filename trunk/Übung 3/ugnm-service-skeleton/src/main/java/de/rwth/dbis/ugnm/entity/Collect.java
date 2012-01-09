@@ -43,7 +43,6 @@ public class Collect {
         private Achievement achievementInstance;
         
 //Getter-Setter Methoden
-        
 
         public int getId() {
                 return id;

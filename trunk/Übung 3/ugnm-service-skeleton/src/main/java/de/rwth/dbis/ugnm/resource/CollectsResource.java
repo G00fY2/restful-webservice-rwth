@@ -75,7 +75,7 @@ public class CollectsResource {
 
                 try {
                         JSONObject j = new JSONObject();
-                        j.append("collect",vCollect);
+                        j.put("collects",vCollect);
                         Response.ResponseBuilder r = Response.ok(j);
                         return CORS.makeCORS(r, _corsHeaders);
                 } catch (JSONException e) {
@@ -124,7 +124,7 @@ public class CollectsResource {
 
                 try {
                         int achievementId = o.getInt("achievementId");
-                        Collect collect = new Collect();   
+                        Collect collect = new Collect();
                         collect.setAchievementId(achievementId);
                         collect.setUserEmail(email);
                         
