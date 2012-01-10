@@ -347,6 +347,7 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 	if(!this.isLoggedIn){
 		alert("Not logged in");
 	}
+	
 	var picid = m.id;
     var d = {};
     d.id = picid;
@@ -397,7 +398,7 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 }
 
 
-FmdClient.prototype.updateUserEP = function(callback){
+FmdClient.prototype.updateUserEP = function(){
     var that = this;
     var resource = this._usersResource + "/" + this._uid;
 	 
@@ -406,13 +407,12 @@ FmdClient.prototype.updateUserEP = function(callback){
 	        type: "GET",
 			dataType: 'text',
 	        success: function(data){
-	        	var object = $.parseJSON(data);
-	        	that._uep = object.ep;
+	        	var user = $.parseJSON(data);
+	        	var newep = parseInt(user.ep);
+	        	newep += 50;
+	        	that._uep = newep;
     			localStorage.getItem("fmdsuep",that._uep);  
-    			var result = {};
-    			result.status = "ok";
-
-    			callback(result);
+       			return true;
 	        },
 	        
 	});
