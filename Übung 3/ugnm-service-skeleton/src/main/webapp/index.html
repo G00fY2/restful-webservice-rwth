@@ -1004,6 +1004,30 @@
                 }
         });
 			
+			$("#rate-right" ).dialog({
+                autoOpen: false,
+                height: 215,
+                width: 300,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                        $(this).dialog("close");                                                        
+                        }
+                }
+        });
+			
+			$("#rate-wrong" ).dialog({
+                autoOpen: false,
+                height: 215,
+                width: 300,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                        $(this).dialog("close");                                                        
+                        }
+                }
+        });
+			
 			$("#dialog-help1" ).dialog({
                  autoOpen: false,
                  height: 220,
@@ -1157,6 +1181,12 @@
 			
 			
 			$( "#fakeb" ).button().click(function() {
+				if(cmedium.id == 0){
+					$("#rate-right").dialog("open");
+				}
+				else{
+					$("#rate-wrong").dialog("open");
+				}
 				console.log(cmedium.id + " is a Fake");
 				fmd.rateMedium(cmedium,0,function(result){
 					if(result.status == "created"){
@@ -1171,9 +1201,21 @@
 			});
 			
 			$( "#trueb" ).button().click(function() {
+				if(cmedium.id == 1){
+					$("#rate-right").dialog("open");
+				}
+				else{
+					$("#rate-wrong").dialog("open");
+				}
 				console.log(cmedium.id + " is Authentic");
 				fmd.rateMedium(cmedium,1,function(result){
 					if(result.status == "created"){
+						if(result.rate == true){
+							$("#rate-right").dialog("open");	
+						}
+						else if (result.rate == false){
+							$("#rate-wrong").dialog("open");
+						}
 						fmd.updateUserEP(function(result){
 						});
 						updateMedia();
@@ -1790,6 +1832,14 @@
 
 <div id="delete-success" title="Profile deleted">
         <label for="first">Your profile has been deleted!</label>
+</div>
+
+<div id="rate-right" title="You're right!">
+        <label for="first">Your answer was right!</label>
+</div>
+
+<div id="rate-wrong" title="You're wrong!">
+        <label for="first">Your answer was was wrong!</label>
 </div>
 
 <div id="dialog-editUser" title="Edit my profile">
