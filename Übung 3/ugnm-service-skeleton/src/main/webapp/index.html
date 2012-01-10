@@ -113,7 +113,7 @@
 			padding-top: 9%;
 			margin-left: 45%;
 			position:absolute;
-			font-size: 9pt;
+			font-size: 12pt;
         }
 		
 		#profile {
@@ -121,7 +121,7 @@
 			border-bottom:1px solid rgb(195,195,195);
 			padding-top: 10px;
 			border-top:1px solid rgb(195,195,195);
-			font-size: 9pt;
+			font-size: 12pt;
 		}
 		
 		#game {
@@ -158,18 +158,20 @@
 		#rightField { 
 			width: 25%;
 			position: absolute;
-			top: 200px;
+			top: 210px;
 			right: 20px;
-			font-size: 9pt;
+			font-size: 12pt;
+			
                    
         }
 		
 		#rightFieldP { 
 			width: 25%;
 			position: absolute;
-			top: 200px;
+			top: 210px;
 			right: 20px;
-			font-size: 9pt;
+			font-size: 12pt;
+			
                    
         }
 		
@@ -236,28 +238,27 @@
 			position: absolute;
 			top: 430px;
 			margin-left: 87%;
-			font-size: 9pt;
+			font-size: 12pt;
 		}
 		
 		#textArrow {
 			position: absolute;
 			padding-top: 45px;
 			margin-left: 17%;
-			font-size: 9pt;
+			font-size: 12pt;
 		}
 		
 		#textWelcome {
 			position: absolute;
 			padding-top: 250px;
 			margin-left: 5%;
-			font-size: 14pt;
+			font-size: 16pt;
 		}
 		
 		#textDesc {
 			position: absolute;
 			padding-top: 190px;
 			margin-left: 40%;
-			font-size: 8pt;
 		}
 		
 		#arrowGame {
@@ -277,14 +278,14 @@
 			position: absolute;
 			padding-top: 27px;
 			margin-left: 8%;
-			font-size: 9pt;
+			font-size: 12pt;
 		}
 		
 		
 		#arrowTop {
 			position: absolute;
 			padding-top: 190px;
-			margin-left: 55%;
+			margin-left: 57%;
 		}
 		
 		#pantieKing {
@@ -297,7 +298,7 @@
 			position: absolute;
 			padding-top: 250px;
 			margin-left: 5%;
-			font-size: 14pt;
+			font-size: 16pt;
 		}
 		
 		#name{
@@ -312,12 +313,62 @@
 		}
 		
 		#textProfile{
-			position: absolute;
-		padding-top: 250px;
+		padding-top: 340px;
 		margin-left: 5%;
-		font-size: 14pt;
+		font-size: 16pt;
+		text-align:center;
 			
 		}
+		
+		#arrow1 {
+			position: absolute;
+			padding-top: 240px;
+			margin-left: 50%;
+		}
+		
+		#arrow2 {
+			position: absolute;
+			padding-top: 230px;
+			margin-left: 37%;
+			
+		}
+		
+		#arrow3 {
+			position: absolute;
+			padding-top: 240px;
+			margin-left: 60%;
+			
+		}
+		
+		 
+         #yorusernameCon{
+        	 position: absolute;
+			padding-top: 195px;
+      		margin-left: 10%;
+			font-size: 12pt;
+         }
+         
+         #yourname2Con{
+        	position: absolute;
+  			padding-top: 170px;
+         	margin-left: 10%;
+			font-size: 12pt;
+        	
+         }
+         
+         #yourEpCon{
+        	position: absolute;
+        	padding-top: 180px;
+ 			margin-left: 45%;
+ 			font-size: 12pt;
+        	
+         }
+         
+         #profilepage{
+        	 font-size: 12pt;
+  		
+        	 
+         }
 		
 	</style>
 	
@@ -421,7 +472,7 @@
 				for(i in users){
 					var uri = users[i];
 					fmd.getUserUri(uri, function(object){
-					var li =  $("<li></li>").append("<span>" + object.ep + " EP</span> - <span>" + object.username + "</span>");
+					var li =  $("<li></li>").append("<span><b>" + object.ep + " EP</b></span> - <span>" + object.username + "</span>");
 					ol.append(li);
 					});
 					}
@@ -478,7 +529,7 @@
 					fmd.getCollectUri(uri, function(achieveUri){
 						var achieveUriNew = achieveUri;
 						fmd.getAchievementUri(achieveUriNew, function(achievement){
-							li =  $("<li></li>").append("<span>" + achievement.name + "</span><br><span>Describtion: " + achievement.description + "</span>");
+							li =  $("<li></li>").append("<span><b>" + achievement.name + "</b></span><br><span>Describtion: " + achievement.description + "</span>");
 						 	ol.append(li);
 						});
 					});
@@ -519,12 +570,17 @@
             $("#help4b").hide();
             $("#help5b").show();
 
-           
+          
 	}
 		
 		function updateUser(){			
 			$("#username").html(fmd._uname + " | EP: " + fmd._uep);
-			$("#usernameP").html("Welcome " +  fmd._username + ".");
+			$("#usernameP").html("Welcome " + fmd._username + ".");
+			$("#yourusername").html(fmd._username);
+			$("#yourname2").html(fmd._uname);
+			$("#yourEp").html(fmd._uep);
+			$("#yorusernameCon").show();
+			$("#yourname2Con").show();
 			$("#rightField").hide();
 			$("#rightFieldP").show();
 			$("#loginb").hide();
@@ -1288,8 +1344,31 @@
 
 <div id="profilepage">
 
-	<div id="arrowProfile">
-		<img id = "pantie" src = "media/arrowHaF.jpg" alt="" ></img>
+	<div id="yorusernameCon">
+		<font>Your Username: </font>
+		<b><span id="yourusername"></b></span>
+	</div>
+	
+	<div id="yourname2Con">
+		<font>Your Full Name: </font>
+		<b><span id="yourname2"></b></span>
+	</div>
+	
+	<div id="yourEpCon">
+		<font>Your EP: </font>
+		<b><span id="yourEp"></b></span>
+	</div>
+
+	<div id="arrow1">
+		<img id = "arrow" src = "media/arrow2.jpg" alt="" ></img>
+	</div>
+	
+	<div id="arrow2">
+		<img id = "arrow" src = "media/arrow6.jpg" alt="" ></img>
+	</div>
+
+	<div id="arrow3">
+		<img id = "arrow" src = "media/arrow5.jpg" alt="" ></img>
 	</div>
 
 	<div id="textProfile">
@@ -1297,7 +1376,8 @@
 	</div>
 	
 	<div id="rightFieldP">
-		<span id="collects"></span>
+		<p>Your Achievements: </p>
+		<p><span id="collects"></span></p>
 	</div> 
 	
 
@@ -1343,14 +1423,13 @@
 	
 	<div id="textDesc">
 		<b>
-		<p>Welcome to Fake Media Detection!</p>
+		<p style="font-size:14">Welcome to Fake Media Detection!</p>
 		</b>
 		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
 		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
 		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
 		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
 		<p>blablbalbablabalbalablablabablalabalbabalbalabalbbla</p>
-		
 	</div>
 
 </div>
@@ -1378,7 +1457,7 @@
 	
 	<div id="textDesc">
 		<b>
-		<p>You think you can win?</p>
+		<p style="font-size:14">You think you can win?</p>
 		</b>
 		<p>blablbalbablabalbalablab</p>
 		<p>blablbalbablabalbalablabla</p>
@@ -1411,7 +1490,7 @@
 	
 	<div id="textDesc">
 		<b>
-		<p>Start your Game-Carrier..</p>
+		<p style="font-size:14">Start your Game-Carrier..</p>
 		</b>
 		<p>blablbalbablabalbalablab</p>
 		<p>blablbalbablabalbalablabla</p>
@@ -1426,6 +1505,7 @@
 
 
 <div id="rightField">
+	<font>Top 10 Gamer's: </font>
 	<div id="users"></div>
 </div> 
 
