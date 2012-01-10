@@ -50,6 +50,15 @@ public class MediumServiceJpa implements MediumService{
                 medium = query.getResultList();
                 return medium;
         }
+        
+        @SuppressWarnings("unchecked")
+        @Transactional(readOnly = true)
+        public List<Medium> getAllRandom() {
+                Query query = entityManager.createNamedQuery("Medium.allRandom");
+                List<Medium> medium = null;
+                medium = query.getResultList();
+                return medium;
+        }
 
 //Gibt ueber die id ein einzelnes medium aus 
         

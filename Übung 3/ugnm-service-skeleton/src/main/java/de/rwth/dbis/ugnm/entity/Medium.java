@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "Medium")
 @NamedQueries({
+        @NamedQuery(name = "Medium.allRandom", query = "SELECT m FROM Medium m ORDER BY RAND()"),
         @NamedQuery(name = "Medium.findAll", query = "SELECT m FROM Medium m"),
         @NamedQuery(name = "Medium.findMedium", query = "SELECT m FROM Medium m where m.id=:id")
 })
