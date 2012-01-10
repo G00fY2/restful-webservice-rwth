@@ -471,14 +471,14 @@
 		//                     Update Collects
 		//#####################################################
 		function updateCollects() {
-			fmd.getCollects(function(collects){
+			fmd.getCollects(function(collecturi){
 				var ol = $("<ol></ol>").attr({"id":"userlist"});
-				for(i in collects){
-					var uri = collects[i];
-					fmd.getCollectUri(uri, function(object){
-						var id = object.AchievementId;
-						fmd.getAchievementId(id, function(achieve){
-							li =  $("<li></li>").append("<span>" + achieve.name + "</span> - <span>" + achieve.description + "</span>");
+				for(i in collecturi){
+					var uri = collecturi[i];
+					fmd.getCollectUri(uri, function(achieveUri){
+						var achieveUriNew = achieveUri;
+						fmd.getAchievementUri(achieveUriNew, function(achievement){
+							li =  $("<li></li>").append("<span>" + achievement.name + "</span><br><span>Describtion: " + achievement.description + "</span>");
 						 	ol.append(li);
 						});
 					});
@@ -494,7 +494,7 @@
 		//#####################################################
 		function updateToplist(){			
 			$("#username").html(fmd._uname + " | EP: " + fmd._uep);
-			$("#rightFieldP").show();
+			$("#rightFieldP").hide();
 			$("#loginb").hide();
 			$("#rightField").show();
 			$("#logoutb").show();
@@ -526,7 +526,7 @@
 			$("#username").html(fmd._uname + " | EP: " + fmd._uep);
 			$("#usernameP").html("Welcome " +  fmd._username + ".");
 			$("#rightField").hide();
-			$("#rightFieldP").hide();
+			$("#rightFieldP").show();
 			$("#loginb").hide();
 			$("#profilepage").show();
 			$("#logoutb").show();
