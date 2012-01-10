@@ -671,7 +671,7 @@ FmdClient.prototype.getRateUri = function(uri, callback){
 
 FmdClient.prototype.getUsers = function(callback){
 	
-	var resource = this._usersResource;
+	var resource = this._usersResource + "/toplist";
     $.ajax({
             url: resource,
             type: "GET",

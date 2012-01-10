@@ -49,6 +49,15 @@ public class UserServiceJpa implements UserService {
 		users = query.getResultList();
 		return users;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<User> getTopList() {
+		Query query = entityManager.createNamedQuery("User.topList");
+		List<User> users = null;
+		users = query.getResultList();
+		return users;
+	}
 
 	@Transactional(readOnly=false, propagation=Propagation.REQUIRED)
 	public boolean save(User user) {
