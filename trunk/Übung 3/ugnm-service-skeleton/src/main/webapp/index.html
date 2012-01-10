@@ -529,6 +529,7 @@
 					fmd.getCollectUri(uri, function(achieveUri){
 						var achieveUriNew = achieveUri;
 						fmd.getAchievementUri(achieveUriNew, function(achievement){
+							alert(achievement.name);
 							li =  $("<li></li>").append("<span><b>" + achievement.name + "</b></span><br><span>Describtion: " + achievement.description + "</span>");
 						 	ol.append(li);
 						});
@@ -1138,7 +1139,6 @@
 			
 			$( "#profileb" ).button().click(function() {
                 updateUser(); //opens "user side"
-                updateUserEP();
                 updateCollects();
 			});
 			
