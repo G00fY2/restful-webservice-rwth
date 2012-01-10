@@ -54,8 +54,7 @@ public class UserServiceJpa implements UserService {
 	@Transactional(readOnly = true)
 	public List<User> getTopList() {
 		Query query = entityManager.createNamedQuery("User.topList");
-		List<User> users = null;
-		users = query.getResultList();
+		List<User> users = query.getResultList();
 		return users;
 	}
 
