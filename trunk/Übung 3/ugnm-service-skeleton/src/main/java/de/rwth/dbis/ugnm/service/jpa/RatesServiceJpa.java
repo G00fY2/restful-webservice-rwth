@@ -44,7 +44,7 @@ public class RatesServiceJpa implements RatesService{
         @Transactional(readOnly = true)
         public List<Rates> getAllRatesOfUser(String email) {
                 Query query = entityManager.createNamedQuery("Rates.findRatesOfUser");
-                query.setParameter("email", email);
+                query.setParameter("userEmail", email);
                 List<Rates> rates = null;
                 rates = query.getResultList();
                 return rates;

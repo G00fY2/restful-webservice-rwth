@@ -516,24 +516,24 @@ $.ajax({
         type: "GET",
 		dataType: 'text',
         success: function(data){
-        	var achieve = $.parseJSON(data);
+        	var object = $.parseJSON(data);
               
-                callback(achieve);
+                callback(object);
         },
         
 });
 
 };
 
-FmdClient.prototype.getAchievementUri = function(uri, callback){
+FmdClient.prototype.getAchievementUri = function(achieveUriNew, callback){
 	$.ajax({
-        url: uri,
+        url: achieveUriNew,
         type: "GET",
 		dataType: 'text',
         success: function(data){
-        	var object = $.parseJSON(data);
+        	var achievement = $.parseJSON(data);
               
-                callback(object);
+                callback(achievement);
         },
         
 });
@@ -570,14 +570,18 @@ $.ajax({
 };
 
 FmdClient.prototype.getCollectUri = function(uri, callback){
-$.ajax({
+	var resourceAchievement = this._achievementsResource;
+	
+	$.ajax({
         url: uri,
         type: "GET",
 		dataType: 'text',
         success: function(data){
-        	var object = $.parseJSON(data);
+        	var collect = $.parseJSON(data);
+        	var id = collect.achievementId;
+        	var achieveUri = resourceAchievement + "/" + id;
               
-                callback(object);
+                callback(achieveUri);
         },
         
 });
@@ -744,10 +748,10 @@ FmdClient.prototype.getCollects = function(callback){
             type: "GET",
     		dataType: 'text',
             success: function(data){
-            	var objects = $.parseJSON(data);
-            	var collects = objects.collects;
+            	var object = $.parseJSON(data);
+            	var collecturi = object.collects;
                     
-                    callback(collects);
+                    callback(collecturi);
             },
             
     });
@@ -768,7 +772,7 @@ FmdClient.prototype.getCollects = function(callback){
  * 
  */
 
-FmdClient.prototype.getCollects = function(email, callback){
+FmdClient.prototype.getRates = function(email, callback){
 	
 	var resource = this._usersResource + "/" + email + "/rates";
     $.ajax({

@@ -45,7 +45,7 @@ public class CollectServiceJpa implements CollectService{
         @Transactional(readOnly = true)
         public List<Collect> getAll(String email) {
                 Query queryCollects = entityManager.createNamedQuery("Collect.findCollectOfUser");
-                queryCollects.setParameter("email", email);
+                queryCollects.setParameter("userEmail", email);
                 List<Collect> collects = null;
                 collects = queryCollects.getResultList();
                 return collects;
