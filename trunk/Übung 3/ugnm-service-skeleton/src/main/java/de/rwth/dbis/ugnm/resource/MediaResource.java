@@ -56,14 +56,15 @@ public class MediaResource {
         
         @GET
         @Produces("application/json")
-        public Response getAllMedia() {
-
-                
-                List<Medium> media = mediumService.getAll();
-                Iterator<Medium> mit = media.iterator();
-                
-                Vector<String> vMedia = new Vector<String>();   
-                
+        public Response getAllMedia(@HeaderParam("authorization") String auth) { 
+         
+        	//Gibt GEMISCHTE liste aller Medien aus
+        	//Admin kann sortierte Liste sehen
+        	if((auth==null)){
+        	 List<Medium> media = mediumService.getAllRandom();
+             Iterator<Medium> mit = media.iterator();
+             
+             Vector<String> vMedia = new Vector<String>();  
                 while(mit.hasNext()){
                         Medium m = mit.next();
                         String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + m.getId();
@@ -79,7 +80,34 @@ public class MediaResource {
                 	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
-        }
+         }
+         	else if(admin_authenticated(auth)==true){
+         		List<Medium> media = mediumService.getAll();
+                Iterator<Medium> mit = media.iterator();
+                
+                Vector<String> vMedia = new Vector<String>();  
+         		while(mit.hasNext()){
+                    Medium m = mit.next();
+                    String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + m.getId();
+                    vMedia.add(uUri);
+            }
+
+            try {
+                    JSONObject j = new JSONObject();
+                    j.put("media",vMedia);
+                    Response.ResponseBuilder r = Response.ok(j);
+                    return CORS.makeCORS(r, _corsHeaders);
+            } catch (JSONException e) {
+            	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
+                return CORS.makeCORS(r, _corsHeaders);
+            }
+         }
+         	else{
+         		Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
+                return CORS.makeCORS(r, _corsHeaders);
+         	}
+       }
+
         
 //Ermoeglicht ueber PUT das Erstellen eines einzelnen Mediums       
 
