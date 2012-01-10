@@ -537,8 +537,7 @@
 				$("#collects").html(ol);
 			});
 		}
-		
-		
+				
 		
 		//#####################################################
 		//        jQuery show und hide Buttons 
@@ -1139,6 +1138,7 @@
 			
 			$( "#profileb" ).button().click(function() {
                 updateUser(); //opens "user side"
+                updateUserEP();
                 updateCollects();
 			});
 			
@@ -1151,6 +1151,8 @@
 				console.log(cmedium.id + " is a Fake");
 				fmd.rateMedium(cmedium,0,function(result){
 					if(result.status == "created"){
+						fmd.updateUserEP(function(result){
+						});
 						updateMedia();
 						updateGame();
 					} else {
@@ -1163,6 +1165,8 @@
 				console.log(cmedium.id + " is Authentic");
 				fmd.rateMedium(cmedium,1,function(result){
 					if(result.status == "created"){
+						fmd.updateUserEP(function(result){
+						});
 						updateMedia();
 						updateGame();
 					} else {

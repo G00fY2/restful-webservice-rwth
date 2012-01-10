@@ -32,9 +32,10 @@ function FmdClient(endpointUrl){
 	// instance, we check, if credentials are stored in local storage and - if so - set two 
 	// client fields _uid and _cred, which can be used for authentication in subsequent requests.
 	
-	if(localStorage.getItem("fmdsusername") !== null && localStorage.getItem("fmdsuname") !== null && localStorage.getItem("fmdsuid") !== null && localStorage.getItem("fmdscred") !== null){
+	if(localStorage.getItem("fmdsuep") !== null && localStorage.getItem("fmdsusername") !== null && localStorage.getItem("fmdsuname") !== null && localStorage.getItem("fmdsuid") !== null && localStorage.getItem("fmdscred") !== null){
 		this._username = localStorage.getItem("fmdsusername");
 		this._uname = localStorage.getItem("fmdsuname");
+		this._uep = localStorage.getItem("fmdsuep");
 		this._uid = localStorage.getItem("fmdsuid");
 		this._cred = localStorage.getItem("fmdscred");;
 	}
@@ -396,8 +397,27 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 }
 
 
+FmdClient.prototype.updateUserEP = function(callback){
+    var that = this;
+    var resource = this._usersResource + "/" + this._uid;
+	 
+	$.ajax({
+	        url: resource,
+	        type: "GET",
+			dataType: 'text',
+	        success: function(data){
+	        	var object = $.parseJSON(data);
+	        	that._uep = object.ep;
+    			localStorage.getItem("fmdsuep",that._uep);  
+    			var result = {};
+    			result.status = "ok";
 
+    			callback(result);
+	        },
+	        
+	});
 
+	};
 
 /** ------------------------ Single-Getter-Functions ------------------- */
 
