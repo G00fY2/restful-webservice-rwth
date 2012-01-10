@@ -1181,8 +1181,9 @@
 			
 			
 			$( "#fakeb" ).button().click(function() {
-				if(cmedium.id == 0){
+				if(cmedium.value == 0){
 					$("#rate-right").dialog("open");
+					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
@@ -1190,8 +1191,6 @@
 				console.log(cmedium.id + " is a Fake");
 				fmd.rateMedium(cmedium,0,function(result){
 					if(result.status == "created"){
-						fmd.updateUserEP(function(result){
-						});
 						updateMedia();
 						updateGame();
 					} else {
@@ -1201,8 +1200,9 @@
 			});
 			
 			$( "#trueb" ).button().click(function() {
-				if(cmedium.id == 1){
+				if(cmedium.value == 1){
 					$("#rate-right").dialog("open");
+					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
@@ -1210,14 +1210,6 @@
 				console.log(cmedium.id + " is Authentic");
 				fmd.rateMedium(cmedium,1,function(result){
 					if(result.status == "created"){
-						if(result.rate == true){
-							$("#rate-right").dialog("open");	
-						}
-						else if (result.rate == false){
-							$("#rate-wrong").dialog("open");
-						}
-						fmd.updateUserEP(function(result){
-						});
 						updateMedia();
 						updateGame();
 					} else {
