@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "User")
 @NamedQueries({ 
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-        @NamedQuery(name = "User.topList", query = "SELECT u FROM User u ORDER BY EP DESC LIMIT 10"),
+        @NamedQuery(name = "User.topList", query = "SELECT u FROM User u ORDER BY u.ep DESC LIMIT 0,10"),
         @NamedQuery(name = "User.findUser", query = "SELECT u FROM User u where u.email=:email")
 })
 

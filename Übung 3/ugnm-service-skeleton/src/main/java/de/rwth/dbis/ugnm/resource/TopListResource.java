@@ -2,8 +2,6 @@ package de.rwth.dbis.ugnm.resource;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.OPTIONS;
@@ -18,6 +16,7 @@ import javax.ws.rs.core.UriInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -58,25 +57,29 @@ public class TopListResource {
                 
     Iterator<User> usit = users.iterator();
     
-//String-Array wird erstellt
-    
-    Vector<String> vUsers = new Vector<String>();
+//JSON-Array wird erstellt
+    JSONArray j = new JSONArray();
+
                 while(usit.hasNext()){
-                        User u = usit.next();
-                        String uUri = uriInfo.getBaseUri().toASCIIString() + "users/" + u.getEmail();
-                        vUsers.add(uUri);
-                }
+                	User user = usit.next();
+                    JSONObject userNew = new JSONObject();
+                    
+                    try {
+                    	userNew.put("username", user.getUsername());
+                    	userNew.put("ep", user.getEp());
+                            j.put(userNew);
+                    } 
+                    
+                    catch (JSONException e) {
+                            Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
+                            return CORS.makeCORS(r, _corsHeaders);
+                    }
+            }
+            
+            
+            Response.ResponseBuilder r = Response.ok(j);
+            return CORS.makeCORS(r, _corsHeaders);
+    }
 
-//Liste wird ausgegeben
-                try {
-                    JSONObject j = new JSONObject();
-                	j.put("users", vUsers);
-                	Response.ResponseBuilder r = Response.ok(j);
-                    return CORS.makeCORS(r, _corsHeaders);		
-                } catch (JSONException e) {
-        			Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
-        			return CORS.makeCORS(r, _corsHeaders);
-        		}
 
-        	}
 }

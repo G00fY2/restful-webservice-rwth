@@ -479,14 +479,12 @@
 		//                     Update Users
 		//#####################################################
 		function updateUsers() {
-			fmd.getUsers(function(users){
+			fmd.getTopUsers(function(users){
 				var ol = $("<ol></ol>").attr({"id":"userlist"});
 				for(i in users){
-					var uri = users[i];
-					fmd.getUserUri(uri, function(object){
+					var object = users[i];
 					var li =  $("<li></li>").append("<span><b>" + object.ep + " EP</b></span> - <span>" + object.username + "</span>");
 					ol.append(li);
-					});
 					}
 				$("#users").html(ol);
 			});

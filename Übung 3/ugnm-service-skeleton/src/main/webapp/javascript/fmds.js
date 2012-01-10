@@ -653,8 +653,52 @@ FmdClient.prototype.getRateUri = function(uri, callback){
 
 
 /** ------------------------ Multi-Getter-Functions ------------------- */
-
-
+	FmdClient.prototype.getTopUsers = function(callback){
+		
+		var resource = this._usersResource + "/toplist";
+		$.ajax({
+	        url: resource,
+	        type: "GET",
+			dataType: 'text',
+	        success: function(data){
+	        	var users = $.parseJSON(data);
+	              
+	                callback(users);
+	        },
+	        
+	});
+	    
+	};
+	
+	/**
+	 * Retrieves top 10 users asynchronously. The result parameter of the callback function 
+	 * contains the list of all retrieved users as an array of JSON objects of the form: (Users-Example)
+	 * 
+	 *  	[<USER1>,...,<USERn>]
+	 *  
+	 * where each <USERx> contains the URI ... 
+	 * 
+	 * @param callback (function(users)) 
+	 * 
+	 * 
+	 */
+	FmdClient.prototype.getUsers = function(callback){
+		
+		var resource = this._usersResource;
+	    $.ajax({
+	            url: resource,
+	            type: "GET",
+	    		dataType: 'text',
+	            success: function(data){
+	            	var objects = $.parseJSON(data);
+	            	var users = objects.users;
+	                    
+	                    callback(users);
+	            },
+	            
+	    });
+	    
+	};
 
 /**
  * Retrieves all users/media/achievements/collects/rates asynchronously. The result parameter of the callback function 
@@ -669,9 +713,9 @@ FmdClient.prototype.getRateUri = function(uri, callback){
  * 
  */
 
-FmdClient.prototype.getUsers = function(callback){
+FmdClient.prototype.getUsersAll = function(callback){
 	
-	var resource = this._usersResource + "/toplist";
+	var resource = this._usersResource;
     $.ajax({
             url: resource,
             type: "GET",
