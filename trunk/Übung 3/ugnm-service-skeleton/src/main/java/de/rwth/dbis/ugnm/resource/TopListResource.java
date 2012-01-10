@@ -63,7 +63,7 @@ public class TopListResource {
     Vector<String> vUsers = new Vector<String>();
                 while(usit.hasNext()){
                         User u = usit.next();
-                        String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + u.getEmail();
+                        String uUri = uriInfo.getBaseUri().toASCIIString() + "users/" + u.getEmail();
                         vUsers.add(uUri);
                 }
 
