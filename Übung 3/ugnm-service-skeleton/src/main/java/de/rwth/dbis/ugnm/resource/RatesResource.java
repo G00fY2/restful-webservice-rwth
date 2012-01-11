@@ -191,7 +191,7 @@ public class RatesResource {
             Collect collect = new Collect();
     		collect.setUserEmail(email);
     		
-        	if(ep==100 && achievementService.getById(1) != null){
+        	if(ep==50 && achievementService.getById(1) != null){
         		collect.setAchievementId(1);
         		collectService.save(collect);
         	}
@@ -202,6 +202,14 @@ public class RatesResource {
         	else if(ep==1000 && achievementService.getById(3) != null){
                 collect.setAchievementId(3);
                 collectService.save(collect);
-        	}         
+        	}     
+        	else if(ep==5000 && achievementService.getById(4) != null){
+                collect.setAchievementId(3);
+                collectService.save(collect);
+        	}   
+        	else if(ep==10000 && achievementService.getById(5) != null){
+                collect.setAchievementId(3);
+                collectService.save(collect);
+        	}  
         }
 }

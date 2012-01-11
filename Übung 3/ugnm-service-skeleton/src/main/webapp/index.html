@@ -675,17 +675,15 @@
 		//                     Update Collects
 		//#####################################################
 		function updateCollects() {
-			fmd.getCollects(function(collecturi){
+			fmd.getCollects(function(collects){
 				var ol = $("<ol></ol>").attr({"id":"userlist"});
-				for(i in collecturi){
-					var uri = collecturi[i];
-					fmd.getCollectUri(uri, function(achieveUri){
-						var achieveUriNew = achieveUri;
-						fmd.getAchievementUri(achieveUriNew, function(achievement){
-							li =  $("<li></li>").append("<span><b>" + achievement.name + "</b></span><br><span>Describtion: " + achievement.description + "</span>");
+				for(i in collects){
+					var collect = collects[i];
+					var id = collect.achievementId;
+						fmd.getAchievementId(id, function(achievement){
+							li =  $("<li></li>").append("<span> <img src=\"media/" + achievement.url + "\"></span><span><b>" + achievement.name + "</b></span><br><span>Info: " + achievement.description + "</span>");
 						 	ol.append(li);
 						});
-					});
 				}
 				$("#collects").html(ol);
 			});
@@ -1367,9 +1365,9 @@
 				updateStatus();
 			});
 			
-			$( "#toplistb" ).button().click(function() {
-				updateToplist(); //opens "toplist side"
-				updateUsers();                        
+			$( "#toplistb" ).button().click(function() { 
+				updateToplist(); //opens "toplist side"   
+				updateUsers(); 
 			});
 			
 			$( "#gameb" ).button().click(function() {
@@ -1381,7 +1379,7 @@
 			});
 			
 			$( "#profileb" ).button().click(function() {
-                updateUser(); //opens "user side"
+				updateUser(); //opens "user side"
                 updateCollects();
 			});
 			
