@@ -212,7 +212,7 @@
 		#pantieMain1 {
 			position: absolute;
 			margin-left: 33%;
-			top: 310px;
+			top: 210px;
 		}
 		
 		#pantieMain2 {
@@ -221,6 +221,12 @@
 			float:left;
 			top: 510px;
 			padding-bottom: 10px;
+		}
+		
+		#pantieMain3 {
+			position: absolute;
+			margin-left: 65%;
+			top: 210px;
 		}
 		
 		#arrowRegi {
@@ -381,6 +387,21 @@
 			margin-left: 17%;
 			top: 460px;
  		}
+         
+         #pantieAchieve {
+        	position: absolute;
+         	float:left;
+         	top:290px;
+         	margin-left: 6%;
+ 			
+  		}
+         
+         #arrowAchieve{
+        	position: absolute;
+      		float:left;
+      		top: 200px;
+      		margin-left: 7%;
+         }
 		
 	</style>
 	
@@ -572,6 +593,7 @@
             $("#toplistpage").show();
             $("#profilepage").hide();
             $("#game").hide(); 
+            $("#gameleft").hide(); 
             $("#media").hide();
             $("#help1b").hide();
             $("#help2b").hide();
@@ -608,6 +630,7 @@
             $("#loggedinpage").hide();
             $("#toplistpage").hide();
             $("#game").hide(); 
+            $("#gameleft").hide(); 
             $("#media").hide();
             $("#help1b").hide();
             $("#help2b").hide();
@@ -633,6 +656,7 @@
                 $("#deleteb").hide();
                 $("#rate-image").show();   
                 $("#game").show(); 
+                $("#gameleft").show(); 
                 $("#media").show();
                 $("#mainpage").hide();
                 $("#loggedinpage").hide();
@@ -668,6 +692,7 @@
                 $("#deleteb").hide();
                 $("#rate-image").hide();   
                 $("#game").hide(); 
+                $("#gameleft").hide(); 
                 $("#media").hide();
                 $("#help1b").hide();
                 $("#help2b").show();
@@ -696,6 +721,7 @@
                 $("#loggedinpage").hide();
                 $("#toplistpage").hide();
                 $("#game").hide(); 
+                $("#gameleft").hide(); 
                 $("#media").hide();
                 $("#help1b").show();
                 $("#help2b").hide();
@@ -1066,7 +1092,7 @@
 			
 			$("#dialog-help4" ).dialog({
                 autoOpen: false,
-                height: 250,
+                height: 260,
                 width: 400,
                 modal: true,
                 buttons: {
@@ -1451,11 +1477,15 @@
 	</div>
 
 	<div id="pantieMain1">
-		<img id = "pantie" src = "media/pantieMain1.jpg" alt="" ></img>
+		<img id = "pantie" src = "media/pantieMainBig2.jpg" alt="" ></img>
 		</div>
 
 	<div id="pantieMain2">
 		<img id = "pantie" src = "media/pantieMain2.jpg" alt="" ></img>
+	</div>
+	
+	<div id="pantieMain3">
+		<img id = "pantie" src = "media/pantieMainTwo.jpg" alt="" ></img>
 	</div>
 
 	<div id="textWelcome">
@@ -1566,14 +1596,16 @@
 															<! ******* GAME-PAGE *********>
 
 
+															
 <div id="game">
+
 
 	<div id="truefakeb">
 		<button id="trueb"><b>TRUE</b></button>
 		<p></p>
 		<button id="fakeb"><b>FAKE</b></button>
 	</div>
-	
+
 <center>
 	<div id="rate-image"></div>
 </center>
@@ -1585,10 +1617,20 @@
 		</div>
 		</center>
 	</div>
-	
 </div>
 
+<div id="gameleft">
 
+	
+	<div id="arrowAchieve">
+		<img id = "arrow" src = "media/arrow6.jpg" alt="" ></img>
+	</div>
+	
+	<div id="pantieAchieve">
+		<img id = "pantie" src = "media/pantieAchieve.jpg" alt="" ></img>
+	</div>
+</div>
+	
 
 
 															<! ******* FUNNY-LITTLE-DUDE-BOTTOM *********>
