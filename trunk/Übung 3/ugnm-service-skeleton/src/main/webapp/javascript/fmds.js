@@ -749,11 +749,12 @@ FmdClient.prototype.getMediaCat1 = function(callback){
     $.ajax({
             url: resource,
             type: "GET",
-    		dataType: 'text',
+                dataType: 'text',
             success: function(data){
-            	var media = $.parseJSON(data);
-	              
-                callback(media);
+                var objects = $.parseJSON(data);
+                var media = objects.media;
+                    
+                    callback(media);
             },
             
     });
@@ -766,11 +767,12 @@ FmdClient.prototype.getMediaCat2 = function(callback){
     $.ajax({
             url: resource,
             type: "GET",
-    		dataType: 'text',
+                dataType: 'text',
             success: function(data){
-            	var media = $.parseJSON(data);
-	              
-                callback(media);
+                var objects = $.parseJSON(data);
+                var media = objects.media;
+                    
+                    callback(media);
             },
             
     });
@@ -783,16 +785,19 @@ FmdClient.prototype.getMediaCat3 = function(callback){
     $.ajax({
             url: resource,
             type: "GET",
-    		dataType: 'text',
+                dataType: 'text',
             success: function(data){
-            	var media = $.parseJSON(data);
-	              
-                callback(media);
+                var objects = $.parseJSON(data);
+                var media = objects.media;
+                    
+                    callback(media);
             },
             
     });
     
 };
+
+
 
 /**
  * Retrieves all achievements asynchronously. The result parameter of the callback function 
