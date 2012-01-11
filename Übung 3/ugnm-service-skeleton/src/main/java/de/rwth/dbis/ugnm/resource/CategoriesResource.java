@@ -2,8 +2,6 @@ package de.rwth.dbis.ugnm.resource;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.OPTIONS;
@@ -18,6 +16,7 @@ import javax.ws.rs.core.Response.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -54,67 +53,75 @@ public class CategoriesResource {
         	 List<Medium> media = mediumService.getMediaCat1();
              Iterator<Medium> mit = media.iterator();
              
-             Vector<String> vMedia = new Vector<String>();  
+             JSONArray j = new JSONArray();  
                 while(mit.hasNext()){
                         Medium m = mit.next();
-                        String uUri = uriInfo.getBaseUri().toASCIIString() + "media/" + m.getId();
-                        vMedia.add(uUri);
-                }
+                        JSONObject medium = new JSONObject();
 
                 try {
-                        JSONObject j = new JSONObject();
-                        j.put("media",vMedia);
-                        Response.ResponseBuilder r = Response.ok(j);
-                        return CORS.makeCORS(r, _corsHeaders);
+                		medium.put("id", m.getId());
+                        medium.put("url", m.getUrl());
+                        medium.put("value", m.getValue());
+                        medium.put("description", m.getDescription());
+                        j.put(medium);
                 } catch (JSONException e) {
                 	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
          }
+
+                Response.ResponseBuilder r = Response.ok(j);
+                return CORS.makeCORS(r, _corsHeaders);
+        }
         	
         	if(id == 2){
            	 List<Medium> media = mediumService.getMediaCat2();
                 Iterator<Medium> mit = media.iterator();
                 
-                Vector<String> vMedia = new Vector<String>();  
+                JSONArray j = new JSONArray();  
                    while(mit.hasNext()){
                            Medium m = mit.next();
-                           String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + m.getId();
-                           vMedia.add(uUri);
-                   }
+                           JSONObject medium = new JSONObject();
 
                    try {
-                           JSONObject j = new JSONObject();
-                           j.put("media",vMedia);
-                           Response.ResponseBuilder r = Response.ok(j);
-                           return CORS.makeCORS(r, _corsHeaders);
+                           medium.put("url", m.getUrl());
+                           medium.put("value", m.getValue());
+                           medium.put("description", m.getDescription());
+                           j.put(medium);
                    } catch (JSONException e) {
                    	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
                        return CORS.makeCORS(r, _corsHeaders);
                    }
             }
+
+                   Response.ResponseBuilder r = Response.ok(j);
+                   return CORS.makeCORS(r, _corsHeaders);
+           }
         	
         	if(id == 3){
            	 List<Medium> media = mediumService.getMediaCat3();
                 Iterator<Medium> mit = media.iterator();
                 
-                Vector<String> vMedia = new Vector<String>();  
+                JSONArray j = new JSONArray();  
                    while(mit.hasNext()){
                            Medium m = mit.next();
-                           String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + m.getId();
-                           vMedia.add(uUri);
-                   }
+                           JSONObject medium = new JSONObject();
 
                    try {
-                           JSONObject j = new JSONObject();
-                           j.put("media",vMedia);
-                           Response.ResponseBuilder r = Response.ok(j);
-                           return CORS.makeCORS(r, _corsHeaders);
+                           medium.put("url", m.getUrl());
+                           medium.put("value", m.getValue());
+                           medium.put("description", m.getDescription());
+                           j.put(medium);
                    } catch (JSONException e) {
                    	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
                        return CORS.makeCORS(r, _corsHeaders);
                    }
             }
+
+                   Response.ResponseBuilder r = Response.ok(j);
+                   return CORS.makeCORS(r, _corsHeaders);
+           }
+        	
         	else{
         		Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
                 return CORS.makeCORS(r, _corsHeaders);
