@@ -567,110 +567,120 @@
 		}
 		
 		//#####################################################
-		//                     Update Media Category 1
-		//#####################################################
-		function updateMediaCat1() {
-			fmd.getMediaCat1(function(media){
-				var ul = $("<ul></ul>");
-				var ct = 0;
-				for(i in media){
-					var object = media[i];
+        //                     Update Media Category 1
+        //#####################################################
+        function updateMediaCat1() {
+                fmd.getMediaCat1(function(media){
+                        var ul = $("<ul></ul>");
+                        var ct = 0;
+                        for(i in media){
+                                var uri = media[i];
+                                
+                                fmd.getMediumUri(uri,function(object){
+                                
+                                        var titleValue = "\nDescription: " + object.description;
+                                        
+                                        var count = media.length;
+                                        var realCount = 0;
+                                        
+                                        
+                                        console.log(titleValue);
+                                        
+                                        var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){         
+                                                cmedium = object;
+                                                $("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
+                                        });
+                                        ul.append(li);
+                                        
+                                        if(ct == media.length-1){
+                                                $("#medialist").html(ul);
+                                                $('.infiniteCarousel').infiniteCarousel();
+                                        }
+                                        ct++;
+                                        console.log("============================================================");
+                                });
+                        
+                        }
+                        
+                });
+        }
+        //#####################################################
+        //                     Update Media Category 2
+        //#####################################################
+        function updateMediaCat2() {
+                fmd.getMediaCat2(function(media){
+                        var ul = $("<ul></ul>");
+                        var ct = 0;
+                        for(i in media){
+                                var uri = media[i];
+                                
+                                fmd.getMediumUri(uri,function(object){
+                                
+                                        var titleValue = "\nDescription: " + object.description;
+                                        
+                                        var count = media.length;
+                                        var realCount = 0;
+                                        
+                                        
+                                        console.log(titleValue);
+                                        
+                                        var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){         
+                                                cmedium = object;
+                                                $("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
+                                        });
+                                        ul.append(li);
+                                        
+                                        if(ct == media.length-1){
+                                                $("#medialist").html(ul);
+                                                $('.infiniteCarousel').infiniteCarousel();
+                                        }
+                                        ct++;
+                                        console.log("============================================================");
+                                });
+                        
+                        }
+                        
+                });
+        }
+        //#####################################################
+        //                     Update Media Category 3
+        //#####################################################
+        function updateMediaCat3() {
+                fmd.getMediaCat3(function(media){
+                        var ul = $("<ul></ul>");
+                        var ct = 0;
+                        for(i in media){
+                                var uri = media[i];
+                                
+                                fmd.getMediumUri(uri,function(object){
+                                
+                                        var titleValue = "\nDescription: " + object.description;
+                                        
+                                        var count = media.length;
+                                        var realCount = 0;
+                                        
+                                        
+                                        console.log(titleValue);
+                                        
+                                        var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){         
+                                                cmedium = object;
+                                                $("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
+                                        });
+                                        ul.append(li);
+                                        
+                                        if(ct == media.length-1){
+                                                $("#medialist").html(ul);
+                                                $('.infiniteCarousel').infiniteCarousel();
+                                        }
+                                        ct++;
+                                        console.log("============================================================");
+                                });
+                        
+                        }
+                        
+                });
+        }
 
-						var titleValue = "\nDescription: " + object.description;
-						
-						var count = media.length;
-						var realCount = 0;
-						
-						
-						console.log(titleValue);
-						
-						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
-							cmedium = object;
-							$("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
-						});
-						ul.append(li);
-						
-						if(ct == media.length-1){
-							$("#medialist").html(ul);
-							$('.infiniteCarousel').infiniteCarousel();
-						}
-						ct++;
-						console.log("============================================================");
-				
-				}
-				
-			});
-		}
-		//#####################################################
-		//                     Update Media Category 2
-		//#####################################################
-		function updateMediaCat2() {
-			fmd.getMediaCat2(function(media){
-				var ul = $("<ul></ul>");
-				var ct = 0;
-				for(i in media){
-					var object = media[i];
-
-						var titleValue = "\nDescription: " + object.description;
-						
-						var count = media.length;
-						var realCount = 0;
-						
-						
-						console.log(titleValue);
-						
-						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
-							cmedium = object;
-							$("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
-						});
-						ul.append(li);
-						
-						if(ct == media.length-1){
-							$("#medialist").html(ul);
-							$('.infiniteCarousel').infiniteCarousel();
-						}
-						ct++;
-						console.log("============================================================");
-				
-				}
-				
-			});
-		}
-		//#####################################################
-		//                     Update Media Category 3
-		//#####################################################
-		function updateMediaCat3() {
-			fmd.getMediaCat3(function(media){
-				var ul = $("<ul></ul>");
-				var ct = 0;
-				for(i in media){
-					var object = media[i];
-
-						var titleValue = "\nDescription: " + object.description;
-						
-						var count = media.length;
-						var realCount = 0;
-						
-						
-						console.log(titleValue);
-						
-						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
-							cmedium = object;
-							$("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
-						});
-						ul.append(li);
-						
-						if(ct == media.length-1){
-							$("#medialist").html(ul);
-							$('.infiniteCarousel').infiniteCarousel();
-						}
-						ct++;
-						console.log("============================================================");
-				
-				}
-				
-			});
-		}
 		//#####################################################
 		//                     Update Collects
 		//#####################################################
@@ -1409,12 +1419,12 @@
 			$( "#fakeb" ).button().click(function() {
 				if(cmedium.value == 0){
 					$("#rate-right").dialog("open");
-					setTimeout(function(){$("#rate-right").dialog("close")},1500);
+					setTimeout(function(){$("#rate-right").dialog("close")},2000);
 					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
-					setTimeout(function(){$("#rate-wrong").dialog("close")},1500);
+					setTimeout(function(){$("#rate-wrong").dialog("close")},2000);
 				}
 				console.log(cmedium.id + " is a Fake");
 				fmd.rateMedium(cmedium,0,function(result){
@@ -1438,12 +1448,12 @@
 			$( "#trueb" ).button().click(function() {
 				if(cmedium.value == 1){
 					$("#rate-right").dialog("open");
-					setTimeout(function(){$("#rate-right").dialog("close")},1500);
+					setTimeout(function(){$("#rate-right").dialog("close")},2000);
 					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
-					setTimeout(function(){$("#rate-wrong").dialog("close")},1500);
+					setTimeout(function(){$("#rate-wrong").dialog("close")},2000);
 				}
 				console.log(cmedium.id + " is Authentic");
 				fmd.rateMedium(cmedium,1,function(result){
