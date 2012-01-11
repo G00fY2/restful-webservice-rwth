@@ -57,7 +57,7 @@ public class CategoriesResource {
              Vector<String> vMedia = new Vector<String>();  
                 while(mit.hasNext()){
                         Medium m = mit.next();
-                        String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + m.getId();
+                        String uUri = uriInfo.getBaseUri().toASCIIString() + "media/" + m.getId();
                         vMedia.add(uUri);
                 }
 
