@@ -424,6 +424,10 @@
  			font-size: 12pt;
           }
          
+         #categorypage{
+        	 margin-left: 3%;
+         }
+         
 	</style>
 	
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -735,6 +739,7 @@
             $("#help3b").hide();	
             $("#help4b").hide();
             $("#help5b").show();
+            $("#help6b").hide();
 
           
 	}
@@ -774,6 +779,7 @@
             $("#help3b").hide();	
             $("#help4b").show();
             $("#help5b").hide();
+            $("#help6b").hide();
 	}
 		
 		function updateGame(){			
@@ -805,6 +811,7 @@
                 $("#help3b").show();
                 $("#help4b").hide();
                 $("#help5b").hide();
+                $("#help6b").hide();
 		}
 		
 		
@@ -840,6 +847,7 @@
                 $("#help3b").hide();
                 $("#help4b").hide();
                 $("#help5b").hide();
+                $("#help6b").hide();
 				
 			} else {
 				
@@ -871,6 +879,7 @@
                 $("#help3b").hide();
                 $("#help4b").hide();
                 $("#help5b").hide();
+                $("#help6b").hide();
              
 			}
 		}
@@ -1250,6 +1259,18 @@
                 }
 			});
 			
+			$("#dialog-help6" ).dialog({
+                autoOpen: false,
+                height: 270,
+                width: 400,
+                modal: true,
+                buttons: {
+                                OK: function() {
+                                $(this).dialog("close");
+                        }
+                }
+			});
+			
 			
 			$("#dialog-about" ).dialog({
                 autoOpen: false,
@@ -1301,6 +1322,10 @@
 			});
 			
 			$( "#help5b" ).button().click(function() {
+				$( "#dialog-help5" ).dialog("open");
+			});
+			
+			$( "#help6b" ).button().click(function() {
 				$( "#dialog-help5" ).dialog("open");
 			});
 			
@@ -1970,6 +1995,20 @@
 	</form>
 </div>
 
+
+<div id="dialog-help3" title="Help">
+<p id="ep" class="help"><b>How I get EP?!</b></p>
+	<form>
+		<fieldset>
+			<table>
+				<tr>
+					<td>
+						<label for="help3"><p>If you rate a picture correctly, you will get a small amount of EP.</p><p>There are a lot of hidden achievements in the game.</p></label>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
 
 
 <div id="dialog-login" title="Login">
