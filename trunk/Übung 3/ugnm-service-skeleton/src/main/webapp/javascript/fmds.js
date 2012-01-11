@@ -408,7 +408,7 @@ FmdClient.prototype.updateUserEP = function(){
 			dataType: 'text',
 	        success: function(data){
 	        	var user = $.parseJSON(data);
-	        	var newep = user.ep;
+	        	var newep = parseInt(user.ep);
 	        	newep += 50;
 	        	that._uep = newep;
     			localStorage.getItem("fmdsuep",that._uep);  

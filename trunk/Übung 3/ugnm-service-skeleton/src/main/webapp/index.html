@@ -1155,15 +1155,15 @@
 			
 			$("#rate-right" ).dialog({
                 autoOpen: false,
-                height: 200,
-                width: 200,
+                height: 300,
+                width: 300,
                 modal: true,
         });
 			
 			$("#rate-wrong" ).dialog({
                 autoOpen: false,
-                height: 200,
-                width: 200,
+                height: 3000,
+                width: 300,
                 modal: true,
         });
 			
@@ -1339,12 +1339,12 @@
 			$( "#fakeb" ).button().click(function() {
 				if(cmedium.value == 0){
 					$("#rate-right").dialog("open");
-					setTimeout(function(){$("#rate-right").dialog("close")},1000);
+					setTimeout(function(){$("#rate-right").dialog("close")},1500);
 					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
-					setTimeout(function(){$("#rate-wrong").dialog("close")},1000);
+					setTimeout(function(){$("#rate-wrong").dialog("close")},1500);
 				}
 				console.log(cmedium.id + " is a Fake");
 				fmd.rateMedium(cmedium,0,function(result){
@@ -1368,12 +1368,12 @@
 			$( "#trueb" ).button().click(function() {
 				if(cmedium.value == 1){
 					$("#rate-right").dialog("open");
-					setTimeout(function(){$("#rate-right").dialog("close")},1000);
+					setTimeout(function(){$("#rate-right").dialog("close")},1500);
 					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
-					setTimeout(function(){$("#rate-wrong").dialog("close")},1000);
+					setTimeout(function(){$("#rate-wrong").dialog("close")},1500);
 				}
 				console.log(cmedium.id + " is Authentic");
 				fmd.rateMedium(cmedium,1,function(result){
@@ -2039,11 +2039,15 @@
 </div>
 
 <div id="rate-right" title="You're right!">
-        <label for="first">RIGHT</label>
+        <div>
+          <p><img src="media/right.png" alt="Right"></p>
+     </div>
 </div>
 
 <div id="rate-wrong" title="You're wrong!">
-        <label for="first">WRONG</label>
+        <div>
+          <p><img src="media/wrong.png" alt="Wrong"></p>
+     </div>
 </div>
 
 <div id="dialog-editUser" title="Edit my profile">
