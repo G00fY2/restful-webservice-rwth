@@ -53,8 +53,26 @@ public class MediumServiceJpa implements MediumService{
         
         @SuppressWarnings("unchecked")
         @Transactional(readOnly = true)
-        public List<Medium> getAllRandom() {
-                Query query = entityManager.createNamedQuery("Medium.allRandom");
+        public List<Medium> getMediaCat1() {
+                Query query = entityManager.createNamedQuery("Medium.getMediaCat1");
+                List<Medium> medium = null;
+                medium = query.getResultList();
+                return medium;
+        }
+        
+        @SuppressWarnings("unchecked")
+        @Transactional(readOnly = true)
+        public List<Medium> getMediaCat2() {
+                Query query = entityManager.createNamedQuery("Medium.getMediaCat2");
+                List<Medium> medium = null;
+                medium = query.getResultList();
+                return medium;
+        }
+        
+        @SuppressWarnings("unchecked")
+        @Transactional(readOnly = true)
+        public List<Medium> getMediaCat3() {
+                Query query = entityManager.createNamedQuery("Medium.getMediaCat3");
                 List<Medium> medium = null;
                 medium = query.getResultList();
                 return medium;
