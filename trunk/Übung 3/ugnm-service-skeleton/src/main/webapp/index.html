@@ -515,10 +515,86 @@
 		}
 		
 		//#####################################################
-		//                     Update Media
+		//                     Update Media Category 1
 		//#####################################################
-		function updateMedia() {
-			fmd.getMedia(function(media){
+		function updateMediaCat1() {
+			fmd.getMediaCat1(function(media){
+				var ul = $("<ul></ul>");
+				var ct = 0;
+				for(i in media){
+					var uri = media[i];
+					
+					fmd.getMediumUri(uri,function(object){
+					
+						var titleValue = "\nDescription: " + object.description;
+						
+						var count = media.length;
+						var realCount = 0;
+						
+						
+						console.log(titleValue);
+						
+						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
+							cmedium = object;
+							$("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
+						});
+						ul.append(li);
+						
+						if(ct == media.length-1){
+							$("#medialist").html(ul);
+							$('.infiniteCarousel').infiniteCarousel();
+						}
+						ct++;
+						console.log("============================================================");
+					});
+				
+				}
+				
+			});
+		}
+		//#####################################################
+		//                     Update Media Category 2
+		//#####################################################
+		function updateMediaCat2() {
+			fmd.getMediaCat2(function(media){
+				var ul = $("<ul></ul>");
+				var ct = 0;
+				for(i in media){
+					var uri = media[i];
+					
+					fmd.getMediumUri(uri,function(object){
+					
+						var titleValue = "\nDescription: " + object.description;
+						
+						var count = media.length;
+						var realCount = 0;
+						
+						
+						console.log(titleValue);
+						
+						var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){		
+							cmedium = object;
+							$("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
+						});
+						ul.append(li);
+						
+						if(ct == media.length-1){
+							$("#medialist").html(ul);
+							$('.infiniteCarousel').infiniteCarousel();
+						}
+						ct++;
+						console.log("============================================================");
+					});
+				
+				}
+				
+			});
+		}
+		//#####################################################
+		//                     Update Media Category 3
+		//#####################################################
+		function updateMediaCat3() {
+			fmd.getMediaCat3(function(media){
 				var ul = $("<ul></ul>");
 				var ct = 0;
 				for(i in media){
@@ -1074,26 +1150,16 @@
 			
 			$("#rate-right" ).dialog({
                 autoOpen: false,
-                height: 215,
-                width: 300,
+                height: 200,
+                width: 200,
                 modal: true,
-                buttons: {
-                                OK: function() {
-                                        $(this).dialog("close");                                                        
-                        }
-                }
         });
 			
 			$("#rate-wrong" ).dialog({
                 autoOpen: false,
-                height: 215,
-                width: 300,
+                height: 200,
+                width: 200,
                 modal: true,
-                buttons: {
-                                OK: function() {
-                                        $(this).dialog("close");                                                        
-                        }
-                }
         });
 			
 			$("#dialog-help1" ).dialog({
@@ -1234,8 +1300,7 @@
 			});
 			
 			$( "#gameb" ).button().click(function() {
-                updateCategories(); //opens "categories side"
-                updateMedia();                          
+                updateCategories(); //opens "categories side"                        
 			});
 			
 			$( "#profileb" ).button().click(function() {
@@ -1248,18 +1313,46 @@
 			});
 			
 			
+			
+			$( "#categoriesb1" ).click(function() {
+				updateMediaCat1();
+				updateGame()
+			});
+			
+			$( "#categoriesb2" ).click(function() {
+				updateMediaCat2();
+				updateGame()
+			});
+			
+			$( "#categoriesb3" ).click(function() {
+				updateMediacat3();
+				updateGame()
+			});
+			
+			
+			
 			$( "#fakeb" ).button().click(function() {
 				if(cmedium.value == 0){
 					$("#rate-right").dialog("open");
+					setTimeout(function(){$("#rate-right").dialog("close")},1000);
 					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
+					setTimeout(function(){$("#rate-wrong").dialog("close")},1000);
 				}
 				console.log(cmedium.id + " is a Fake");
 				fmd.rateMedium(cmedium,0,function(result){
 					if(result.status == "created"){
-						updateMedia();
+						if(cmedium.tag == "cat1"){
+							updateMediaCat1();
+						}
+						else if(cmedium.tag == "cat2"){
+							updateMediaCat2();
+						}
+						else if(cmedium.tag == "cat3"){
+							updateMediaCat3();
+						}
 						updateGame();
 					} else {
 						alert(result.status);
@@ -1270,15 +1363,25 @@
 			$( "#trueb" ).button().click(function() {
 				if(cmedium.value == 1){
 					$("#rate-right").dialog("open");
+					setTimeout(function(){$("#rate-right").dialog("close")},1000);
 					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
+					setTimeout(function(){$("#rate-wrong").dialog("close")},1000);
 				}
 				console.log(cmedium.id + " is Authentic");
 				fmd.rateMedium(cmedium,1,function(result){
 					if(result.status == "created"){
-						updateMedia();
+						if(cmedium.tag == "cat1"){
+							updateMediaCat1();
+						}
+						else if(cmedium.tag == "cat2"){
+							updateMediaCat2();
+						}
+						else if(cmedium.tag == "cat3"){
+							updateMediaCat3();
+						}
 						updateGame();
 					} else {
 						alert(result.status);
@@ -1427,8 +1530,8 @@
 <span id="category-buttons">
 	<b>
 	<button id="categoriesb1"><b>Category 1</b></button>
-	<button id="categoriesb2"><b>Category 1</b></button>	
-	<button id="categoriesb3"><b>Category 1</b></button>
+	<button id="categoriesb2"><b>Category 2</b></button>	
+	<button id="categoriesb3"><b>Category 3</b></button>
 	</b>
 </span>
 
@@ -1931,11 +2034,11 @@
 </div>
 
 <div id="rate-right" title="You're right!">
-        <label for="first">Your answer was right!</label>
+        <label for="first">RIGHT</label>
 </div>
 
 <div id="rate-wrong" title="You're wrong!">
-        <label for="first">Your answer was was wrong!</label>
+        <label for="first">WRONG</label>
 </div>
 
 <div id="dialog-editUser" title="Edit my profile">
