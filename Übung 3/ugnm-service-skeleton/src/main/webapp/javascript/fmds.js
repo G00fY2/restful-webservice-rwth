@@ -408,7 +408,7 @@ FmdClient.prototype.updateUserEP = function(){
 			dataType: 'text',
 	        success: function(data){
 	        	var user = $.parseJSON(data);
-	        	var newep = parseInt(user.ep);
+	        	var newep = user.ep;
 	        	newep += 50;
 	        	that._uep = newep;
     			localStorage.getItem("fmdsuep",that._uep);  
@@ -743,8 +743,62 @@ FmdClient.prototype.getUsersAll = function(callback){
  * @param callback (function(media)) 
  */
 
-FmdClient.prototype.getMedia = function(callback){
+FmdClient.prototype.getAllMedia = function(callback){
     var resource = this._mediaResource;
+   
+    $.ajax({
+            url: resource,
+            type: "GET",
+    		dataType: 'text',
+            success: function(data){
+            	var objects = $.parseJSON(data);
+            	var media = objects.media;
+                    
+                    callback(media);
+            },
+            
+    });
+    
+};
+
+FmdClient.prototype.getMediaCat1 = function(callback){
+    var resource = this._mediaResource + "/cat1";
+   
+    $.ajax({
+            url: resource,
+            type: "GET",
+    		dataType: 'text',
+            success: function(data){
+            	var objects = $.parseJSON(data);
+            	var media = objects.media;
+                    
+                    callback(media);
+            },
+            
+    });
+    
+};
+
+FmdClient.prototype.getMediaCat2 = function(callback){
+    var resource = this._mediaResource + "/cat2";
+   
+    $.ajax({
+            url: resource,
+            type: "GET",
+    		dataType: 'text',
+            success: function(data){
+            	var objects = $.parseJSON(data);
+            	var media = objects.media;
+                    
+                    callback(media);
+            },
+            
+    });
+    
+};
+
+FmdClient.prototype.getMediaCat3 = function(callback){
+    var resource = this._mediaResource + "/cat3";
    
     $.ajax({
             url: resource,
