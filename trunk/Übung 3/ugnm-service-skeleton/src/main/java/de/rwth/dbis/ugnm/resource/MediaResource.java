@@ -43,28 +43,27 @@ public class MediaResource {
 
         @Context UriInfo uriInfo;
 
-    	private String _corsHeaders;
-    	
-    	// each resource should have this method annotated with OPTIONS. This is needed for CORS.
-    	@OPTIONS
-    	public Response corsResource(@HeaderParam("Access-Control-Request-Headers") String requestH) {
-    		_corsHeaders = requestH;
-    		return CORS.makeCORS(Response.ok(), requestH);
-    	}
-    	
+        private String _corsHeaders;
+        
+        // each resource should have this method annotated with OPTIONS. This is needed for CORS.
+        @OPTIONS
+        public Response corsResource(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+                _corsHeaders = requestH;
+                return CORS.makeCORS(Response.ok(), requestH);
+        }
+        
 //Gibt ueber GET ein Liste aller Medien aus        
         
         @GET
         @Produces("application/json")
-        public Response getAllMedia(@HeaderParam("authorization") String auth) { 
-         
-        	//Gibt GEMISCHTE liste aller Medien aus
-        	//Admin kann sortierte Liste sehen
-        	if((auth==null)){
-        	 List<Medium> media = mediumService.getAllRandom();
-             Iterator<Medium> mit = media.iterator();
-             
-             Vector<String> vMedia = new Vector<String>();  
+        public Response getAllMedia() {
+
+                
+                List<Medium> media = mediumService.getAll();
+                Iterator<Medium> mit = media.iterator();
+                
+                Vector<String> vMedia = new Vector<String>();   
+                
                 while(mit.hasNext()){
                         Medium m = mit.next();
                         String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + m.getId();
@@ -77,57 +76,30 @@ public class MediaResource {
                         Response.ResponseBuilder r = Response.ok(j);
                         return CORS.makeCORS(r, _corsHeaders);
                 } catch (JSONException e) {
-                	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
+                        Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
-         }
-         	else if(admin_authenticated(auth)==true){
-         		List<Medium> media = mediumService.getAll();
-                Iterator<Medium> mit = media.iterator();
-                
-                Vector<String> vMedia = new Vector<String>();  
-         		while(mit.hasNext()){
-                    Medium m = mit.next();
-                    String uUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + m.getId();
-                    vMedia.add(uUri);
-            }
-
-            try {
-                    JSONObject j = new JSONObject();
-                    j.put("media",vMedia);
-                    Response.ResponseBuilder r = Response.ok(j);
-                    return CORS.makeCORS(r, _corsHeaders);
-            } catch (JSONException e) {
-            	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
-                return CORS.makeCORS(r, _corsHeaders);
-            }
-         }
-         	else{
-         		Response.ResponseBuilder r = Response.status(Status.BAD_REQUEST);
-                return CORS.makeCORS(r, _corsHeaders);
-         	}
-       }
-
+        }
         
 //Ermoeglicht ueber PUT das Erstellen eines einzelnen Mediums       
 
         @PUT
     @Consumes("application/json")
     public Response createMedium(@HeaderParam("authorization") String auth, JSONObject o) throws JSONException {
-        	if(admin_authenticated(auth)==false){
-        		Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
+                if(admin_authenticated(auth)==false){
+                        Response.ResponseBuilder r = Response.status(Status.UNAUTHORIZED);
                 return CORS.makeCORS(r, _corsHeaders);
-        	}
+                }
    
             //Falls neues Medium nicht alle Daten hat gibt es einen 406 Error
             
-        	if(o == null || !(o.has("id") && o.has("url") && o.has("value") && o.has("description"))){
+                if(o == null || !(o.has("id") && o.has("url") && o.has("value") && o.has("description")&& o.has("tag"))){
                 Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
                 return CORS.makeCORS(r, _corsHeaders);
             }
             
 //Medium-Objekt wird mit uebergebenen Parametern erzeugt
-        	
+                
             Medium medium = parseMediumJsonFile(o);
             
             return addIfDoesNotExist(medium);
@@ -144,7 +116,7 @@ public class MediaResource {
                         return CORS.makeCORS(r, _corsHeaders);
                 }
                 else{
-                	Response.ResponseBuilder r = Response.status(Status.CONFLICT);
+                        Response.ResponseBuilder r = Response.status(Status.CONFLICT);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
         }
@@ -154,16 +126,18 @@ public class MediaResource {
         
         private Medium parseMediumJsonFile(JSONObject o){
 
-                try {	
-                		int id = o.getInt("id");
+                try {   
+                                int id = o.getInt("id");
                         String url = o.getString("url");
                         int value = o.getInt("value");
                         String description = o.getString("description");
+                        String tag = o.getString("tag");
                         Medium medium = new Medium();
                         medium.setId(id);
                         medium.setUrl(url);
                         medium.setValue(value);
                         medium.setDescription(description);
+                        medium.setTag(tag);
                         return medium;
                 } catch (JSONException e) {
                         return null;

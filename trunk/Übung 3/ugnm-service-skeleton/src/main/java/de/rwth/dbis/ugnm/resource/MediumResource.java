@@ -73,7 +73,7 @@ public class MediumResource {
                     return CORS.makeCORS(r, _corsHeaders);
         		}
 
-            	if(o == null || !(o.has("url") && o.has("value") && o.has("description"))){
+            	if(o == null || !(o.has("url") && o.has("value") && o.has("description") && o.has("tag"))){
                     Response.ResponseBuilder r = Response.status(Status.NOT_ACCEPTABLE);
                     return CORS.makeCORS(r, _corsHeaders);
                 }
@@ -136,9 +136,11 @@ public class MediumResource {
                                 int value = o.getInt("value");
                                 String description = o.getString("description");
                                 String url = o.getString("url");
+                                String tag = o.getString("tag");
                                 Medium medium = new Medium();
                                 medium.setValue(value);
                                 medium.setDescription(description);
+                                medium.setTag(tag);
                                 medium.setUrl(url);
                                 medium.setId(id);
                                 return medium;

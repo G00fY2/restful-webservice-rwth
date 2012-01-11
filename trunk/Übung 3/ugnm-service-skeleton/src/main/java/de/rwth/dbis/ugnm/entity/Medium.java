@@ -11,7 +11,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "Medium")
 @NamedQueries({
-        @NamedQuery(name = "Medium.allRandom", query = "SELECT m FROM Medium m ORDER BY RAND()"),
+        @NamedQuery(name = "Medium.getMediaCat1", query = "SELECT m FROM Medium m WHERE m.tag='cat1' ORDER BY RAND()"),
+        @NamedQuery(name = "Medium.getMediaCat2", query = "SELECT m FROM Medium m WHERE m.tag='cat2' ORDER BY RAND()"),
+        @NamedQuery(name = "Medium.getMediaCat3", query = "SELECT m FROM Medium m WHERE m.tag='cat3' ORDER BY RAND()"),
         @NamedQuery(name = "Medium.findAll", query = "SELECT m FROM Medium m"),
         @NamedQuery(name = "Medium.findMedium", query = "SELECT m FROM Medium m where m.id=:id")
 })
@@ -36,6 +38,9 @@ public class Medium {
        
         @Column(name = "description", nullable = false)
         private String description;
+        
+        @Column(name = "tag", nullable = false)
+        private String tag;
 
 
 //Getter+Setter Methoden
@@ -71,5 +76,13 @@ public class Medium {
         public String getDescription() {
                 return description;
         }
+        
+        public void setTag(String tag) {
+            this.tag = tag;
+    }
+   
+        public String getTag() {
+            return tag;
+    }
 }
 
