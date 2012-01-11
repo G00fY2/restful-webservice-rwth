@@ -63,6 +63,7 @@ public class CategoriesResource {
                         medium.put("url", m.getUrl());
                         medium.put("value", m.getValue());
                         medium.put("description", m.getDescription());
+                        medium.put("tag", m.getTag());
                         j.put(medium);
                 } catch (JSONException e) {
                 	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
@@ -84,10 +85,12 @@ public class CategoriesResource {
                            JSONObject medium = new JSONObject();
 
                    try {
-                           medium.put("url", m.getUrl());
-                           medium.put("value", m.getValue());
-                           medium.put("description", m.getDescription());
-                           j.put(medium);
+                	   medium.put("id", m.getId());
+                       medium.put("url", m.getUrl());
+                       medium.put("value", m.getValue());
+                       medium.put("description", m.getDescription());
+                       medium.put("tag", m.getTag());
+                       j.put(medium);
                    } catch (JSONException e) {
                    	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
                        return CORS.makeCORS(r, _corsHeaders);
@@ -108,10 +111,12 @@ public class CategoriesResource {
                            JSONObject medium = new JSONObject();
 
                    try {
-                           medium.put("url", m.getUrl());
-                           medium.put("value", m.getValue());
-                           medium.put("description", m.getDescription());
-                           j.put(medium);
+                	   medium.put("id", m.getId());
+                       medium.put("url", m.getUrl());
+                       medium.put("value", m.getValue());
+                       medium.put("description", m.getDescription());
+                       medium.put("tag", m.getTag());
+                       j.put(medium);
                    } catch (JSONException e) {
                    	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
                        return CORS.makeCORS(r, _corsHeaders);

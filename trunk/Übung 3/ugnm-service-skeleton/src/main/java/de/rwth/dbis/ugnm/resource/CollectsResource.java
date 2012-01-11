@@ -3,8 +3,6 @@ package de.rwth.dbis.ugnm.resource;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -19,6 +17,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,8 @@ public class CollectsResource {
     		_corsHeaders = requestH;
     		return CORS.makeCORS(Response.ok(), requestH);
     	}
-//Gibt ueber GET ein Liste aller Collects aus
+//Gibt ueber GET ein Liste aller Achievement IDs zu einem User aus
+    	//Die ID des collect dient also nur noch zu Verwaltung und evtl. löschen mittels Admin
         
         @GET
         @Produces("application/json")
@@ -65,24 +65,29 @@ public class CollectsResource {
                 List<Collect> collectList = collectService.getAll(email);
                 Iterator<Collect> cit = collectList.iterator();
                 
-                Vector<String> vCollect = new Vector<String>();      
-                
-                while(cit.hasNext()){
-                        Collect c = cit.next();
-                        String rUri = uriInfo.getAbsolutePath().toASCIIString() + "/" + c.getId();
-                        vCollect.add(rUri);
-                }
+                JSONArray j = new JSONArray();
 
-                try {
-                        JSONObject j = new JSONObject();
-                        j.put("collects",vCollect);
-                        Response.ResponseBuilder r = Response.ok(j);
-                        return CORS.makeCORS(r, _corsHeaders);
-                } catch (JSONException e) {
-                	Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
-                    return CORS.makeCORS(r, _corsHeaders);
-                }
-        }
+                while(cit.hasNext()){
+                	Collect collect = cit.next();
+                    JSONObject newcollect = new JSONObject();
+                    
+                    try {
+                    	newcollect.put("id", collect.getId());
+                    	newcollect.put("achievementId", collect.getAchievementId());
+                            j.put(newcollect);
+                    } 
+                    
+                    catch (JSONException e) {
+                            Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
+                            return CORS.makeCORS(r, _corsHeaders);
+                    }
+            }
+            
+            
+            Response.ResponseBuilder r = Response.ok(j);
+            return CORS.makeCORS(r, _corsHeaders);
+    }
+
         
         
         

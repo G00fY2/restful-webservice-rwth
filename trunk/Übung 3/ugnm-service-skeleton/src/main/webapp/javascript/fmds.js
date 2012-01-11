@@ -536,9 +536,9 @@ $.ajax({
         type: "GET",
 		dataType: 'text',
         success: function(data){
-        	var object = $.parseJSON(data);
+        	var achievement = $.parseJSON(data);
               
-                callback(object);
+                callback(achievement);
         },
         
 });
@@ -589,24 +589,6 @@ $.ajax({
 
 };
 
-FmdClient.prototype.getCollectUri = function(uri, callback){
-	var resourceAchievement = this._achievementsResource;
-	
-	$.ajax({
-        url: uri,
-        type: "GET",
-		dataType: 'text',
-        success: function(data){
-        	var collect = $.parseJSON(data);
-        	var id = collect.achievementId;
-        	var achieveUri = resourceAchievement + "/" + id;
-              
-                callback(achieveUri);
-        },
-        
-});
-
-};
 
 /**
  * Retrieves a rate asynchronously. The result parameter of the callback function 
@@ -863,10 +845,9 @@ FmdClient.prototype.getCollects = function(callback){
             type: "GET",
     		dataType: 'text',
             success: function(data){
-            	var object = $.parseJSON(data);
-            	var collecturi = object.collects;
-                    
-                    callback(collecturi);
+            	var collects = $.parseJSON(data);
+            	
+                    callback(collects);
             },
             
     });
