@@ -403,13 +403,26 @@
       		margin-left: 7%;
          }
 		
-         #category-buttons{
-        	padding-top: 9%;
-			margin-left: 45%;
-			position:absolute;
+         #category-buttons1{
+        	padding-top: 25%;
+         	position: absolute;
+         	margin-left: 20%;
 			font-size: 12pt;
          }
          
+         #category-buttons2{
+         	padding-top: 25%;
+          	position: absolute;
+          	margin-left: 40%;
+ 			font-size: 12pt;
+          }
+         
+         #category-buttons3{
+         	padding-top: 25%;
+          	position: absolute;
+          	margin-left: 60%;
+ 			font-size: 12pt;
+          }
          
 	</style>
 	
@@ -664,12 +677,12 @@
 			$("#loginb").hide();
 			$("#rightField").hide();
 			$("#logoutb").show();
-			$("#toplistb").hide(); 
+			$("#toplistb").show(); 
 			$("#registerb").hide();
 		    $("#trueb").hide();                             
             $("#fakeb").hide();
             $("#profileb").show();
-            $("#gameb").show();
+            $("#gameb").hide();
             $("#editb").hide();
             $("#deleteb").hide();
             $("#rate-image").hide();   
@@ -678,6 +691,7 @@
             $("#categorypage").show();
             $("#toplistpage").hide();
             $("#profilepage").hide();
+            $("#categoryb").hide();
             $("#game").hide(); 
             $("#gameleft").hide(); 
             $("#media").hide();
@@ -686,6 +700,8 @@
             $("#help3b").hide();	
             $("#help4b").hide();
             $("#help5b").hide();
+            $("#help6b").show();
+            
 
           
 	}
@@ -702,6 +718,7 @@
             $("#fakeb").hide();
             $("#profileb").show();
             $("#gameb").show();
+            $("#categoryb").hide();
             $("#categorypage").hide();
             $("#editb").hide();
             $("#deleteb").hide();
@@ -747,6 +764,7 @@
             $("#rate-image").hide();
             $("#mainpage").hide();
             $("#loggedinpage").hide();
+            $("#categoryb").hide();
             $("#toplistpage").hide();
             $("#game").hide(); 
             $("#gameleft").hide(); 
@@ -772,6 +790,7 @@
                 $("#profileb").show();
                 $("#categorypage").hide();
                 $("#gameb").hide();
+                $("#categoryb").show();
                 $("#editb").hide();
                 $("#deleteb").hide();
                 $("#rate-image").show();   
@@ -811,7 +830,8 @@
                 $("#toplistpage").hide();
                 $("#editb").hide();
                 $("#deleteb").hide();
-                $("#rate-image").hide();   
+                $("#rate-image").hide(); 
+                $("#categoryb").hide();
                 $("#game").hide(); 
                 $("#gameleft").hide(); 
                 $("#media").hide();
@@ -832,6 +852,7 @@
 				$("#logoutb").hide();
 				$("#registerb").show();
 				$("#categorypage").hide();
+				$("#categoryb").hide();
 			    $("#trueb").hide();                             
                 $("#fakeb").hide();
                 $("#gameb").hide();
@@ -850,6 +871,7 @@
                 $("#help3b").hide();
                 $("#help4b").hide();
                 $("#help5b").hide();
+             
 			}
 		}
 		
@@ -1308,6 +1330,10 @@
                 updateCategories(); //opens "categories side"                        
 			});
 			
+			$( "#categoryb" ).button().click(function() {
+                updateCategories(); //opens "categories side"                        
+			});
+			
 			$( "#profileb" ).button().click(function() {
                 updateUser(); //opens "user side"
                 updateCollects();
@@ -1319,17 +1345,17 @@
 			
 			
 			
-			$( "#categoriesb1" ).click(function() {
+			$( "#categoriesb1" ).button().click(function() {
 				updateMediaCat1();
 				updateGame();
 			});
 			
-			$( "#categoriesb2" ).click(function() {
+			$( "#categoriesb2" ).button().click(function() {
 				updateMediaCat2();
 				updateGame();
 			});
 			
-			$( "#categoriesb3" ).click(function() {
+			$( "#categoriesb3" ).button().click(function() {
 				updateMediaCat3();
 				updateGame();
 			});
@@ -1532,11 +1558,19 @@
 
 <div id="categorypage">
 
-<span id="category-buttons">
 	<b>
-	<button id="categoriesb1"><b>Category 1</b></button>
-	<button id="categoriesb2"><b>Category 2</b></button>	
-	<button id="categoriesb3"><b>Category 3</b></button>
+	<span id="category-buttons1">
+		<button id="categoriesb1"><b>People</b></button>
+	</span>
+	
+	<span id="category-buttons2">
+		<button id="categoriesb2"><b>Buildings</b></button>	
+	</span>
+	
+	<span id="category-buttons3">
+		<button id="categoriesb3"><b>Technology</b></button>
+	</span>
+	
 	</b>
 </span>
 
@@ -1561,9 +1595,11 @@
 	</div>
 	
 	<span id="profile-buttons">
+	
 		<button id="loginb"><b>Login</b></button>
 		<button id="gameb"><b>Game</b></button>
 		<button id="profileb"><b>Profile</b></button>
+		<button id="categoryb"><b>Categories</b></button>
 		<button id="editb"><b>Edit Profile</b></button>
 		<button id="deleteb"><b>Delete Profile</b></button>
 		<button id="registerb"><b>Sign Up</b></button>
