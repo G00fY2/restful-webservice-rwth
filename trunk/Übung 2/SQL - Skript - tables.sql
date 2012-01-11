@@ -13,7 +13,6 @@ CREATE TABLE User(
   ep int(11) NOT NULL DEFAULT '0',
   
   CONSTRAINT User_PK PRIMARY KEY (email),
-  CONSTRAINT User_UK UNIQUE KEY (username)
 ); 
 
 
@@ -24,6 +23,7 @@ CREATE TABLE Medium(
   url varchar(100) NOT NULL, 
   value int(1) NOT NULL, 
   description varchar(100) NOT NULL, 
+  tag varchar(100) NOT NULL,
   
   CONSTRAINT Medium_PK PRIMARY KEY (id), 
   CONSTRAINT Medium_value_CHECK CHECK (vaulue >=0 AND calue <=1)

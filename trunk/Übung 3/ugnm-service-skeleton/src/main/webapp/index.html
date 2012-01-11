@@ -261,6 +261,12 @@
 			font-size: 16pt;
 		}
 		
+		img.displayed {
+   			 display: block;
+   			 margin-left: auto;
+   			 margin-right: auto;
+   			 }
+		
 		#textDesc {
 			position: absolute;
 			padding-top: 190px;
@@ -568,10 +574,8 @@
 				var ul = $("<ul></ul>");
 				var ct = 0;
 				for(i in media){
-					var uri = media[i];
-					
-					fmd.getMediumUri(uri,function(object){
-					
+					var object = media[i];
+
 						var titleValue = "\nDescription: " + object.description;
 						
 						var count = media.length;
@@ -592,7 +596,6 @@
 						}
 						ct++;
 						console.log("============================================================");
-					});
 				
 				}
 				
@@ -606,10 +609,8 @@
 				var ul = $("<ul></ul>");
 				var ct = 0;
 				for(i in media){
-					var uri = media[i];
-					
-					fmd.getMediumUri(uri,function(object){
-					
+					var object = media[i];
+
 						var titleValue = "\nDescription: " + object.description;
 						
 						var count = media.length;
@@ -630,7 +631,6 @@
 						}
 						ct++;
 						console.log("============================================================");
-					});
 				
 				}
 				
@@ -644,10 +644,8 @@
 				var ul = $("<ul></ul>");
 				var ct = 0;
 				for(i in media){
-					var uri = media[i];
-					
-					fmd.getMediumUri(uri,function(object){
-					
+					var object = media[i];
+
 						var titleValue = "\nDescription: " + object.description;
 						
 						var count = media.length;
@@ -668,7 +666,6 @@
 						}
 						ct++;
 						console.log("============================================================");
-					});
 				
 				}
 				
@@ -2152,13 +2149,13 @@
 
 <div id="rate-right" title="You're right!">
         <div>
-          <p><img src="media/right.png" alt="Right"></p>
+          <p><img class="displayed" src="media/right.png" alt="Right"></p>
      </div>
 </div>
 
 <div id="rate-wrong" title="You're wrong!">
         <div>
-          <p><img src="media/wrong.png" alt="Wrong"></p>
+          <p><img class="displayed" src="media/wrong.png" alt="Wrong"></p>
      </div>
 </div>
 

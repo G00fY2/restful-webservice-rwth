@@ -769,10 +769,9 @@ FmdClient.prototype.getMediaCat1 = function(callback){
             type: "GET",
     		dataType: 'text',
             success: function(data){
-            	var objects = $.parseJSON(data);
-            	var media = objects.media;
-                    
-                    callback(media);
+            	var media = $.parseJSON(data);
+	              
+                callback(media);
             },
             
     });
@@ -787,10 +786,9 @@ FmdClient.prototype.getMediaCat2 = function(callback){
             type: "GET",
     		dataType: 'text',
             success: function(data){
-            	var objects = $.parseJSON(data);
-            	var media = objects.media;
-                    
-                    callback(media);
+            	var media = $.parseJSON(data);
+	              
+                callback(media);
             },
             
     });
@@ -805,10 +803,9 @@ FmdClient.prototype.getMediaCat3 = function(callback){
             type: "GET",
     		dataType: 'text',
             success: function(data){
-            	var objects = $.parseJSON(data);
-            	var media = objects.media;
-                    
-                    callback(media);
+            	var media = $.parseJSON(data);
+	              
+                callback(media);
             },
             
     });
