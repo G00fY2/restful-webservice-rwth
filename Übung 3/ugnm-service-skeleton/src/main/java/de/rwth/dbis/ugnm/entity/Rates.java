@@ -17,6 +17,7 @@ import java.util.Date;
 @NamedQueries({ 
 
         @NamedQuery(name = "Rates.findRateById", query = "SELECT r FROM Rates r where r.id=:id"),
+        @NamedQuery(name = "Rates.findAlreadyRated", query = "SELECT r FROM Rates r where r.userEmail=:userEmail AND r.mediumId=:mediumId"),
         @NamedQuery(name = "Rates.findRatesOfUser", query = "SELECT r FROM Rates r where r.userEmail=:userEmail")
 })
 

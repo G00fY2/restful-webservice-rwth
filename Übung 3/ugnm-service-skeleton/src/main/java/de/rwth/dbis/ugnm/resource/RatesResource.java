@@ -112,23 +112,49 @@ public class RatesResource {
                         	
                             Medium m = mediumService.getById(o.getInt("id"));
                             User u = userService.getByEmail(email); 
+                        		
+                        	//prüft wie oft das Medium von diesem User schon gerated wurde
+                        	int count = ratesService.getAlreadyRated(email, o.getInt("id"));
                         	
-                        	ratesService.save(rate);
-                        	
-                        	//Vergibt 50 EP falls rate aequivalent value von Medium
-                        	if(m.getValue()==rate.getRate()){
-                        	    int ep = u.getEp()+50;
-                        	    u.setEp(ep);
-                        	    userService.update(u);
-                        	    
-                        	    //Ruft Methode zur Vergabe der Achievements auf (siehe unten)
-                        	    reached(ep, email);
-                        	    
-                        	    Response.ResponseBuilder r = Response.status(Status.OK);
+                        	if(count >= 2) {
+                        		ratesService.save(rate);
+                        		Response.ResponseBuilder r = Response.status(Status.CREATED);
                                 return CORS.makeCORS(r, _corsHeaders);
                         	}
-                        	else{    
-                        		Response.ResponseBuilder r = Response.status(Status.OK);
+                        	else if (count == 1) {
+                        		ratesService.save(rate);
+                        		
+                        		if(m.getValue()==rate.getRate()){
+                        			int oldep = u.getEp();
+                            	    int ep = oldep+25;
+                            	    u.setEp(ep);
+                            	    userService.update(u);
+                            	    
+                            	    //Ruft Methode zur Vergabe der Achievements auf (siehe unten)
+                            	    reached(oldep, ep, email);
+                            	}   
+                            		Response.ResponseBuilder r = Response.status(Status.CREATED);
+                                    return CORS.makeCORS(r, _corsHeaders);
+                        		
+                        	}
+                        	else if (count == 0) {
+                        		ratesService.save(rate);
+                        		
+                        		if(m.getValue()==rate.getRate()){
+                        			int oldep = u.getEp();
+                            	    int ep = oldep+50;
+                            	    u.setEp(ep);
+                            	    userService.update(u);
+                            	    
+                            	    //Ruft Methode zur Vergabe der Achievements auf (siehe unten)
+                            	    reached(oldep, ep, email);
+                            	}   
+                            		Response.ResponseBuilder r = Response.status(Status.CREATED);
+                                    return CORS.makeCORS(r, _corsHeaders);
+                        		
+                        	}
+                        	else{
+                        		Response.ResponseBuilder r = Response.status(Status.INTERNAL_SERVER_ERROR);
                                 return CORS.makeCORS(r, _corsHeaders);
                         	}
                         }
@@ -186,28 +212,28 @@ public class RatesResource {
         }
        
         //Methode zur Vergabe der Achievements
-        private void reached(int ep, String email){
+        private void reached(int oldep, int ep, String email){
         	
             Collect collect = new Collect();
     		collect.setUserEmail(email);
     		
-        	if(ep==50 && achievementService.getById(1) != null){
+        	if((ep==50 && achievementService.getById(1) != null) || ((ep==75) && (ep-oldep != 25) && achievementService.getById(1) != null)){
         		collect.setAchievementId(1);
         		collectService.save(collect);
         	}
-        	else if(ep==500 && achievementService.getById(2) != null){
+        	else if(ep==500 && achievementService.getById(2) != null || ((ep==525) && (ep-oldep != 25) && achievementService.getById(2) != null)){
         		collect.setAchievementId(2);
                 collectService.save(collect);
          	}
-        	else if(ep==1000 && achievementService.getById(3) != null){
+        	else if(ep==1000 && achievementService.getById(3) != null || ((ep==1025) && (ep-oldep != 25) && achievementService.getById(3) != null)){
                 collect.setAchievementId(3);
                 collectService.save(collect);
         	}     
-        	else if(ep==5000 && achievementService.getById(4) != null){
+        	else if(ep==5000 && achievementService.getById(4) != null || ((ep==5025) && (ep-oldep != 25) && achievementService.getById(4) != null)){
                 collect.setAchievementId(3);
                 collectService.save(collect);
         	}   
-        	else if(ep==10000 && achievementService.getById(5) != null){
+        	else if(ep==10000 && achievementService.getById(5) != null || ((ep==1025) && (ep-oldep != 25) && achievementService.getById(5) != null)){
                 collect.setAchievementId(3);
                 collectService.save(collect);
         	}  
