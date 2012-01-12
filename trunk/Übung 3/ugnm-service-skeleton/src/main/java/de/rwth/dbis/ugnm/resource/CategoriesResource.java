@@ -44,7 +44,7 @@ public class CategoriesResource {
                 return CORS.makeCORS(Response.ok(), requestH);
         }
         
-//Gibt ueber GET ein Liste aller Medien aus        
+//Gibt ueber GET ein Liste aller Medien aus der jeweiligen kategorie aus      
         
         @GET
         @Produces("application/json")

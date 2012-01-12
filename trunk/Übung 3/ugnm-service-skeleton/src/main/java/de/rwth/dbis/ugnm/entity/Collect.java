@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Collect")
 @NamedQueries({ 
         @NamedQuery(name = "Collect.findCollect", query = "SELECT c FROM Collect c where c.id=:id"),
-        @NamedQuery(name = "Collect.findCollectOfUser", query = "SELECT c FROM Collect c where c.userEmail=:userEmail")
+        @NamedQuery(name = "Collect.findCollectOfUser", query = "SELECT c FROM Collect c where c.userEmail=:userEmail ORDER BY c.id DESC")
 })
 
 //Alle Eigenschaften von Collect werden definiert
