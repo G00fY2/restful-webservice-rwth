@@ -366,12 +366,8 @@ FmdClient.prototype.rateMedium = function(m, r, callback){
 			xhr.setRequestHeader("Authorization", that._cred);
 		},
 		// process result in case of success and feed result to callback function passed by developer
-		success: function(uri){
-			var result = {};
-			result.status = "created";
-			result.uri = uri;
-			
-			callback(result);
+		success: function(){
+			callback({status:"created"});
 		},
 		// process result in case of different HTTP statuses and feed result to callback function passed by developer
 		statusCode: {
@@ -408,9 +404,9 @@ FmdClient.prototype.updateUserEP = function(){
 			dataType: 'text',
 	        success: function(data){
 	        	var user = $.parseJSON(data);
-	        	var newep = parseInt(user.ep);
-	        	newep += 50;
-	        	that._uep = newep;
+	        	var ep = parseInt(user.ep);
+	        	//ep += 50;
+	        	that._uep = ep;
     			localStorage.getItem("fmdsuep",that._uep);  
        			return true;
 	        },

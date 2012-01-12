@@ -49,6 +49,18 @@ public class RatesServiceJpa implements RatesService{
                 rates = query.getResultList();
                 return rates;
         }
+        
+        @SuppressWarnings("unchecked")
+        @Transactional(readOnly = true)
+        public int getAlreadyRated(String email, int id) {
+                Query query = entityManager.createNamedQuery("Rates.findAlreadyRated");
+                query.setParameter("userEmail", email);
+                query.setParameter("mediumId", id);
+                List<Rates> rates = null;
+                rates = query.getResultList();
+                int result = rates.size();
+                return result;
+        }
 
 
 //Gibt ein Rating über id aus

@@ -1001,8 +1001,8 @@
 						bValid = bValid && checkLength( $("#signup-password"), "password", 6, 20 );
 						bValid = bValid && checkLength( $("#signup-passwordRepeat"), "password", 6, 20 )
 
-						bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z]([A-Za-z ])+$/, "Name may consist of A-Z, a-z and spaces, and must begin with a letter." );
-						bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, 0-9, spaces and underscores, and must begin with a letter." );
+						bValid = bValid && checkRegexp( $("#signup-name"), /^[A-Za-z‰ˆ¸]([A-Za-z‰ˆ¸ƒ÷‹ﬂ ])+$/, "Name may consist of A-Z, a-z and spaces, and must begin with a letter." );
+						bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z‰ˆ¸ƒ÷‹]([0-9a-zA-Z‰ˆ¸ƒ÷‹ﬂ_])+$/i, "Username may consist of A-Z, a-z, 0-9 and underscores, and must begin with a letter." );
 						bValid = bValid && checkRegexp( $("#signup-email"), /^([A-Za-z_.])[^@]+@.+\.[^.]+$/i, "E-mail may consist of a-z, 0-9, underscores, begin with a letter." );
 						bValid = bValid && checkRegexp( $("#signup-password"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
 						bValid = bValid && checkRegexp( $("#signup-passwordRepeat"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
@@ -1062,7 +1062,7 @@
         						bValid = bValid && checkLengthEdit( $("#update-password"), "password", 6, 20 );
         						bValid = bValid && checkLengthEdit( $("#update-passwordNew"), "password", 6, 20 );
 
-        						bValid = bValid && checkRegexpEdit( $("#update-username"), /^[A-Za-z]([0-9a-zA-Z ])+$/i, "Username may consist of A-Z, a-z, 0-9, spaces and underscores, and must begin with a letter." );
+        						bValid = bValid && checkRegexp( $("#signup-username"), /^[A-Za-z‰ˆ¸ƒ÷‹]([0-9a-zA-Z‰ˆ¸ƒ÷‹ﬂ_])+$/i, "Username may consist of A-Z, a-z, 0-9 and underscores, and must begin with a letter." );
         						bValid = bValid && checkRegexpEdit( $("#update-passwordNew"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
                                 
                                 if ( bValid ) {                                                 
@@ -1388,6 +1388,7 @@
 			
 			$( "#profileb" ).button().click(function() {
 				updateUser(); //opens "user side"
+				fmd.updateUserEP();
                 updateCollects();
 			});
 			
@@ -1417,16 +1418,16 @@
 			$( "#fakeb" ).button().click(function() {
 				if(cmedium.value == 0){
 					$("#rate-right").dialog("open");
-					setTimeout(function(){$("#rate-right").dialog("close")},1500);
-					fmd.updateUserEP();
+					setTimeout(function(){$("#rate-right").dialog("close")},3000);
 				}
 				else{
 					$("#rate-wrong").dialog("open");
-					setTimeout(function(){$("#rate-wrong").dialog("close")},1500);
+					setTimeout(function(){$("#rate-wrong").dialog("close")},3000);
 				}
 				console.log(cmedium.id + " is a Fake");
 				fmd.rateMedium(cmedium,0,function(result){
 					if(result.status == "created"){
+							fmd.updateUserEP();
 						if(cmedium.tag == "cat1"){
 							updateMediaCat1();
 						}
@@ -1446,16 +1447,16 @@
 			$( "#trueb" ).button().click(function() {
 				if(cmedium.value == 1){
 					$("#rate-right").dialog("open");
-					setTimeout(function(){$("#rate-right").dialog("close")},1500);
-					fmd.updateUserEP();
+					setTimeout(function(){$("#rate-right").dialog("close")},3000);
 				}
 				else{
 					$("#rate-wrong").dialog("open");
-					setTimeout(function(){$("#rate-wrong").dialog("close")},1500);
+					setTimeout(function(){$("#rate-wrong").dialog("close")},3000);
 				}
 				console.log(cmedium.id + " is Authentic");
 				fmd.rateMedium(cmedium,1,function(result){
 					if(result.status == "created"){
+							fmd.updateUserEP();
 						if(cmedium.tag == "cat1"){
 							updateMediaCat1();
 						}
@@ -1981,7 +1982,7 @@
 				<table>
 					<tr>
 						<td>
-							<label for="help3"><p>If you rate a picture correctly, you will get a small amount of EP.</p><p>There are a lot of hidden achievements in the game.</p></label>
+							<label for="help3"><p>If you rate a picture correctly, you will get a small amount of EP.</p><p><b>NOTICE:</b> If you rate the same picture for the second time, you can get only half EP. At the third time none!</p></label>
 						</td>
 					</tr>
 				</table>
