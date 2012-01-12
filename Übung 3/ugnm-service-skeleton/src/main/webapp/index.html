@@ -160,7 +160,7 @@
 			position: absolute;
 			top: 210px;
 			right: 20px;
-			font-size: 12pt;
+			font-size: 14pt;
 			
                    
         }
@@ -170,7 +170,7 @@
 			position: absolute;
 			top: 210px;
 			right: 20px;
-			font-size: 12pt;
+			font-size: 14pt;
 			
                    
         }
@@ -456,7 +456,9 @@
        		margin-left: 58%;
 			font-size: 12pt;
          }
-         
+			ol { font-weight: bold }
+		
+			ol span { font-weight: normal }
          
 	</style>
 	
@@ -469,7 +471,6 @@
 	<script type="text/javascript">
 		
 		var fmd;
-		
 		var cmedium;
 		
 		
@@ -559,7 +560,7 @@
 				var ol = $("<ol></ol>").attr({"id":"userlist"});
 				for(i in users){
 					var object = users[i];
-					var li =  $("<li></li>").append("<span><b>" + object.ep + " EP</b></span> - <span>" + object.username + "</span>");
+					var li =  $("<li></li>").append("<span><b>" + object.username + "</b><span> - " + object.ep + " EP</span>");
 					ol.append(li);
 					}
 				$("#users").html(ol);
@@ -577,17 +578,15 @@
                                 var uri = media[i];
                                 
                                 fmd.getMediumUri(uri,function(object){
+                                	
+                                		if(ct == 0){
+                                			cmedium = object;
+                                		}
                                 
-                                        var titleValue = "\nDescription: " + object.description;
-                                        
-                                        var count = media.length;
-                                        var realCount = 0;
-                                        
-                                        
-                                        console.log(titleValue);
+                                        var titleValue = "Description: " + object.description;
+                                       
                                         
                                         var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){         
-                                                cmedium = object;
                                                 $("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
                                         });
                                         ul.append(li);
@@ -595,6 +594,7 @@
                                         if(ct == media.length-1){
                                                 $("#medialist").html(ul);
                                                 $('.infiniteCarousel').infiniteCarousel();
+                                                $("#rate-image").html("<img src='" + cmedium.url + "' height='300' alt='" + cmedium.description + "' />");
                                         }
                                         ct++;
                                         console.log("============================================================");
@@ -616,16 +616,14 @@
                                 
                                 fmd.getMediumUri(uri,function(object){
                                 
-                                        var titleValue = "\nDescription: " + object.description;
-                                        
-                                        var count = media.length;
-                                        var realCount = 0;
-                                        
-                                        
-                                        console.log(titleValue);
+                                		if(ct == 0){
+                            				cmedium = object;
+                            			}
+                                	
+                                        var titleValue = "Description: " + object.description;
+                                     
                                         
                                         var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){         
-                                                cmedium = object;
                                                 $("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
                                         });
                                         ul.append(li);
@@ -633,6 +631,7 @@
                                         if(ct == media.length-1){
                                                 $("#medialist").html(ul);
                                                 $('.infiniteCarousel').infiniteCarousel();
+                                                $("#rate-image").html("<img src='" + cmedium.url + "' height='300' alt='" + cmedium.description + "' />");
                                         }
                                         ct++;
                                         console.log("============================================================");
@@ -654,16 +653,14 @@
                                 
                                 fmd.getMediumUri(uri,function(object){
                                 
-                                        var titleValue = "\nDescription: " + object.description;
-                                        
-                                        var count = media.length;
-                                        var realCount = 0;
-                                        
-                                        
-                                        console.log(titleValue);
+                                	
+                                		if(ct == 0){
+                            				cmedium = object;
+                            			}
+                                        var titleValue = "Description: " + object.description;
+                                  
                                         
                                         var li =  $("<li></li>").append("<div title='" + titleValue + "'><img src='" + object.url + "' width='75' alt='" + titleValue + "' /></div>").click(function(){         
-                                                cmedium = object;
                                                 $("#rate-image").html("<img src='" + object.url + "' height='300' alt='" + titleValue + "' />");
                                         });
                                         ul.append(li);
@@ -671,6 +668,7 @@
                                         if(ct == media.length-1){
                                                 $("#medialist").html(ul);
                                                 $('.infiniteCarousel').infiniteCarousel();
+                                                $("#rate-image").html("<img src='" + cmedium.url + "' height='300' alt='" + cmedium.description + "' />");
                                         }
                                         ct++;
                                         console.log("============================================================");
@@ -686,12 +684,12 @@
 		//#####################################################
 		function updateCollects() {
 			fmd.getCollects(function(collects){
-				var ol = $("<ol></ol>").attr({"id":"userlist"});
+				var ol = $("<center><tr></tr></center>").attr({"id":"userlist"});
 				for(i in collects){
 					var collect = collects[i];
 					var id = collect.achievementId;
 						fmd.getAchievementId(id, function(achievement){
-							li =  $("<li></li>").append("<span> <img src=\"media/" + achievement.url + "\"></span><span><b>" + achievement.name + "</b></span><br><span>Info: " + achievement.description + "</span>");
+							li =  $("<tr></tr>").append("<span> <img src=\"media/" + achievement.url + "\"></span><span><b>" + achievement.name + "</b></span><br><span>Info: " + achievement.description + "<hr></span>");
 						 	ol.append(li);
 						});
 				}
@@ -1419,12 +1417,12 @@
 			$( "#fakeb" ).button().click(function() {
 				if(cmedium.value == 0){
 					$("#rate-right").dialog("open");
-					setTimeout(function(){$("#rate-right").dialog("close")},2000);
+					setTimeout(function(){$("#rate-right").dialog("close")},1500);
 					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
-					setTimeout(function(){$("#rate-wrong").dialog("close")},2000);
+					setTimeout(function(){$("#rate-wrong").dialog("close")},1500);
 				}
 				console.log(cmedium.id + " is a Fake");
 				fmd.rateMedium(cmedium,0,function(result){
@@ -1448,12 +1446,12 @@
 			$( "#trueb" ).button().click(function() {
 				if(cmedium.value == 1){
 					$("#rate-right").dialog("open");
-					setTimeout(function(){$("#rate-right").dialog("close")},2000);
+					setTimeout(function(){$("#rate-right").dialog("close")},1500);
 					fmd.updateUserEP();
 				}
 				else{
 					$("#rate-wrong").dialog("open");
-					setTimeout(function(){$("#rate-wrong").dialog("close")},2000);
+					setTimeout(function(){$("#rate-wrong").dialog("close")},1500);
 				}
 				console.log(cmedium.id + " is Authentic");
 				fmd.rateMedium(cmedium,1,function(result){
@@ -1727,7 +1725,7 @@
 	</div>
 	
 	<div id="rightFieldP">
-		<p>Your Achievements: </p>
+		<b>Your latest Achievements: </b>
 		<p><span id="collects"></span></p>
 	</div> 
 </div>
@@ -1778,10 +1776,10 @@
 		<b>
 		<p style="font-size:14">What is "Fake Image Detection"?!</p>
 		</b>
-		<p>Fake Image Detection is a web-based serious game.</p>
-		<p>This game is designed for the purpose of solving the problem to identify a fake picture.</p>
-		<p>Although this game is created to entertain, but our main purpose is to train and advertise</p>
-		<p>It was developed by two Students in the context of a Projekt called:</p>
+		<p>Fake Image Detection is a free to play web-based serious game.</p>
+		<p>It's designed to impart  the player an better knowledge in recognising faked media.</p>
+		<p>Although this game is created to entertain, the main purpose is to train and advertise.</p>
+		<p>It has been developed by two students in the context of a project called:</p>
 		<p>"Hightech Entrepreneurship and new Media" (WS 11/12)</p>
 	</div>
 
@@ -1814,7 +1812,7 @@
 		</b>
 		<p>Here you are. Logged in and ready for action!</p>
 		<p>If you want to play the Game, please click on the Game-Button.</p>
-		<p>The more often you play this Game, the better the results.</p>
+		<p>The more you play this Game, the better your results.</p>
 		<p>You earn for each correct rating a small amount of EP and if you are lucky maybe an Achievement!</p>
 		<p>We hope you have a lot of fun with our game :)</p>
 		
@@ -1850,9 +1848,9 @@
 		<p style="font-size:14">Start your Game-Carrier..</p>
 		</b>
 		<p>What? You are not in the List?!</p>
-		<p>If you want it, earn more EP and Achievements,</p>
+		<p>If you want to be in it, earn more EP and Achievements,</p>
 		<p>rate more pictures correctly and spend more time in playing the game!</p>
-		<p>Maybe some day you are the number one of this TopList..</p>
+		<p>Maybe some day you be the number one of the TopList..</p>
 		
 	</div>
 
@@ -1861,7 +1859,7 @@
 
 
 <div id="rightField">
-	<font>Top 10 Gamer's: </font>
+	<b>Top 10 Gamer's: </b>
 	<div id="users"></div>
 </div> 
 
@@ -1929,7 +1927,7 @@
 	</div>
 	
 	<div id="copyright">
-	© Thomas W./ Sven H.
+	Designed by Thomas W./ Sven H.
 	</div>
 </div>
 
@@ -1967,7 +1965,7 @@
 				<table>
 					<tr>
 						<td>
-							<label for="help2"><p>Please click "Game" Button on the top of the page to start new game!</p><p>You have to decide whether the pictures you see are true or false.</p></label>
+							<label for="help2"><p>Please click "Game" Button on the top of the page and choose a category to start new game!</p><p>You have to decide whether the pictures you see are true or false.</p></label>
 						</td>
 					</tr>
 				</table>
@@ -1977,7 +1975,7 @@
 
 
 <div id="dialog-help3" title="Help">
-	<p id="ep" class="help"><b>How I get EP?!</b></p>
+	<p id="ep" class="help"><b>How do I get EP?!</b></p>
 		<form>
 			<fieldset>
 				<table>
@@ -1990,7 +1988,7 @@
 			</fieldset>
 		</form>
 	
-	<p id="ep" class="help"><b>How I get Achievements?!</b></p>
+	<p id="ep" class="help"><b>How do I get Achievements?!</b></p>
 	<p></<p>
 	<form>
 		<fieldset>
@@ -2136,7 +2134,7 @@
 </div>
 
 <div id="login-unauthorized" title="Incorrect Password">
-        <label for="first">The Password is not correct!<p> Please try again..</p></label>
+        <label for="first">Password is not correct!</label>
 </div>
 
 <div id="register-success" title="Sucess">

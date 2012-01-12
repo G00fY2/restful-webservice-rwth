@@ -274,7 +274,7 @@ FmdClient.prototype.updateUser = function(username, password, passwordNew, callb
             // process result in case of success and feed result to callback function passed by developer
             success: function(){
                         //updatet authorizierung mit neuem password
-            			that._cred = __make_base_auth(this._uid, passwordNew);
+            			that._cred = __make_base_auth(that._uid, passwordNew);
             			localStorage.setItem("fmdscred",that._cred);
             			that._username = username;
             			localStorage.setItem("fmdsusername",that._username);
