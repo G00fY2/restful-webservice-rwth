@@ -221,20 +221,20 @@ public class RatesResource {
         		collect.setAchievementId(1);
         		collectService.save(collect);
         	}
-        	else if(ep==500 && achievementService.getById(2) != null || ((ep==525) && (ep-oldep != 25) && achievementService.getById(2) != null)){
+        	else if((ep==500 && achievementService.getById(2) != null) || ((ep==525) && (ep-oldep != 25) && achievementService.getById(2) != null)){
         		collect.setAchievementId(2);
                 collectService.save(collect);
          	}
-        	else if(ep==1000 && achievementService.getById(3) != null || ((ep==1025) && (ep-oldep != 25) && achievementService.getById(3) != null)){
+        	else if((ep==1000 && achievementService.getById(3) != null) || ((ep==1025) && (ep-oldep != 25) && achievementService.getById(3) != null)){
                 collect.setAchievementId(3);
                 collectService.save(collect);
         	}     
-        	else if(ep==5000 && achievementService.getById(4) != null || ((ep==5025) && (ep-oldep != 25) && achievementService.getById(4) != null)){
-                collect.setAchievementId(3);
+        	else if((ep==5000 && achievementService.getById(4) != null) || ((ep==5025) && (ep-oldep != 25) && achievementService.getById(4) != null)){
+                collect.setAchievementId(4);
                 collectService.save(collect);
         	}   
-        	else if(ep==10000 && achievementService.getById(5) != null || ((ep==1025) && (ep-oldep != 25) && achievementService.getById(5) != null)){
-                collect.setAchievementId(3);
+        	else if((ep==10000 && achievementService.getById(5) != null) || ((ep==1025) && (ep-oldep != 25) && achievementService.getById(5) != null)){
+                collect.setAchievementId(5);
                 collectService.save(collect);
         	}  
         }
