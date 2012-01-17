@@ -233,7 +233,7 @@ public class RatesResource {
                 collect.setAchievementId(4);
                 collectService.save(collect);
         	}   
-        	else if((ep==10000 && achievementService.getById(5) != null) || ((ep==1025) && (ep-oldep != 25) && achievementService.getById(5) != null)){
+        	else if((ep==10000 && achievementService.getById(5) != null) || ((ep==10025) && (ep-oldep != 25) && achievementService.getById(5) != null)){
                 collect.setAchievementId(5);
                 collectService.save(collect);
         	}  
