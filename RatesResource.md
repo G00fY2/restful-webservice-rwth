@@ -1,0 +1,96 @@
+
+---
+
+# Allgemeines #
+
+---
+
+
+### MIME Typ: ###
+  * "application/json"
+_JSON MIME Typ_
+
+
+
+
+---
+
+## Details ##
+
+---
+
+
+## Erstellen eines Ratings (RatesResource): ##
+
+---
+
+
+### URL Template: ###
+  * "http://localhost:8080/ugnm-service/resources/users/{email}/rates"
+
+### Operation  : ###
+  * PUT
+
+### Ein-/Ausgabeform: ###
+
+Eingabe:
+```
+{Rate: {'url':<URL>,'rate':<RATE>}}
+```
+
+
+### Struktur zwischen Ressourcen: ###
+  * ---
+
+### Zugriffskontrolle auf Operationen: ###
+  * PUT (login, authorization)
+_Der User muss sich zum erstellen eines Ratings registriert sein und sich als solcher identifizieren, sowie beim Erfolgsfall EP und Achievements zu bekommen._
+
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 400: Bad Request
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der User hat versucht  fehlerhafte, unvollständige bzw nicht kompatible Daten zu übermitteln._
+
+  * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der User muss sich zum Erstellen eines Ratings am Service registriert sein und sich anmelden._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 201: Created
+_Das Rating wurde erstellt._
+
+
+---
+
+
+## Liste aller Ratings eines bestimmten Users (RatesResource): ##
+
+---
+
+
+### URL Template: ###
+  * "http://localhost:8080/ugnm-service/resources/users/{email}/rates"
+
+### Operation: ###
+  * GET
+
+### Ein-/Ausgabeform: ###
+
+```
+{ratings: [<RAT_RES_1>,<RAT_RES_2,...,<RAT_RES_n>]}
+```
+
+### Struktur zwischen Ressourcen: ###
+  * ---
+
+### Zugriffskontrolle auf Operationen: ###
+  * ---
+
+### HTTP Status Codes (Fehlerfall): ###
+  * 500: INERNAL\_SERVER\_ERROR
+_Der Webserver stieß auf eine unerwartete Bedingung, die ihn davon abhielt, die Anforderung zum Zugriff auf die angeforderte URL durch den Client zu erfüllen._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Die Anfage konnte bearbeitet werden._

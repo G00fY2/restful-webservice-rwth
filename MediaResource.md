@@ -1,0 +1,102 @@
+
+---
+
+# Allgemeines #
+
+---
+
+
+
+### URL Template: ###
+  * "http://localhost:8080/ugnm-service/resources/media/"
+
+### MIME Typ: ###
+  * "application/json"
+_JSON MIME Typ_
+
+
+
+
+---
+
+## Details ##
+
+---
+
+
+
+## Liste aller Medien (MediaResource): ##
+
+---
+
+
+### Operation: ###
+  * GET
+
+### Ein-/Ausgabeform: ###
+
+```
+{Medien: [<MED_RES_1>,<MED_RES_2,...,<MED_RES_n>]}
+```
+
+### Struktur zwischen Ressourcen: ###
+  * "http://localhost:8080/ugnm-service/resources/media/{url}"
+_Ausgehend von der Liste aller Medien, ist es möglich auf das einzelne Medien zuzugreifen._
+
+### Zugriffskontrolle auf Operationen: ###
+  * ---
+
+### HTTP Status Codes (Fehlerfall): ###
+  * 500: INERNAL\_SERVER\_ERROR
+_Der Webserver stieß auf eine unerwartete Bedingung, die ihn davon abhielt, die Anforderung zum Zugriff auf die angeforderte URL durch den Client zu erfüllen._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Die Anfage konnte bearbeitet werden._
+
+
+---
+
+
+## Erstellen eines Mediums(MediaResource): ##
+
+---
+
+
+
+### Operation  : ###
+  * PUT
+
+### Ein-/Ausgabeform: ###
+
+Eingabe:
+
+
+```
+{'url':<URL>,'value':<VALUE>,'description':<DESCRIPTION>}
+```
+
+
+### Struktur zwischen Ressourcen: ###
+  * ---
+
+### Zugriffskontrolle auf Operationen: ###
+  * CREATE (Admin)
+_Ein Medium kann nur von einem Admin erstellt werden._
+
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige (Admin-)Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt._
+
+  * 409: Conflict
+_Das Medium existiert bereits, der Server kann die anfrage nicht bearbeiten._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 201: Created
+_Das Medium wurde erstellt._
+
+
+---

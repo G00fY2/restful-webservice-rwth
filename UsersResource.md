@@ -1,0 +1,95 @@
+
+---
+
+# Allgemeines #
+
+---
+
+
+
+### URL Template: ###
+  * "http://localhost:8080/ugnm-service/resources/users/"
+
+### MIME Typ: ###
+  * "application/json"
+_JSON MIME Typ_
+
+
+
+
+---
+
+## Details ##
+
+---
+
+
+## Erstellen eines Users (UsersResource): ##
+
+---
+
+
+
+### Operation  : ###
+  * PUT
+
+### Ein-/Ausgabeform: ###
+
+Eingabe:
+```
+{'email':<EMAIL>,'username':<USERNAME>,'password':<PASSWORD>,'name':<NAME>}
+```
+
+
+### Struktur zwischen Ressourcen: ###
+  * ---
+
+### Zugriffskontrolle auf Operationen: ###
+  * ---
+
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 400: Bad Request
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der User hat versucht  fehlerhafte, unvollständige bzw nicht kompatible Daten zu übermitteln._
+
+  * 409: Conflict
+_Der User existiert bereits, der Server kann die anfrage nicht bearbeiten._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 201: Created
+_Der User wurde erstellt._
+
+
+---
+
+
+## Liste aller User (UsersResource): ##
+
+---
+
+
+### Operation: ###
+  * GET
+
+### Ein-/Ausgabeform: ###
+
+```
+{users: [<USR_RES_1>,<USR_RES_2,...,<USR_RES_n>]}
+```
+
+### Struktur zwischen Ressourcen: ###
+  * "http://localhost:8080/ugnm-service/resources/user/{email}"
+_Ausgehend von der Liste aller User, ist es möglich auf den einzelnen User zuzugreifen._
+
+### Zugriffskontrolle auf Operationen: ###
+  * ---
+
+### HTTP Status Codes (Fehlerfall): ###
+  * 500: INERNAL\_SERVER\_ERROR
+_Der Webserver stieß auf eine unerwartete Bedingung, die ihn davon abhielt, die Anforderung zum Zugriff auf die angeforderte URL durch den Client zu erfüllen._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Die Anfage konnte bearbeitet werden._

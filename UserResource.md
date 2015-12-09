@@ -1,0 +1,127 @@
+
+---
+
+# Allgemeines #
+
+---
+
+
+
+### URL Template: ###
+  * "http://localhost:8080/ugnm-service/resources/users/{email}"
+
+### MIME Typ: ###
+  * "application/json"
+_JSON MIME Typ_
+
+
+
+---
+
+## Details ##
+
+---
+
+
+## Auslesen eines bestimmten Users (UserResource): ##
+
+---
+
+
+### Operation: ###
+  * GET
+_Gibt einen User mit allen Details aus._
+
+
+### Ein-/Ausgabeform: ###
+
+Ausgabe:
+```
+{'username': <BENUTZERNAME>, 'name': <VORNAME>, 'email': <EMAIL>,'ep': <EP>}
+```
+
+
+
+### Zugriffskontrolle auf Operationen: ###
+  * ---
+
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Der User kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Der gesuchte User wurde gefunden und wird ausgegeben._
+
+
+
+
+
+
+
+
+---
+
+## Änderung eines Users (UserResource): ##
+
+---
+
+### Operation: ###
+  * PUT
+_Es wird die Operation PUT benötigt um einen User ändern zu können_
+### Struktur zwischen Ressourcen: ###
+  * ---
+### Zugriffskontrolle auf Operationen: ###
+  * PUT (login, authorization)
+_Der User muss sich bei Änderungen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren._
+
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 400: Bad Request
+_Die Anfrage-Nachricht war fehlerhaft aufgebaut. Der User hat versucht  fehlerhafte bzw nicht kompatible Daten zu übermitteln._
+
+  * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Der User kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+  * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der User muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Der User wurde erfolgreich geändert._
+
+
+
+
+
+
+
+---
+
+
+## Löschen eines Users (UserResource): ##
+
+---
+
+### Operation: ###
+  * DELETE
+### Struktur zwischen Ressourcen: ###
+  * ---
+### Zugriffskontrolle auf Operationen: ###
+  * DELETE (login, authorization)
+_Der User muss zum löschen bezüglich seines eigenen Profils registriert sein und sich als solcher identifizieren._
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Der User kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+  * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.Der User muss sich bei Anfragen zu Benutzern des Service registriert sein und sich anmelden._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Der User wurde erfolgreich gelöscht._

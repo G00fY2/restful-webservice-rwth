@@ -1,0 +1,130 @@
+
+---
+
+# Allgemeines #
+
+---
+
+
+
+### URL Template: ###
+  * "http://localhost:8080/ugnm-service/resources/achievements/{id}"
+
+### MIME Typ: ###
+  * "application/json"
+_JSON MIME Typ_
+
+
+
+---
+
+## Details ##
+
+---
+
+
+## Auslesen eines bestimmten Achievements(AchievementResource): ##
+
+---
+
+
+### Operation: ###
+  * GET
+Gibt ein Achievement mit allen Details aus.
+
+
+### Ein-/Ausgabeform: ###
+_Ausgabe:
+```
+{'id':<ID>,'description':<DESCRIPTION>,'name':<NAME>,'url':<URL>}
+```_
+
+
+
+### Zugriffskontrolle auf Operation: ###
+  * ---
+
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 404: Not Found
+Die angeforderte Ressource wurde nicht gefunden. Das Achievment kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.).
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Das gesuchte Achievement wurde gefunden und wird ausgegeben._
+
+
+
+
+
+
+
+---
+
+## Änderung eines Achievements(AchievementResource): ##
+
+---
+
+### Operation: ###
+  * PUT
+_Es wird die Operation PUT benötigt um ein Achievement ändern zu können_
+
+### Ein-/Ausgabeform: ###
+Eingabe:
+
+```
+{'description':<DESCRIPTION>,'name':<NAME>,'url':<URL>}
+```
+
+### Struktur zwischen Ressourcen: ###
+  * ---
+### Zugriffskontrolle auf Operationen: ###
+  * PUT (Admin)
+_Nur einem Admin ist es möglich ein Achievement zu ändern._
+
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Das Achievement kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+  * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Das Achievement wurde erfolgreich geändert._
+
+
+
+
+
+
+
+---
+
+
+## Löschen eines Achievements(AchievementResource): ##
+
+---
+
+### Operation: ###
+  * DELETE
+### Struktur zwischen Ressourcen: ###
+  * ---
+### Zugriffskontrolle auf Operationen: ###
+  * DELETE (Admin)
+_Nur einem Admin ist es möglich ein Achievement zu löschen._
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Das Achievement kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+  * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Das Achievement wurde erfolgreich gelöscht._

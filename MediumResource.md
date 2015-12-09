@@ -1,0 +1,120 @@
+
+---
+
+# Allgemeines #
+
+---
+
+
+
+### URL Template: ###
+  * "http://localhost:8080/ugnm-service/resources/media/{url}"
+
+### MIME Typ: ###
+  * "application/json"
+_JSON MIME Typ_
+
+
+
+---
+
+## Details ##
+
+---
+
+
+## Auslesen eines bestimmten Mediums(MediumResource): ##
+
+---
+
+
+### Operation: ###
+  * GET
+_Gibt ein Medium mit allen Details aus._
+
+
+### Ein-/Ausgabeform: ###
+
+Ausgabe:
+```
+{'description': <DESCRIPTION>, 'value': <VALUE>/<0 = false, 1 = true>, 'url': <MEDIUMURL>}
+```
+
+
+
+### Zugriffskontrolle auf Operation: ###
+  * ---
+
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 404: Not Found
+_Das angeforderte Medium wurde nicht gefunden. Das Medium kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Das gesuchte Medium wurde gefunden und wird ausgegeben._
+
+
+
+---
+
+## Änderung eines Mediums(MediumResource): ##
+
+---
+
+### Operation: ###
+  * PUT
+_Es wird die Operation PUT benötigt um ein Medium ändern zu können_
+
+### Struktur zwischen Ressourcen: ###
+  * ---
+### Zugriffskontrolle auf Operationen: ###
+  * PUT (Admin)
+_Nur einem Admin ist es möglich ein Medium zu ändern._
+
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Das Achievement kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+  * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Das Medium wurde erfolgreich geändert._
+
+
+
+
+
+
+
+---
+
+
+## Löschen eines Mediums(MediumResource): ##
+
+---
+
+### Operation: ###
+  * DELETE
+### Struktur zwischen Ressourcen: ###
+  * ---
+### Zugriffskontrolle auf Operationen: ###
+  * DELETE (Admin)
+_Nur einem Admin ist es möglich ein Medium zu löschen._
+### HTTP Status Codes (Fehlerfall): ###
+
+  * 404: Not Found
+_Die angeforderte Ressource wurde nicht gefunden. Das Medium kann nicht gefunden werden (Falsch geschrieben, existiert nicht (mehr) in der Datenbank, etc.)._
+
+  * 401: Unauthorized
+_Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt._
+
+### HTTP Status Codes (Erfolgsfall): ###
+
+  * 200: OK
+_Das Medium wurde erfolgreich gelöscht._
