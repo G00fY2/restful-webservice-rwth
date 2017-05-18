@@ -1,8 +1,0 @@
-// get all users
-curl http://localhost:8080/user-service/resources/users -X GET
-
-// delete a user by specifying correct credentials
-curl http://localhost:8080/ugnm-service/resources/users/dejan -X DELETE --user <login
-
-// add your curl command lines for testing below
-

@@ -1,0 +1,27 @@
+REM curl test script of UGNM service.
+REM
+REM Tests resources /achievements and /achievements/{id} including all supported HTTP operations
+REM and all possible responses. Unsupported operations are not explicitly tested.
+
+REM get all ratings of user "sven.hausburg@rwth-aachen.de"
+curl -v -X GET http://localhost:8080/ugnm-service/resources/users/sven.hausburg@rwth-aachen.de/rates
+
+REM create new rating "sven.hausburg" to medium with id "2" with rate true ("1") -success
+curl -v -X PUT http://localhost:8080/ugnm-service/resources/users/sven.hausburg@rwth-aachen.de/rates -H "Content-Type: application/json" -d "{'id':2,'rate':1}" --user sven.hausburg@rwth-aachen.de:abc123
+
+REM create new rating without authorization
+curl -v -X PUT http://localhost:8080/ugnm-service/resources/users/sven.hausburg@rwth-aachen.de/rates -H "Content-Type: application/json" -d "{'id':2,'rate':1}"
+
+REM try to create new rating with missing parameter.
+curl -v -X PUT http://localhost:8080/ugnm-service/resources/users/sven.hausburg@rwth-aachen.de/rates -H "Content-Type: application/json" -d "{'id':2}" --user sven.hausburg@rwth-aachen.de:abc123
+
+REM try to rate non-existing medium
+curl -v -X PUT http://localhost:8080/ugnm-service/resources/users/sven.hausburg@rwth-aachen.de/rates -H "Content-Type: application/json" -d "{'id':99,'rate':1}" --user sven.hausburg@rwth-aachen.de:abc123
+
+REM get data of rate by id
+curl -v -X GET http://localhost:8080/ugnm-service/resources/users/sven.hausburg@rwth-aachen.de/rates/1
+
+
+
+
+
